@@ -12,7 +12,7 @@ use PetraBarus\Yii2\GooglePlacesAutoComplete\GooglePlacesAutoComplete;
 /* @var $form yii\widgets\ActiveForm */
 ?>
     <?php $form = kartik\widgets\ActiveForm::begin([
-        'id' => 'login-form-horizontal',
+        'id' => 'form-horizontal',
         'type' => ActiveForm::TYPE_HORIZONTAL,
         'fullSpan' => 7,      
         'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]

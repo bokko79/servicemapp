@@ -34,7 +34,7 @@ use yii\helpers\Html;
  */
 class Card extends Widget
 {
-    public $cardData = array();
+    public $cardData = [];
     public $scroller = true;
 
     /**
@@ -42,6 +42,9 @@ class Card extends Widget
      */
     public function run()
     {
+        if($this->cardData['pic']==null){
+            $this->cardData['pic'] = 'default_avatar';
+        }
         echo Html::img(Yii::$app->homeUrl.'images/cards/'.$this->cardData['pic'].'.jpg', ['alt'=>'Profile card', 'class'=>'card-image', 'style'=>'', 'width'=>200]);?>        
 
         <?php

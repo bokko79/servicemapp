@@ -21,7 +21,7 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
             <!-- LOGO -->
             <?= Html::a($logo_url, '/site/index', ['class' => '']) ?>
           </div>          
-          <div class="grid-center">
+          <div class="grid-center" style="position:static;">
             <?= $this->render('global_nav.php') ?>
             <?php /*include (Yii::getPathOfAlias( 'ext.widgets.header._search').'.php');*/ ?>
           </div>

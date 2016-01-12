@@ -35,6 +35,7 @@ AppAsset::register($this);
         <?= $content ?>   
 
     <?php $this->endBody() ?>
+<?= $this->render('../partial/js/glob-nav-6box.php') ?>
 
 </body>
 </html>

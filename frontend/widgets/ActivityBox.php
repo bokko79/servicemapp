@@ -13,59 +13,14 @@ use yii\helpers\Html;
  */
 class ActivityBox extends \yii\bootstrap\Widget
 {
-    public static $items = [];
-    public static $html = '';
-    public static $limit = 5;
-    public static $internalOptions = [];
+    public $boxData=array();
 
-    public function init()
+
+    /**
+     * Renders the widget
+     */
+    public function run()
     {
-        parent::init();
-        static::$items = [];
-        static::$html = '';
-    }
-
-    public static function getLastArticles($externalOptions = [])
-    {
-        if (count($externalOptions) && isset($externalOptions['location'])) {
-            $descendants = $externalOptions['location']->getDescendants()->select('location.id')->column();;
-            foreach ($descendants as $l) {
-                $externalOptions['location_id'][] = $l;
-            }
-            $externalOptions['location_id'][] = $externalOptions['location']->id;
-        }
-        self::$internalOptions = ArrayHelper::merge([
-            'location_id' => 0,
-            'order_by' => [
-                'updated_at' => SORT_DESC
-            ],
-            'limit' => static::$limit,
-        ], $externalOptions);
-
-        self::$items = Model::find()->location(self::$internalOptions['location_id'])
-            ->orderBy(self::$internalOptions['order_by'])
-            ->all();
-
-        return self::renderItems();
-    }
-
-    protected static function renderItems()
-    {
-        return ListView::widget([
-            'dataProvider' => new ArrayDataProvider([
-                    'allModels' => self::$items,
-                    'pagination' => [
-                        'class' => CustomPagination::className(),
-                        'pageSize' => self::$internalOptions['limit'],
-                        'relatedModel' => self::$internalOptions['location'],
-                        'relatedModelType' => 'location',
-                    ],
-                ]),
-            'summary' => false,
-            'itemOptions' => ['class' => 'item'],
-            'itemView' => function ($model, $key, $index, $widget) {
-                    return Html::a($model->title, ArrayHelper::getValue($model->getLinks(), 'frontend'));
-                },
-        ]);
+        return true;
     }
 }

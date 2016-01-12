@@ -27,11 +27,14 @@ class AppAsset extends AssetBundle
         'css/style_profile.css',
         'css/style_view.css',
         'css/style_uac.css',
+        'css/animate.css',
     ];
     public $js = [
+        // 'js/glob-nav-6box.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'yii\web\JqueryAsset',
     ];
 }

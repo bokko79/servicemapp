@@ -1,0 +1,83 @@
+<?php
+
+namespace frontend\models;
+
+use Yii;
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use frontend\models\Orders;
+
+/**
+ * OrdersSearch represents the model behind the search form about `frontend\models\Orders`.
+ */
+class OrdersSearch extends Orders
+{
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['id', 'activity_id', 'loc_id', 'loc_id2', 'loc_within', 'registered_to', 'phone_contact', 'turn_key', 'process_id', 'success', 'hit_counter'], 'integer'],
+            [['delivery_starts', 'delivery_ends', 'validity', 'update_time', 'lang_code', 'class', 'order_type', 'success_time'], 'safe'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
+    }
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function search($params)
+    {
+        $query = Orders::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'activity_id' => $this->activity_id,
+            'loc_id' => $this->loc_id,
+            'loc_id2' => $this->loc_id2,
+            'loc_within' => $this->loc_within,
+            'delivery_starts' => $this->delivery_starts,
+            'delivery_ends' => $this->delivery_ends,
+            'validity' => $this->validity,
+            'update_time' => $this->update_time,
+            'registered_to' => $this->registered_to,
+            'phone_contact' => $this->phone_contact,
+            'turn_key' => $this->turn_key,
+            'process_id' => $this->process_id,
+            'success' => $this->success,
+            'success_time' => $this->success_time,
+            'hit_counter' => $this->hit_counter,
+        ]);
+
+        $query->andFilterWhere(['like', 'lang_code', $this->lang_code])
+            ->andFilterWhere(['like', 'class', $this->class])
+            ->andFilterWhere(['like', 'order_type', $this->order_type]);
+
+        return $dataProvider;
+    }
+}

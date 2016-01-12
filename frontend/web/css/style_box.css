@@ -1,0 +1,237 @@
+/* -------------------------------------------------- BOXES------------------------------------------------------------*/
+.box_container {color:#000; margin:0 0 30px 0; padding:0; border: none;}
+.box_container > a:link, .box_container > a:active, .box_container > a:visited, .box_container > a:hover {color:#000; text-decoration: none;}
+
+
+
+.box_container table {margin: 0; padding:0; vertical-align: top; border-collapse: collapse; width: 100%; background:transparent;}
+.box_container > table {border-bottom: 1px solid #ddd;}
+.box_container table td {margin: 0; padding:0; vertical-align: top; border-collapse: collapse; font-weight: 400; font-size: 13px;}
+.box_container table td i {color:#999;}
+.box_container table .imagery {width:100px; padding:5px; text-align: center;}
+.box_container table .imagery img {width:100px; height:100px;}
+.box_container table .icon, .box_container table .avatar {width:35px; padding:5px; text-align: center;}
+.box_container table .avatar img {width:35px; height:35px;}
+.box_container table .icon i {font-size: 19px;}
+.box_container table .main {padding:5px 0;}
+.box_container table .main .icons {width:16px; text-align: center; padding:5px;}
+.box_container table .main .icons i {font-size: 13px;}
+.box_container table .main .data {padding:5px;}
+.box_container table .body {}
+.box_container table .right {float:right; width:95px;}
+.box_container table .redirect {float:right; width:30px; vertical-align: middle; text-align: center; color: #000000; opacity: 1;}
+.box_container table .redirect:hover {background: #2196F3 !important; color: #fff; opacity: 1;}
+.box_container table h2 {font-size: 22px; font-weight: 700; display: inline;}
+.box_container table h2 .sub {font-size: 14px !important; font-weight: 400; display: inline;}
+.box_container table h3 {font-size: 19px; font-weight: 700; display: inline;}
+.box_container table h4 {font-size: 17px; font-weight: 700; display: inline;}
+.box_container table h5 {font-size: 15px; font-weight: 700; display: inline;}
+.box_container table h6 {font-size: 13px; font-weight: 700; display: inline;}
+.box_container table p {margin:0; display: inline;}
+.box_container table a:link, .box_container table a:active, .box_container table a:visited, .box_container table a:hover {}
+.box_container table span.text {}
+.box_container table span.note {font-size: 12px; color:#777;}
+.box_container table span.sub {font-size: 11px; color:#999;}
+
+.req_view_title {font-size: 10px; font-weight: 700; width:87px; padding:0px 3px 5px 0; display: block; float: left; text-align: right; color: #777; margin-right:10px; background: #f2f2f2; border-radius: 2px; height:12px;}
+.req_view_title.box {font-size: 10px; text-align: left; margin-right:5px; background: #e6e6e6; width:auto !important; padding: 5px 10px;}
+
+
+.details .controls {text-align: right; position: relative; padding: 10px 20px;}
+.details .controls a { color: #777;}
+.details .controls ul {display: none; position: absolute; top:35px; right: 20px; z-index: 100; text-align: left; width:130px; padding: 5px 0;  background: #fff; box-shadow: 0px 0px 3px #444;}
+.details .controls ul li {display: block; width:auto; padding: 5px 10px;}
+.details .controls ul li a {color: #2196F3;}
+.details .objects, .details .location, .details .opis {padding: 0 0 20px 20px;}
+.details .head {padding: 10px 0;}
+.details .head .req_view_title {padding: 5px 10px; text-align: left;}
+.details .data {}
+.details .data table td {font-size: 12px !important; padding:5px;}
+.details .data .spark {width:35%;}
+.details .opis {font-size: 12px !important;}
+
+
+/* BOX_EVENT */
+/* ****************** EVENT BOX ************************ */
+[id^="box_activity"] {width: 100%; background:#f5f6f7; border:1px solid #ddd; margin: 20px 0 !important;}
+[id^="box_activity"] table.activity_action {width: 100%; background:#fff;}
+[id^="box_activity"] table.activity_action td {padding:10px 5px;}
+[id^="box_activity"] table.activity_creator {width: 100%;}
+[id^="box_activity"] table.activity_body {width: 100%; background:#fff;}
+[id^="box_activity"] table.activity_body .void {width:45px;}
+[id^="box_activity"] table.activity_body .body {}
+[id^="box_activity"] table.activity_controls {width: 100%;}
+[id^="box_activity"] table.activity_reaction {width: 100%;}
+
+/* BOX_ORDER */
+/* ****************** REQUEST BOX ************************ */
+[id^="box_order"] {width:100%;}
+
+[id^="box_order"] .main {}
+
+[id^="box_order"] .main .sender_bar {width:509px; height: 35px; float: left; padding: 3px 0; font-size: 11px; color: #999; font-weight: 700; display: block; background:#ddd; border-bottom: 1px solid #00aff0; position: relative; background-image: linear-gradient(to bottom,#e5e5e5,#c5c5c5);}
+[id^="box_order"] .main .sender_bar.height_auto {height: auto !important;}
+[id^="box_order"] .main .sender_bar a:link, [id^="box_order"] .main .main_contents .sender_bar a:visited, [id^="box_order"] .main .main_contents .sender_bar a:active {font-size: 14px; color: #00aff0; font-weight: 400; line-height:15px;}
+[id^="box_order"] .main .sender_bar a:hover {color: #7A75B5;}
+[id^="box_order"] .main .sender_bar .avatar {display: block; float: left;margin-left: 10px;}
+[id^="box_order"] .main .sender_bar .user_details {font-size: 14px; font-weight: 700; display: block; float: left; margin-left: 5px; line-height: 15px; padding:3px 0; color: #444;}
+[id^="box_order"] .main .sender_bar .user_details .city {font-size: 11px; color: #777;}
+[id^="box_order"] .main .sender_bar .user_details .stars {font-size: 11px;font-weight: 700; color: #00aff0; margin-left: 12px; }
+[id^="box_order"] .main .sender_bar .user_details .stars .success_details {font-size: 12px;font-weight: 700; color: #444; margin-left: 12px; }
+[id^="box_order"] .main .sender_bar .user_details .stars .success_details a {font-size: 12px;font-weight: 700; color: #0086b8; text-decoration: underline;}
+[id^="box_order"] .main .sender_bar .request_type {height: 15px; margin-bottom: 0px; padding:11px 0; color: #444; font-weight: 700; font-size: 12px; width: 116px; position: absolute; right: 0; top:0; display: block; text-align:center;}
+
+[id^="box_order"] .main .main_contents {width:490px; background: #fff; padding: 0 10px; float: left;}
+[id^="box_order"] .main .main_contents .service_bar {width:490px; min-height: 57px; float: left; padding: 5px 0 ; font-size: 12px; color: #ccc; font-weight: 700; border-bottom: 1px solid #eee;  position: relative;}
+[id^="box_order"] .main .main_contents .service_bar.reqview {padding:10px 0; display: block; float: left; }
+[id^="box_order"] .main .main_contents .service_bar .industry {font-size: 12px; font-weight: 400; position: relative; width: 506px; display: block;}
+[id^="box_order"] .main .main_contents .service_bar .industry .category {font-size: 11px; font-weight: 400; color: #ddd;}
+[id^="box_order"] .main .main_contents .service_bar .expiry {position: absolute; right: 0; top: -5px; width: 91px; text-align: center;}
+[id^="box_order"] .main .main_contents .service_bar .expiry .dexp {font-size: 10px; line-height: 10px; color:#777;  display:block; margin-top:5px;}
+[id^="box_order"] .main .main_contents .service_bar .expiry .time_exp {font-size: 12px; line-height: 10px; display:block; color:#00aff0;}
+[id^="box_order"] .main .main_contents .service_bar.reqview .bid_count {min-width: 50px; font-weight: 700; font-size: 24px; text-shadow: 1px 1px 5px #aaa; text-align: center; color: #fff; padding: 5px 8px; margin-top: 5px; position: absolute; right: 13px; top: 0px; background-image: linear-gradient(to bottom,#455A64,#263238); border-radius: 5px; box-shadow: 0px 0px 5px #444;}
+[id^="box_order"] .main .main_contents .service_bar.reqview .expiry {top: -30px;}
+[id^="box_order"] .main .main_contents .service_bar.reqview .expiry .total_subs {font-weight: 400; font-size: 14px; color:#aaa;}
+
+
+
+
+/* BOX_DEAL */
+/* ****************** DEAL BOX ************************ */
+
+/* BOX_PROVIDER */
+/* ****************** PROVIDER BOX ************************ */
+[id^="box_provider"] {border-left:1px solid #ddd;border-right:1px solid #ddd;background: #fff !important;}
+
+/* BOX_PROSERVICE */
+/* ****************** PROSERVICE BOX ************************ */
+
+/* BOX_SERVICE */
+/* ****************** SERVICE BOX ************************ */
+#box_service {margin: 20px 7px; height:270px; background:white; width:200px; float:left;}
+#box_service .image {width:200px; height: 150px;}
+#box_service .content {height:100px; width:178px; float:left; padding:10px; border:1px solid #ddd; border-top:none; font-size:11px;  position: relative;}
+#box_service .content div {width: 178px;}
+#box_service .content .header {}
+#box_service .content .header a {font-size:17px; font-weight:700; color:#000; line-height:14px;}
+#box_service .content a {}
+
+#box_service .content .stats {opacity:.3; margin:0;}
+#box_service .content .desc {font-size: 11px; line-height: 12px; opacity: .5; font-weight:700; margin:10px 0;}
+#box_service .content .footer {border-top: 1px solid #ddd; height: 25px; padding-top: 10px;  position: absolute; bottom: 0; text-align:right;}
+#box_service .content .footer a {font-size:12px; padding:3px 5px; opacity: .6; }
+#box_service .content .footer .control {float: right;}
+#box_service .content .footer .price {float: left; text-align:left; width: auto;}
+#box_service .content .footer .price .amount {color:#FF3D00; font-size: 15px; font-weight: 900;}
+#box_service .content .footer .button {float: right; width: auto;}
+#box_service .content .footer .button a {font-size:12px; font-weight:700; padding:3px 5px; opacity: 1;}
+
+
+/* BOX_COMMENT */
+/* ****************** COMMENT BOX ************************ */
+
+
+
+/* BOX_BID */
+/* ****************** BID BOX ************************ */
+
+/* BOX_COMPSERVICE */
+/* ****************** COMPSERVICE BOX ************************ */
+
+/* BOX_INDUSTRY */
+/* ****************** INDUSTRY BOX ************************ */
+
+/* BOX_NOTIFICATION */
+/* ****************** NOTIFICATION BOX ************************ */
+/* *********** NOTIFICATION ************* */
+#box_notification {padding: 0; border: 1px solid #ddd; font-size:13px; border-top:none; position:relative; display:block; margin-bottom: 20px;}
+#box_notification ul {margin-bottom:0; border:none;}
+#box_notification ul li {margin: 0; border-bottom: 1px solid #ddd; padding: 15px 0;background: #fff; }
+#box_notification ul li.message_list {margin: 0; border-bottom: 1px solid #ddd; padding: 15px 10px ; color:#444;}
+#box_notification ul li.message_list h4 {margin-bottom:5px; font-size:16px; color:#00aff0;}
+#box_notification ul li .marginalized {padding:0px 20px; display: block;}
+#box_notification ul li .marginalized h6 {line-height: 28px;}
+#box_notification ul li:hover {background: #f5f6f7 !important;}
+#box_notification .time {font-size: 12px; font-weight: 400; opacity:.5; float:right; margin-right:10px;}
+#box_notification ul li .content {margin-left:25px; display:block; line-height: 16px;}
+#box_notification ul li .mark_as_read {font-size: 11px; margin-top: 10px; display: block;}
+#box_notification ul li table {margin:0;}
+#box_notification ul li table .avatar {vertical-align:top; width:50px;}
+#box_notification ul li table .main {vertical-align:top; position:relative; padding-left: 20px;}
+#box_notification ul li table h5 {margin:15px 0;}
+#box_notification ul li table a.deletemsg {position: absolute; right: 20px; top:25px; display:block; margin:0; padding:0; font-size:10px;}
+#box_notification .form {position: absolute: bottom: 0; padding-left: 20px; margin-top: 10px;}
+#box_notification .form textarea {width: 94% !important;}
+
+#message_plaza {overflow-y: auto; overflow-x: hidden;}
+
+/* BOX_MESSAGE */
+/* ****************** MESSAGE BOX ************************ */
+
+/* BOX_OBJECT */
+/* ****************** OBJECT BOX ************************ */
+.box_object_container {margin:20px 0 !important; background-image: linear-gradient(to left,#455A64,#263238) !important;}
+.box_object_container .object_type_icon {width: 30px; text-align: center;  color: #fff; vertical-align: middle !important;}
+.box_object_container .object_type_title {padding:15px 0px;  color: #fff; vertical-align: middle !important;}
+.box_object_container .object_type_title a {color: #fff;}
+.box_object_container .object_type_controls {float: right; text-align: right;  width:100px; vertical-align: middle !important;}
+.box_object_container .object_type_controls a { font-size: 11px; color:#fff; opacity: .7;}
+.box_object_container .contain { background: #fff;}
+
+#box_object {margin:0 !important; background: #fff !important; border:1px solid #ddd; border-bottom:none;}
+#box_object td {}
+#box_object td table {width: 100%; }
+#box_object .object_heading {background: #fff;}
+#box_object .object_heading:hover {background: #f5f6f7; cursor: pointer;}
+#box_object .object_heading.hover {background: #f5f6f7;}
+#box_object .object_heading .carets {}
+#box_object .object_heading .carets .show_caret{}
+#box_object .object_heading [class^="carets"] {float:left; padding-left: 20px; font-size: 13px; width:20px; vertical-align:middle;}
+#box_object .object_heading [class^="carets"]:hover {cursor: pointer; text-shadow:0px 0px 3px #fff; color:#00aff0;}
+#box_object .object_heading [class^="carets"] .hide_caret {display: none;}
+#box_object .object_heading .title {padding:10px 20px;}
+#box_object .object_heading .edit {margin-left: 10px;}
+#box_object .object_heading .edit a {font-size: 10px !important; color:#777;}
+#box_object .object_details {display:none;}
+#box_object .object_details .image {width: 240px;}
+
+/* BOX_LOCATION */
+/* ****************** LOCATION BOX ************************ */
+#box_location {background: #fff !important; border:1px solid #ddd; border-bottom:none;}
+#box_location td {}
+#box_location td table {width: 100%; }
+#box_location .location_heading {background: #f5f6f7;}
+#box_location .location_heading:hover {background: #fff; cursor: pointer;}
+#box_location .location_heading.hover {background: #fff;}
+#box_location .location_heading .carets {}
+#box_location .location_heading .carets .show_caret{}
+#box_location .location_heading [class^="carets"] {float:left; padding-left: 20px; font-size: 13px; width:20px; vertical-align:middle;}
+#box_location .location_heading [class^="carets"]:hover {cursor: pointer; text-shadow:0px 0px 3px #fff; color:#00aff0;}
+#box_location .location_heading [class^="carets"] .hide_caret {display: none;}
+#box_location .location_heading .title {padding:10px; }
+#box_location .location_heading .edit {float: right; margin-right: 10px;}
+#box_location .location_heading .edit a {font-size: 11px !important; font-weight: 700 !important; color: #fff;}
+#box_location .location_details {}
+#box_location .location_details .image {width: 400px;}
+
+/* BOX_PAYMENT */
+/* ****************** PAYMENT BOX ************************ */
+
+/* BOX_TRANSACTION */
+/* ****************** TRANSACTION BOX ************************ */
+
+/* BOX_REVIEW */
+/* ****************** REVIEW BOX ************************ */
+
+/* BOX_HISTORY */
+/* ****************** HISTORY BOX ************************ */
+
+/* BOX_POST */
+/* ****************** POST BOX ************************ */
+
+.wrapper.two {
+	max-width: 48%;
+	margin: 0 1%;
+}
+
+.wrapper:nth-of-type(2) {margin-left:0 !important;}

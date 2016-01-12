@@ -1,0 +1,71 @@
+<?php
+
+namespace frontend\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "provider_locations".
+ *
+ * @property integer $id
+ * @property string $provider_id
+ * @property string $loc_id
+ * @property string $name
+ * @property string $description
+ *
+ * @property Provider $provider
+ * @property Locations $loc
+ */
+class ProviderLocations extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'provider_locations';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['provider_id', 'loc_id', 'name'], 'required'],
+            [['provider_id', 'loc_id'], 'integer'],
+            [['description'], 'string'],
+            [['name'], 'string', 'max' => 64]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'provider_id' => Yii::t('app', 'Provider ID'),
+            'loc_id' => Yii::t('app', 'Loc ID'),
+            'name' => Yii::t('app', 'Name'),
+            'description' => Yii::t('app', 'Description'),
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProvider()
+    {
+        return $this->hasOne(Provider::className(), ['id' => 'provider_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLoc()
+    {
+        return $this->hasOne(Locations::className(), ['id' => 'loc_id']);
+    }
+}

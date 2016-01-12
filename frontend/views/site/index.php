@@ -3,6 +3,13 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
+use yii\helpers\Html;
+use yii\helpers\Url;
+use kartik\widgets\ActiveForm;
+use kartik\select2\Select2; // or kartik\select2\Select2
+use yii\web\JsExpression;
+use yii\helpers\ArrayHelper;
+use frontend\models\CsServices;
 ?>
 <div class="site-index">
 
@@ -15,6 +22,31 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="body-content">
+
+    <?php $form = kartik\widgets\ActiveForm::begin([
+
+    ]); 
+    $url = \yii\helpers\Url::to(['/auto/list-services']); ?>
+    <?= $form->field(new CsServices, 'name')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(CsServices::find()->all(), 'id', 'name'),
+            'options' => ['placeholder' => 'Search for a service ...'],
+            'pluginLoading' => false,
+            'pluginOptions' => [
+                'allowClear' => true,
+                'minimumInputLength' => 3,
+                'ajax' => [
+                    'url' => $url,
+                    'dataType' => 'json',
+                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                ],
+                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                'templateResult' => new JsExpression('function(city) { return city.text; }'),
+                'templateSelection' => new JsExpression('function (city) { return city.text; }'),
+            ],
+        ]); ?>
+
+    <?php ActiveForm::end(); ?>
+    
 
         <div class="row">
             <div class="col-lg-4">

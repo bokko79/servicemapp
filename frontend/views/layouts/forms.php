@@ -3,6 +3,10 @@
 /* @var $content string */
 
 use yii\widgets\Breadcrumbs;
+use frontend\widgets\PageTitle;
+use frontend\widgets\Steps;
+use frontend\widgets\Cart;
+use frontend\widgets\Help;
 ?>
 
 <?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
@@ -18,13 +22,33 @@ use yii\widgets\Breadcrumbs;
 
     <div class="grid-row">
         <div class="grid-leftacross">
-            <?php // Title Widget ?>
+            <?php /* WIDGET: PAGETITLE */ ?>
+                <?= PageTitle::widget([
+                    'titleData' => $this->pageTitle, // Card Picture
+                ]);
+                ?>
+
+            <?php /* WIDGET: PAGETITLE */ ?>
+                <?= Steps::widget([
+                    'steps' => $this->steps, // Card Picture
+                ]);
+                ?>
+
             <?= $content ?>
         </div>
                 
         <div class="grid-right media_right_sidebar">
             <?php // Progress Meter ?>
-            <?php // Help ?>
+            <?php /* WIDGET: CART */ ?>
+                <?= Cart::widget([
+                    'cart' => $this->cart, // Card Picture
+                ]);
+                ?>
+            <?php /* WIDGET: HELP */ ?>
+                <?= Help::widget([
+                    'help' => $this->help, // Card Picture
+                ]);
+                ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

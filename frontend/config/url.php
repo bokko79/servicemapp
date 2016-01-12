@@ -100,5 +100,25 @@ return [
         'new-agreement' => 'agreements/create', // S-16:page
         'agreement/<id:\d+>' => 'agreements/view', // S-16:page
         'agreement-setup/<id:\d+>' => 'agreements/update', // S-16:page
+
+        // 19 GLOBAL-NAV
+        'glob-ind-ser' => 'global-nav/glob-ind-ser',
+        'glob-nav-events-body' => 'global-nav/glob-nav-events-body',
+        'glob-nav-events-head' => 'global-nav/glob-nav-events-head',
+        'glob-nav-market-body' => 'global-nav/glob-nav-market-body',
+        'glob-nav-market-head' => 'global-nav/glob-nav-market-head',
+        'glob-nav-providers-body' => 'global-nav/glob-nav-providers-body',
+        'glob-nav-providers-head' => 'global-nav/glob-nav-providers-head',
+        'glob-nav-services-body' => 'global-nav/glob-nav-services-body',
+        'glob-nav-services-head' => 'global-nav/glob-nav-services-head',
+        'ind/<id:\d+>' => 'global-nav/ind',
+        'getid' => 'global-nav/getid',
+        //'list-act-services' => 'global-nav/list-act-services',
+        //'list-ind-actions' => 'global-nav/list-ind-actions',
+
+        // 20 AUTOCOMPLETE
+        'auto/list-act-services' => 'autocomplete/list-act-services',
+        'auto/list-ind-actions' => 'autocomplete/list-ind-actions',
+        'auto/list-services' => 'autocomplete/list-services',
     ],
 ];

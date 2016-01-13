@@ -41,37 +41,33 @@ use kartik\widgets\Typeahead;
 	<?= Html::a('Index usluga', Url::to('/services'), array()); ?>
 	
 	<div class="service_autocomplete_search" style="width:60%;; margin:0 auto;">
-	<?php $form = kartik\widgets\ActiveForm::begin([
-
-    ]); 
-	$url = \yii\helpers\Url::to(['/auto/list-services']); ?>
-    <?= $form->field(new CsServices, 'name')->widget(Select2::classname(), [
-    		'data' => ArrayHelper::map(CsServices::find()->all(), 'id', 'name'),
-		    'options' => ['placeholder' => 'Search for a service ...'],
-		    'pluginLoading' => false,
-		    'pluginOptions' => [
-		        'allowClear' => true,
-		        'minimumInputLength' => 3,
-		        'ajax' => [
-		            'url' => $url,
-		            'dataType' => 'json',
-		            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-		        ],
-		    ],
-		    'addon' => [
-		        'prepend' => [
-		            'content' => 'Services'
-		        ],
-		        'append' => [
-		            'content' => Html::button('<i class="fa fa-map-marker"></i>', [
-		                'class' => 'btn btn-primary', 
-		            ]),
-		            'asButton' => true
-		        ]
-		    ],
-		]); ?>
-
-	<?php ActiveForm::end(); ?>
-
+		<?php $form = kartik\widgets\ActiveForm::begin([]); 
+		$url = \yii\helpers\Url::to(['/auto/list-services']); ?>
+	    <?= $form->field(new CsServices, 'name')->widget(Select2::classname(), [
+	    		'data' => ArrayHelper::map(CsServices::find()->all(), 'id', 'name'),
+			    'options' => ['placeholder' => 'Search for a service ...'],
+			    'pluginLoading' => false,
+			    'pluginOptions' => [
+			        'allowClear' => true,
+			        'minimumInputLength' => 3,
+			        'ajax' => [
+			            'url' => $url,
+			            'dataType' => 'json',
+			            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+			        ],
+			    ],
+			    'addon' => [
+			        'prepend' => [
+			            'content' => 'Services'
+			        ],
+			        'append' => [
+			            'content' => Html::button('<i class="fa fa-map-marker"></i>', [
+			                'class' => 'btn btn-primary', 
+			            ]),
+			            'asButton' => true
+			        ]
+			    ],
+			]); ?>
+		<?php ActiveForm::end(); ?>
 	</div>
 </div>

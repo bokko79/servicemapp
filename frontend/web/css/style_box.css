@@ -2,8 +2,6 @@
 .box_container {color:#000; margin:0 0 30px 0; padding:0; border: none;}
 .box_container > a:link, .box_container > a:active, .box_container > a:visited, .box_container > a:hover {color:#000; text-decoration: none;}
 
-
-
 .box_container table {margin: 0; padding:0; vertical-align: top; border-collapse: collapse; width: 100%; background:transparent;}
 .box_container > table {border-bottom: 1px solid #ddd;}
 .box_container table td {margin: 0; padding:0; vertical-align: top; border-collapse: collapse; font-weight: 400; font-size: 13px;}
@@ -108,17 +106,17 @@
 
 /* BOX_SERVICE */
 /* ****************** SERVICE BOX ************************ */
-#box_service {margin: 20px 7px; height:270px; background:white; width:200px; float:left;}
+#box_service {margin: 20px 7px; height:270px; background:white; width:200px; float:left; box-shadow: 0px 0px 7px #777;}
 #box_service .image {width:200px; height: 150px;}
-#box_service .content {height:100px; width:178px; float:left; padding:10px; border:1px solid #ddd; border-top:none; font-size:11px;  position: relative;}
-#box_service .content div {width: 178px;}
+#box_service .content {height:120px; width:200px; float:left; padding:10px; border:1px solid #ddd; border-top:none; font-size:11px;  position: relative;}
+#box_service .content div {width: 180px;}
 #box_service .content .header {}
 #box_service .content .header a {font-size:17px; font-weight:700; color:#000; line-height:14px;}
 #box_service .content a {}
 
 #box_service .content .stats {opacity:.3; margin:0;}
 #box_service .content .desc {font-size: 11px; line-height: 12px; opacity: .5; font-weight:700; margin:10px 0;}
-#box_service .content .footer {border-top: 1px solid #ddd; height: 25px; padding-top: 10px;  position: absolute; bottom: 0; text-align:right;}
+#box_service .content .footer {border-top: 1px solid #ddd; height: 45px; padding-top: 10px;  position: absolute; bottom: 0; text-align:right;}
 #box_service .content .footer a {font-size:12px; padding:3px 5px; opacity: .6; }
 #box_service .content .footer .control {float: right;}
 #box_service .content .footer .price {float: left; text-align:left; width: auto;}

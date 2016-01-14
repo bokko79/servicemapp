@@ -40,7 +40,8 @@
         "kartik-v/yii2-checkbox-x": "*",
         "fxp/composer-asset-plugin": "~1.1",
         "yiidoc/yii2-timeago": "dev-master",
-        "petrabarus/yii2-googleplacesautocomplete": "*"
+        "petrabarus/yii2-googleplacesautocomplete": "*",
+        "shiyang/yii2-masonry": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

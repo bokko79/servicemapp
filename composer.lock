@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7a486ac3577178991d942e59b2f89a83",
-    "content-hash": "b6606f07476687053eeed41189eed63c",
+    "hash": "fd6c7c245d62322f8dd6ed58d6ff5a40",
+    "content-hash": "e26c9d2383bf693fe0d9119e8c6852f5",
     "packages": [
         {
             "name": "2amigos/yii2-google-maps-library",
@@ -193,6 +193,43 @@
                 "javascript",
                 "jquery",
                 "library"
+            ]
+        },
+        {
+            "name": "bower-asset/jquery-infinite-scroll",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/infinite-scroll/infinite-scroll.git",
+                "reference": "4ea0d22628143afea15c92744e7ebf036d6a8d80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/infinite-scroll/infinite-scroll/zipball/4ea0d22628143afea15c92744e7ebf036d6a8d80",
+                "reference": "4ea0d22628143afea15c92744e7ebf036d6a8d80",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "jquery.infinitescroll.js",
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "bower_components",
+                    "test",
+                    "tests"
+                ],
+                "branch-alias": {
+                    "dev-master": "2.1.0-dev"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "jQuery Infinite Scroll Plugin",
+            "keywords": [
+                "infinitescroll",
+                "jquery"
             ]
         },
         {
@@ -1297,12 +1334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-tabs-x.git",
-                "reference": "03eb6dbc5c27e2a81bca7ca6ac9cc63a35b018d7"
+                "reference": "3c53773bf463a0e3f3d9eadd0231bf58f3ae08b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-tabs-x/zipball/03eb6dbc5c27e2a81bca7ca6ac9cc63a35b018d7",
-                "reference": "03eb6dbc5c27e2a81bca7ca6ac9cc63a35b018d7",
+                "url": "https://api.github.com/repos/kartik-v/yii2-tabs-x/zipball/3c53773bf463a0e3f3d9eadd0231bf58f3ae08b3",
+                "reference": "3c53773bf463a0e3f3d9eadd0231bf58f3ae08b3",
                 "shasum": ""
             },
             "require": {
@@ -1337,7 +1374,7 @@
                 "tabs",
                 "tabs-x"
             ],
-            "time": "2015-06-27 03:18:13"
+            "time": "2016-01-12 07:59:30"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -1835,12 +1872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-rating.git",
-                "reference": "8cef8386952a2aa224a2ad4ebfa1901553ab1830"
+                "reference": "dddcb31650a496be7b5196ca4461122955c1da87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-rating/zipball/8cef8386952a2aa224a2ad4ebfa1901553ab1830",
-                "reference": "8cef8386952a2aa224a2ad4ebfa1901553ab1830",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-rating/zipball/dddcb31650a496be7b5196ca4461122955c1da87",
+                "reference": "dddcb31650a496be7b5196ca4461122955c1da87",
                 "shasum": ""
             },
             "require": {
@@ -1878,7 +1915,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-04-21 15:37:24"
+            "time": "2016-01-12 10:04:01"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -2081,12 +2118,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-timepicker.git",
-                "reference": "b6538d1559e60cc65c39757e63ca684599d7dba1"
+                "reference": "fa230caf281fbf6abea29a5dc1c28ebc005e4438"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-timepicker/zipball/b6538d1559e60cc65c39757e63ca684599d7dba1",
-                "reference": "b6538d1559e60cc65c39757e63ca684599d7dba1",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-timepicker/zipball/fa230caf281fbf6abea29a5dc1c28ebc005e4438",
+                "reference": "fa230caf281fbf6abea29a5dc1c28ebc005e4438",
                 "shasum": ""
             },
             "require": {
@@ -2122,7 +2159,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-04-21 15:40:19"
+            "time": "2016-01-12 09:50:39"
         },
         {
             "name": "kartik-v/yii2-widget-touchspin",
@@ -2325,6 +2362,98 @@
             "time": "2015-10-26 06:11:43"
         },
         {
+            "name": "shiyang/yii2-infinite-scroll",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shi-yang/yii2-infinite-scroll.git",
+                "reference": "614905778846f211afaaa9a7d85a6459cdab49c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shi-yang/yii2-infinite-scroll/zipball/614905778846f211afaaa9a7d85a6459cdab49c8",
+                "reference": "614905778846f211afaaa9a7d85a6459cdab49c8",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery-infinite-scroll": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "shiyang\\infinitescroll\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shiyang",
+                    "email": "dr@shiyang.me"
+                }
+            ],
+            "description": "Yii2 extension for infinite-scroll jQuery plugin",
+            "keywords": [
+                "infinite-scroll",
+                "jquery",
+                "plugin",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-10-01 13:58:11"
+        },
+        {
+            "name": "shiyang/yii2-masonry",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shi-yang/yii2-masonry.git",
+                "reference": "d7248eec7d6bf02e9240dc344e10e5916f16cdf7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shi-yang/yii2-masonry/zipball/d7248eec7d6bf02e9240dc344e10e5916f16cdf7",
+                "reference": "d7248eec7d6bf02e9240dc344e10e5916f16cdf7",
+                "shasum": ""
+            },
+            "require": {
+                "shiyang/yii2-infinite-scroll": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "shiyang\\masonry\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shiyang",
+                    "email": "dr@shiyang.me"
+                }
+            ],
+            "description": "Masonry Yii2 Extension width infinitescroll",
+            "keywords": [
+                "extension",
+                "infinitescroll",
+                "masonry",
+                "yii2"
+            ],
+            "time": "2015-05-02 06:02:16"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "5.x-dev",
             "source": {
@@ -2425,12 +2554,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "7f88c65a27c9046e23227be6d72339cf61511c25"
+                "reference": "f472889710532a8dfd05bd8eb244d15d33ee1a11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/7f88c65a27c9046e23227be6d72339cf61511c25",
-                "reference": "7f88c65a27c9046e23227be6d72339cf61511c25",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f472889710532a8dfd05bd8eb244d15d33ee1a11",
+                "reference": "f472889710532a8dfd05bd8eb244d15d33ee1a11",
                 "shasum": ""
             },
             "require": {
@@ -2511,7 +2640,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-01-08 21:05:10"
+            "time": "2016-01-12 09:20:12"
         },
         {
             "name": "yiisoft/yii2-bootstrap",

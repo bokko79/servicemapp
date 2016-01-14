@@ -49,25 +49,36 @@
 .details .opis {font-size: 12px !important;}
 
 
-.card_container, #card_container {margin:0; padding:0; border-radius: 2px; box-shadow: 0px 0px 8px #777; background: #fff; float: left;}
+.card_container, #card_container {margin:0; padding:0; border-radius: 2px; box-shadow: 0px 2px 8px #777; background: #fff; float: left;}
 .card_container:hover {box-shadow: 0px 0px 12px #777; cursor: pointer;}
-.card_container .head {font-size: 24px; font-weight: 600; float:none; width:100%; line-height: 24px; padding-bottom: 8px;}
-.card_container .head.second {font-size: 14px; color:black; line-height: 14px;}
-.card_container .subhead {font-size: 14px; font-weight: 600; color:#999; float:none; width:100%; line-height: 14px;}
-.card_container p {font-size: 13px; margin:0; padding:0; line-height: 14px;}
+.card_container .head {font-size: 24px; font-weight: 500; float:none; width:100%; line-height: 24px; padding-bottom: 8px;}
+.card_container .head.second {font-size: 14px; color:black; line-height: 14px; padding-top: 4px;}
+.card_container .subhead {font-size: 14px; font-weight: 500; color:#999; float:none; width:100%; line-height: 14px;}
+.card_container p {font-size: 13px; margin:0; padding:0; line-height: 16px; color: #666;}
+.card_container > a {color:black;}
+.card_container a:hover {text-decoration: none;}
+.card_container .label {font-size: 24px;}
 .card_container.record-320 {width:312px; margin-bottom: 26px !important;}
+.card_container.teaser-200 {width:200px; margin-bottom: 26px !important;}
 /*.card_container.record-320:nth-child(even) {margin-left: 26px !important;}*/
-.header-context {padding:16px;}
-.media-area {padding:0; width:100%; height:175.5px;}
-.media-area img {width:100%; height:180px;}
+.header-context {padding:16px; height: 72px;}
+.header-context .avatar {float:left;width: 40px;}
+.header-context .avatar img {width: 40px; height: 40px; border-radius: 20px;}
+.header-context .title {float:left; padding-left: 16px;}
+.header-context .subaction {float:right; font-size: 85%; color:#aaa;}
+.card_container.record-320 .media-area .image {padding:0; width:100%; height:176px;}
+.card_container.record-320 .media-area .image img {width:100%; height:176px;}
+.card_container.teaser-200 .media-area .image {padding:0; width:100%; height:113px;}
+.card_container.teaser-200 .media-area .image img {width:100%; height:113px;}
 .primary-context {padding:24px 16px 16px;}
 .primary-context.full {padding:24px 16px;}
 .secondary-context {padding:16px;}
 .secondary-context.cont {padding-top:0px;}
 .secondary-context.bottom {padding-bottom:24px;}
-.action-area {padding:8px;}
+.action-area {padding:8px; height: 48px;}
 .action-area a {font-weight: 700; text-transform: uppercase; font-size: 13px;}
-.action-area.right {float: right;}
+.action-area .left {float: left;}
+.action-area .right {float: right;}
 
 /* BOX_EVENT */
 /* ****************** EVENT BOX ************************ */

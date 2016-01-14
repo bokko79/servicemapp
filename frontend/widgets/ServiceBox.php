@@ -33,6 +33,8 @@ class ServiceBox extends Widget
 {
 	public $serviceId;
 
+	public $containerType = 'record-320';
+
     public $containerOptions = null;
 
     public $link;
@@ -42,6 +44,7 @@ class ServiceBox extends Widget
     public $imageHeader = null;
 
     public $name;
+
     public $subhead;
 
     public $description = [];
@@ -59,7 +62,7 @@ class ServiceBox extends Widget
     {
     	?>
 
-		<div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="<?= $this->containerOptions ?>">
+		<div class="card_container <?= $this->containerType ?> grid-item fadeInUp animated" id="card_container" style="<?= $this->containerOptions ?>">
 		<a href="<?= Url::to($this->link) ?>">
             <div class="media-area">
                 <?php if($this->image) { ?>
@@ -85,8 +88,8 @@ class ServiceBox extends Widget
             </div>
             <div class="action-area">
                 <?php if($this->price) { ?>
-				<div class="price">
-					<?= '<span class="amount">'.$this->price['amount'].'</span>&nbsp;'.$this->price['currencyCode'].'/'.$this->price['unit'] ?> 
+				<div class="price left">
+					<?= '<span class="label label-danger">'.$this->price['amount'].'&nbsp;'.$this->price['currencyCode'].'</span>/'.$this->price['unit'] ?> 
 				</div>
 				<?php } ?>
 					

@@ -14,6 +14,106 @@ use frontend\models\CsServices;
 use frontend\widgets\ServiceBox;
 ?>
 <div class="site-index">
+<div class="body-content">
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="media-area">                
+                <div class="image">
+                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+                </div>
+            </div>
+            <div class="primary-context">
+                <div class="head">Heading</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat.</p>
+            </div>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+            </div>
+        </a>
+    </div>
+
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="header-context">                
+                <div class="avatar">
+                    <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
+                </div>
+                <div class="title">
+                    <div class="head second">Masterplan</div>
+                    <div class="subhead"><?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?></div> 
+                </div>
+                <div class="subaction">
+                    <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?>    
+                </div>
+            </div>
+            <div class="media-area">                
+                <div class="image">
+                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+                </div>
+            </div>
+            <div class="primary-context">
+                <div class="head">Heading</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat.</p>
+            </div>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            
+            <div class="primary-context">
+                <div class="head">Congratulations</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>You have successfully created your Yii-powered application.</p>
+            </div>
+            <div class="action-area right">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-warning']); ?>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">            
+            <div class="primary-context">
+                <div class="head">Heading</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>You have successfully created your Yii-powered application.</p>
+            </div>
+            <div class="action-area right">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-success']); ?>
+            </div>
+        </a>
+    </div>
+
 
     <div class="jumbotron">
         <h1>Congratulations!</h1>
@@ -23,9 +123,9 @@ use frontend\widgets\ServiceBox;
         <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
     </div>
 
-    <div class="body-content">
+    
 
-    <?php $form = kartik\widgets\ActiveForm::begin([
+    <?php /* $form = kartik\widgets\ActiveForm::begin([
 
     ]); 
     $url = \yii\helpers\Url::to(['/auto/list-services']); ?>
@@ -47,10 +147,9 @@ use frontend\widgets\ServiceBox;
             ],
         ]); ?>
 
-    <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); */ ?>
 
-<div class="grid js-masonry"
-  data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 26 }' style="">
+<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 26 }' style="">
     <?php 
         $query = \frontend\models\CsServices::find();
         $countQuery = clone $query;

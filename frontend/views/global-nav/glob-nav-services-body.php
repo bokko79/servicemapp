@@ -10,17 +10,19 @@ use frontend\widgets\ServiceBox;
 	<h2 style="text-align:center; margin:30px 0 10px 0;">Pregledane usluge</h2>
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
-	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(5)->all() as $key=>$service) {
+	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(6)->all() as $key=>$service) {
 		echo ServiceBox::widget([
+
 				'serviceId' => $service->id,
-			    'containerOptions' => 'width:350px;',
+				'containerType' => 'teaser-200',
+			    'containerOptions' => 'margin:0 37px;',
 			    'link' => '/s/'.mb_strtolower(str_replace(' ', '-', $service->csServicesTranslations[0]->name)),
 			    'image' => [
 			    	'source'=>'info_docs'.($key+1).'.jpg',
-			    	'style'=>'height:150px;'
+			    	'style'=>''
 			    ],
 			    'name' => $service->csServicesTranslations[0]->name,
-			    'description' => $service->csServicesTranslations[0]->name,
+			    'subhead' => $service->industry->name,
 			    'stats' => [
 			    	'orders'=> 346,
 			    	'providers' => 71,

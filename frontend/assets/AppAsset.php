@@ -30,7 +30,8 @@ class AppAsset extends AssetBundle
         'css/animate.css',
     ];
     public $js = [
-        // 'js/glob-nav-6box.js',
+        'js/masonry.js',
+        'js/masonry.pkgd.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

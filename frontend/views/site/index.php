@@ -9,7 +9,9 @@ use kartik\widgets\ActiveForm;
 use kartik\select2\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
+use yii\data\Pagination;
 use frontend\models\CsServices;
+use frontend\widgets\ServiceBox;
 ?>
 <div class="site-index">
 
@@ -46,7 +48,42 @@ use frontend\models\CsServices;
         ]); ?>
 
     <?php ActiveForm::end(); ?>
-    
+
+<div class="grid js-masonry"
+  data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 26 }' style="">
+    <?php 
+        $query = \frontend\models\CsServices::find();
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $models = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        foreach ($models as $service) {
+            echo ServiceBox::widget([
+                'serviceId' => $service->id,
+                'containerOptions' => '',
+                'link' => '/s/'.mb_strtolower(str_replace(' ', '-', $service->csServicesTranslations[0]->name)),
+                'image' => [
+                    'source'=>'info_docs'.substr($service->id, -1).'.jpg',
+                ],
+                'name' => $service->csServicesTranslations[0]->name,
+                'subhead' => $service->industry->csIndustriesTranslations[0]->name,
+                'description' => $service->industry->csIndustriesTranslations[0]->description,
+                'stats' => [
+                    'orders'=> 346,
+                    'providers' => 71,
+                    'promotions' => 102,
+                ],
+                'price' => [
+                    'amount'=> 450,
+                    'currencyCode' => 'RSD',
+                    'unit' => 'm',
+                ],
+                'actionButton' => '',
+            ]);
+        }  ?>
+</div>    
 
         <div class="row">
             <div class="col-lg-4">

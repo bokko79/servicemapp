@@ -48,37 +48,63 @@
 .details .data .spark {width:35%;}
 .details .opis {font-size: 12px !important;}
 
-
-.card_container, #card_container {margin:0; padding:0; border-radius: 2px; box-shadow: 0px 2px 8px #777; background: #fff; float: left;}
+/* containers */
+.card_container, #card_container {margin:0; padding:0; border-radius: 2px; box-shadow: 0px 2px 5px #777; background: #fff; float: left;}
 .card_container:hover {box-shadow: 0px 0px 12px #777; cursor: pointer;}
+.card_container.record-320 {width:312px; margin-bottom: 26px !important;}
+.card_container.teaser-200 {width:200px; margin-bottom: 26px !important;}
+.card_container.record-650, .card_container.teaser-650 {width:650px; margin-bottom: 26px !important;}
+/* general */
 .card_container .head {font-size: 24px; font-weight: 500; float:none; width:100%; line-height: 24px; padding-bottom: 8px;}
-.card_container .head.second {font-size: 14px; color:black; line-height: 14px; padding-top: 4px;}
-.card_container .subhead {font-size: 14px; font-weight: 500; color:#999; float:none; width:100%; line-height: 14px;}
+.card_container .head.second {font-size: 14px; line-height: 14px; padding-top: 4px; font-weight: 700;}
+.card_container .subhead {font-size: 14px; font-weight: 400; color:#999; float:none; width:100%; line-height: 14px;}
 .card_container p {font-size: 13px; margin:0; padding:0; line-height: 16px; color: #666;}
 .card_container > a {color:black;}
 .card_container a:hover {text-decoration: none;}
 .card_container .label {font-size: 24px;}
-.card_container.record-320 {width:312px; margin-bottom: 26px !important;}
-.card_container.teaser-200 {width:200px; margin-bottom: 26px !important;}
-/*.card_container.record-320:nth-child(even) {margin-left: 26px !important;}*/
+.card_container .avatar {float:left;width: 40px;}
+.card_container .avatar img {width: 40px; height: 40px; border-radius: 20px;}
+.card_container .title {float:left; padding-left: 16px;}
+.card_container .subaction {float:right; font-size: 85%; color:#aaa;}
+/* header */
 .header-context {padding:16px; height: 72px;}
-.header-context .avatar {float:left;width: 40px;}
-.header-context .avatar img {width: 40px; height: 40px; border-radius: 20px;}
-.header-context .title {float:left; padding-left: 16px;}
-.header-context .subaction {float:right; font-size: 85%; color:#aaa;}
+
+.main-context {/*background: #eee; */border-top: 1px solid #ddd; width: 100%;}
+.main-context .body-area {}
+/* rich-media */
+.main-context .media-area {padding: 16px 16px 0;}
+.card_container.record-650 .main-context .media-area .image, .card_container.record-650 .main-context .media-area .image img {width:152px; height:152px;}
 .card_container.record-320 .media-area .image {padding:0; width:100%; height:176px;}
 .card_container.record-320 .media-area .image img {width:100%; height:176px;}
+.card_container.record-320 .media-area.square .image, .card_container.record-320 .media-area.square .image img {height:312px;}
 .card_container.teaser-200 .media-area .image {padding:0; width:100%; height:113px;}
 .card_container.teaser-200 .media-area .image img {width:100%; height:113px;}
+.card_container.teaser-200 .media-area.square .image, .card_container.teaser-200 .media-area.square .image img {height:200px;}
+/* primary context */
 .primary-context {padding:24px 16px 16px;}
+.primary-context.in-media {padding:0px 16px 8px; margin-top: -40px; color:#fff; text-shadow: 1px 1px 2px #000;}
 .primary-context.full {padding:24px 16px;}
+/* secondary-context */
 .secondary-context {padding:16px;}
 .secondary-context.cont {padding-top:0px;}
 .secondary-context.bottom {padding-bottom:24px;}
+/* action-area */
 .action-area {padding:8px; height: 48px;}
 .action-area a {font-weight: 700; text-transform: uppercase; font-size: 13px;}
 .action-area .left {float: left;}
 .action-area .right {float: right;}
+/* bids-area */
+.bids-area {min-height: 72px; background: #f6f7f8;}
+.bids-area .body {padding-left:16px;}
+.bids-area .body .head {float: left; width: 80%;}
+.bids-area .body .subaction {text-align: right; width: 20%;}
+.bids-area .bids-wrap {border-top: 1px solid #ddd; padding:16px;}
+/* comments-area */
+.comments-area {min-height: 72px; background: #f6f7f8;}
+.comments-area .body {padding-left:16px;}
+.comments-area .body .head {float: left; width: 80%;}
+.comments-area .body .subaction {text-align: right; width: 20%;}
+.comments-area .comment-wrap {border-top: 1px solid #ddd; padding:16px;}
 
 /* BOX_EVENT */
 /* ****************** EVENT BOX ************************ */

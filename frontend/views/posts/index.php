@@ -10,18 +10,18 @@ use yii\widgets\ListView;
 $this->title = Yii::t('app', 'Posts');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="posts-index  js-masonry" data-masonry-options="{ 'itemSelector': '.wrapper.two', 'columnWidth': 400 }">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a(Yii::t('app', 'Create Posts'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-  
+<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 32 }' style="float:none;">  
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemView' => '_view',        
+        'itemView' => '_view',
+        'summary' => false,
+        'pager' => null,   
     ]) ?>
-
 </div>

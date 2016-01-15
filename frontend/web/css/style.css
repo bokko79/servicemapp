@@ -97,7 +97,7 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 .grid-left {width:200px; margin-right:25px;}
 .grid-right {width:270px; margin-left:25px;}
 .grid-center {width:650px;}
-.grid-leftacross {width:875px; margin:20px 0;}
+.grid-leftacross {width:875px; margin:0 0 20px 0;}
 .grid-rightacross {width:945px;}
 
 /* general */

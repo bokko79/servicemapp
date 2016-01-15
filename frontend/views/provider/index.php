@@ -10,19 +10,10 @@ use yii\widgets\ListView;
 $this->title = Yii::t('app', 'Providers');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="provider-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Provider'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    
+<div class="provider-index" style="margin-top:20px;">
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '_view',
+        'summary'=>'', 
     ]) ?>
-    ]); ?>
-
 </div>

@@ -86,6 +86,29 @@ $map2->addOverlay($marker2);
 
     <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
+            <div class="media-area">                
+                <div class="image">
+                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+                </div>
+            </div>
+            <div class="primary-context in-media">
+                <div class="head">Heading</div>
+            </div>
+            <div class="secondary-context">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat.</p>
+            </div>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+            </div>
+        </a>
+    </div>
+
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
             <div class="header-context">                
                 <div class="avatar">
                     <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
@@ -361,6 +384,81 @@ $map2->addOverlay($marker2);
                 </table>
             </div>
     </div>
+
+
+    <div class="card_container record-650 list-item fadeInUp animated" id="card_container" style="float:none; border-left-color: green;">
+        <a href="<?= Url::to('/services') ?>">
+            
+            <table class="main-context"> 
+                <tr>
+                    <td class="body-area">
+                        <div class="primary-context">
+                            <div class="head">Devon Konstalting</div>
+                            <div class="subhead">Beograd, Srbija</div>
+                            <span class="label label-success">arhitekta</span>
+                            <span class="label label-primary">izdavanje nekretnina</span>
+                        </div>
+                        <div class="secondary-context cont">
+                            <span><i class="fa fa-globe"></i>&nbsp;164</span>
+                            <span>&nbsp;<i class="fa fa-users"></i>&nbsp;283</span>
+                            <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;90</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                dolore magna aliqua.</p>
+                        </div>
+                    </td>
+                    <td class="media-area">
+                        <div >                
+                            <div class="image">
+                                <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
+                            </div>
+                        </div> 
+                    </td>
+                </tr>                        
+            </table>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
+                <?= Html::a('<i class="fa fa-arrow-right"></i>&nbsp;'.Yii::t('app', 'View'), Url::to(), ['class'=>'btn btn-link']); ?>
+                <?= Html::a('<i class="fa fa-eye"></i>&nbsp;'.Yii::t('app', 'Review'), Url::to(), ['class'=>'btn btn-link']); ?>
+            </div>
+        </a>
+    </div>
+    <div class="card_container record-650 list-item fadeInUp animated" id="card_container" style="float:none; border-left-color: purple;">
+        <a href="<?= Url::to('/services') ?>">
+            
+            <table class="main-context"> 
+                <tr>
+                    <td class="body-area">
+                        <div class="primary-context">
+                            <div class="head">Kantarion Networks</div>
+                            <div class="subhead">Beograd, Srbija</div>
+                            <span class="label label-default">arhitekta</span>
+                            <span class="label label-default">dizajner</span>
+                            <span class="label label-primary">izdavanje nekretnina</span>
+                        </div>
+                        <div class="secondary-context cont">
+                            <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                            <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                            <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                ex ea commodo consequat.</p>
+                        </div>
+                    </td>
+                    <td class="media-area">
+                        <div >                
+                            <div class="image">
+                                <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
+                            </div>
+                        </div> 
+                    </td>
+                </tr>                        
+            </table>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
+            </div>
+        </a>
+    </div>
+
 
 
     <div class="jumbotron" style="float:none;">

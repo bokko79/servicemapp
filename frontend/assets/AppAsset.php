@@ -32,6 +32,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/masonry.js',
         'js/masonry.pkgd.min.js',
+        'js/cards.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

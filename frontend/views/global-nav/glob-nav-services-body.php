@@ -10,32 +10,33 @@ use frontend\widgets\ServiceBox;
 	<h2 style="text-align:center; margin:30px 0 10px 0;">Pregledane usluge</h2>
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
-	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(6)->all() as $key=>$service) {
-		echo ServiceBox::widget([
-
-				'serviceId' => $service->id,
-				'containerType' => 'teaser-200',
-			    'containerOptions' => 'margin:0 37px;',
-			    'link' => '/s/'.mb_strtolower(str_replace(' ', '-', $service->csServicesTranslations[0]->name)),
-			    'image' => [
-			    	'source'=>'info_docs'.($key+1).'.jpg',
-			    	'style'=>''
-			    ],
-			    'name' => $service->csServicesTranslations[0]->name,
-			    'subhead' => $service->industry->name,
-			    'stats' => [
-			    	'orders'=> 346,
-			    	'providers' => 71,
-			    	'promotions' => 102,
-			    ],
-			    'price' => [
-			    	'amount'=> 450,
-			    	'currencyCode' => 'RSD',
-			    	'unit' => 'm',
-			    ],
-			    'actionButton' => '',
-			]);
-	} // foreach ($sektor as $key=>$sek) ?>
+	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
+		<div class="card_container record-270 grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
+	        <a href="<?= Url::to('/services') ?>">
+	            <div class="media-area">                
+	                <div class="image">
+	                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+	                </div>
+	                <div class="primary-context in-media">
+	                    <div class="head"><?= $service->name ?></div>
+	                </div>
+	            </div>
+	            <div class="primary-context">
+	                <div class="subhead"><?= $service->industry->name ?></div>
+	            </div>
+	            <div class="secondary-context">
+	                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+	                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+	                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+	                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+	                    ex ea commodo consequat.</p>
+	            </div>
+	            <div class="action-area right">
+	                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+	            </div>
+	        </a>
+	    </div>
+	<?php } // foreach ($sektor as $key=>$sek) ?>
 </div>
 <div class="show_more"><?= Html::a('POKAŽI JOŠ', Url::to('/services'), array('class'=>'btn btn-default')); ?></div>
 <!-- ORDERED SERVICES -->
@@ -43,30 +44,33 @@ use frontend\widgets\ServiceBox;
 	<h2 style="text-align:center; margin:30px 0 10px 0;">Usluge koje ste poručivali</h2>
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
-	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(5)->all() as $key=>$service) {
-		echo ServiceBox::widget([
-				'serviceId' => $service->id,
-			    'containerOptions' => null,
-			    'link' => '/s/'.mb_strtolower(str_replace(' ', '-', $service->csServicesTranslations[0]->name)),
-			    'image' => [
-			    	'source'=>'info_docs'.($key+1).'.jpg',
-			    	'style'=>'height:150px;'
-			    ],
-			    'name' => $service->csServicesTranslations[0]->name,
-			    'description' => $service->csServicesTranslations[0]->name,
-			    'stats' => [
-			    	'orders'=> 346,
-			    	'providers' => 71,
-			    	'promotions' => 102,
-			    ],
-			    'price' => [
-			    	'amount'=> 450,
-			    	'currencyCode' => 'RSD',
-			    	'unit' => 'm',
-			    ],
-			    'actionButton' => '',
-			]);
-	} // foreach ($sektor as $key=>$sek) ?>
+	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
+		<div class="card_container record-270 grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
+	        <a href="<?= Url::to('/services') ?>">
+	            <div class="media-area">                
+	                <div class="image">
+	                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+	                </div>
+	                <div class="primary-context in-media">
+	                    <div class="head"><?= $service->name ?></div>
+	                </div>
+	            </div>
+	            <div class="primary-context">
+	                <div class="subhead"><?= $service->industry->name ?></div>
+	            </div>
+	            <div class="secondary-context">
+	                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+	                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+	                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+	                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+	                    ex ea commodo consequat.</p>
+	            </div>
+	            <div class="action-area right">
+	                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+	            </div>
+	        </a>
+	    </div>
+	<?php } // foreach ($sektor as $key=>$sek) ?>
 </div>
 <div class="show_more"><?= Html::a('POKAŽI JOŠ', Url::to('/services'), array('class'=>'btn btn-default')); ?></div>	   		
 <!-- FOLLOWED SERVICES -->
@@ -74,30 +78,33 @@ use frontend\widgets\ServiceBox;
 	<h2 style="text-align:center; margin:30px 0 10px 0;">Usluge koje pratite</h2>
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
-	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(5)->all() as $key=>$service) {
-		echo ServiceBox::widget([
-				'serviceId' => $service->id,
-			    'containerOptions' => null,
-			    'link' => '/s/'.mb_strtolower(str_replace(' ', '-', $service->csServicesTranslations[0]->name)),
-			    'image' => [
-			    	'source'=>'info_docs'.($key+1).'.jpg',
-			    	'style'=>'height:150px;'
-			    ],
-			    'name' => $service->csServicesTranslations[0]->name,
-			    'description' => $service->csServicesTranslations[0]->name,
-			    'stats' => [
-			    	'orders'=> 346,
-			    	'providers' => 71,
-			    	'promotions' => 102,
-			    ],
-			    'price' => [
-			    	'amount'=> 450,
-			    	'currencyCode' => 'RSD',
-			    	'unit' => 'm',
-			    ],
-			    'actionButton' => '',
-			]);
-	} // foreach ($sektor as $key=>$sek) ?>
+	<?php foreach (CsServices::find()->where('industry_id=13 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
+		<div class="card_container record-270 grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
+	        <a href="<?= Url::to('/services') ?>">
+	            <div class="media-area">                
+	                <div class="image">
+	                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+	                </div>
+	                <div class="primary-context in-media">
+	                    <div class="head"><?= $service->name ?></div>
+	                </div>
+	            </div>
+	            <div class="primary-context">
+	                <div class="subhead"><?= $service->industry->name ?></div>
+	            </div>
+	            <div class="secondary-context">
+	                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+	                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+	                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+	                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+	                    ex ea commodo consequat.</p>
+	            </div>
+	            <div class="action-area right">
+	                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+	            </div>
+	        </a>
+	    </div>
+	<?php } // foreach ($sektor as $key=>$sek) ?>
 </div>
 <div class="show_more"><?= Html::a('POKAŽI JOŠ', Url::to('/services'), array('class'=>'btn btn-default')); ?></div>	 
 <!-- PROVIDED SERVICES -->
@@ -115,30 +122,33 @@ use frontend\widgets\ServiceBox;
 	<h2 style="text-align:center; margin:30px 0 10px 0;">Popularne usluge</h2>
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
-	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(5)->all() as $key=>$service) {
-		echo ServiceBox::widget([
-				'serviceId' => $service->id,
-			    'containerOptions' => null,
-			    'link' => '/s/'.mb_strtolower(str_replace(' ', '-', $service->csServicesTranslations[0]->name)),
-			    'image' => [
-			    	'source'=>'info_docs'.($key+1).'.jpg',
-			    	'style'=>'height:150px;'
-			    ],
-			    'name' => $service->csServicesTranslations[0]->name,
-			    'description' => $service->csServicesTranslations[0]->name,
-			    'stats' => [
-			    	'orders'=> 346,
-			    	'providers' => 71,
-			    	'promotions' => 102,
-			    ],
-			    'price' => [
-			    	'amount'=> 450,
-			    	'currencyCode' => 'RSD',
-			    	'unit' => 'm',
-			    ],
-			    'actionButton' => '',
-			]);
-	} // foreach ($sektor as $key=>$sek) ?>
+	<?php foreach (CsServices::find()->where('industry_id=101 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
+		<div class="card_container record-270 grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
+	        <a href="<?= Url::to('/services') ?>">
+	            <div class="media-area">                
+	                <div class="image">
+	                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+	                </div>
+	                <div class="primary-context in-media">
+	                    <div class="head"><?= $service->name ?></div>
+	                </div>
+	            </div>
+	            <div class="primary-context">
+	                <div class="subhead"><?= $service->industry->name ?></div>
+	            </div>
+	            <div class="secondary-context">
+	                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+	                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+	                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+	                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+	                    ex ea commodo consequat.</p>
+	            </div>
+	            <div class="action-area right">
+	                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+	            </div>
+	        </a>
+	    </div>
+	<?php } // foreach ($sektor as $key=>$sek) ?>
 </div>
 <div class="show_more"><?= Html::a('POKAŽI JOŠ', Url::to('/services'), array('class'=>'btn btn-default')); ?></div>
 

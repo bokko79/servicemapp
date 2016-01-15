@@ -12,10 +12,491 @@ use yii\helpers\ArrayHelper;
 use yii\data\Pagination;
 use frontend\models\CsServices;
 use frontend\widgets\ServiceBox;
+
+use dosamigos\google\maps\LatLng;
+use dosamigos\google\maps\overlays\InfoWindow;
+use dosamigos\google\maps\overlays\Marker;
+use dosamigos\google\maps\Map;
+
+$model = frontend\models\User::findOne(1);
+$coord = new LatLng(['lat' => $model->userDetails->loc->lat, 'lng' => $model->userDetails->loc->lng]);
+$map = new Map([
+    'center' => $coord,
+    'zoom' => 14,
+    
+]);
+
+$map->width = '100%';
+$map->height = '431';
+
+
+// Lets add a marker now
+$marker = new Marker([
+    'position' => $coord,
+    'title' => 'My Home Town',
+]);
+
+// Add marker to the map
+$map->addOverlay($marker);
+
+$map2 = new Map([
+    'center' => $coord,
+    'zoom' => 14,
+    
+]);
+
+$map2->width = '100%';
+$map2->height = '176';
+
+
+// Lets add a marker now
+$marker2 = new Marker([
+    'position' => $coord,
+    'title' => 'My Home Town',
+]);
+
+// Add marker to the map
+$map2->addOverlay($marker2);
 ?>
 <div class="site-index">
 <div class="body-content">
     <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="media-area">                
+                <div class="image">
+                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+                </div>
+            </div>
+            <div class="primary-context">
+                <div class="head">Heading</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat.</p>
+            </div>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+            </div>
+        </a>
+    </div>
+
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="media-area">                
+                <div class="image">
+                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+                </div>
+            </div>
+            <div class="primary-context in-media">
+                <div class="head">Heading</div>
+            </div>
+            <div class="secondary-context">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat.</p>
+            </div>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+            </div>
+        </a>
+    </div>
+
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="header-context">                
+                <div class="avatar">
+                    <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
+                </div>
+                <div class="title">
+                    <div class="head second">Masterplan</div>
+                    <div class="subhead"><?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?></div> 
+                </div>
+                <div class="subaction">
+                    <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?>    
+                </div>
+            </div>
+            <div class="media-area">                
+                <div class="image">
+                    <?= $map2->display() ?>                   
+                </div>
+            </div>
+            <div class="primary-context">
+                <div class="head">Heading</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat.</p>
+            </div>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            
+            <div class="primary-context">
+                <div class="head">Congratulations</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>You have successfully created your Yii-powered application.</p>
+            </div>
+            <div class="action-area right">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-warning']); ?>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">            
+            <div class="primary-context">
+                <div class="head">Heading</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>You have successfully created your Yii-powered application.</p>
+            </div>
+            <div class="action-area right">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-success']); ?>
+            </div>
+        </a>
+    </div>
+
+    <div class="card_container teaser-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="header-context">                
+                <div class="avatar">
+                    <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
+                </div>
+                <div class="title">
+                    <div class="head second">Masterplan</div>
+                    <div class="subhead"><?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?></div> 
+                </div>
+                <div class="subaction">
+                    <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?>    
+                </div>
+            </div>
+            <div class="media-area">                
+                <div class="image">
+                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+                </div>
+            </div>
+            <div class="primary-context">
+                <div class="head">Heading</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat.</p>
+            </div>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+            </div>
+        </a>
+    </div>
+
+    <div class="card_container teaser-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="header-context">                
+                <div class="avatar">
+                    <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
+                </div>
+                <div class="title">
+                    <div class="head second">Masterplan</div>
+                    <div class="subhead"><?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?></div> 
+                </div>
+                <div class="subaction">
+                    <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?>    
+                </div>
+            </div>
+            <div class="media-area">                
+                <div class="image">
+                    <?= $map->display() ?>                    
+                </div>
+            </div>
+            <div class="primary-context">
+                <div class="head">Heading</div>
+                <div class="subhead">Lorem ipsum</div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat.</p>
+            </div>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info']); ?>
+            </div>
+        </a>
+    </div>
+
+    <div class="card_container teaser-200 grid-item fadeInUp animated" id="card_container" style="float:none; clear:both;">
+        <a href="<?= Url::to('/services') ?>">            
+            <div class="media-area square">                
+                <div class="image">
+                    <?= Html::img('@web/images/cards/default_avatar.jpg') ?>               
+                </div>
+            </div>
+            <div class="primary-context in-media">
+                <div class="head">Heading</div>
+            </div>            
+            <div class="action-area right">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
+            </div>
+        </a>
+    </div>
+
+    <div class="card_container record-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="header-context">                
+                <div class="avatar">
+                    <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
+                </div>
+                <div class="title">
+                    <div class="head second">Masterplan</div>
+                    <div class="subhead"><?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?></div> 
+                </div>
+                <div class="subaction">
+                    <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?>    
+                </div>
+            </div>
+            <table class="main-context"> 
+                <tr>
+                    <td class="body-area">
+                        <div class="primary-context">
+                            <div class="head">Heading</div>
+                            <div class="subhead">Lorem ipsum</div>
+                        </div>
+                        <div class="secondary-context cont">
+                            <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                            <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                            <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                ex ea commodo consequat.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                                fugiat nulla pariatur.</p>
+                        </div>
+                    </td>
+                    <td class="media-area">
+                        <div >                
+                            <div class="image">
+                                <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
+                            </div>
+                        </div> 
+                    </td>
+                </tr>                        
+            </table>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
+            </div>
+        </a>
+    </div>
+
+    <div class="card_container record-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="header-context">                
+                <div class="avatar">
+                    <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
+                </div>
+                <div class="title">
+                    <div class="head second">Masterplan</div>
+                    <div class="subhead"><?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?></div> 
+                </div>
+                <div class="subaction">
+                    <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?>    
+                </div>
+            </div>
+            <table class="main-context"> 
+                <tr>
+                    <td class="body-area">
+                        <div class="primary-context">
+                            <div class="head">Heading</div>
+                            <div class="subhead">Lorem ipsum</div>
+                        </div>
+                        <div class="secondary-context cont">
+                            <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                            <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                            <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                ex ea commodo consequat.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                                fugiat nulla pariatur.</p>
+                        </div>
+                    </td>
+                    <td class="media-area">
+                        <div >                
+                            <div class="image">
+                                <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
+                            </div>
+                        </div> 
+                    </td>
+                </tr>                        
+            </table>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
+            </div>
+        </a>
+            <div class="comments-area">
+                <table class="comment">
+                    <tr>
+                        <td class="avatar">
+                            <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
+                        </td>
+                        <td class="body">
+                            <div class="head second">Masterplan</div>
+                            <div class="subaction">
+                                <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?>    
+                            </div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                                        fugiat nulla pariatur.</p> 
+                        </td>                       
+                    </tr>                        
+                </table>
+            </div>
+    </div>
+
+
+    <div class="card_container record-650 list-item fadeInUp animated" id="card_container" style="float:none; border-left-color: green;">
+        <a href="<?= Url::to('/services') ?>">
+            
+            <table class="main-context"> 
+                <tr>
+                    <td class="body-area">
+                        <div class="primary-context">
+                            <div class="head">Devon Konstalting</div>
+                            <div class="subhead">Beograd, Srbija</div>
+                            <span class="label label-success">arhitekta</span>
+                            <span class="label label-primary">izdavanje nekretnina</span>
+                        </div>
+                        <div class="secondary-context cont">
+                            <span><i class="fa fa-globe"></i>&nbsp;164</span>
+                            <span>&nbsp;<i class="fa fa-users"></i>&nbsp;283</span>
+                            <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;90</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                dolore magna aliqua.</p>
+                        </div>
+                    </td>
+                    <td class="media-area">
+                        <div >                
+                            <div class="image">
+                                <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
+                            </div>
+                        </div> 
+                    </td>
+                </tr>                        
+            </table>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
+                <?= Html::a('<i class="fa fa-arrow-right"></i>&nbsp;'.Yii::t('app', 'View'), Url::to(), ['class'=>'btn btn-link']); ?>
+                <?= Html::a('<i class="fa fa-eye"></i>&nbsp;'.Yii::t('app', 'Review'), Url::to(), ['class'=>'btn btn-link']); ?>
+            </div>
+        </a>
+    </div>
+    <div class="card_container record-650 list-item fadeInUp animated" id="card_container" style="float:none; border-left-color: purple;">
+        <a href="<?= Url::to('/services') ?>">
+            
+            <table class="main-context"> 
+                <tr>
+                    <td class="body-area">
+                        <div class="primary-context">
+                            <div class="head">Kantarion Networks</div>
+                            <div class="subhead">Beograd, Srbija</div>
+                            <span class="label label-default">arhitekta</span>
+                            <span class="label label-default">dizajner</span>
+                            <span class="label label-primary">izdavanje nekretnina</span>
+                        </div>
+                        <div class="secondary-context cont">
+                            <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                            <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                            <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                ex ea commodo consequat.</p>
+                        </div>
+                    </td>
+                    <td class="media-area">
+                        <div >                
+                            <div class="image">
+                                <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
+                            </div>
+                        </div> 
+                    </td>
+                </tr>                        
+            </table>
+            <div class="action-area">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
+            </div>
+        </a>
+    </div>
+
+
+
+    <div class="jumbotron" style="float:none;">
+        <h1>Congratulations!</h1>
+
+        <p class="lead">You have successfully created your Yii-powered application.</p>
+
+        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+    </div>
+
+    
+
+    <?php /* $form = kartik\widgets\ActiveForm::begin([
+
+    ]); 
+    $url = \yii\helpers\Url::to(['/auto/list-services']); ?>
+    <?= $form->field(new CsServices, 'name')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(CsServices::find()->all(), 'id', 'name'),
+            'options' => ['placeholder' => 'Search for a service ...'],
+            'pluginLoading' => false,
+            'pluginOptions' => [
+                'allowClear' => true,
+                'minimumInputLength' => 3,
+                'ajax' => [
+                    'url' => $url,
+                    'dataType' => 'json',
+                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                ],
+                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                'templateResult' => new JsExpression('function(city) { return city.text; }'),
+                'templateSelection' => new JsExpression('function (city) { return city.text; }'),
+            ],
+        ]); ?>
+
+    <?php ActiveForm::end(); */ ?>
+
+<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 26 }' style="">
+     <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="media-area">                
                 <div class="image">
@@ -113,43 +594,6 @@ use frontend\widgets\ServiceBox;
             </div>
         </a>
     </div>
-
-
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    
-
-    <?php /* $form = kartik\widgets\ActiveForm::begin([
-
-    ]); 
-    $url = \yii\helpers\Url::to(['/auto/list-services']); ?>
-    <?= $form->field(new CsServices, 'name')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map(CsServices::find()->all(), 'id', 'name'),
-            'options' => ['placeholder' => 'Search for a service ...'],
-            'pluginLoading' => false,
-            'pluginOptions' => [
-                'allowClear' => true,
-                'minimumInputLength' => 3,
-                'ajax' => [
-                    'url' => $url,
-                    'dataType' => 'json',
-                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                ],
-                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                'templateResult' => new JsExpression('function(city) { return city.text; }'),
-                'templateSelection' => new JsExpression('function (city) { return city.text; }'),
-            ],
-        ]); ?>
-
-    <?php ActiveForm::end(); */ ?>
-
-<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 26 }' style="">
     <?php 
         $query = \frontend\models\CsServices::find();
         $countQuery = clone $query;
@@ -175,7 +619,7 @@ use frontend\widgets\ServiceBox;
                     'promotions' => 102,
                 ],
                 'price' => [
-                    'amount'=> 450,
+                    'amount'=> rand(1000, 10000),
                     'currencyCode' => 'RSD',
                     'unit' => 'm',
                 ],

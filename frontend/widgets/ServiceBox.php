@@ -45,7 +45,11 @@ class ServiceBox extends Widget
 
     public $name;
 
-    public $subhead;
+    public $primaryContextClass = null;
+
+    public $secondaryContextClass = null;
+
+    public $subhead = null;
 
     public $description = [];
 
@@ -76,11 +80,11 @@ class ServiceBox extends Widget
 				</div>
 				<?php } ?>
             </div>
-            <div class="primary-context">
+            <div class="primary-context <?= $this->primaryContextClass ?>">
                 <div class="head"><?= Html::a(((strlen($this->name)<30) ? $this->name : substr($this->name, 0, 30).'...'), Url::to($this->link)) ?></div>
                 <div class="subhead"><?= $this->subhead ?></div>
             </div>
-            <div class="secondary-context cont">
+            <div class="secondary-context <?= $this->secondaryContextClass ?>">
             	<span><i class="fa fa-globe"></i>&nbsp;<?= (!empty($this->stats['orders'])) ? $this->stats['orders'] : '' ?></span>
 				<span>&nbsp;<i class="fa fa-users"></i>&nbsp;<?= (!empty($this->stats['providers'])) ? $this->stats['providers'] : '' ?></span>
 				<span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;<?= (!empty($this->stats['promotions'])) ? $this->stats['promotions'] : ''  ?></span>

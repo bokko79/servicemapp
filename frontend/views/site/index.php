@@ -90,9 +90,12 @@ $map2->addOverlay($marker2);
                 <div class="image">
                     <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
                 </div>
+                <div class="primary-context in-media">
+                    <div class="head">Quis nostrud exercitation erasten</div>
+                </div>
             </div>
-            <div class="primary-context in-media">
-                <div class="head">Heading</div>
+            <div class="primary-context">
+                <div class="subhead">Heading</div>
             </div>
             <div class="secondary-context">
                 <span><i class="fa fa-globe"></i>&nbsp;7.345</span>

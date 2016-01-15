@@ -14,46 +14,30 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="posts-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-    <div class="card_container record-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
-        <a href="<?= Url::to('/services') ?>">            
-            <table class="main-context"> 
-                <tr>
-                    <td class="body-area">
-                        <div class="primary-context">
-                            <div class="head"><?= $model->title ?></div>
-                            <div class="subhead"><?= $model->postCategory->ime ?></div>
-                        </div>
-                        <div class="secondary-context cont">
-                            <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
-                            <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
-                            <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
-                            <?= $model->body ?>
-                        </div>
-                    </td>
-                    <td class="media-area">
-                        <div >                
-                            <div class="image">
-                                <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
-                            </div>
-                        </div> 
-                    </td>
-                </tr>                        
-            </table>
-            <div class="action-area right">
-                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Comment'), Url::to(), ['class'=>'btn btn-link']); ?>
+    <div class="card_container record-full" id="card_container" style="float:none;">
+        <a href="<?= Url::to('/services') ?>">
+            <div class="header-context page-title">
+                <h1><?= $model->title ?></h1>
+                <h4><?= $model->postCategory->ime ?></h4>
             </div>
+            <div class="media-area">                
+                <div class="image">
+                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
+                </div>
+            </div>
+            <div class="primary-context">
+                <h1><?= $model->title ?></h1>
+                <div class="subhead"><?= $model->postCategory->ime ?></div>
+            </div>
+            <div class="secondary-context cont">
+                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
+                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
+                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
+                <?= $model->body ?>
+            </div>
+            <div class="action-area right">
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
+            </div>            
         </a>
             <div class="action-area normal-case">
                 <?= Html::a(Yii::t('app', 'Comments').'&nbsp;<i class="fa fa-caret-down"></i>', null, ['class'=>'btn btn-link comment-link']); ?>

@@ -130,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="title">
                     <div class="head second">Masterplan</div>
-                    <div class="subhead"><?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?></div> 
+                    <div class="subhead">Novi Sad, Srbija</div> 
                 </div>
                 <div class="subaction">
                     <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?>    
@@ -140,8 +140,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <tr>
                     <td class="body-area">
                         <div class="primary-context">
-                            <div class="head">Heading</div>
-                            <div class="subhead">Lorem ipsum</div>
+                            <div class="head">Izdavanje apartmana</div>
+                            <div class="subhead">Izdavanje nekretnina</div>
                         </div>
                         <div class="secondary-context cont">
                             <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
@@ -220,7 +220,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				                </table>
 	                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
 	                                        dolore magna aliqua..</p> 
-	                           
+
 	                        </td>                       
 	                    </tr>                        
 	                </table>

@@ -27,30 +27,37 @@ use yii\helpers\Url;
         <div class="grid-right media_right_sidebar">
             <?php // Menu ?>
             <?php // News/Ads ?>
-
-            <div class="card_container teaser-270 grid-item fadeInUp animated" id="card_container" style="float:none;">
-                <a href="<?= Url::to('/services') ?>">
-                    <div class="media-area">                
-                        <div class="image">
-                            <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
-                        </div>
+            
+            <div class="card_container record-270 no-shadow fadeInUp animated" id="card_container" style="float:none;">
+                <a href="<?= Url::to('/posts') ?>">
+                    
+                    <table class="main-context"> 
+                        <tr>
+                            <td class="body-area">
+                                <div class="primary-context">
+                                    <div class="head">Kantarion Networks</div>
+                                    <div class="subhead">Beograd, Srbija</div>                                   
+                                </div>                                
+                            </td>
+                            <td class="media-area">
+                                <div >                
+                                    <div class="image">
+                                        <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
+                                    </div>
+                                </div> 
+                            </td>
+                        </tr>                        
+                    </table>
+                    <div class="secondary-context tease">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua.</p>
                     </div>
-                    <div class="primary-context">
-                        <div class="head">Heading</div>
-                        <div class="subhead">Lorem ipsum</div>
-                    </div>
-                    <div class="secondary-context cont">
-                        <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
-                        <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
-                        <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
-                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat.</p>
-                    </div>
-                    <div class="action-area">
-                        <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
+                    <div class="action-area right">
+                        <?= Html::a('<i class="fa fa-bookmark"></i>&nbsp;'.Yii::t('app', 'Read more'), Url::to(), ['class'=>'btn btn-link']); ?>
                     </div>
                 </a>
             </div>
+
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

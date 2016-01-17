@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
 ?>          
-<div class="card_container record-650 list-item fadeInUp animated" id="card_container" style="float:none; border-left-color: purple;">
+<div class="card_container record-650 list-item color-border fadeInUp animated" id="card_container" style="float:none; border-left-color: purple;">
     <a href="<?= Url::to('/services') ?>">
         
         <table class="main-context"> 

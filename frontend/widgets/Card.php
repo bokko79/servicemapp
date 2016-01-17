@@ -12,6 +12,7 @@ use yii\base\Widget;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * Card displays a card on the left sidebar.
@@ -44,36 +45,23 @@ class Card extends Widget
     {
         if($this->cardData['pic']==null){
             $this->cardData['pic'] = 'default_avatar';
-        }
-        echo Html::img(Yii::$app->homeUrl.'images/cards/'.$this->cardData['pic'].'.jpg', ['alt'=>'Profile card', 'class'=>'card-image', 'style'=>'', 'width'=>200]);?>        
+        } ?>
 
-        <?php
-            if($this->scroller): ?>
-            
-            <div class="scroll_card fadeIn animated">       
-                <span class="category_name">
-                    <span class="sub"><?php echo $this->cardData['subSection']; ?></span>
-                    <span class="head_user"><?php echo $this->cardData['headSection']; ?></span>
-                </span>
-            </div>
-            <div class="card scroller_fix fadeIn animated">                 
-                <div id="user_display" style="position: relative;">
-                    <div id="upper_category_filter_display">
-                            
-                            <span class="first">
-                                <?php echo $this->cardData['icon']; ?>
-                            </span>                 
-                            <span class="second">                           
-                                <span class="category_name">
-                                    <span class="sub"><?php echo $this->cardData['subtitle']; ?></span>
-                                    <span class="head_user"><?php echo $this->cardData['title']; ?></span>
-                                </span>
-                            </span>
-                            
+            <div class="card_container record-200 grid-item fadeInUp animated clear-margins" id="card_container" style="float:none; clear:both;">
+                <a href="<?= Url::to('/') ?>">            
+                    <div class="media-area square">                
+                        <div class="image">
+                            <?= Html::img(Yii::$app->homeUrl.'images/cards/'.$this->cardData['pic'].'.jpg', ['alt'=>'Profile card']) ?>               
+                        </div>
+                        <?php if($this->scroller): ?>
+                        <div class="primary-context in-media dark right">
+                            <div class="head"><?php echo $this->cardData['head']; ?></div>
+                            <div class="subhead"><?php echo $this->cardData['subhead']; ?></div>
+                        </div>
+                        <?php endif; ?>
                     </div>
-                </div>  
-            </div> <!-- KRAJ card -->
-        <?php endif; ?>
+                </a>
+            </div>
 
 
         <?php

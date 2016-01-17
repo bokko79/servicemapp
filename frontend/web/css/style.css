@@ -120,9 +120,9 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 .center {text-align: center;}
 
 /* floats */
-.float_left {float: left;}
-.float_right {float: right;}
-.float_none {float: none;}
+.float-left {float: left;}
+.float-right {float: right;}
+.float-none {float: none;}
 
 /* font-weight */
 .thin {font-weight: 100;}
@@ -256,7 +256,7 @@ input, button, select, textarea { font-weight: 400; font-family: 'Roboto', Arial
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus { border: 1px solid #2196F3; box-shadow: 0 0 5px #82B1FF; -moz-box-shadow: 0 0 5px #82B1FF;}
 
 select, input, textarea {border:1px solid #dddddd;}
-select, input[type="text"], input[type="password"], input[type="number"], input[type="email"] {height: 30px; border-radius: 2px;}
+select, input[type="text"], input[type="password"], input[type="number"], input[type="email"] {height: 34px; border-radius: 2px;}
 select {font-weight: 700; padding-left:10px;}
 
 button::-moz-focus-inner,input::-moz-focus-inner {padding:0;border:0}
@@ -679,7 +679,7 @@ img.card-image {width:200px; height:200px; box-shadow: 0px 0px 6px #444;}
 
 /* ----------------- 34.2. MAIN CONTENT: TITLES */
 
-.title_holder_home, .pageTitle {display: block; background: #F6F7F8; border-radius: 0px; padding: 10px; border:1px solid #ddd; border-bottom: none;}
+.title_holder_home, .pageTitle {display: block; background: #F6F7F8; border-radius: 0px; padding: 16px; border:1px solid #ddd; border-bottom: none;}
 .pageTitle {border-top:none;}
 .title_holder_home h2, .title_holder_home h3 {margin: 0; text-align: left; letter-spacing: -1px;}
 .title_holder_home h3 {opacity: .6;}
@@ -776,6 +776,7 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 ----------------------------- */
 
 /* ----------------- 36.1. RIGHT SIDEBAR: UPPER STATS */
+.media_right_sidebar {margin-top: 20px;}
 
 .upper_stat_container {width:270px; height: 84px; background: transparent; margin-bottom:20px;}
 .stat_box_cont {height:84px; width:84px; margin: 0 9px 0 0; float:left; background: #FFFFFF; border-radius: 0px; box-shadow: 0px -1px 3px #ccc;/* background-image: linear-gradient(to bottom,#455A64,#263238);*/}

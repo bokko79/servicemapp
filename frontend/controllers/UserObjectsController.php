@@ -35,6 +35,8 @@ class UserObjectsController extends Controller
     public function actionIndex()
     {
         $this->layout = '//user_index';
+
+        $user = \frontend\models\User::findOne(Yii::$app->user->id);
         
         $searchModel = new UserObjectsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -42,6 +44,7 @@ class UserObjectsController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'user' => $user,
         ]);
     }
 

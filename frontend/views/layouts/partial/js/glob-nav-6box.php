@@ -259,7 +259,7 @@ function sektor(){
 
         $(sub).slideToggle(300);
 
-        for (i = 1; i < 6; i++) { 
+        for (i = 1; i < 7; i++) { 
           var subindustry = '.subindustry' + i;
           if (i!=lastChar) {
             $(subindustry).slideUp(300);
@@ -267,7 +267,7 @@ function sektor(){
         }
 
         $(this).find('.popup').toggleClass('active');
-        for (i = 1; i < 6; i++) { 
+        for (i = 1; i < 7; i++) { 
           var popup = '#sektor' + i + ' .popup';
           if (i!=lastChar) {
             $(popup).removeClass('active');

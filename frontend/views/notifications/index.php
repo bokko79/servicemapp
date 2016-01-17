@@ -2,34 +2,49 @@
 
 use yii\helpers\Html;
 use yii\widgets\ListView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\NotificationsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Notifications');
+$this->title = Yii::t('app', 'My notifications');
 $this->params['breadcrumbs'][] = $this->title;
+
+$pageDescription = '<p style="font-size:12px; line-height:14px; margin:10px;">'.Yii::t('app', 'Lista mojih sačuvanih predmeta usluga i njihove karakteristike. Klikom na dugme desno "dodaj/izbaci predmet" pređite na stranicu za izbor i izaberite predmet.').'</p>';
+$pageDescription .= '<p style="font-size:12px; line-height:14px; margin:10px;">'.Yii::t('app', 'Kada izaberete Vaš predmet usluge, na ovoj stranici se nalazi spisak svih izabranih predmeta. Klikom na naslov svakog njih možete ih dodatno podešavati i tako olakšati i ubrzati kupovinu ili naručivanje usluga.').'</p>';
+$this->pageTitle = [
+    'icon' => 'bell',     
+    'title' => Html::encode($this->title),
+    'description' => null,
+    'model' => $searchModel,
+];
+
+$this->cardData = [
+    'pic' => null,        
+    'head' => ($user->fullname) ? $user->fullname : $user->username,
+    'subhead' => ($user->is_provider==1) ? 'provider' : 'user',   
+];
+
+$this->stats = [
+    ['title'=>'Zahtevi', 'value'=>163, 'sub'=>95, 'perc'=>'--'],
+    ['title'=>'Ponude', 'value'=>42, 'sub'=>'--', 'perc'=>'--'],
+    ['title'=>'Promocije', 'value'=>17, 'sub'=>'--', 'perc'=>'--'],
+];
+
+// <!-- TABS -->
+$this->tabs = [
+    ['url'=>Url::to('/index'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Index'), 'active'=>'provider/services'],
+    ['url'=>Url::to('/contact-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Contact'), 'active'=>''],
+    ['url'=>Url::to('/about-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'About'), 'active'=>''],
+    ['url'=>Url::to('/users'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Users'), 'active'=>''],
+];
 ?>
-<div class="notifications-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Notifications'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-<fieldset id="box_notification">
-    <div class="wrapper">
-        <ul class="unstyled">
-
-            <?= ListView::widget([
-                'dataProvider' => $dataProvider,
-                'itemView' => '_view',
-            ]) ?>
-
-        </ul>
-    </div><!-- <div class="wrapper"> -->
-</fieldset><!-- <fieldset id="box_notification"> -->
-
+<div class="list-container">
+    <?= ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => '_view',
+        'summary' => false,
+    ]) ?>
 </div>

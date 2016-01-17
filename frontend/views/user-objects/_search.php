@@ -1,29 +1,41 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
+use kartik\widgets\ActiveForm;
+use kartik\select2\Select2; // or kartik\select2\Select2
+use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\UserObjectsSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<h5 class="search-index" style="margin: 20px 10px 0; cursor: pointer"><i class="fa fa-search"></i> <?= Yii::t('app', 'Search') ?> <i class="fa fa-caret-down"></i></h5>
+<div class="user-objects-search fadeInDown animated" style="margin: 20px 10px; display:none;">
 
-<div class="user-objects-search">
-
+    
+     
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'type' => ActiveForm::TYPE_INLINE
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'object_id', [
+                    'options' =>['style'=>''],
+                    'addon' => [
+                        'append' => [
+                            'content' => Html::submitButton('Go', ['class'=>'btn btn-primary']), 
+                            'asButton' => true
+                        ]
+                    ],
+                ])->widget(Select2::classname(), [
+                        'data' => ArrayHelper::map(\frontend\models\CsObjects::find()->all(), 'id', 'name'),
+                        'options' => ['placeholder' => 'Select object type ...'],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]) ?>
 
-    <?= $form->field($model, 'user_id') ?>
-
-    <?= $form->field($model, 'object_id') ?>
-
-    <?= $form->field($model, 'object_type_id') ?>
-
-    <?= $form->field($model, 'ime') ?>
+    <?php //= Html::submitButton(Yii::t('app', 'Go'), ['class' => 'btn btn-primary']) ?>
 
     <?php // echo $form->field($model, 'loc_id') ?>
 
@@ -33,10 +45,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'update_time') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
-    </div>
+    
 
     <?php ActiveForm::end(); ?>
 

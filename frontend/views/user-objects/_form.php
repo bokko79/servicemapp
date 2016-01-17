@@ -18,7 +18,7 @@ use PetraBarus\Yii2\GooglePlacesAutoComplete\GooglePlacesAutoComplete;
         'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
     ]); ?>
         <fieldset class="settings new_object_atts" style="margin-bottom:10px !important;">
-            <div class="wrapper addition" style="">
+            <div class="wrapper headline" style="">
 
                 <label class="head">
                     <i class="fa fa-map-marker"></i>&nbsp;
@@ -27,7 +27,7 @@ use PetraBarus\Yii2\GooglePlacesAutoComplete\GooglePlacesAutoComplete;
                 <i class="fa fa-chevron-right chevron"></i>
             </div>
 
-            <div class="wrapper location" style="border-top:none;margin-bottom:10px !important;">
+            <div class="wrapper" style="border-top:none;margin-bottom:10px !important;">
 
                 <?= $form->field($model, 'object_id', [
                     'feedbackIcon' => [

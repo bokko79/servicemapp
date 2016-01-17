@@ -41,7 +41,11 @@
         "fxp/composer-asset-plugin": "~1.1",
         "yiidoc/yii2-timeago": "dev-master",
         "petrabarus/yii2-googleplacesautocomplete": "*",
-        "shiyang/yii2-masonry": "*"
+        "shiyang/yii2-masonry": "*",
+        "bower-asset/angular": "*",
+        "bower-asset/angular-route": "*",
+        "bower-asset/angular-strap": "*",
+        "kartik-v/yii2-builder": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

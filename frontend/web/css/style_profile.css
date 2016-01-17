@@ -34,7 +34,7 @@
 .profile_head .title_track ul li {padding: 15px 0 11px;}
 .profile_head .title_track ul li:hover, .profile_head .title_track ul li.active {background:#F6F7F8; border-bottom:4px solid #2196F3; box-shadow:none;}
 .profile_head .title_track ul li:hover a, .profile_head .title_track ul li.active a {color: #000;}
-.profile_head .navpro-tabs>li>a {text-transform: uppercase;font-size: 11px;font-weight: 900;color: #000;border:none;}
+.navpro-tabs>li>a {text-transform: uppercase;font-size: 11px;font-weight: 900;color: #000;border:none;}
 
 
 /* UPPER STATS */

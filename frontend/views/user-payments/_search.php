@@ -1,59 +1,36 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\UserPaymentsSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="user-payment-search">
-
+<h5 class="search-index" style="margin: 20px 10px 0; cursor: pointer"><i class="fa fa-search"></i> <?= Yii::t('app', 'Search') ?> <i class="fa fa-caret-down"></i></h5>
+<div class="user-objects-search fadeInDown animated" style="margin: 20px 10px; display:none;">    
+     
     <?php $form = ActiveForm::begin([
-        'action' => ['index'],
         'method' => 'get',
+        'type' => ActiveForm::TYPE_INLINE
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
-
-    <?= $form->field($model, 'user_id') ?>
-
-    <?= $form->field($model, 'payment_type') ?>
-
-    <?= $form->field($model, 'details') ?>
-
-    <?= $form->field($model, 'card_no') ?>
-
-    <?php // echo $form->field($model, 'exp_mnth') ?>
-
-    <?php // echo $form->field($model, 'exp_year') ?>
-
-    <?php // echo $form->field($model, 'scc') ?>
-
-    <?php // echo $form->field($model, 'first_name') ?>
-
-    <?php // echo $form->field($model, 'last_name') ?>
-
-    <?php // echo $form->field($model, 'street') ?>
-
-    <?php // echo $form->field($model, 'city') ?>
-
-    <?php // echo $form->field($model, 'zip') ?>
-
-    <?php // echo $form->field($model, 'country') ?>
-
-    <?php // echo $form->field($model, 'status') ?>
-
-    <?php // echo $form->field($model, 'time') ?>
-
-    <?php // echo $form->field($model, 'opis') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
-    </div>
+    <?= $form->field($model, 'payment_type', [
+                    'options' =>['style'=>''],
+                    'addon' => [
+                        'append' => [
+                            'content' => Html::submitButton('Go', ['class'=>'btn btn-primary']), 
+                            'asButton' => true
+                        ]
+                    ],
+                ])->dropDownList([
+                    'MasterCard' => 'MasterCard', 
+                    'Visa' => 'Visa', 
+                    'AmericanExpress' => 'AmericanExpress', 
+                    'PayPal' => 'PayPal'
+                    ]) ?>
+    
 
     <?php ActiveForm::end(); ?>
-
 </div>

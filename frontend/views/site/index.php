@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 use kartik\select2\Select2; // or kartik\select2\Select2
+use kartik\checkbox\CheckboxX;
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
 use yii\data\Pagination;
@@ -58,6 +59,9 @@ $marker2 = new Marker([
 // Add marker to the map
 $map2->addOverlay($marker2);
 ?>
+
+<?= (Yii::$app->request->url=='/index') ? 'yes' : 'no' ?>
+
 <div class="site-index">
 <div class="body-content">
     <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
@@ -109,6 +113,33 @@ $map2->addOverlay($marker2);
             </div>
         </a>
     </div>
+
+
+    <?php $form = kartik\widgets\ActiveForm::begin([
+        'id' => 'form-horizontal',
+        'type' => ActiveForm::TYPE_VERTICAL,        
+    ]); ?>
+    <label class="cbx-label" for="s_1">
+    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">        
+            <div class="media-area square">                
+                <div class="image">
+                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                                        
+                </div>
+                <div class="primary-context in-media dark">
+                    <div class="head">Quis nostrud exercitation erasten aboris nisi ut aliquip</div>
+                </div>
+                <div class="action-area" style="height:40px; position: absolute; top:0; right:0;">
+                    <?= CheckboxX::widget([
+                        'name'=>'s_1',
+                        'options'=>['id'=>'s_1'],
+                        'pluginOptions'=>['threeState'=>false]
+                    ]) ?>
+                </div> 
+            </div>            
+                  
+    </div>
+    </label>
+    <?php ActiveForm::end(); ?>
 
     <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">

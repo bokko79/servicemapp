@@ -1,4 +1,5 @@
 /* containers */
+.list-container {border-bottom: 1px solid #ddd;}
 .card_container, #card_container {margin:0; padding:0; border-radius: 2px; box-shadow: 0px 2px 5px #777; background: #fff; float: left; position: relative;}
 .card_container:hover {box-shadow: 0px 0px 20px #777; cursor: pointer;}
 .card_container.record-full, .card_container.teaser-full {width:100%; margin-bottom: 26px !important;}
@@ -6,11 +7,17 @@
 .card_container.record-320, .card_container.teaser-320 {width:312px; margin-bottom: 26px !important;}
 .card_container.record-270, .card_container.teaser-270 {width:270px; margin-bottom: 26px !important;}
 .card_container.record-200, .card_container.teaser-200 {width:200px; margin-bottom: 26px !important;}
-.card_container.list-item {box-shadow: none !important; margin: 0 !important; border-left: 3px solid;}
+.card_container.clear-margins {margin:0 !important;}
+.card_container.list-item {box-shadow: none !important; margin: 0 !important; border-left: 1px solid #ddd; border-right: 1px solid #ddd;}
+.card_container.list-item.color-border {border-left: 3px solid;}
 .card_container.no-shadow {box-shadow: none !important; border: 1px solid #ddd;}
+
+.card_container.card-tile {border-radius: 0px !important; margin:0 !important;}
 /* general */
 .card_container .head {font-size: 24px; font-weight: 500; float:none; width:100%; line-height: 24px; padding-bottom: 8px;}
+.card_container .head.lower {font-size: 16px; line-height: 16px; padding-top: 4px; font-weight: 900;}
 .card_container .head.second {font-size: 14px; line-height: 14px; padding-top: 4px; font-weight: 700;}
+.dim {opacity:.36;}
 .card_container .subhead {font-size: 14px; font-weight: 400; color:#999; float:none; width:100%; line-height: 14px;}
 .card_container p {font-size: 13px; margin:0; padding:0; line-height: 16px; color: #666;}
 .card_container > a {color:black;}
@@ -19,7 +26,7 @@
 .card_container .avatar {float:left;width: 40px;}
 .card_container .avatar img {width: 40px; height: 40px; border-radius: 20px;}
 .card_container .title {float:left; padding-left: 16px;}
-.card_container .subaction {float:right; font-size: 85%; color:#aaa;}
+.card_container .subaction {float:right; font-size: 11px; color:#aaa; font-weight: 400;}
 /* header */
 .header-context {padding:16px; height: 72px;}
 .header-context.page-title {padding:16px; height: auto; background: #f6f7f8;}
@@ -29,7 +36,8 @@
 .main-context .body-area {}
 /* rich-media */
 .media-area {position: relative;}
-.main-context .media-area {padding: 16px 16px 0;}
+.main-context .media-area {padding: 16px 16px 0 0;}
+.main-context .media-area .left {padding: 16px 0 16px 16px;}
 .record-full .main-context .media-area .image, .record-full .main-context .media-area .image img {width:312px; height:312px;}
 .record-650 .main-context .media-area .image, .record-650 .main-context .media-area .image img {width:152px; height:152px;}
 .record-320 .main-context .media-area .image, .record-320 .main-context .media-area .image img {width:112px; height:112px;}
@@ -45,7 +53,12 @@
 /* primary context */
 .primary-context {padding:24px 16px 16px;}
 .primary-context.in-media {padding:0px 16px 8px; position: absolute;  bottom: 0; color:#fff; text-shadow: 1px 1px 2px #000;}
+.primary-context.in-media.dark {padding:8px 16px 8px; background-image: linear-gradient(to top,rgba(69,90,100,.75),#607D8B); width: 100%;}
+.primary-context.in-media.dark .head {padding-bottom: 0px; text-shadow: 0px 0px 1px #444; font-weight: 700; font-size: 20px; line-height: 20px;}
+.primary-context.in-media.dark .subhead {text-shadow: 0px 0px 1px #444; color:#ccc; font-size: 12px; line-height: 12px;}
+.primary-context.right {text-align: right;}
 .primary-context.full {padding:24px 16px;}
+.card-tile .primary-context, .primary-context.small-margin {padding:16px 16px 0px;}
 /* secondary-context */
 .secondary-context {padding:16px;}
 .secondary-context.cont {padding-top:0px;}
@@ -56,11 +69,12 @@
 .built-in-context {width: 100%; height: auto; padding: 16px; margin: -16px;}
 /* action-area */
 .action-area {padding:8px; height: 48px;}
-.action-area a {font-weight: 700; text-transform: uppercase; font-size: 13px;}
+.action-area a {font-weight: 700; text-transform: uppercase; font-size: 13px; margin-right: 4px;}
 .action-area.normal-case {padding: 4px 8px 0; background: #f6f7f8; height: 36px;}
 .action-area.normal-case a {text-transform: none;}
-.action-area .left {float: left;}
-.action-area .right {float: right;}
+.action-area.right a {margin-left: 4px;}
+.primary-context .head .action-area {padding-top: 0; float: right;}
+.primary-context .head .action-area a {margin: 0;}
 /* bids-area & comments-area */
 .bids-area, .comments-area {min-height: 72px; display:none;}
 .comments-area {background: #f6f7f8;}

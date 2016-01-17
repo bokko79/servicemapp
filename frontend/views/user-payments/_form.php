@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
+use kartik\builder\Form;
+use kartik\builder\FormGrid;
 use kartik\widgets\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
@@ -12,61 +14,161 @@ use yii\helpers\ArrayHelper;
 ?>
     <?php $form = kartik\widgets\ActiveForm::begin([
         'id' => 'form-horizontal',
-        'type' => ActiveForm::TYPE_HORIZONTAL,
-        'fullSpan' => 12,      
-        'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+        'type' => ActiveForm::TYPE_VERTICAL,        
     ]); ?>
         <fieldset class="settings new_object_atts" style="margin-bottom:10px !important;">
-            <div class="wrapper addition" style="">
+            <div class="wrapper headline" style="">
 
                 <label class="head">
                     <i class="fa fa-map-marker"></i>&nbsp;
-                    <?php echo Yii::t('app', 'aaa'); ?>
+                    <?php echo Yii::t('app', 'Account info'); ?>
                 </label>
                 <i class="fa fa-chevron-right chevron"></i>
             </div>
 
-            <div class="wrapper location" style="border-top:none;margin-bottom:10px !important;">
-
-                <?= $form->field($model, 'user_id')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'payment_type')->radioButtonGroup([ 'MasterCard' => 'MasterCard', 'Visa' => 'Visa', 'AmericanExpress' => 'AmericanExpress', 'PayPal' => 'PayPal', ], ['fullSpan' => 12, 'class' => 'btn-group-xs',
-    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-success']]]) ?>
-
-                <?= $form->field($model, 'details')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'card_no')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'exp_mnth')->dropDownList([ 1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10', 11 => '11', 12 => '12', ], ['prompt' => '']) ?>
-
-                <?= $form->field($model, 'exp_year')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'scc')->textInput(['maxlength' => true, 'options'=>['class'=>'col-sm-9']]) ?>
-
-                <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'street')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'zip')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'status')->dropDownList([ 'active' => 'Active', 'inactive' => 'Inactive', 'banned' => 'Banned', ], ['prompt' => '']) ?>
-
-                <?= $form->field($model, 'time')->textInput() ?>
-
-                <?= $form->field($model, 'opis')->textInput() ?>
+            <div class="wrapper body fadeIn animated" style="border-top:none;">
+<?php
+        echo FormGrid::widget([
+            'model'=>$model,
+            'form'=>$form,
+            'autoGenerateColumns'=>true,
+            'rows'=>[
+                [
+                    'options' => ['tag'=>'div', 'class'=>'row', 'style'=>'margin-left:30px;'],
+                    'attributes'=>[
+                        'payment_type'=>[
+                            'type'=>Form::INPUT_RAW,
+                            'value'=> $form->field($model, 'payment_type')->radioButtonGroup([ 'MasterCard' => 'Master Card', 'Visa' => 'Visa', 'AmericanExpress' => 'American Express', 'PayPal' => 'PayPal',], [
+                                                                                                'class' => '',
+                                                                                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info']]
+                                                                                            ]),
+                        ],                        
+                    ]
+                ],
+                [
+                    'options' => ['tag'=>'div'],
+                    'attributes'=>[
+                        'details'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter username...']],
+                        'card_no'=>[
+                            'type'=>Form::INPUT_WIDGET,
+                            'widgetClass'=>'\yii\widgets\MaskedInput',
+                            'options'=>[
+                                'mask' => '9999 9999 9999 9',
+                            ],
+                        ],
+                    ]
+                ],
+                [
+                    'options' => ['tag'=>'div'],
+                    'autoGenerateColumns'=>false,
+                    'columns'=>12,
+                    'attributes'=>[
+                        'exp_mnth'=>[
+                            'type'=>Form::INPUT_DROPDOWN_LIST, 
+                            'items'=>[ 1 => 'Januar', 2 => 'Februar', 3 => 'Mart', 4 => 'April', 5 => 'Maj', 6 => 'Jun', 7 => 'Jul', 8 => 'Avgust', 9 => 'Septembar', 10 => 'Oktobar', 11 => 'Novembar', 12 => 'Decembar', ], 
+                            'hint'=>'Type and select state',
+                            'columnOptions'=>['colspan'=>6],
+                        ],
+                        'exp_year'=>[
+                            'type'=>Form::INPUT_HTML5, 
+                            'options'=>['placeholder'=>'Enter year...', 'value'=>date('Y')], 
+                            'html5type'=>'number',
+                            'columnOptions'=>['colspan'=>3],
+                        ],
+                        'scc'=>[
+                            'type'=>Form::INPUT_HTML5, 
+                            'options'=>['placeholder'=>'Enter year...'], 
+                            'html5type'=>'number',
+                            'columnOptions'=>['colspan'=>3],
+                        ],
+                    ]
+                ]
+            ]
+        ]); ?>
             </div>
 
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
-                    <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-                </div>                
-            </div>            
+            <div class="wrapper headline">
+
+                <label class="head">
+                    <i class="fa fa-map-marker"></i>&nbsp;
+                    <?php echo Yii::t('app', 'User profile info'); ?>
+                </label>
+                <i class="fa fa-chevron-right chevron"></i>
+            </div>
+
+            <div class="wrapper body" style="border-top:none;">
+<?php
+        echo FormGrid::widget([
+            'model'=>$model,
+            'form'=>$form,
+            'autoGenerateColumns'=>true,
+            'rows'=>[                
+                [
+                    'options' => ['tag'=>'div'],
+                    'attributes'=>[
+                        'first_name'=>[
+                            'type'=>Form::INPUT_TEXT, 
+                            'options'=>['placeholder'=>'Enter first name...'],
+                        ],
+                        'last_name'=>[
+                            'type'=>Form::INPUT_TEXT, 
+                            'options'=>['placeholder'=>'Enter last name...'],
+                        ],
+                    ]
+                ],
+                [
+                    'options' => ['tag'=>'div'],
+                    'attributes'=>[
+                        'street'=>[
+                            'type'=>Form::INPUT_TEXT, 
+                            'options'=>['placeholder'=>'Enter address...'],
+                            'columnOptions'=>['colspan'=>3],
+                        ],
+                        'zip'=>[
+                            'type'=>Form::INPUT_HTML5, 
+                            'options'=>['placeholder'=>'Zip...'],
+                            'columnOptions'=>['colspan'=>1],
+                            'html5type'=>'number',
+                        ],
+                        'city'=>[
+                            'type'=>Form::INPUT_TEXT, 
+                            'options'=>['placeholder'=>'city...'],
+                            'columnOptions'=>['colspan'=>2],
+                        ],
+                        'country'=>[
+                            'type'=>Form::INPUT_TEXT, 
+                            'options'=>['placeholder'=>'country...'],
+                            'columnOptions'=>['colspan'=>2],
+                        ],
+                    ]
+                ],
+            ]
+        ]); ?>
+            </div>
+
+<?php
+        echo FormGrid::widget([
+            'model'=>$model,
+            'form'=>$form,
+            'autoGenerateColumns'=>true,
+            'rows'=>[                                
+                [
+                    'options' => ['tag'=>'div'],
+                    'attributes'=>[ 
+                        
+                        'actions'=>[    // embed raw HTML content
+                            'type'=>Form::INPUT_RAW, 
+                            'value'=>  '<div style="text-align: right; margin-top: 20px">' . 
+                                Html::resetButton('Reset', ['class'=>'btn btn-default']) . ' ' .
+                                Html::submitButton('Submit', ['class'=>'btn btn-primary']) . 
+                                '</div>'
+                        ],
+                    ],
+                ],
+            ]
+        ]); ?>
+
+                        
         </fieldset>
     <?php ActiveForm::end(); ?>
 

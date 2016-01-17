@@ -32,17 +32,19 @@ class PageTitle extends Widget
 {
     public $titleData=array();
 
-
     /**
      * Renders the widget
      */
     public function run()
     {
+        $this->titleData['search'] = null;
         echo '<div class="title_holder_home" style="">';
-            echo '<h1 style="margin-top:0;"><table><tr><td class="icon"><i class="fa '.$this->titleData['icon'].'"></i></td>';
+            echo '<h1 style="margin-top:0;"><table><tr><td class="icon"><i class="fa fa-'.$this->titleData['icon'].'"></i></td>';
             echo '<td>'.$this->titleData['title'].'</td></tr></table></h1>';
+            echo $this->titleData['description'];
 
-            echo '<p>'.$this->titleData['description'].'</p>';
+            if ($this->titleData['search']!=null)
+                echo $this->render('/'.Yii::$app->controller->id.'/_search.php', ['model'=>$this->titleData['model']]);
         echo '</div>';
     }
 }

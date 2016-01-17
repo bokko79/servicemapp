@@ -4,14 +4,14 @@
 /* *********** SETTINGS FORM ************* */
 .settings {background: #fff; margin: 0 0 30px 0 !important; padding:0 0 20px 0px !important; border: 1px solid #ddd; border-top: none;}
 .settings table td {vertical-align: middle;}
-.settings .row {margin-left: 15px;}
+.settings .row {margin-left: 15px;margin-right: 15px;}
 
 .settings .wrapper {padding:10px 20px; background: #F6F7F8; margin-bottom: 0px; /*border-bottom:1px solid #ddd;*/}
-.settings .wrapper.addition {margin-top: 0px; height: 45px; padding: 15px 20px 5px; cursor:pointer; background: #FFF; border-top:1px solid #ddd; border-bottom:none;}
-.settings .wrapper.addition.blue {background: #EEE; }
-.settings .wrapper.addition:hover {background: #BBDEFB;}
-.settings .wrapper.addition i.chevron {float: right;}
-.settings .wrapper.addition.error {background: rgba(255,0,0,.3); color:#444 !important;}
+.settings .wrapper.headline {margin-top: 0px; height: 45px; padding: 15px 20px 5px; cursor:pointer; background: #FFF; border-top:1px solid #ddd; border-bottom:none;}
+.settings .wrapper.headline.blue {background: #EEE; }
+.settings .wrapper.headline:hover {background: #BBDEFB;}
+.settings .wrapper.headline i.chevron {float: right;}
+.settings .wrapper.headline.error {background: rgba(255,0,0,.3); color:#444 !important;}
 .settings .wrapper.hide {display: none;}
 .settings .wrapper.plaza {border-top: none; padding-bottom: 0;}
 

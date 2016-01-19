@@ -24,7 +24,7 @@ use yii\widgets\Breadcrumbs;
                 
         <div class="grid-right media_right_sidebar">
             <?php // Menu ?>
-            <?php // News/Ads ?>
+            <?= $this->render('partial/news.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

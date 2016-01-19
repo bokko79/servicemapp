@@ -44,6 +44,7 @@ class TransactionsController extends Controller
                 return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'user' => $user,
                 ]);
             } else {
                 throw new NotFoundHttpException('The requested page does not exist.');

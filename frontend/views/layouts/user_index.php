@@ -15,11 +15,16 @@ use frontend\widgets\Stats;
     <div class="grid-row">
         <div class="grid-left">
             <?php /* WIDGET: CARD */ ?>
+                <?php $user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
                 <?= Card::widget([
-                    'cardData' => $this->cardData, // Card Picture
+                    'cardData' => [
+                        'pic' => null,        
+                        'head' => ($user->fullname) ? $user->fullname : $user->username,
+                        'subhead' => ($user->is_provider==1) ? 'provider' : 'user',
+                    ], // Card Picture
                 ]);
             ?>
-
+            <?php // Details Widget ?>
             <div class="card_container record-200 card-tile" id="card_container" style="float:none; clear:both;">
                 <a href="<?= Url::to('/services') ?>">                   
                     <div class="primary-context right">
@@ -43,23 +48,29 @@ use frontend\widgets\Stats;
                     </div>
                 </a>
             </div>
-            <?php // Details Widget ?>
+            
         </div>
 
         <div class="grid-center" style="">
-            <div class="grid-row" style="margin-top:-20px;">
+            <div class="grid-row" style="">
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]) ?>
             </div>  
-             <?php /* WIDGET: TABS */ ?>
+            <?php /* WIDGET: TABS */ ?>
                 <?= Tabs::widget([
-                    'tabs'=>$this->tabs,
+                    'tabs'=>[
+                        ['url'=>Url::to('/index'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Index'), 'active'=>'provider/services'],
+                        ['url'=>Url::to('/contact-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Contact'), 'active'=>''],
+                        ['url'=>Url::to('/about-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'About'), 'active'=>''],
+                        ['url'=>Url::to('/users'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Users'), 'active'=>''],
+                    ],
                 ]); ?>    
             <?php /* WIDGET: PAGETITLE */ ?>
                 <?= PageTitle::widget([
                     'titleData'=>$this->pageTitle,
-                ]); ?>          
+                ]); ?>
+            <?= $this->render('partial/quick-forms.php') ?>  
             <?= $content ?>
         </div>
                 
@@ -68,8 +79,8 @@ use frontend\widgets\Stats;
                 <?= Stats::widget([
                     'boxData'=>$this->stats,
                 ]); ?>
-            <?php // Feed ?>
-            <?php // News/Ads ?>
+            <?= $this->render('partial/news-feed.php') ?>
+            <?= $this->render('partial/news.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

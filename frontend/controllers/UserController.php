@@ -84,11 +84,20 @@ class UserController extends Controller
 
             if($model) {               
                 
+                $details = $model->userDetails;
+                $filters = ($model->userFilters) ? $model->userFilters : new \frontend\models\UserFilters;
+                $images = $model->userImages;
+                $notifications = $model->userNotifications;
+                $notificationsSms = $model->userNotificationsSms;
+
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
                 } else {
                     return $this->render('update', [
                         'model' => $model,
+                        'details' => $details,
+                        'filters' => $filters,
+                        'images' => $images,
                     ]);
                 }
             } else {

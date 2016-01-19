@@ -21,17 +21,17 @@ IntroAppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
 
     <!-- FONTS -->  
-    <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,700,400,600,900' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,700,400,500,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <?php $this->head() ?>
 </head>
 <body>
-<?php $this->beginBody() ?>
-
-    <?= $this->render('../partial/intro_nav.php') ?> 
+<?php $this->beginBody() ?>    
 
     <?= $content ?>   
+
+<a href="#" id="back-to-top" title="Back to top">&uarr;</a>
 
 <?php $this->endBody() ?>
 </body>

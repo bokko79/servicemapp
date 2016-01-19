@@ -61,12 +61,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 	<div class="activities-index">
 
-	    <h1><?= Html::encode($this->title) ?> <?= Html::a(Yii::t('app', 'Create Activities'), ['create'], ['class' => 'btn btn-success btn-xs']) ?></h1>
+	    <h1><?= Html::encode($this->title) ?> <?= Html::a(Yii::t('app', 'Create Activities'), ['create'], ['class' => 'btn btn-default btn-sm float-right']) ?></h1>
 	    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-	    <p>
-	        
-	    </p>
 	<?php /*
 	    <?= ListView::widget([
 	        'dataProvider' => $dataProvider,

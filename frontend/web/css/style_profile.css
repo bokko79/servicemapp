@@ -1,18 +1,23 @@
 /* --------------------------------------------------MAIN CONTENT------------------------------------------------------------*/
 .profile_head {background: #F6F7F8;  border-bottom:1px solid #ddd; height:236px; padding-top:20px; position:relative;}
-.profile_head_stick {background-image: linear-gradient(to bottom,#455A64,#263238); color: #fff; box-shadow: 2px 2px 5px #aaa; display: none;}
+.profile_head_stick {background-image: linear-gradient(to bottom,#455A64,#263238); height: 50px; color: #fff; box-shadow: 2px 2px 5px #aaa; display: none;}
 
-.cover_user_profile {position:absolute; left:0; right:0; top:0; height:185px; z-index:0; background-image: linear-gradient(to bottom,#455A64,#263238); background: url('../images/backgrounds/land_back_7.jpg'); border-bottom: 1px solid #2196F3;}
+.cover_user_profile {position:absolute; left:0; right:0; top:0; height:185px; z-index:0; background-image: linear-gradient(to bottom,#455A64,#263238); background: url('../images/backgrounds/land_back_4.jpg') center center; border-bottom: 1px solid #2196F3;}
 .cover_profile {position:absolute; left:0; right:0; top:56px; height:189px; z-index:0; background-image: linear-gradient(to bottom,rgba(69, 90, 100,1),rgba(38, 50, 56,1));/* background: url('../images/land_back_44.jpg'); */border-bottom: 1px solid #2196F3;}
 /* BREADCRUMBS */
-.profile_head .breadcrumbs {padding:20px; border: none; border-bottom:1px solid #ddd; margin-bottom: 20px;}
+.profile_head .breadcrumb {padding: 20px 20px 10px; border: none; border-bottom:1px solid #ddd; margin: 0 auto 20px; width:1170px;}
+.profile_head.product {min-height:388px;padding-top:0px; display: table; width: 100%;}
 
+.grid-profile-left {width: 400px; margin-left: 25px; float: left;}
+.grid-profile-center {width: 450px; float: left;}
+.grid-profile-right {width: 270px; float: left;}
+.grid-profile-rightacross {width: 745px; float: left;}
 
-
+.media-screen,.media-screen img {width: 400px; height:300px;}
 /* TITLES */
 .profile_head .pageTitle {display: block; color:#fff !important; text-shadow:1px 1px 3px #444; background: transparent; border-radius: 0px; padding: 0 10px; border: none;}
 .profile_head .pageTitle h1, .profile_head_stick h1, .profile_head .title_holder_home h2 {font-size: 32px; font-weight: 900; margin:0;}
-.profile_head_stick h1 {font-size: 24px; color: #fff; line-height:38px;}
+.profile_head_stick h1 {font-size: 20px; color: #fff; line-height:28px;}
 .profile_head .title_holder_home {color:#fff !important; text-shadow:1px 1px 3px #444; border: none; background: transparent; position: absolute; bottom: 50px;}
 .profile_head .index_services .title_holder_home {top: 0px; width: 100%; color:#000 !important; text-shadow:1px 1px 1px #ddd;}
 .profile_head .index_services .title_holder_home p {margin: 0 0 0 10px;}
@@ -25,7 +30,9 @@
 .profile_head .pageTitle .industries .industry_tag {border-radius:3px; color:#fff; font-size: 11px; font-weight: 700; padding: 3px 9px; margin: 2px 5px;}
 .profile_head .pageTitle .rates, .profile_head_stick .rates {height:20px;margin: 0; color:#ddd;}
 .profile_head .pageTitle .rates .sub_details i {margin: 0 3px;}
-.profile_head_stick .avatar {text-align:right; margin: 10px 0 0 0 !important;}
+.profile_head_stick .avatar {text-align:right; margin-top: 5px;}
+.profile_head_stick .avatar img {width: 40px; height: 40px; border-radius: 5px; box-shadow: 0px 2px 4px #000;}
+.profile_head_stick .general {font-size: 12px; color: #aaa;}
 
 
 /* TABS */
@@ -35,12 +42,13 @@
 .profile_head .title_track ul li:hover, .profile_head .title_track ul li.active {background:#F6F7F8; border-bottom:4px solid #2196F3; box-shadow:none;}
 .profile_head .title_track ul li:hover a, .profile_head .title_track ul li.active a {color: #000;}
 .navpro-tabs>li>a {text-transform: uppercase;font-size: 11px;font-weight: 900;color: #000;border:none;}
-
+.product-nav-tabs .nav-tabs>li>a {text-transform: none;font-size: 11px;font-weight: 500;color: #2196F3;}
 
 /* UPPER STATS */
 .profile_head .stat_box_cont {background: rgba(255,255,255,.3); border:1px solid #ddd; box-shadow: 0px -1px 3px #fff;}
 .profile_head .stat_box_cont .title {color: #ddd;  background: transparent;}
 .profile_head .stat_box .main_data {text-shadow: 1px 1px 2px #000; opacity:1; border-bottom:1px solid #ccc; color: white;}
+.profile_head.product .stat_box .main_data {text-shadow: none;color: black;}
 
 .profile_right_controls {text-align:right; width: 100%; position: absolute; bottom: 20px; right: 0;}
 .profile_right_controls a {margin: 0 5px;}

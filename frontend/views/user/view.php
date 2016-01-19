@@ -28,6 +28,13 @@ $this->cardData = [
         'pic' => 'default_avatar', 
     ];
 
+$this->profileSubNavData = [
+        'pic' => 'default_avatar',
+        'title' => $model->fullname ? $model->fullname : $model->username,
+        'username' => $model->username,
+        'loc' => $model->userDetails->loc->city,        
+    ];
+
 // <!-- TABS -->
 $this->tabs = [
         /*['url'=>$this->createUrl(Yii::$app->user->username.'/home'), 'class'=>'', 'role'=>'', 'icon'=>'fa-home', 'label'=>Yii::t('main', 'Home'), 'active'=>'users/view'],
@@ -46,13 +53,13 @@ $this->tabs = [
         ['url'=>Url::to('/users'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Users'), 'active'=>''],
         ['url'=>Url::to('/login'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Login'), 'active'=>''],
 
-        /*['url'=>$this->createUrl(Yii::app()->user->username.'/notifications'), 'class'=>'', 'role'=>'', 'icon'=>'fa-bell', 'label'=>Yii::t('main', 'Notifications').$counter_ntf, 'active'=>'users/notifications'],*/
-        /*['url'=>$this->createUrl('/messages'), 'class'=>'', 'role'=>'', 'icon'=>'fa-envelope-o', 'label'=>Yii::t('main', 'Messages').$counter_msg, 'active'=>'thread/index'],
-        ['url'=>$this->createUrl(Yii::app()->user->username.'/transactions'), 'class'=>'', 'role'=>'', 'icon'=>'fa-download', 'label'=>Yii::t('main', 'Transactions'), 'active'=>'transactions/index'],
-        ['url'=>$this->createUrl(Yii::app()->user->username.'/objects'), 'class'=>'', 'role'=>'', 'icon'=>'fa-cube', 'label'=>Yii::t('main', 'Objects'), 'active'=>'users/objects'],                   
-        ['url'=>$this->createUrl(Yii::app()->user->username.'/locations'), 'class'=>'', 'role'=>'', 'icon'=>'fa-map-marker', 'label'=>Yii::t('main', 'Locations'), 'active'=>'users/locations'],
-        ['url'=>$this->createUrl(Yii::app()->user->username.'/services'), 'class'=>'', 'role'=>'', 'icon'=>'fa-flag', 'label'=>Yii::t('main', 'Followed Services'), 'active'=>'users/services'],
-        ['url'=>$this->createUrl(Yii::app()->user->username.'/payments'), 'class'=>'', 'role'=>'', 'icon'=>'fa-credit-card', 'label'=>Yii::t('main', 'Payments'), 'active'=>'users/payments'],*/
+        /*['url'=>Url::to(Yii::app()->user->username.'/notifications'), 'class'=>'', 'role'=>'', 'icon'=>'fa-bell', 'label'=>Yii::t('main', 'Notifications').$counter_ntf, 'active'=>'users/notifications'],*/
+        /*['url'=>Url::to('/messages'), 'class'=>'', 'role'=>'', 'icon'=>'fa-envelope-o', 'label'=>Yii::t('main', 'Messages').$counter_msg, 'active'=>'thread/index'],
+        ['url'=>Url::to(Yii::app()->user->username.'/transactions'), 'class'=>'', 'role'=>'', 'icon'=>'fa-download', 'label'=>Yii::t('main', 'Transactions'), 'active'=>'transactions/index'],
+        ['url'=>Url::to(Yii::app()->user->username.'/objects'), 'class'=>'', 'role'=>'', 'icon'=>'fa-cube', 'label'=>Yii::t('main', 'Objects'), 'active'=>'users/objects'],                   
+        ['url'=>Url::to(Yii::app()->user->username.'/locations'), 'class'=>'', 'role'=>'', 'icon'=>'fa-map-marker', 'label'=>Yii::t('main', 'Locations'), 'active'=>'users/locations'],
+        ['url'=>Url::to(Yii::app()->user->username.'/services'), 'class'=>'', 'role'=>'', 'icon'=>'fa-flag', 'label'=>Yii::t('main', 'Followed Services'), 'active'=>'users/services'],
+        ['url'=>Url::to(Yii::app()->user->username.'/payments'), 'class'=>'', 'role'=>'', 'icon'=>'fa-credit-card', 'label'=>Yii::t('main', 'Payments'), 'active'=>'users/payments'],*/
         
     ];
 
@@ -102,188 +109,19 @@ $map->addOverlay($marker);
 ?>
 
 
-<div class="user-view">
-
-    <div id="quick_form_makers">
-    <table class="main_controls">
-        <tr>
-            <td class="control order_service">
-                <?= Html::a('<i class="fa fa-shopping-basket"></i>&nbsp;Naruči uslugu', '#', array()); ?>
-
-            </td>
-            <td class="control">
-                <?= Html::a('<i class="fa fa-flag-o"></i>&nbsp;Promoviši uslugu', '#', array()); ?>
-            </td>
-            <td class="control">
-                <?= Html::a('<i class="fa fa-bullhorn"></i>&nbsp;Najavi događaj', '#', array()); ?>
-            </td>
-            <td class="control">
-
-                <?php 
-                    /*if(Yii::app()->urlManager->parseUrl(Yii::app()->request)=='users/notifications'):
-                        echo Html::a('<i class="fa fa-wrench"></i>&nbsp;Podesi obaveštenja', '#', array());
-                    elseif(Yii::app()->urlManager->parseUrl(Yii::app()->request)=='users/payments'):
-                        echo Html::a('<i class="fa fa-wrench"></i>&nbsp;Podesi plaćanja', '#', array());
-                    else:
-                        echo Html::a('<i class="fa fa-wrench"></i>&nbsp;Podesi nalog', '#', array()); 
-                    endif;*/?>
-
-                <?= Html::a('<i class="fa fa-wrench"></i>&nbsp;Podesi nalog', '#', array()); ?>
-            </td>
-        </tr>
-    </table>
-
-    
-    <div class="order_service_process fadeIn animated">
-            <?php
-                $form = kartik\widgets\ActiveForm::begin(
-                    [
-                        'id' => 'signup-form',
-                        'enableAjaxValidation' => true,
-                        'action'=>/*Yii::$app->createUrl('/cart')*/'',
-                    ]); ?>
-
-                <fieldset>
-                    <p class="hint" style="">Birajte delatnost, zatim aktivnost i na kraju predmet usluge i naručite uslugu. 
-                    Npr.: Treba mi... <b>arhitekta</b> za <b>projektovanje kuće</b></p>
-
-                    
-                <?php
-                    // Top most parent
-                    /*echo $form->field($csSectors, 'name')->widget(Select2::classname(), [
-                        'data' => ArrayHelper::map(CsSectors::find()->asArray()->all(), 'id', 'name')
-                    ]);
-                     
-                    // Child level 1
-                    echo $form->field($csSectors, 'lev1')->widget(DepDrop::classname(), [
-                        'data'=> [6=>'Bank'],
-                        'options' => ['placeholder' => 'Select ...'],
-                        'type' => DepDrop::TYPE_SELECT2,
-                        'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
-                        'pluginOptions'=>[
-                            'depends'=>['account-lev0'],
-                            'url' => Url::to(['/account/child-account']),
-                            'loadingText' => 'Loading child level 1 ...',
-                        ]
-                    ]);
-                     
-                    // Child level 2
-                    echo $form->field($csSectors, 'lev2')->widget(DepDrop::classname(), [
-                        'data'=> [9=>'Savings'],
-                        'options' => ['placeholder' => 'Select ...'],
-                        'type' => DepDrop::TYPE_SELECT2,
-                        'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
-                        'pluginOptions'=>[
-                            'depends'=>['account-lev1'],
-                            'url' => Url::to(['/account/child-account']),
-                            'loadingText' => 'Loading child level 2 ...',
-                        ]
-                    ]);
-                     
-                    // Child level 3
-                    echo $form->field($csservices, 'lev3')->widget(DepDrop::classname(), [
-                        'data'=> [12=>'Savings A/C 2'],
-                        'options' => ['placeholder' => 'Select ...'],
-                        'type' => DepDrop::TYPE_SELECT2,
-                        'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
-                        'pluginOptions'=>[
-                            'depends'=>['account-lev2'],
-                            'initialize' => true,
-                            'initDepends'=>['account-lev0'],
-                            'url' => Url::to(['/account/child-account']),
-                            'loadingText' => 'Loading child level 3 ...'
-                        ]
-                    ]);*/
-                    ?>
-                        <div class="ui dropdown search floating icon button labeled">
-                        
-                            <span class="icon" style="padding:8px;"><?php /*echo Users::avatar(Yii::app()->user->id, 20, 20);*/ ?> Treba mi...</span>
-                            <div class="default text">Izaberite profesionalca/delatnost</div>
-                                <?php /*echo Html::dropDownList('delid', '',
-                                                CHtml::listData(Delatnost::model()->findAll(), 'id', 'ime'),
-                                                array('prompt'=>'izaberi', 'id'=>'search-select', 'class'=>'', 
-                                                    'ajax' => array(
-                                                          'type'=>'GET', //request type
-                                                          'url'=>CController::createUrl('/listIndActions'), //action to call
-                                                          'update'=>'#action_id', // which HTML element to update
-                                                          'complete'=>'function(data){
-                                                                $(".action_seci .item").removeClass("active selected");
-                                                                $(".service_seci .item").removeClass("active selected");
-                                                                $(".action_seci").css({"display":"inline"});
-                                                                
-                                                               }',
-                                                        ),
-                                                )
-                                        );*/ ?>
-                        </div>
-
-                        <div class="action_seci fadeIn animated ui dropdown" style="display:none;">
-                        za <div class="default text">Izaberite aktivnost</div>
-                            <?php /*echo Html::dropDownList('action_id', '', array(),
-                                            array('id'=>'action_id', 'class'=>'',
-                                                'ajax' => array(
-                                                      'type'=>'GET', //request type
-                                                      'url'=>CController::createUrl('/listActServices'), //action to call
-                                                      'update'=>'#service_id', // which HTML element to update
-                                                      'complete'=>'function(data){
-                                                            
-                                                            $(".service_seci .item").removeClass("active selected");
-                                                            $(".service_seci").css({"display":"inline"});
-                                                            
-                                                           }',
-
-                                                    ),
-                                            )
-                                    ); */?>
-                        </div>
-
-                        <div class="service_seci fadeIn animated ui dropdown" style="display:none;">
-                            <div class="default text">Izaberite predmet usluge</div>
-                            <?php/* echo Html::dropDownList('add_service_for_order', '', array(),
-                                            array('id'=>'service_id', 'class'=>'', 
-                                                'ajax' => array(
-                                                      'type'=>'GET', //request type
-                                                      'url'=>CController::createUrl('/listObjectModel'), //action to call
-                                                      'update'=>'#objectmodel_id', // which HTML element to update
-                                                      'complete'=>'function(data){
-                                                            
-                                                            $(".button_field input").removeClass("btn-disabled").addClass("btn-success");
-                                                            
-                                                           }',
-
-                                                    ),
-                                            )
-                                    ); */?>
-                        </div>
-
-                    
-                </fieldset>
-
-                <div class="button_field"><?php echo Html::submitButton(Yii::t('app', 'Naruči'), array('class'=>'btn btn-disabled', 'style'=>'')); ?></div>
-            
-            <?php kartik\widgets\ActiveForm::end(); ?>
-
-    </div>
-
-    <div class="promote_service_process">
-        
-
-    </div>
-
-    <div class="provide_service_process">
-        
-        
-    </div>
-    
-        
-</div>
-
+<div class="user-view" style="margin-top:20px;">
     <?= Alert::widget([
         'type' => Alert::TYPE_SUCCESS,
         'title' => 'Note',
         'titleOptions' => ['icon' => 'info-sign'],
         'body' => 'This is an informative alert'
     ]) ?>
+   
+    
+        
+</div>
+
+    
 
     <div class="card_container record-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
@@ -498,85 +336,6 @@ $map->addOverlay($marker);
     </div>
 
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?php /* BoxActivity::widget([
-        'boxData' => [
-            'id' => '#',
-            'timeago' => '#',
-            'activity_creator' => [
-                'avatar' => '#',
-                'username' => '#',
-                'loc' => '#',
-                'rating' => '#',
-                'stars' => '#',
-            ],
-            'body' => BoxOrder::widget([
-                'boxData' => [
-                    'id' => '#',
-                    'pic' => '#',
-                    'time' => '#',
-                    'valid' => '#',
-                ],
-            ]),
-        ],
-        'type' => '',
-        'options' => [
-
-        ],
-    ])*/ ?>
-
-<?php /*
-    <?= BoxActivity::widget([
-        'boxData' => [
-            'id' => '#',
-            'timeago' => '#',
-            'activity_creator' => [
-                'avatar' => '#',
-                'username' => '#',
-                'loc' => '#',
-                'rating' => '#',
-                'stars' => '#',
-            ],
-            'body' => BoxOrder::widget([
-                'boxData' => [
-                    'id' => '#',
-                    'pic' => '#',
-                    'time' => '#',
-                    'valid' => '#',
-                ],
-            ]),
-        ],
-    ]) ?>
-
-    <?= BoxService::widget([
-        'boxData' => [
-            'href' => '#',
-            'pic' => '#',
-            'title' => '#',
-            'stat' => [
-                1 => '#',
-                2 => '#',
-                3 => '#',
-            ],
-            'desc' => '#',
-            'price' => '#',
-            'button' => '#',            
-        ],
-    ]) ?>
-*/ ?>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -612,7 +371,7 @@ $map->addOverlay($marker);
         ],
     ]) ?>
 
-</div>
+
 <?php
 echo StarRating::widget([
     'name' => 'rating_21',
@@ -640,19 +399,4 @@ echo StarRating::widget([
             12 => 'text-success'
         ],
     ],
-]); ?>
-
-
-<?php
-// usage without model
-echo '<label>Start Date/Time</label>';
-echo DateTimePicker::widget([
-    'name' => 'datetime_10',
-    'options' => ['placeholder' => 'Select operating time ...'],
-    'convertFormat' => true,
-    'pluginOptions' => [
-        'format' => 'd-M-Y g:i A',
-        'startDate' => date('d-M-Y'),
-        'todayHighlight' => true
-    ]
 ]); ?>

@@ -16,6 +16,8 @@ class OrdersController extends Controller
 {
     public $layout='forms';
 
+    public $param_model;
+
     public function behaviors()
     {
         return [
@@ -59,6 +61,8 @@ class OrdersController extends Controller
     {
         $this->layout = '//product';
 
+        $this->param_model = $this->findModel($id);
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);

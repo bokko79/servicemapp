@@ -19,9 +19,8 @@
         </div>
                 
         <div class="grid-right media_right_sidebar">
-            <?php // Progress Meter ?>
-            <?php // Feed ?>
-            <?php // News/Ads ?>
+            <?= $this->render('partial/news-feed.php') ?>
+            <?= $this->render('partial/news.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

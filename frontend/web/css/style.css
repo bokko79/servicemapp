@@ -137,6 +137,9 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 
 .hint, .disabled {opacity:.4;}
 
+.no-border {border:none;}
+.no-bottom-border {border-bottom: none;}
+
 .tooltip {position:absolute;z-index:1030;display:block;padding:5px;font-size:11px;opacity:0;filter:alpha(opacity=0);visibility:visible}.tooltip.in{opacity:.8;filter:alpha(opacity=80)}.tooltip.top{margin-top:-3px}.tooltip.right{margin-left:3px}.tooltip.bottom{margin-top:3px}.tooltip.left{margin-left:-3px}.tooltip-inner{max-width:200px;padding:3px 8px;color:#fff;text-align:center;text-decoration:none;background-color:#000;-moz-border-radius:4px;border-radius:4px}.tooltip-arrow{position:absolute;width:0;height:0;border-color:transparent;border-style:solid}.tooltip.top .tooltip-arrow{bottom:0;left:50%;margin-left:-5px;border-top-color:#000;border-width:5px 5px 0}.tooltip.right .tooltip-arrow{top:50%;left:0;margin-top:-5px;border-right-color:#000;border-width:5px 5px 5px 0}.tooltip.left .tooltip-arrow{top:50%;right:0;margin-top:-5px;border-left-color:#000;border-width:5px 0 5px 5px}.tooltip.bottom .tooltip-arrow{top:0;left:50%;margin-left:-5px;border-bottom-color:#000;border-width:0 5px 5px}
 
 
@@ -492,7 +495,7 @@ header.main nav { min-height: 50px; width:100%; background: #fff; border-bottom:
 .global_nav > li.right {float: right;}
 .global_nav > li.search_icon {padding:15px 0 31px; width:50px; text-align: center;}
 .global_nav > li.search_icon i.fa-search {font-size: 19px; text-shadow:0px 0px 2px #82B1FF; opacity:1;}
-.global_nav > li > a {padding: 10px; color:#777; font-size: 12px; text-transform: uppercase; font-weight: 700;}
+.global_nav > li > a {padding: 10px; color:#000; font-size: 12px; text-transform: uppercase; font-weight: 900;}
 .global_nav > li > a:hover {text-decoration: none; }
 /*.global_nav > li .caret_cont {width:100%; margin: 0; padding: 0; position: relative; display: none;}
 .global_nav > li:hover .caret_cont {display: block;}
@@ -508,7 +511,7 @@ div.category {
 div.category::-webkit-scrollbar { display: none; }
 .global_nav > li div.category.white {background: #fff; box-shadow: 0 3px 5px #aaa;}
 .span9 > div.category { top:212px; left:0; right:0; border-top:10px solid #fff; box-shadow: none; }
-.turn_off_glob {cursor:pointer; position:fixed; top:80px; right:50px; font-size:20px; text-shadow: 1px 1px 3px #444; color:#aaa;}
+.turn_off_glob {cursor:pointer; position:fixed; top:20px; right:50px; font-size:24px; text-shadow: 1px 1px 3px #444; color:#fff;}
 
 
 /* ----------------- 32.2. GLOBAL NAVIGATION: INDUSTRY BOXES */
@@ -666,7 +669,7 @@ img.card-image {width:200px; height:200px; box-shadow: 0px 0px 6px #444;}
 
 /* ----------------- 34.1. MAIN CONTENT: BREADCRUMBS */
 
-.breadcrumb {padding:8px 20px; background-color:#F6F7F8; font-size: 12px; border-left:1px solid #ddd; border-right:1px solid #ddd; margin:20px 0 0;}
+.breadcrumb {padding:8px 20px; background-color:#F6F7F8; font-size: 12px; border-left:1px solid #ddd; border-right:1px solid #ddd; margin:0;}
 .breadcrumb .active {font-weight: 700;}
 .breadcrumb .fa-chevron-right {opacity: .4;  font-size:9px;}
 .breadcrumb .avatar {display: none;}
@@ -738,13 +741,13 @@ img.card-image {width:200px; height:200px; box-shadow: 0px 0px 6px #444;}
 
 /* ----------------- 34.6. MAIN CONTENT: QUICK ORDER CONTROLS */
 
-.order_service_process {display: none; font-size: 13px; font-weight: 400;}
-.order_service_process fieldset {border-top: none; border-bottom: none;  background: #fff; margin-bottom: 0;}
-.order_service_process p.hint {font-size:11px;margin-bottom:10px; line-height:12px; border-bottom: 1px dotted #ddd}
-.order_service_process select {height: 30px; width:auto; border:none; background: #fff;}
-.order_service_process select:checked {font-size: 15px; font-weight: 400;}
-.order_service_process input {height: 30px; width:auto; border:none; background: #fff;}
-.order_service_process .button_field {border: 1px solid #ddd; border-top: none; background: #F6F7F8; padding: 10px; text-align: right;}
+.order-service-process {display: none; font-size: 13px; font-weight: 400;}
+.order-service-process fieldset {border-top: none; border-bottom: none;  background: #fff; margin-bottom: 0;}
+.order-service-process p.hint {font-size:11px;margin-bottom:10px; line-height:12px; border-bottom: 1px dotted #ddd}
+.order-service-process select {height: 30px; width:auto; border:none; background: #fff;}
+.order-service-process select:checked {font-size: 15px; font-weight: 400;}
+.order-service-process input {height: 30px; width:auto; border:none; background: #fff;}
+.order-service-process .button-field {border: 1px solid #ddd; border-top: none; background: #F6F7F8; padding: 10px; text-align: right;}
 
 
 /* ---------------------------
@@ -763,11 +766,9 @@ img.card-image {width:200px; height:200px; box-shadow: 0px 0px 6px #444;}
 
 fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; border-top: none;}
 
-
 #back-to-top { position: fixed;bottom: 40px;right: 40px;z-index: 999;width: 32px;height: 32px;text-align: center;line-height: 30px;background: #ccc;color: #fff;cursor: pointer;border: 0;border-radius: 2px;text-decoration: none;transition: opacity 0.2s ease-out;opacity: 0;}
 #back-to-top:hover {background: #455A64;}
 #back-to-top.show {opacity: 1;}
-
 
 /* ---------------------------
 	
@@ -778,11 +779,11 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 /* ----------------- 36.1. RIGHT SIDEBAR: UPPER STATS */
 .media_right_sidebar {margin-top: 20px;}
 
-.upper_stat_container {width:270px; height: 84px; background: transparent; margin-bottom:20px;}
-.stat_box_cont {height:84px; width:84px; margin: 0 9px 0 0; float:left; background: #FFFFFF; border-radius: 0px; box-shadow: 0px -1px 3px #ccc;/* background-image: linear-gradient(to bottom,#455A64,#263238);*/}
-.stat_box_cont td {text-align: center; font-weight: 700;}
+.upper_stat_container {width:270px; height: 90px; background: transparent; margin-bottom:20px;}
+.stat_box_cont, .profile_head.product .stat_box_cont {height:84px; width:84px; margin: 0 9px 0 0; float:left; background: #FFFFFF; border-radius: 0px; box-shadow: 0px -1px 3px #ccc;/* background-image: linear-gradient(to bottom,#455A64,#263238);*/}
+.stat_box_cont td, .profile_head.product .stat_box_cont td {text-align: center; font-weight: 700;}
 .stat_box {width:74px; padding:5px; }
-.stat_box_cont .title {font-size: 10px; font-weight: 900; color: #aaa; line-height: 12px; text-transform: uppercase; width: 100%; height: 26px; vertical-align: middle; letter-spacing: -1px; background: #F6F7F8}
+.stat_box_cont .title, .profile_head.product .stat_box_cont .title {font-size: 9px; font-weight: 700; color: #aaa; line-height: 12px; text-transform: uppercase; width: 100%; height: 26px; vertical-align: middle; background: #F6F7F8}
 .stat_box .main_data {font-size: 19px; text-shadow: 1px 1px 2px #ddd; opacity:.6; padding: 8px 0 0; border-bottom:1px solid #ddd; font-weight: 900;}
 .main_data a:link, .main_data a:visited, .main_data a:active {color: #eee; }
 .main_data a:hover {color: #2196F3 !important;}
@@ -791,13 +792,13 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 
 /* ----------------- 36.2. RIGHT SIDEBAR: TICKER */
 
-#live_feed {margin-bottom: 20px; padding:0; height: 200px !important; border: 1px solid #aaa; border-left: none; border-right: none;}
-#live_feed ul {font-size: 14px; margin: 0; padding: 0; width: 100%}
-#live_feed ul li {padding: 0; font-size: 12px; display: block; line-height: 15px; height: 40px;}
-#live_feed ul li .icon {padding: 12px 0 0 4%; height:27px; color: #fff; width:10%; float: left; border-bottom: 1px solid #ddd;}
-#live_feed ul li .icon span {margin-top: 15px;}
-#live_feed ul li .content {padding: 5px 5%; margin-left: 0; height: 29px; background: #fff; width:76%; float: left; border-bottom: 1px solid #ddd;}
-#live_feed ul li .content span { font-size: 11px; color: #aaa;}
+#live_feed {margin-bottom: 20px; padding:0; height: 205px !important; border: 1px solid #ddd;}
+#live_feed ul {font-size: 14px; padding: 0; width: 100%}
+#live_feed ul li {padding: 0; font-size: 12px; display: block; line-height: 15px;}
+#live_feed ul li table {background: #fff; height:40px; border-bottom: 1px solid #ddd;}
+#live_feed ul li table .feed-icon {color: #fff; width:40px; vertical-align: middle; text-align: center;}
+#live_feed ul li table .feed-content {padding: 5px 10px; margin-left: 0;}
+#live_feed ul li table .feed-content span { font-size: 11px; color: #aaa;}
 
 /* ----------------- 36.3. RIGHT SIDEBAR: HELP BOX, NEWS BOX */
 
@@ -828,10 +829,10 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 
 ----------------------------- */
 
-#footer{padding:10px 5px;font-size:.8em;margin-top:20px;text-align:center;border-top:1px solid #ccc; background: transparent; color:#aaa;line-height: 12px;font-weight: 700; box-shadow: 0px -3px 3px #ddd;}
+#footer{padding:10px 5px;font-size:.8em;margin-top:20px;text-align:center;border-top:1px solid #ccc; background: transparent; color:#aaa;line-height: 12px;font-weight: 700; /*box-shadow: 0px -3px 3px #ddd;*/}
 #footer a {color:#aaa;}
 #footer a:hover {color:#2196F3;}
-#footer .contact { border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 5px;}
+#footer .contact { /*border-bottom: 1px solid #ddd;*/ padding-bottom: 5px; margin-bottom: 5px;}
 #footer ul {padding: 5px;}
 #footer ul li {display: inline; padding: 5px;}
 

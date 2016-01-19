@@ -32,17 +32,26 @@ class UserServicesController extends Controller
      * Lists all UserServices models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($username=null)
     {
         $this->layout = '//user_index';
         
-        $searchModel = new UserServicesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if (isset($username)) {
+            $user = \frontend\models\User::find()->where(['username'=>$username])->one();
+        }
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        if($user) {
+            $searchModel = new UserServicesSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'user' => $user,
+            ]);
+        } else {
+            $this->redirect(Yii::$app->request->baseUrl.'/providers');
+        }
     }
 
     /**

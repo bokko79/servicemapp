@@ -16,8 +16,7 @@
         </div>
                 
         <div class="grid-right media_right_sidebar">
-            <?php // Progress Meter ?>
-            <?php // Help ?>
+            <?= $this->render('partial/help.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

@@ -27,12 +27,9 @@ $this->profileSubNavData = [
 
 // <!-- TABS -->
 $this->tabs = [
-    ['url'=>Url::to('/index'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Index'), 'active'=>'provider/services'],
-    ['url'=>Url::to('/contact-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Contact'), 'active'=>''],
-    ['url'=>Url::to('/about-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'About'), 'active'=>''],
-    ['url'=>Url::to('/users'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Users'), 'active'=>''],
-    ['url'=>Url::to('/login'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Login'), 'active'=>''],
-
+    ['url'=>Url::to('#bids'), 'class'=>'', 'role'=>'', 'icon'=>'fa-sticky-note', 'label'=>Yii::t('app', 'Bids'), 'active'=>'provider/services'],
+    ['url'=>Url::to('#comments'), 'class'=>'', 'role'=>'', 'icon'=>'fa-comments', 'label'=>Yii::t('app', 'Comments'), 'active'=>''],
+    ['url'=>Url::to('#more'), 'class'=>'', 'role'=>'', 'icon'=>'fa-shopping-cart', 'label'=>Yii::t('app', 'More'), 'active'=>''],
 ];
 
 

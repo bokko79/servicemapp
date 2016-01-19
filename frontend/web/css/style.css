@@ -90,14 +90,14 @@ html { margin:0; padding:0; border:none; height: 100%; -webkit-text-size-adjust:
 body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-serif; font-size: 13px; font-weight: 400; text-align: left;  position:absolute; top:50px; bottom:0; right:0; left:0;  overflow-y: scroll; z-index: -1;}
 
 /* grid system for layouts*/
-.grid-container {margin:0 auto;padding: 0 15px;width:1200px;}
+.grid-container {margin:0 auto;padding: 0 15px;width:1200px; display: table;}
 .grid-row {width:100%;}
+.grid-left, .grid-right, .grid-center, .grid-leftacross, .grid-rightacross, .grid-full {min-height: 1px;float:left;position: relative;z-index: 1; display: table-row;}
 .grid-full {width:1170px;}
-.grid-left, .grid-right, .grid-center, .grid-leftacross, .grid-rightacross, .grid-full {min-height: 1px;float:left;position: relative;z-index: 1;}
-.grid-left {width:200px; margin-right:25px;}
-.grid-right {width:270px; margin-left:25px;}
+.grid-left {width:200px; margin-right:25px !important;}
+.grid-right {width:270px; margin-left:25px !important;}
 .grid-center {width:650px;}
-.grid-leftacross {width:875px; margin:0 0 20px 0;}
+.grid-leftacross {width:875px;}
 .grid-rightacross {width:945px;}
 
 /* general */
@@ -139,9 +139,20 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 
 .no-border {border:none;}
 .no-bottom-border {border-bottom: none;}
+.border-bottom {border-bottom: 1px solid #ddd;}
 
 .tooltip {position:absolute;z-index:1030;display:block;padding:5px;font-size:11px;opacity:0;filter:alpha(opacity=0);visibility:visible}.tooltip.in{opacity:.8;filter:alpha(opacity=80)}.tooltip.top{margin-top:-3px}.tooltip.right{margin-left:3px}.tooltip.bottom{margin-top:3px}.tooltip.left{margin-left:-3px}.tooltip-inner{max-width:200px;padding:3px 8px;color:#fff;text-align:center;text-decoration:none;background-color:#000;-moz-border-radius:4px;border-radius:4px}.tooltip-arrow{position:absolute;width:0;height:0;border-color:transparent;border-style:solid}.tooltip.top .tooltip-arrow{bottom:0;left:50%;margin-left:-5px;border-top-color:#000;border-width:5px 5px 0}.tooltip.right .tooltip-arrow{top:50%;left:0;margin-top:-5px;border-right-color:#000;border-width:5px 5px 5px 0}.tooltip.left .tooltip-arrow{top:50%;right:0;margin-top:-5px;border-left-color:#000;border-width:5px 0 5px 5px}.tooltip.bottom .tooltip-arrow{top:0;left:50%;margin-left:-5px;border-bottom-color:#000;border-width:0 5px 5px}
 
+/*margins*/
+.margin-bottom-5 {margin-bottom: 5px !important;}.margin-bottom-10 {margin-bottom: 10px !important;}.margin-bottom-15 {margin-bottom: 15px !important;}.margin-bottom-20 {margin-bottom: 20px !important;}
+.margin-top-5 {margin-top: 5px !important;}.margin-top-10 {margin-top: 10px !important;}.margin-top-15 {margin-top: 15px !important;}.margin-top-20 {margin-top: 20px !important;}
+.margin-left-5 {margin-left: 5px !important;}.margin-left-10 {margin-left: 10px !important;}.margin-left-15 {margin-left: 15px !important;}.margin-left-20 {margin-left: 20px !important;}
+.margin-right-5 {margin-right: 5px !important;}.margin-right-10 {margin-right: 10px !important;}.margin-right-15 {margin-right: 15px !important;}.margin-right-20 {margin-right: 20px !important;}
+/*paddings*/
+.padding-bottom-5 {padding-bottom: 5px !important;}.padding-bottom-10 {padding-bottom: 10px !important;}.padding-bottom-15 {padding-bottom: 15px !important;}.padding-bottom-20 {padding-bottom: 20px !important;}
+.padding-top-5 {padding-top: 5px !important;}.padding-top-10 {padding-top: 10px !important;}.padding-top-15 {padding-top: 15px !important;}.padding-top-20 {padding-top: 20px !important;}
+.padding-left-5 {padding-left: 5px !important;}.padding-left-10 {padding-left: 10px !important;}.padding-left-15 {padding-left: 15px !important;}.padding-left-20 {padding-left: 20px !important;}
+.padding-right-5 {padding-right: 5px !important;}.padding-right-10 {padding-right: 10px !important;}.padding-right-15 {padding-right: 15px !important;}.padding-right-20 {padding-right: 20px !important;}
 
 /* -------- COLOR PALLETES ---------- */
 /*

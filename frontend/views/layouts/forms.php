@@ -44,11 +44,7 @@ use frontend\widgets\Help;
                     'cart' => $this->cart, // Card Picture
                 ]);
                 ?>
-            <?php /* WIDGET: HELP */ ?>
-                <?= Help::widget([
-                    'help' => $this->help, // Card Picture
-                ]);
-                ?>
+            <?= $this->render('partial/help.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

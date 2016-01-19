@@ -14,14 +14,15 @@
             <?php // Details Widget ?>
         </div>
 
-        <div class="grid-center" style="">            
+        <div class="grid-center" style=""> 
+            <?= $this->render('partial/quick-forms.php') ?>           
             <?= $content ?>
         </div>
                 
-        <div class="grid-right media_right_sidebar">
-            <?php // Progress Meter ?>
-            <?php // Feed ?>
-            <?php // News/Ads ?>
+        <div class="grid-right media_right_sidebar">            
+            <?= $this->render('partial/progress-meter.php') ?>
+            <?= $this->render('partial/news-feed.php') ?>
+            <?= $this->render('partial/news.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

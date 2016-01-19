@@ -21,7 +21,7 @@ return [
         // 3. USER
         'users' => 'user/index',
         '<username:\w+>/home' => 'user/view',
-        '<username:\w+>/setup' => 'user/update',        
+        '<username:\w+>/setup' => 'user/update',
 
         // 4 PROVIDER
         'providers' => 'provider/index', // :page
@@ -61,6 +61,9 @@ return [
         '<username:\w+>/transactions' => 'transactions/index', // S-16:page
         'transaction/<id:\d+>' => 'transactions/view', // S-16:page
 
+        // 10 USERSERVICES
+        '<username:\w+>/follow-services' => 'user-services/index', // S-16:page
+
         // 11 MESSAGE THREADS
         'new-message' => 'message-threads/create', // S-16:page
         '<username:\w+>/messages' => 'message-threads/index', // S-16:page
@@ -84,7 +87,8 @@ return [
         'add/<title>' => 'orders/add', // :page
         'new-order' => 'orders/create', // :page
         'order/<id:\d+>' => 'orders/view', // :page
-        'order-setup/<id:\d+>' => 'orders/update', // :page        
+        'order-setup/<id:\d+>' => 'orders/update', // :page
+        '<username:\w+>/saved-orders' => 'orders/saved', // :page
 
         // 16 BIDS
         'new-bid' => 'bids/create', // S-16:page
@@ -120,5 +124,6 @@ return [
         'auto/list-act-services' => 'autocomplete/list-act-services',
         'auto/list-ind-actions' => 'autocomplete/list-ind-actions',
         'auto/list-services' => 'autocomplete/list-services',
+        'auto/list-industries' => 'autocomplete/list-industries',
     ],
 ];

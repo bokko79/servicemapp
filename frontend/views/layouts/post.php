@@ -57,7 +57,9 @@ use yii\helpers\Url;
                     </div>
                 </a>
             </div>
-
+            
+            <?= $this->render('partial/news-feed.php') ?>
+            <?= $this->render('partial/news.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

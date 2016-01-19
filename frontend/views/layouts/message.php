@@ -18,8 +18,8 @@
         </div>   
                 
         <div class="grid-right">
-            <?php // Progress Meter ?>
-            <?php // Help ?>
+            <?= $this->render('partial/news-feed.php') ?>
+            <?= $this->render('partial/news.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

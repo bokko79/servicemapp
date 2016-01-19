@@ -18,7 +18,6 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        /*'css/site.css',*/
         'css/style.css',
         'css/style_box.css',
         'css/style_form.css',
@@ -33,11 +32,11 @@ class AppAsset extends AssetBundle
         'js/masonry.pkgd.min.js',
         'js/app.js',
         'js/cards.js',
+        'js/easy-ticker.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\web\JqueryAsset',
-        //'frontend\assets\AngularAsset',
     ];
 }

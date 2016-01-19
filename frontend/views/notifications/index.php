@@ -15,9 +15,9 @@ $pageDescription = '<p style="font-size:12px; line-height:14px; margin:10px;">'.
 $pageDescription .= '<p style="font-size:12px; line-height:14px; margin:10px;">'.Yii::t('app', 'Kada izaberete Vaš predmet usluge, na ovoj stranici se nalazi spisak svih izabranih predmeta. Klikom na naslov svakog njih možete ih dodatno podešavati i tako olakšati i ubrzati kupovinu ili naručivanje usluga.').'</p>';
 $this->pageTitle = [
     'icon' => 'bell',     
-    'title' => Html::encode($this->title),
+    'title' => Html::encode($this->title).Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesi obaveštenja'), Url::to('/'.$user->username.'/notifications-setup'), ['class' => 'btn btn-success btn-sm float-right']),
     'description' => null,
-    'model' => $searchModel,
+    'search' => null,
 ];
 
 $this->cardData = [

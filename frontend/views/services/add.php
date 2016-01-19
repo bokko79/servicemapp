@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Cs Services'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 26 }' style="">
+<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 30 }' style="">
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '_view-form',

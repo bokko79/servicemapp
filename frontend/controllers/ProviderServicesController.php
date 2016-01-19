@@ -46,6 +46,7 @@ class ProviderServicesController extends Controller
                 return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'user' => $user,
                 ]);
             } else {
                 $this->redirect(Yii::$app->request->baseUrl.'/providers');

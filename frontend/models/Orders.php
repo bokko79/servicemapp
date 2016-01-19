@@ -142,4 +142,20 @@ class Orders extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Provider::className(), ['id' => 'registered_to']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActivity()
+    {
+        return $this->hasOne(Activities::className(), ['id' => 'activity_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->activity->user;
+    }
 }

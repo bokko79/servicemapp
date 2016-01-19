@@ -49,7 +49,7 @@ class UserPaymentsController extends Controller
                 'dataProvider' => $dataProvider,
                 'user' => $user,
             ]);
-         } else {
+        } else {
             $this->redirect(Yii::$app->request->baseUrl.'/providers');
         }
     }

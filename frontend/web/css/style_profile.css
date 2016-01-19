@@ -13,7 +13,8 @@
 .grid-profile-right {width: 270px; float: left;}
 .grid-profile-rightacross {width: 745px; float: left;}
 
-.media-screen,.media-screen img {width: 400px; height:300px;}
+.media-screen {margin-bottom: 25px;}
+.media-screen img {width: 400px; height:300px;}
 /* TITLES */
 .profile_head .pageTitle {display: block; color:#fff !important; text-shadow:1px 1px 3px #444; background: transparent; border-radius: 0px; padding: 0 10px; border: none;}
 .profile_head .pageTitle h1, .profile_head_stick h1, .profile_head .title_holder_home h2 {font-size: 32px; font-weight: 900; margin:0;}
@@ -52,4 +53,8 @@
 
 .profile_right_controls {text-align:right; width: 100%; position: absolute; bottom: 20px; right: 0;}
 .profile_right_controls a {margin: 0 5px;}
+
+.product-head {background: #F6F7F8;  border-bottom:1px solid #ddd; height: auto; width: 100%; position:relative;}
+.product-head .breadcrumb {padding: 20px 20px 10px; border: none;}
+.product-head .title_track {margin:0; background:#F6F7F8; border:none; position: absolute; bottom: 0;}
 

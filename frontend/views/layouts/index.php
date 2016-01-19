@@ -24,7 +24,7 @@ use yii\widgets\Breadcrumbs;
             <?= $this->render('../activities/filters/industry.php', ['model' => new \frontend\models\Activities]) ?>
         </div>
 
-        <div class="grid-center" style="margin-top:20px;">
+        <div class="grid-center" style="">
             <?= $this->render('partial/quick-forms.php') ?>
             <?= $content ?>
         </div>

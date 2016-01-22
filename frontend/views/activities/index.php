@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	</div>
 	<div class="card_container record-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
-        <a href="<?= Url::to('/services') ?>">
+        <a href="<?= Url::to('/order/1') ?>">
             <div class="header-context">                
                 <div class="avatar">
                     <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
@@ -170,7 +170,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Html::a(Yii::t('app', 'Bids').'&nbsp;<i class="fa fa-caret-down"></i>', null, ['class'=>'btn btn-link bid-link']); ?>
             </div>
 
-            <div class="bids-area animated fadeInDown">
+            <div class="bids-area animated fadeInDown closed">
             	<div class="bid-wrap">
             		<table>
 	                    <tr>
@@ -232,7 +232,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Html::a(Yii::t('app', 'Comments').'&nbsp;<i class="fa fa-caret-down"></i>', null, ['class'=>'btn btn-link comment-link']); ?>
             </div>
 
-            <div class="comments-area animated fadeInDown">
+            <div class="comments-area animated fadeInDown closed">
             	<div class="comment-wrap">
             		<table>
 	                    <tr>

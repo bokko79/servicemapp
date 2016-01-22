@@ -203,6 +203,8 @@ blockquote {opacity:.6; font-style: italic; margin-bottom: 20px;}
 .fs_16 { font-size: 16px; }
 .fs_30 { font-size: 30px; }
 
+.strikethrough {text-decoration: line-through;}
+
 /* labels */
 label{display:block;margin-bottom:5px}
 

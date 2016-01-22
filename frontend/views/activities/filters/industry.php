@@ -4,7 +4,7 @@ use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 ?>
       
-<div class="card_container record-200 left-sidebar" id="card_container" style="float:none;">   
+<div class="card_container record-200 transparent no-border no-shadow hidden-content-container" id="card_container" style="float:none;">   
     
     <div class="primary-context">
         <div class="subhead float-left"><i class="fa fa-map-marker"></i> Delatnost

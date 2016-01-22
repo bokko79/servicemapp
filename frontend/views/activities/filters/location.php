@@ -4,7 +4,7 @@ use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 ?>
       
-<div class="card_container record-200 left-sidebar" id="card_container" style="float:none;">   
+<div class="card_container record-200 transparent no-border no-shadow hidden-content-container" id="card_container" style="float:none;">   
     <div class="header-context page-title side-widget">
         <h4><i class="fa fa-filter"></i> Filteri</h4>
     </div>     

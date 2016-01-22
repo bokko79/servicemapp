@@ -47,7 +47,7 @@ class Card extends Widget
             $this->cardData['pic'] = 'default_avatar';
         } ?>
 
-            <div class="card_container record-200 grid-item fadeInUp animated clear-margins" id="card_container" style="float:none; clear:both;">
+            <div class="card_container record-200 grid-item fadeInUp animated no-margin" id="card_container" style="float:none; clear:both;">
                 <a href="<?= Url::to('/') ?>">            
                     <div class="media-area square">                
                         <div class="image">

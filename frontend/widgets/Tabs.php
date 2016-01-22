@@ -35,16 +35,6 @@ use yii\helpers\Url;
  */
 class Tabs extends Widget
 {
-    /**
-     * @var string the tag name for the breadcrumbs container tag. Defaults to 'div'.
-     */
-    public $tagName='div';
-    /**
-     * @var array the HTML attributes for the breadcrumbs container tag.
-     */
-    public $htmlOptions=array('class'=>'title_track');
-
-
     public $tabs=array();
 
     /**

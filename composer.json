@@ -45,7 +45,8 @@
         "bower-asset/angular": "*",
         "bower-asset/angular-route": "*",
         "bower-asset/angular-strap": "*",
-        "kartik-v/yii2-builder": "*"
+        "kartik-v/yii2-builder": "*",
+        "russ666/yii2-countdown": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -10,8 +10,9 @@
 
 .grid-profile-left {width: 400px; margin-left: 25px; float: left;}
 .grid-profile-center {width: 450px; float: left;}
-.grid-profile-right {width: 270px; float: left;}
+.grid-profile-right {width: 400px; float: left;}
 .grid-profile-rightacross {width: 745px; float: left;}
+.grid-profile-leftacross {width: 745px; float: left; margin-right: 25px;}
 
 .media-screen {margin-bottom: 25px;}
 .media-screen img {width: 400px; height:300px;}

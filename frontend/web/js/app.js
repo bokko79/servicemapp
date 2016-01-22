@@ -33,10 +33,16 @@ $(document).ready(function(){
               500);
   });
   // settings help on right-sidebar
-  $(".show-more").click(function(){
-      $(this).closest('.card_container').find('div.hidden-content').toggleClass('hidden');
+  /*$(".show-more").click(function(){
+      $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
       $(this).find('i.fa').toggleClass('fa-chevron-down');
       $(this).find('i.fa').toggleClass('fa-chevron-up');
+  });*/
+  // settings help on right-sidebar
+  $(".hovering .header-context").click(function(){
+      $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
+      $(this).closest('.hidden-content-container').find('.show-more i.fa').toggleClass('fa-chevron-down');
+      $(this).closest('.hidden-content-container').find('.show-more i.fa').toggleClass('fa-chevron-up');
   });
   // ProfileSubNav
   $(".profile_head").followToProfile(220);

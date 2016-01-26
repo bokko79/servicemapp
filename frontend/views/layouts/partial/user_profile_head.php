@@ -2,7 +2,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use frontend\widgets\Card;
+use frontend\widgets\Cardee;
 use frontend\widgets\Tabs;
 use frontend\widgets\ProfileTitle;
 use frontend\widgets\Stats;
@@ -18,7 +18,7 @@ use yii\helpers\Url;
 		<div class="grid-row">
 			<div class="grid-left">
 				<?php /* WIDGET: CARD */ ?>
-				<?= Card::widget([
+				<?= Cardee::widget([
 					'cardData' => $this->cardData, // Card Picture
 					'scroller' => false,
 				]) ?>

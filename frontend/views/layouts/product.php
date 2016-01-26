@@ -44,7 +44,7 @@ use frontend\widgets\Stats;
 <div class="product-head">
     <div class="grid-container margin-bottom-20 border-bottom">
 		<div class="grid-row">
-			<?= $this->render('../global-nav/glob-nav-services-body.php') ?>
+			<?php // $this->render('../global-nav/glob-nav-services-body.php') ?>
 		</div>
 	</div>
 </div>

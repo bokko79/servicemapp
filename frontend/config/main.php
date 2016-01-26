@@ -15,6 +15,7 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+            'class' => 'frontend\components\User',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -30,6 +31,9 @@ return [
         ],
         'operator' => [
             'class' => 'frontend\components\Operator',
+        ],
+        'view' => [
+            'class' => 'frontend\components\View',
         ],
     ],
     'params' => $params,

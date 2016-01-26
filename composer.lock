@@ -4,9 +4,70 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1ae6ebb5a99d400e57483640fe6df37c",
-    "content-hash": "d3ff9d9ed4d511b7048b67ab469bb63f",
+    "hash": "e9cd22ef012ba2cc83643a12fd7cc7e9",
+    "content-hash": "d8c4ab1ff0656f2c2a4c05d21db292ca",
     "packages": [
+        {
+            "name": "2amigos/yii2-gallery-widget",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-gallery-widget.git",
+                "reference": "b3d5850baaa28bf0fd05280bd15340600f76e8ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-gallery-widget/zipball/b3d5850baaa28bf0fd05280bd15340600f76e8ba",
+                "reference": "b3d5850baaa28bf0fd05280bd15340600f76e8ba",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/blueimp-gallery": "~2.17.0",
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\gallery\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "2amigOS! Consulting Group",
+                    "email": "hola@2amigos.us",
+                    "homepage": "http://2amigos.us",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Blueimp gallery widget for the Yii framework",
+            "homepage": "https://github.com/2amigos/yii2-gallery-widget",
+            "keywords": [
+                "2amigos",
+                "gallery",
+                "widget",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2016-01-04 06:35:58"
+        },
         {
             "name": "2amigos/yii2-google-maps-library",
             "version": "dev-master",
@@ -200,6 +261,22 @@
             ]
         },
         {
+            "name": "bower-asset/blueimp-gallery",
+            "version": "v2.17.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blueimp/Gallery.git",
+                "reference": "8336bb5934cb623608808601129db3fbf9201a09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blueimp/Gallery/zipball/8336bb5934cb623608808601129db3fbf9201a09",
+                "reference": "8336bb5934cb623608808601129db3fbf9201a09",
+                "shasum": ""
+            },
+            "type": "bower-asset-library"
+        },
+        {
             "name": "bower-asset/bootstrap",
             "version": "v3.3.5",
             "source": {
@@ -246,6 +323,55 @@
                 "mobile-first",
                 "responsive",
                 "web"
+            ]
+        },
+        {
+            "name": "bower-asset/fotorama",
+            "version": "4.6.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/artpolikarpov/fotorama-bower.git",
+                "reference": "bc05ef11b5cd307fd46d50e269abf8c8808fa4e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/artpolikarpov/fotorama-bower/zipball/bc05ef11b5cd307fd46d50e269abf8c8808fa4e5",
+                "reference": "bc05ef11b5cd307fd46d50e269abf8c8808fa4e5",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.8"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "fotorama.css",
+                    "fotorama.js"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "bower_components",
+                    "test",
+                    "tests"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A simple, stunning, powerful jQuery gallery.",
+            "keywords": [
+                "carousel",
+                "content",
+                "fotorama",
+                "gallery",
+                "image",
+                "photo",
+                "responsive",
+                "slider",
+                "slideshow",
+                "ui",
+                "video"
             ]
         },
         {
@@ -2591,6 +2717,55 @@
             "time": "2015-12-05 10:37:16"
         },
         {
+            "name": "metalguardian/yii2-fotorama-widget",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MetalGuardian/yii2-fotorama-widget.git",
+                "reference": "c9f0a7fac050fbd6108ebbd8098cad394f53e45d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MetalGuardian/yii2-fotorama-widget/zipball/c9f0a7fac050fbd6108ebbd8098cad394f53e45d",
+                "reference": "c9f0a7fac050fbd6108ebbd8098cad394f53e45d",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/fotorama": "4.*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "metalguardian\\fotorama\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Pushkin",
+                    "email": "imetalguardi+yii2@gmail.com"
+                }
+            ],
+            "description": "fotorama image gallery yii2 widget",
+            "homepage": "https://github.com/MetalGuardian/yii2-fotorama-widget",
+            "keywords": [
+                "extension",
+                "fotorama",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-05-31 18:15:38"
+        },
+        {
             "name": "petrabarus/yii2-googleplacesautocomplete",
             "version": "dev-master",
             "source": {
@@ -2860,12 +3035,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "b2e6f32de516b43238db0ed36b1c16bf9f22d2db"
+                "reference": "e4359f68b70caede1e09ecefb56e9435f7d140af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/b2e6f32de516b43238db0ed36b1c16bf9f22d2db",
-                "reference": "b2e6f32de516b43238db0ed36b1c16bf9f22d2db",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/e4359f68b70caede1e09ecefb56e9435f7d140af",
+                "reference": "e4359f68b70caede1e09ecefb56e9435f7d140af",
                 "shasum": ""
             },
             "require": {
@@ -2946,7 +3121,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-01-21 07:55:52"
+            "time": "2016-01-23 08:43:29"
         },
         {
             "name": "yiisoft/yii2-bootstrap",

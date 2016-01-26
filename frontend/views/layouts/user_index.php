@@ -4,7 +4,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
-use frontend\widgets\Card;
+use frontend\widgets\Cardee;
 use frontend\widgets\Tabs;
 use frontend\widgets\PageTitle;
 use frontend\widgets\Stats;
@@ -16,7 +16,7 @@ use frontend\widgets\Stats;
         <div class="grid-left">
             <?php /* WIDGET: CARD */ ?>
                 <?php $user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
-                <?= Card::widget([
+                <?= Cardee::widget([
                     'cardData' => [
                         'pic' => null,        
                         'head' => ($user->fullname) ? $user->fullname : $user->username,

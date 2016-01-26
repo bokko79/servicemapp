@@ -423,4 +423,36 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserServices::className(), ['user_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocation()
+    {
+        return $this->userDetails->loc;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAvatar()
+    {
+        return $this->userDetails->image;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRole()
+    {
+        return $this->userDetails->role;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCurrency()
+    {
+        return $this->userDetails->currency;
+    }
 }

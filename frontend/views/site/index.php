@@ -64,7 +64,7 @@ $map2->addOverlay($marker2);
 
 <div class="site-index">
 <div class="body-content">
-    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="media-area">                
                 <div class="image">
@@ -88,7 +88,7 @@ $map2->addOverlay($marker2);
         </a>
     </div>
 
-    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="media-area">                
                 <div class="image">
@@ -120,7 +120,7 @@ $map2->addOverlay($marker2);
         'type' => ActiveForm::TYPE_VERTICAL,        
     ]); ?>
     <label class="cbx-label" for="s_1">
-    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">        
+    <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">        
             <div class="media-area square">                
                 <div class="image">
                     <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                                        
@@ -141,7 +141,7 @@ $map2->addOverlay($marker2);
     </label>
     <?php ActiveForm::end(); ?>
 
-    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="header-context">                
                 <div class="avatar">
@@ -178,7 +178,7 @@ $map2->addOverlay($marker2);
     </div>
 
 
-    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             
             <div class="primary-context">
@@ -198,7 +198,7 @@ $map2->addOverlay($marker2);
     </div>
 
 
-    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">            
             <div class="primary-context">
                 <div class="head">Heading</div>
@@ -216,7 +216,7 @@ $map2->addOverlay($marker2);
         </a>
     </div>
 
-    <div class="card_container teaser-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container teaser-xl grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="header-context">                
                 <div class="avatar">
@@ -252,7 +252,7 @@ $map2->addOverlay($marker2);
         </a>
     </div>
 
-    <div class="card_container teaser-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container teaser-xl grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="header-context">                
                 <div class="avatar">
@@ -288,7 +288,7 @@ $map2->addOverlay($marker2);
         </a>
     </div>
 
-    <div class="card_container teaser-200 grid-item fadeInUp animated" id="card_container" style="float:none; clear:both;">
+    <div class="card_container teaser-xs grid-item fadeInUp animated" id="card_container" style="float:none; clear:both;">
         <a href="<?= Url::to('/services') ?>">            
             <div class="media-area square">                
                 <div class="image">
@@ -304,7 +304,7 @@ $map2->addOverlay($marker2);
         </a>
     </div>
 
-    <div class="card_container record-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-xl grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="header-context">                
                 <div class="avatar">
@@ -352,7 +352,7 @@ $map2->addOverlay($marker2);
         </a>
     </div>
 
-    <div class="card_container record-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-xl grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="header-context">                
                 <div class="avatar">
@@ -398,29 +398,61 @@ $map2->addOverlay($marker2);
                 <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
             </div>
         </a>
-            <div class="comments-area">
-                <table class="comment">
-                    <tr>
-                        <td class="avatar">
-                            <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
-                        </td>
-                        <td class="body">
-                            <div class="head second">Masterplan</div>
-                            <div class="subaction">
-                                <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?>    
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                        fugiat nulla pariatur.</p> 
-                        </td>                       
-                    </tr>                        
-                </table>
-            </div>
+                <div class="comments-area animated fadeInDown">
+                    <div class="comment-wrap">
+                        <table>
+                            <tr>
+                                <td class="avatar">
+                                    <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
+                                </td>
+                                <td class="body">
+                                    <table>
+                                        <tr>
+                                            <td class="head second">
+                                                Masterplan
+                                            </td>
+                                            <td class="subaction">                                      
+                                                <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?> 
+                                            </td>                       
+                                        </tr>                        
+                                    </table>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                                                fugiat nulla pariatur.</p> 
+                                </td>                       
+                            </tr>                        
+                        </table>
+                    </div>
+
+                    <div class="comment-wrap">
+                        <table>
+                            <tr>
+                                <td class="avatar">
+                                    <?= Html::img('@web/images/cards/info/info_docs2.jpg') ?>          
+                                </td>
+                                <td class="body">
+                                    <table>
+                                        <tr>
+                                            <td class="head second">
+                                                Tomislav
+                                            </td>
+                                            <td class="subaction">                                      
+                                                <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?> 
+                                            </td>                       
+                                        </tr>                        
+                                    </table>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                                dolore magna aliqua..</p> 
+                                </td>                       
+                            </tr>                        
+                        </table>
+                    </div>                  
+                </div> 
     </div>
 
 
-    <div class="card_container record-650 list-item fadeInUp animated" id="card_container" style="float:none; border-left-color: green;">
+    <div class="card_container record-xl list-item fadeInUp animated" id="card_container" style="float:none; border-left-color: green;">
         <a href="<?= Url::to('/services') ?>">
             
             <table class="main-context"> 
@@ -456,7 +488,7 @@ $map2->addOverlay($marker2);
             </div>
         </a>
     </div>
-    <div class="card_container record-650 list-item fadeInUp animated" id="card_container" style="float:none; border-left-color: purple;">
+    <div class="card_container record-xl list-item fadeInUp animated" id="card_container" style="float:none; border-left-color: purple;">
         <a href="<?= Url::to('/services') ?>">
             
             <table class="main-context"> 
@@ -530,7 +562,7 @@ $map2->addOverlay($marker2);
     <?php ActiveForm::end(); */ ?>
 
 <div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 26 }' style="">
-     <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+     <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="media-area">                
                 <div class="image">
@@ -554,7 +586,7 @@ $map2->addOverlay($marker2);
         </a>
     </div>
 
-    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             <div class="header-context">                
                 <div class="avatar">
@@ -591,7 +623,7 @@ $map2->addOverlay($marker2);
     </div>
 
 
-    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">
             
             <div class="primary-context">
@@ -611,7 +643,7 @@ $map2->addOverlay($marker2);
     </div>
 
 
-    <div class="card_container record-320 grid-item fadeInUp animated" id="card_container" style="float:none;">
+    <div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="float:none;">
         <a href="<?= Url::to('/services') ?>">            
             <div class="primary-context">
                 <div class="head">Heading</div>

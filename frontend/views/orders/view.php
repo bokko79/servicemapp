@@ -4,6 +4,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use frontend\widgets\ProductHead;
+use frontend\widgets\Card;
+use frontend\widgets\OrderBox;
+use kartik\widgets\ActiveForm;
 
 
 use dosamigos\google\maps\LatLng;
@@ -51,6 +54,7 @@ $object = [
                         <td>1</td>
                     </tr>
                     </table>',
+        'active'=>true,
     ];
 $issue = [
         'label'=>'<i class="fa fa-tag"></i> Apartman: Problemi',
@@ -102,6 +106,8 @@ $this->stats = [
 
 <?php // $this->render('//layouts/partial/product_head.php', ['model'=>$model]) ?>
 
+
+
 <?= ProductHead::widget([
         'productData' => [
             'creator' => [
@@ -112,19 +118,9 @@ $this->stats = [
                 [
                     'avatar' => 'info/info_docs3',
                     'head' => 'Kratkoročno izdavanje apartmana',
+                    'link' => '/service/1',
                     'qty' => '65 m<sup>2</sup>',
                     'consumer' => 4,
-                    'note' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat.',
-                    'details' => $items,
-                    'media' => [0=>'info/info_docs'.rand(0, 9)],
-                ],
-                [
-                    'avatar' => 'info/info_docs2',
-                    'head' => 'Izdavanje apartmana',
-                    'qty' => '78 m<sup>2</sup>',
-                    'consumer' => 2,
                     'note' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                         ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                         ex ea commodo consequat.',
@@ -134,129 +130,69 @@ $this->stats = [
             ],            
             'maps' => $map->display(),
             'activity' => [
-                'id' => 54,
+                'id' => 6454,
                 'type' => 'normal',
                 'status' => 'active',
-                'validity' => date('Y-m-d H:i:s', time() + 15),
-                'time' => 'pon 27. mart @<b>18:30</b>',// <i class="fa fa-long-arrow-right"></i> sre 29. mart @<b>11:00</b>
+                'validity' => date('Y-m-d H:i:s', time() + 10000),
+                'time' => 'pon 27. mart @<b>18:30</b> <i class="fa fa-long-arrow-right"></i> sre 29. mart @<b>11:00</b>',
                 'location' => 'Novi Sad (SRB), Šekspirova 7',//<i class="fa fa-long-arrow-right"></i> Čazma (HR), Kralja Tomislava 3
             ],            
         ]
     ]) ?>
 
-    <h1><?= Html::encode('Bids') ?></h1>
-    <div class="card_container record-full fadeInUp animated" id="card_container" style="float:none;">
-        <div class="bids-area animated fadeInDown">
-            <div class="bid-wrap">
-                <table>
-                    <tr>
-                        <td class="avatar">
-                            <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
-                        </td>
-                        <td class="body">
-                            <table>
-                                <tr>
-                                    <td class="head second">
-                                        Masterplan
-                                    </td>
-                                    <td class="subaction">                                      
-                                        <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?> 
-                                    </td>                       
-                                </tr>                        
-                            </table>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                        fugiat nulla pariatur.</p> 
-                        </td>                       
-                    </tr>                        
-                </table>
-            </div>
-
-            <div class="bid-wrap">
-                <table>
-                    <tr>
-                        <td class="avatar">
-                            <?= Html::img('@web/images/cards/info/info_docs2.jpg') ?>          
-                        </td>
-                        <td class="body">
-                            <table>
-                                <tr>
-                                    <td class="head second">
-                                        Tomislav
-                                    </td>
-                                    <td class="subaction">                                      
-                                        <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?> 
-                                    </td>                       
-                                </tr>                        
-                            </table>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua..</p> 
-
-                        </td>                       
-                    </tr>                        
-                </table>
-                
-            </div>
-
-            <div class="action-area right">
-                <?= Html::a('<i class="fa fa-exchange"></i>&nbsp;'.Yii::t('app', 'Bid'), Url::to(), ['class'=>'btn btn-primary']); ?>                   
-            </div>                  
+    <h1><?= Html::encode('Ponude') ?><span class="float-right fs_12 bold">sortiraj po <?= Html::dropDownList('sort', null, [
+    'value1' => 'time ascending',
+    'value2' => 'time descending',
+], []) ?></span></h1>
+    <div class="card_container record-full fadeIn animated" id="card_container" style="float:none;">
+        <div class="bids-area animated fadeIn">
+            <?php // bid ?>
+            <?= Card::widget([
+                'bid' => \frontend\models\Bids::findOne(1),
+                //'view' => Card::VIEW_COMPACT,                
+                'sections' => [
+                    1 => [
+                        'part' => Card::PART_BID,
+                        'options' => ['class'=>''],
+                    ]                    
+                ] 
+            ]); ?>
+           
         </div>
     </div>
 
-<h1><?= Html::encode('Comments') ?></h1>
-    <div class="card_container record-full fadeInUp animated" id="card_container" style="float:none;">
-        <div class="comments-area animated fadeInDown">
-            <div class="comment-wrap">
-                <table>
-                    <tr>
-                        <td class="avatar">
-                            <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
-                        </td>
-                        <td class="body">
-                            <table>
-                                <tr>
-                                    <td class="head second">
-                                        Masterplan
-                                    </td>
-                                    <td class="subaction">                                      
-                                        <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?> 
-                                    </td>                       
-                                </tr>                        
-                            </table>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                        fugiat nulla pariatur.</p> 
-                        </td>                       
-                    </tr>                        
-                </table>
-            </div>
+<h1><?= Html::encode('Komentari') ?></h1>
+    <div class="card_container record-full fadeIn animated" id="card_container" style="float:none;">
 
-            <div class="comment-wrap">
-                <table>
-                    <tr>
-                        <td class="avatar">
-                            <?= Html::img('@web/images/cards/info/info_docs2.jpg') ?>          
-                        </td>
-                        <td class="body">
-                            <table>
-                                <tr>
-                                    <td class="head second">
-                                        Tomislav
-                                    </td>
-                                    <td class="subaction">                                      
-                                        <?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?> 
-                                    </td>                       
-                                </tr>                        
-                            </table>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua..</p> 
-                        </td>                       
-                    </tr>                        
-                </table>
-            </div>                  
+        <div class="comments-area animated fadeIn">
+            <?= Card::widget([
+                'comment' => \frontend\models\ActivityComments::findOne(1),
+                'sections' => [
+                    1 => [
+                        'part' => Card::PART_COMMENT,
+                        'options' => ['class'=>''],
+                    ]                    
+                ]                    
+            ]) ?>                  
+        </div>
+        <div class="secondary-context avatar-padded fadeIn animated">
+            <?php $form = kartik\widgets\ActiveForm::begin([
+                'id' => 'form-horizontal',
+                'type' => ActiveForm::TYPE_INLINE,
+            ]); ?>
+
+            <?= $form->field($model, 'validity', [
+                    'addon' => [
+                        'append' => [
+                            'content' => Html::button('Kometar', ['class'=>'btn btn-primary']), 
+                            'asButton' => true
+                        ]
+                    ],
+                    'inputOptions' => ['style' => 'width:100%;'],
+                    'options' => ['style' => 'width:100%;'],
+                ]) ?>
+
+            <?php ActiveForm::end(); ?>         
         </div> 
     </div>
 
@@ -271,4 +207,56 @@ $this->stats = [
         ]) ?>
     </p>
 
-          
+    
+<?php 
+$content_1 = '<i class="fa fa-refresh fa-spin"></i> '.
+    \russ666\widgets\Countdown::widget([
+            'datetime' => $model->validity,
+            'format' => '%d<span class=\"fs_11\">d</span> %H<span class=\"fs_11\">h</span> %M<span class=\"fs_11\">m</span> %S<span class=\"fs_11\">s</span>',
+            'events' => [
+            ],
+        ]);
+$services = [];
+foreach ($model->orderServices as $orderService):
+$services[] = [
+    /*'ser1' => [
+        'part' => Card::PART_HEAD,
+        'options' => ['class'=>'head', 'head'=>'head'],
+        'hr'=>true,
+        'version' => 1,
+    ],*/
+    /*'media' => [
+        'part' => Card::PART_MEDIA,
+        'options' => ['class'=>'']
+    ],*/
+];
+endforeach;
+?>
+<?= Card::widget([
+    'model' => $model,
+    'medias' => \frontend\models\Images::find()->where('id>20 and id<25')->all(),
+    'sections' => [        
+        2 => [
+            'part' => Card::PART_HEAD,
+            'options' => ['class'=>'gray', 'head'=>'lower'],
+            'hr'=>true,
+            'version' => 1,
+        ],
+        1 => [
+            'part' => Card::PART_HEAD,
+            'options' => [
+                'class'=>'', 
+                'head'=>'second gray-color', 
+                'avatarIcon'=>'shopping-cart', 
+                'avatar'=>'center gray-color',
+                'subhead' => 'label label-primary',
+                'headContent'=>'Porudžbina br. #'. sprintf("%'09d\n", $model->id),
+                'subheadContent'=>'<i class="fa fa-bookmark"></i> '. $model->activity->type,
+                'subactionContent'=>$content_1,
+                'subaction' => 'fs_30',
+            ],
+            'hr'=>true,
+            'version' => 2,
+        ],
+    ]
+]) ?>

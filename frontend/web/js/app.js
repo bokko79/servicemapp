@@ -36,13 +36,13 @@ $(document).ready(function(){
   /*$(".show-more").click(function(){
       $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
       $(this).find('i.fa').toggleClass('fa-chevron-down');
-      $(this).find('i.fa').toggleClass('fa-chevron-up');
+      $(this).find('i.fa').toggleClass('fa-chevron-right');
   });*/
   // settings help on right-sidebar
   $(".hovering .header-context").click(function(){
       $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
       $(this).closest('.hidden-content-container').find('.show-more i.fa').toggleClass('fa-chevron-down');
-      $(this).closest('.hidden-content-container').find('.show-more i.fa').toggleClass('fa-chevron-up');
+      $(this).closest('.hidden-content-container').find('.show-more i.fa').toggleClass('fa-chevron-right');
   });
   // ProfileSubNav
   $(".profile_head").followToProfile(220);

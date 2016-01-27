@@ -145,4 +145,30 @@ class Bids extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Offers::className(), ['id' => 'offer_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->activity->user;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserType()
+    {
+        if(!Yii::$app->user->isGuest) {
+            if(Yii::$app->user->id == $this->user->id) {
+                return 'bidder';
+            } elseif(Yii::$app->user->id == $this->order->user->id) {
+                return 'sender';
+            } else {
+                return 'guest';
+            }
+        } else {
+            return 'guest';
+        }        
+    }
 }

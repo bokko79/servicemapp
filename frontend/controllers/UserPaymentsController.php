@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\UserPayment;
 use frontend\models\UserPaymentsSearch;
+use frontend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,7 +15,7 @@ use yii\filters\VerbFilter;
  */
 class UserPaymentsController extends Controller
 {
-    public $layout='settings';
+    public $layout='finances';
 
     public function behaviors()
     {
@@ -34,8 +35,6 @@ class UserPaymentsController extends Controller
      */
     public function actionIndex($username=null)
     {
-        $this->layout = '//user_index';
-
         if (isset($username)) {
             $user = \frontend\models\User::find()->where(['username'=>$username])->one();
         }

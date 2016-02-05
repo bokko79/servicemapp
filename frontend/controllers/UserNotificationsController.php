@@ -6,6 +6,7 @@ use Yii;
 use frontend\models\UserNotifications;
 use frontend\models\UserNotificationsSms;
 use frontend\models\UserNotificationsSearch;
+use frontend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

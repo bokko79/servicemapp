@@ -8,8 +8,6 @@ use frontend\widgets\ProfileTitle;
 use frontend\widgets\Stats;
 ?>	
 <div class="profile_head">
-	<!-- COVER PHOTO -->
-	<div class="cover_user_profile"></div>
 	<!-- HEADER -->
 	<div class="grid-container">
 		<div class="grid-row">
@@ -23,13 +21,6 @@ use frontend\widgets\Stats;
 			</div>
 
 			<div class="grid-center" style="height:215px;">
-				
-				<?php /* WIDGET: TABS */ ?>
-				<?= Tabs::widget([
-					'tabs' => $this->tabs,
-				]);
-				?>
-
 				<?php /* WIDGET: PROFILETITLE */ ?>
 				<?= ProfileTitle::widget([
 					'titleData' => $this->profileTitle, // Card Picture

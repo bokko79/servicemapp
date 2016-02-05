@@ -269,4 +269,20 @@ class CsServices extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserServices::className(), ['service_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAvatar()
+    {
+        return ($this->object->image) ? $this->object->image->ime : false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAveragePrice()
+    {
+        return '2.499,99&nbsp;RSD/m<sup>2</sup>';
+    }
 }

@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
  */
 class TransactionsController extends Controller
 {
-    public $layout='user_index';
+    public $layout='finances';
 
     public function behaviors()
     {
@@ -63,7 +63,7 @@ class TransactionsController extends Controller
      */
     public function actionView($id)
     {
-        $this->layout = '//report';
+        $this->layout = '//finances';
 
         return $this->render('view', [
             'model' => $this->findModel($id),

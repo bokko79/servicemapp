@@ -5,9 +5,9 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "provider_service_terms".
+ * This is the model class for table "provider_terms".
  *
- * @property string $provider_service_id
+ * @property string $provider_id
  * @property string $ip_warranty
  * @property string $performance_warranty
  * @property string $invoicing
@@ -24,19 +24,16 @@ use Yii;
  * @property string $cancellation_policy
  * @property string $update_time
  *
- * @property ProviderServiceTermClauses[] $providerServiceTermClauses
- * @property ProviderServiceTermExpenses[] $providerServiceTermExpenses
- * @property ProviderServiceTermMilestones[] $providerServiceTermMilestones
- * @property ProviderServices $providerService
+ * @property Provider $provider
  */
-class ProviderServiceTerms extends \yii\db\ActiveRecord
+class ProviderTerms extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'provider_service_terms';
+        return 'provider_terms';
     }
 
     /**
@@ -45,10 +42,11 @@ class ProviderServiceTerms extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['provider_service_id', 'update_time'], 'required'],
-            [['provider_service_id', 'payment_advance_percentage', 'payment_installment_no_rates', 'payment_installment_rate', 'payment_installment_frequency'], 'integer'],
+            [['provider_id', 'update_time'], 'required'],
+            [['provider_id', 'payment_advance_percentage', 'payment_installment_no_rates', 'payment_installment_rate', 'payment_installment_frequency'], 'integer'],
             [['ip_warranty', 'performance_warranty', 'invoicing', 'payment_methods', 'payment', 'payment_at_once_time', 'payment_installment_frequency_unit', 'liability', 'agreement_effective_until', 'cancellation_policy'], 'string'],
-            [['update_time'], 'safe']
+            [['update_time'], 'safe'],
+            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Provider::className(), 'targetAttribute' => ['provider_id' => 'id']],
         ];
     }
 
@@ -58,7 +56,7 @@ class ProviderServiceTerms extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'provider_service_id' => Yii::t('app', 'Provider Service ID'),
+            'provider_id' => Yii::t('app', 'Provider ID'),
             'ip_warranty' => Yii::t('app', 'Ip Warranty'),
             'performance_warranty' => Yii::t('app', 'Performance Warranty'),
             'invoicing' => Yii::t('app', 'Invoicing'),
@@ -80,32 +78,8 @@ class ProviderServiceTerms extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServiceTermClauses()
+    public function getProvider()
     {
-        return $this->hasMany(ProviderServiceTermClauses::className(), ['provider_service_term_id' => 'provider_service_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceTermExpenses()
-    {
-        return $this->hasMany(ProviderServiceTermExpenses::className(), ['provider_service_term_id' => 'provider_service_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceTermMilestones()
-    {
-        return $this->hasMany(ProviderServiceTermMilestones::className(), ['provider_service_term_id' => 'provider_service_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderService()
-    {
-        return $this->hasOne(ProviderServices::className(), ['id' => 'provider_service_id']);
+        return $this->hasOne(Provider::className(), ['id' => 'provider_id']);
     }
 }

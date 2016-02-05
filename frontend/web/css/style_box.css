@@ -18,31 +18,32 @@
 .card_container.bordered, .card_container .bordered {border: 1px solid #ddd !important;}
 .card_container.top-bordered, .card_container .top-bordered {border: none !important; border-top: 1px solid #ddd !important;}
 .card_container.transparent, .card_container .transparent {background: transparent !important;}
-
 /* general */
 .card_container .head {font-size: 24px; font-weight: 500; float:none; width:100%; line-height: 24px; padding-bottom: 4px;}
 .card_container .head.lower {font-size: 16px; line-height: 16px; padding-top: 4px; font-weight: 900;}
 .card_container .head.second {font-size: 14px; line-height: 14px; padding-top: 4px; font-weight: 700;}
-.card_container .head.major {font-size: 20px; line-height: 14px; padding-top: 4px; font-weight: 700;}
+.card_container .head.major {font-size: 20px; line-height: 18px; padding-top: 4px; font-weight: 700;}
 .card_container .head.black {font-weight: 900;}
 .dim {opacity:.36;}
-.card_container .subhead {font-size: 14px; font-weight: 400; color:#999; float:none; width:100%; line-height: 14px;}
+.card_container .subhead {font-size: 13px; font-weight: 400; color:#999; float:none; width:100%; line-height: 14px;}
 .card_container .subhead.float-left {float: left !important; font-weight:700;}
-.card_container p {font-size: 13px; margin:0; padding:0; line-height: 16px; color: #666;}
+.card_container p {font-size: 12px; margin:0; padding:0; line-height: 16px; color: #666;}
 .card_container > a {color:black;}
 .card_container a:hover {text-decoration: none;}
 .card_container .label {/*font-size: 24px;*/}
 .card_container .avatar {float:left;width: 40px;}
-.card_container .avatar img {width: 40px; height: 40px; border-radius: 20px;}
+.card_container .avatar img {width: 40px; height: 40px; border-radius: 3px;}
 .card_container .title {float:left; padding-left: 16px;}
 .card_container .subaction {float:right; font-size: 11px; color:#aaa; font-weight: 400;}
 .card_container .gray {background: #f6f7f8;}
 .card_container .gray-color {color: #777;}
-.card_container .show-more {position: absolute; top: 20px; right: 20px;}
+.card_container .show-more {position: absolute; top: 10px; right: 20px;}
 .card_container .avatar-padded {padding-left: 72px !important;}
-.card_container .section-subtitle {font-size: 11px; color: #777; text-align: left; padding: 5px 0; }
+.card_container .embed-container {/*margin: 0 16px 16px; border: 1px solid #ddd;*/}
+.card_container .section-subtitle {font-size: 11px; color: #777; text-align: left; padding: 5px 0;}
 .card_container .hidden-content-container {position: relative;}
 .card_container .hovering:hover > .header-context {cursor: pointer; background: #f6f7f8;}
+.divider:before {content: " \00b7";}
 /* header */
 .preheader-context {padding:16px 16px 0 72px; height: auto;}
 .header-context {padding:16px; height: 72px;}
@@ -51,20 +52,20 @@
 .header-context.page-title.side-widget {padding:8px 16px; letter-spacing: -1px; font-weight: 900; color: #777;}
 .header-context.low-margin  {padding:8px 16px; height: 56px;}
 /* main-context */
-.main-context {border-top: 1px solid #ddd; width: 100%;}
+.main-context {width: 100%;}
 .card_container.no-shadow .main-context {border-top: none;}
 .main-context .body-area {}
 /* rich-media */
 .media-area {position: relative;}
 .main-context .media-area {padding: 16px 16px 0 0;}
-.main-context .media-area .left {padding: 16px 0 16px 16px;}
-.record-full .main-context .media-area .image, .record-full .main-context .media-area .image img {width:312px; height:312px;}
-.record-xl .main-context .media-area .image, .record-xl .main-context .media-area .image img {width:152px; height:152px;}
+.main-context .media-area .left, .main-context .media-area.left {padding: 16px 0 16px 16px;}
+.record-full .main-context .media-area .image, .record-full .main-context .media-area .image img {width:312px !important; height:312px !important;}
+.record-xl .main-context .media-area .image, .record-xl .main-context .media-area .image img {width:152px !important; height:152px;}
 .record-md .main-context .media-area .image, .record-md .main-context .media-area .image img {width:112px; height:112px;}
 .record-sm .main-context .media-area .image, .record-sm .main-context .media-area .image img {width:80px; height:80px;}
 .record-xs .main-context .media-area .image, .record-xs .main-context .media-area .image img {width:80px; height:80px;}
 .record-full .media-area, .record-full .media-area img {padding:0; width:100% !important; height:492px !important;}
-.record-xl .media-area .image, .record-xl .media-area .image img {padding:0; width:100% !important; height:366px;}
+.record-xl .media-area .image, .record-xl .media-area .image img, .record-xl .main-context .media-area.full .image, .record-xl .main-context .media-area.full .image img {padding:0; width:100% !important; height:366px;}
 .record-md .media-area .image, .record-md .media-area .image img {padding:0; width:100% !important; height:176px;}
 .record-md .media-area.square .image, .record-md .media-area.square .image img {width: 312px; height:312px;}
 .record-sm .media-area .image, .record-sm .media-area .image img {padding:0; width:100% !important; height:152px;}
@@ -81,24 +82,39 @@
 .primary-context.in-media.dark .subhead {text-shadow: 0px 0px 1px #444; color:#ccc; font-size: 12px; line-height: 12px;}
 .primary-context.right {text-align: right;}
 .primary-context.full {padding:24px 16px;}
+.primary-context.normal {padding:16px;}
 .card-tile .primary-context, .primary-context.small-margin {padding:12px 16px 0px;}
 .left-sidebar .primary-context {padding:12px 8px;}
+.main-context .body-area.avatar-padded .primary-context, .main-context .body-area.avatar-padded .secondary-context,
+.main-context .body-area.avatar-padded .header-context {padding-left: 0px;}
 /* secondary-context */
-.secondary-context {padding:16px;}
+.secondary-context {padding:16px; min-height: 46px; height: auto;}
 .secondary-context.cont {padding-top:0px;}
 .secondary-context.tease, .left-sidebar .secondary-context.tease {padding-top:0px; padding-bottom:0px;}
 .secondary-context.tease > p {font-size: 11px !important; line-height: 14px;}
 .secondary-context.bottom {padding-bottom:24px;}
 .left-sidebar .secondary-context {padding:12px 8px;}
+.secondary-context .widget {border-collapse: collapse;}
+.secondary-context .widget td {vertical-align: middle; position: relative; z-index: 2; text-align: ;}
+.secondary-context .widget .widget-title {text-transform: uppercase; font-size: 9px; font-weight: 900; color: #ccc;}
+.secondary-context .widget .headline {font-size: 16px; font-weight: 900;}
+.secondary-context .widget .headline.major {font-size: 20px; font-weight: 700;}
+.secondary-context .widget .subline {font-weight: 700;}
+.secondary-context .widget .line {}
+.secondary-context .widget i {color: #2196F3; position: relative; z-index: 2;}
+.secondary-context .widget .label {position: relative; z-index: 2;}
+tr.strikeout td.line:before { content: "";position: absolute;top: 7px;left: 0;border-bottom: 4px solid #ddd;width: 100%;z-index: 0;}
+tr.strikeout td.line.right:before { left: -5px; }
 /* built-in-context */
 .built-in-context {width: 100%; height: auto; padding: 16px; margin: -16px;}
 /* action-area */
 .action-area {padding:8px; height: 48px;}
-.action-area a, .action-area button {font-weight: 700; text-transform: uppercase; font-size: 13px; margin-right: 4px;}
+.action-area.free {padding:0; height: auto;}
+.action-area a, .action-area button, .action a, .action button {font-weight: 700; text-transform: uppercase; font-size: 13px;}
 .action-area.normal-case {padding: 4px 8px 0; background: #f6f7f8; height: 36px;}
 .action-area.normal-case a, .action-area.normal-case button {text-transform: none;}
 .action-area.right a, .action-area.right button {margin-left: 4px;}
-.card_container .gray {background: #F0EDE5;}
+.card_container .gray {background: #f6f7f8;}
 .primary-context .head .action-area {padding-top: 0; float: right;}
 .primary-context .head .action-area a {margin: 0;}
 .left-sidebar .action-area {padding:12px 8px;}

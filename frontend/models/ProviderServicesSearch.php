@@ -18,7 +18,7 @@ class ProviderServicesSearch extends ProviderServices
     public function rules()
     {
         return [
-            [['id', 'presentation_id', 'provider_id', 'service_id', 'industry_id', 'loc_id', 'period', 'period_unit', 'price', 'price_max', 'currency_id', 'fixed_price', 'warranty', 'on_sale', 'is_set'], 'integer'],
+            [['id', 'provider_id', 'provider_industry_id', 'service_id', 'industry_id', 'loc_id', 'period', 'period_unit', 'price', 'price_max', 'currency_id', 'fixed_price', 'warranty', 'on_sale', 'is_set'], 'integer'],
             [['name', 'description', 'note', 'update_time'], 'safe'],
         ];
     }
@@ -43,6 +43,8 @@ class ProviderServicesSearch extends ProviderServices
     {
         $query = ProviderServices::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,10 +57,11 @@ class ProviderServicesSearch extends ProviderServices
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'presentation_id' => $this->presentation_id,
             'provider_id' => $this->provider_id,
+            'provider_industry_id' => $this->provider_industry_id,
             'service_id' => $this->service_id,
             'industry_id' => $this->industry_id,
             'loc_id' => $this->loc_id,

@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\ProviderServices;
 use frontend\models\ProviderServicesSearch;
+use frontend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,14 +16,17 @@ use yii\filters\VerbFilter;
 class ProviderServicesController extends Controller
 {
     public $layout='settings';
-
+    
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
         ];
@@ -32,30 +36,23 @@ class ProviderServicesController extends Controller
      * Lists all ProviderServices models.
      * @return mixed
      */
-    public function actionIndex($providername=null)
+    public function actionIndex($username=null)
     {
-        $this->layout = '//user_index';
-
-        if (isset($providername)) {
-            $user = \frontend\models\User::find()->where(['username'=>$providername])->one();
-
-            if($user) {
-                $searchModel = new ProviderServicesSearch();
-                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-                return $this->render('index', [
-                    'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
-                    'user' => $user,
-                ]);
-            } else {
-                $this->redirect(Yii::$app->request->baseUrl.'/providers');
-            }
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+        if (isset($username)) {
+            $user = User::find()->where(['username'=>$username])->one();
         }
 
-        
+        if($user) {
+            $searchModel = new ProviderServicesSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            $this->redirect(Yii::$app->request->baseUrl.'/providers');
+        }
     }
 
     /**
@@ -65,8 +62,6 @@ class ProviderServicesController extends Controller
      */
     public function actionView($id)
     {
-        $this->layout = '//product';
-
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);

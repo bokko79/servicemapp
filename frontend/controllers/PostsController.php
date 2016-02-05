@@ -44,6 +44,51 @@ class PostsController extends Controller
     }
 
     /**
+     * Lists all Posts models.
+     * @return mixed
+     */
+    public function actionHowItWorks()
+    {
+        $searchModel = new PostsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('how-it-works', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists all Posts models.
+     * @return mixed
+     */
+    public function actionFaq()
+    {
+        $searchModel = new PostsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('faq', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists all Posts models.
+     * @return mixed
+     */
+    public function actionBlog()
+    {
+        $searchModel = new PostsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('blog', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
      * Displays a single Posts model.
      * @param integer $id
      * @return mixed

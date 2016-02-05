@@ -11,41 +11,45 @@ use Yii;
 use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
-
-<div class="header-context <?= $class ?>">    
-    <div class="avatar <?= $avatar ?>">
-    <?php switch ($version) {
-        case 2:
-            echo '<i class="fa fa-'.$avatarIcon.' fa-3x"></i>';
-            break;
-        
-        default:
-            echo Html::img('@web/images/cards/'.$model->user->avatar->ime);
-            break;
-    } ?>
-    </div>
-    <div class="title">
-        <div class="head <?= $head ?>">
-        <?php if($version==1) {
-                echo $model->user->username;
-            } elseif ($version==2) {
-                echo $headContent;
+<?= ($upperContainer) ? $upperContainerContent : null ?>
+<div class="header-context <?= $class ?>">
+    <?php if($avatar || $avatarIcon): ?>
+        <div class="avatar <?= $avatar ?>">
+        <?php switch ($version) {
+            case 2:
+                echo '<i class="fa fa-'.$avatarIcon.' fa-3x"></i>';
+                break;        
+            default:
+                echo Html::img('@web/images/cards/'.$avatar, []);
+                break;
             } ?>
         </div>
-        <div class="<?= $subhead ?>">
-        <?php if($version==1) {
-                echo $model->user->location->city;
-            } elseif ($version==2) {
-                echo $subheadContent;
-            } ?>
-        </div> 
-    </div>       
-    <div class="right <?= $subaction ?>">
-        <?php if($version==1) {
-                echo '<i class="fa fa-clock-o"></i> '. \yii\timeago\TimeAgo::widget(['timestamp' => $model->update_time]);
-            } elseif ($version==2) {
-                echo $subactionContent;
-            } ?> 
-    </div>    
+    <?php endif; ?>
+    <div class="title <?= $titleClass ?><?= ($avatar || $avatarIcon) ?  null : 'no-padding' ?>">    
+        <?php if($prehead): ?>
+            <div class="prehead <?= $preheadClass ?>">
+                <?= $prehead ?>
+            </div>
+        <?php endif; ?>
+        <div class="head <?= $headClass ?>">
+            <?= $head ?>
+        </div>
+        <?php if($subhead): ?>
+            <div class="subhead <?= $subheadClass ?>">
+                <?= $subhead ?>
+            </div>
+        <?php endif; ?>
+        <?php if($subhead2): ?>
+            <div class="subhead <?= $subhead2Class ?>">
+                <?= $subhead2 ?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?php if($subaction): ?>
+        <div class="<?= $subactionClass ?>">
+            <?= $subaction ?>
+        </div>
+    <?php endif; ?> 
 </div>
 <?= ($hr) ? '<hr class="no-margin">' : null ?>
+<?= ($lowerContainer) ? '</div>' : null ?>

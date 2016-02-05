@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
  */
 class MessageThreadsController extends Controller
 {
-    public $layout='user_index';
+    public $layout='message';
 
     public function behaviors()
     {

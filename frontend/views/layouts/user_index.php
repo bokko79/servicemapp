@@ -8,14 +8,26 @@ use frontend\widgets\Cardee;
 use frontend\widgets\Tabs;
 use frontend\widgets\PageTitle;
 use frontend\widgets\Stats;
+use frontend\widgets\ProfileSubNav;
 ?>
-<?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
+<?php $user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
 
-<div class="grid-container">    
+<?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
+<div class="profile_head_stick fadeInDown animated">
+    <div class="profile_head_container grid-container" style="">
+        <?php /* WIDGET: PROFILE HEAD NAV */ ?>
+        <?= ProfileSubNav::widget([
+            'profileSubNavData'=>$this->profileSubNavData,
+        ]) ?>
+    </div>
+</div>
+<div class="subnav-fixed">
+    <?= $this->render('partial/subnav/user_profile.php') ?>
+</div>
+<div class="grid-container" style="margin-top:70px;">    
     <div class="grid-row">
         <div class="grid-left">
             <?php /* WIDGET: CARD */ ?>
-                <?php $user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
                 <?= Cardee::widget([
                     'cardData' => [
                         'pic' => null,        
@@ -51,26 +63,7 @@ use frontend\widgets\Stats;
             
         </div>
 
-        <div class="grid-center" style="">
-            <div class="grid-row" style="">
-                <?= Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
-            </div>  
-            <?php /* WIDGET: TABS */ ?>
-                <?= Tabs::widget([
-                    'tabs'=>[
-                        ['url'=>Url::to('/index'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Index'), 'active'=>'provider/services'],
-                        ['url'=>Url::to('/contact-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Contact'), 'active'=>''],
-                        ['url'=>Url::to('/about-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'About'), 'active'=>''],
-                        ['url'=>Url::to('/users'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Users'), 'active'=>''],
-                    ],
-                ]); ?>    
-            <?php /* WIDGET: PAGETITLE */ ?>
-                <?= PageTitle::widget([
-                    'titleData'=>$this->pageTitle,
-                ]); ?>
-            <?= $this->render('partial/quick-forms.php') ?>  
+        <div class="grid-center" style="">   
             <?= $content ?>
         </div>
                 

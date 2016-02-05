@@ -61,7 +61,7 @@ class CsSkills extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAttribute()
+    public function getCsAttribute()
     {
         return $this->hasOne(CsAttributes::className(), ['id' => 'attribute_id']);
     }

@@ -5,6 +5,8 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\User;
 use frontend\models\UserSearch;
+use frontend\models\Orders;
+use frontend\models\OrdersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,7 +50,7 @@ class UserController extends Controller
      */
     public function actionView($username=null)
     {
-        $this->layout = '//user_profile';
+        $this->layout = '//user_index';
 
         if(isset($username)) {
             $model = $this->findModelByUsername($username);
@@ -57,6 +59,91 @@ class UserController extends Controller
                 $csSectors = \frontend\models\CsSectors::find()->all();
 
                 return $this->render('view', [
+                    'model' => $model,
+                    'csSectors' => $csSectors,
+                ]);
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }           
+    }
+
+    /**
+     * Displays a single User model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionProfile($username=null)
+    {
+        $this->layout = '//user_profile';
+
+        if(isset($username)) {
+            $model = $this->findModelByUsername($username);
+
+            if($model) {
+                $csSectors = \frontend\models\CsSectors::find()->all();
+
+                return $this->render('profile', [
+                    'model' => $model,
+                    'csSectors' => $csSectors,
+                ]);
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }           
+    }
+
+    /**
+     * Displays a single User model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionActivities($username=null)
+    {
+        $this->layout = '//user_list';
+
+        if(isset($username)) {
+            $user = $this->findModelByUsername($username);
+
+            if($user) {
+                $model = $user->activities;
+                $searchModel = new OrdersSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+                return $this->render('activities', [
+                    'model' => $model,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'user' => $user,
+                ]);
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }           
+    }
+
+    /**
+     * Displays a single User model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionFinances($username=null)
+    {
+        $this->layout = '//finances';
+
+        if(isset($username)) {
+            $model = $this->findModelByUsername($username);
+
+            if($model) {
+                $csSectors = \frontend\models\CsSectors::find()->all();
+
+                return $this->render('finances', [
                     'model' => $model,
                     'csSectors' => $csSectors,
                 ]);
@@ -94,6 +181,45 @@ class UserController extends Controller
                     return $this->redirect(['view', 'id' => $model->id]);
                 } else {
                     return $this->render('update', [
+                        'model' => $model,
+                        'details' => $details,
+                        'filters' => $filters,
+                        'images' => $images,
+                    ]);
+                }
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }          
+    }
+
+    /**
+     * Updates an existing User model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionAccount($username=null)
+    {
+        $this->layout = '//settings';
+
+        if(isset($username)) {
+            $model = $this->findModelByUsername($username);
+
+            if($model) {               
+                
+                $details = $model->userDetails;
+                $filters = ($model->userFilters) ? $model->userFilters : new \frontend\models\UserFilters;
+                $images = $model->userImages;
+                $notifications = $model->userNotifications;
+                $notificationsSms = $model->userNotificationsSms;
+
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    return $this->render('account', [
                         'model' => $model,
                         'details' => $details,
                         'filters' => $filters,

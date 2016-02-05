@@ -32,22 +32,24 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
                     $menuItems[] = ['label' => 'Login/Registracija', 'linkOptions' => ['data-toggle'=>'modal', 'data-target'=>'#uac-modal']];
                 } else {
                     $user = User::findOne(Yii::$app->user->id);
-                    $user_avatar = Html::img(Yii::$app->homeUrl.'images/cards/default_avatar.jpg', ['alt'=>'User avatar', 'class'=>'', 'style' => 'border-radius:3px; margin:0 5px 0 0;', 'width'=>24]);
+                    $user_avatar = Html::img(Yii::$app->homeUrl.'images/cards/default_avatar.jpg', ['alt'=>'User avatar', 'class'=>'', 'style' => 'border-radius:3px;', 'width'=>24]);
                     $menuItems[] = [
-                        'label' => $user_avatar . Yii::$app->user->username,    
+                        'label' => $user_avatar,    
                         'items' => [
-                              ['label' => '<i class="fa fa-home"></i>&nbsp'.Yii::t('app', 'Your profile'), 'url' => ['/'.Yii::$app->user->username.'/home']],
-                              ['label' => '<i class="fa fa-save"></i>&nbsp'.Yii::t('app', 'Your saved orders'), 'url' => ['/'.Yii::$app->user->username.'/saved-orders']],                               
+                              ['label' => '<i class="fa fa-home"></i>&nbsp'.Yii::t('app', 'Početna'), 'url' => ['/'.Yii::$app->user->username.'/home']],
+                              ['label' => '<i class="fa fa-file-text-o"></i>&nbsp'.Yii::t('app', 'Vaši poslovi'), 'url' => ['/'.Yii::$app->user->username.'/activities']],
+                              ['label' => '<i class="fa fa-save"></i>&nbsp'.Yii::t('app', 'Vaše sačuvane porudžbine'), 'url' => ['/'.Yii::$app->user->username.'/saved-orders']],                               
                               (($user->is_provider==1) ? '<li class="divider"></li>' : ''),
-                              ['label' => '<i class="fa fa-dot-circle-o"></i>&nbsp'.Yii::t('app', 'Your Services'), 'url' => ['/'.Yii::$app->user->username.'/my-services'], 'visible' => $user->is_provider==1],
+                              ['label' => '<i class="fa fa-user"></i>&nbsp'.Yii::t('app', 'Vaš profil'), 'url' => ['/'.Yii::$app->user->username.'/profile'], 'visible' => $user->is_provider==1],                              
                               (($user->is_provider==1) ? '<li class="divider"></li>' : ''),
-                              ['label' => '<i class="fa fa-bell-o"></i>&nbsp'.Yii::t('app', 'Notifications'), 'url' => ['/'.Yii::$app->user->username.'/notifications']],
-                              ['label' => '<i class="fa fa-envelope-o"></i>&nbsp'.Yii::t('app', 'Messages'), 'url' => ['/'.Yii::$app->user->username.'/messages']],   
+                              ['label' => '<i class="fa fa-line-chart"></i>&nbsp'.Yii::t('app', 'Finansije'), 'url' => ['/'.Yii::$app->user->username.'/finances']],
+                              ['label' => '<i class="fa fa-envelope-o"></i>&nbsp'.Yii::t('app', 'Inbox'), 'url' => ['/'.Yii::$app->user->username.'/inbox']],   
                               
                               '<li class="divider"></li>',
-                              '<li class="dropdown-header">'.Yii::t('app', 'Settings').'</li>',
-                              ['label' => '<i class="fa fa-cogs"></i>&nbsp'.Yii::t('app', 'Profile settings'), 'url' => ['/'.Yii::$app->user->username.'/setup']],
-                              ['label' => '<i class="fa fa-wrench"></i>&nbsp'.Yii::t('app', 'Notifications settings'), 'url' => ['/'.Yii::$app->user->username.'/notifications-setup']],
+                              '<li class="dropdown-header">'.Yii::t('app', 'Podešavanja').'</li>',
+                              ['label' => '<i class="fa fa-cogs"></i>&nbsp'.Yii::t('app', 'Podešavanja'), 'url' => ['/'.Yii::$app->user->username.'/setup']],
+                              ['label' => '<i class="fa fa-dot-circle-o"></i>&nbsp'.Yii::t('app', 'Vaše usluge'), 'url' => ['/'.Yii::$app->user->username.'/services'], 'visible' => $user->is_provider==1],
+                              ['label' => '<i class="fa fa-users"></i>&nbsp'.Yii::t('app', 'Članstvo'), 'url' => ['/membership']],
                               '<li class="divider"></li>',
                               ['label' => '<i class="fa fa-sign-out"></i>&nbspLogout (' . Yii::$app->user->username . ')', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
                         ],
@@ -55,7 +57,7 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
                     ];
 
                     $menuItems[] = [
-                        'label' => '<i class="fa fa-bell fa-lg"></i> <span class="label label-info">17</span>',    
+                        'label' => '<i class="fa fa-bell-o fa-lg"></i> <span class="label label-info">17</span>',    
                         'items' => [
                               $this->render('notifications_excerpt.php')
                         ],
@@ -63,8 +65,9 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
                         'linkOptions' => ['class'=>'btn btn-default'],
                     ];
                 }
-                $menuItems[] = ['label' => '<i class="fa fa-support fa-lg"></i>', 'url' => ['/posts'], 'options' => ['class'=>'help-button'], 'linkOptions' => ['class'=>'btn btn-default']];
-                $menuItems[] = ['label' => '<i class="fa fa-shopping-cart fa-lg"></i> <span class="label label-info">2</span>', 'url' => ['/index'], 'options' => ['class'=>'shopping-cart badger'], 'linkOptions' => ['class'=>'btn btn-success']];                
+                $menuItems[] = ['label' => '<i class="fa fa-shopping-cart fa-lg"></i> <span class="label label-info">2</span>', 'url' => ['/index'], 'options' => ['class'=>'shopping-cart badger'], 'linkOptions' => ['class'=>'btn btn-success']];  
+                //$menuItems[] = ['label' => '<i class="fa fa-support fa-lg"></i>', 'url' => ['/posts'], 'options' => ['class'=>'help-button'], 'linkOptions' => ['class'=>'btn btn-default']];
+                              
                 echo Nav::widget([
                     'options' => ['class' => 'navbar_control_box'],
                     'encodeLabels' => false,

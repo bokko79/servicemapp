@@ -83,7 +83,7 @@ class SiteController extends Controller
      */
     public function actionMembership()
     {
-        $this->layout = '//home';
+        $this->layout = '//settings';
 
         $user = \frontend\models\User::findOne(Yii::$app->user->id);
         $role = $user->userDetails->role;
@@ -133,7 +133,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        $this->layout = '//forms';
+        $this->layout = '//index_post';
 
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -183,7 +183,7 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        $this->layout = '//post';
+        $this->layout = '//index_post';
 
         return $this->render('about');
     }
@@ -198,6 +198,30 @@ class SiteController extends Controller
         $this->layout = '//search';
 
         return $this->render('search');
+    }
+
+    /**
+     * Displays search result page.
+     *
+     * @return mixed
+     */
+    public function actionDeposit()
+    {
+        $this->layout = '//finances';
+
+        return $this->render('deposit');
+    }
+
+    /**
+     * Displays search result page.
+     *
+     * @return mixed
+     */
+    public function actionWithdraw()
+    {
+        $this->layout = '//finances';
+
+        return $this->render('withdraw');
     }
 
     /**

@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\UserObjects;
 use frontend\models\UserObjectsSearch;
+use frontend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,20 +33,24 @@ class UserObjectsController extends Controller
      * Lists all UserObjects models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($username=null)
     {
-        $this->layout = '//user_index';
+        if (isset($username)) {
+            $user = User::find()->where(['username'=>$username])->one();
+        }
 
-        $user = \frontend\models\User::findOne(Yii::$app->user->id);
-        
-        $searchModel = new UserObjectsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if($user) {
+            $searchModel = new UserObjectsSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'user' => $user,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'user' => $user,
+            ]);
+        } else {
+            $this->redirect(Yii::$app->request->baseUrl.'/providers');
+        }
     }
 
     /**

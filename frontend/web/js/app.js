@@ -33,17 +33,17 @@ $(document).ready(function(){
               500);
   });
   // settings help on right-sidebar
-  /*$(".show-more").click(function(){
-      $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
+  $(".show-more").click(function(){
+      $(this).closest('.card_container').find('div.hidden-content').toggleClass('hidden');
       $(this).find('i.fa').toggleClass('fa-chevron-down');
       $(this).find('i.fa').toggleClass('fa-chevron-right');
-  });*/
+  });
   // settings help on right-sidebar
-  $(".hovering .header-context").click(function(){
+  /*$(".hovering .header-context").click(function(){
       $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
       $(this).closest('.hidden-content-container').find('.show-more i.fa').toggleClass('fa-chevron-down');
       $(this).closest('.hidden-content-container').find('.show-more i.fa').toggleClass('fa-chevron-right');
-  });
+  });*/
   // ProfileSubNav
   $(".profile_head").followToProfile(220);
   // Quick forms
@@ -53,5 +53,9 @@ $(document).ready(function(){
       $('html,body').animate({
               scrollTop: $(this).offset().top-110},
               500);
+  });
+  // Compact order
+  $("[id^=card_container]").hover(function(){
+      $(this).find('.hidden-widget').toggleClass('hidden');
   });
 });

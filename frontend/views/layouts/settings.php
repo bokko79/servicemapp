@@ -20,16 +20,18 @@ use frontend\widgets\PageTitle;
             <div class="grid-row">
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    'options' => ['class' => 'breadcrumb inverted bg-blue-gray-900'],
                 ]) ?>
-            </div>             
-            <?php /* WIDGET: TABS */ ?>
-                <?= Tabs::widget([
-                    'tabs'=>[
-                        ['url'=>Url::to('/index'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Index'), 'active'=>'provider/services'],
-                        ['url'=>Url::to('/contact-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Contact'), 'active'=>''],
-                        ['url'=>Url::to('/about-us'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'About'), 'active'=>''],
-                        ['url'=>Url::to('/users'), 'class'=>'', 'role'=>'', 'icon'=>'fa-dot-circle-o', 'label'=>Yii::t('app', 'Users'), 'active'=>''],
+            </div>
+            <?php /* WIDGET: PAGETITLE */ ?>
+                <?= PageTitle::widget([
+                    'titleData'=>[
+                        'background' => 'bg-blue-gray-900',
+                        'icon' => 'cog',
+                        'title' => 'Podešavanja'.Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to('/'.Yii::$app->user->username.'/home'), ['class' => 'btn btn-default btn-sm float-right']),
+                        'description' => null,                        
                     ],
+                    'invert' => true,
                 ]); ?>
             <?php /* WIDGET: PAGETITLE */ ?>
                 <?= PageTitle::widget([
@@ -39,8 +41,7 @@ use frontend\widgets\PageTitle;
         </div>
                 
         <div class="grid-right media_right_sidebar">
-            <?= $this->render('partial/progress-meter.php') ?>
-            <?= $this->render('partial/help.php') ?>
+            <?= $this->render('partial/settings-menu.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

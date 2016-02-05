@@ -10,12 +10,16 @@ use Yii;
  * @property string $id
  * @property string $activity_id
  * @property string $offer_id
+ * @property string $provider_service_id
  * @property string $description
  *
+ * @property PresentationImages[] $presentationImages
+ * @property PresentationIssues[] $presentationIssues
+ * @property PresentationMethods[] $presentationMethods
+ * @property PresentationSpecs[] $presentationSpecs
  * @property Activities $activity
  * @property Offers $offer
  * @property Promotions[] $promotions
- * @property ProviderServices[] $providerServices
  */
 class Presentations extends \yii\db\ActiveRecord
 {
@@ -33,9 +37,11 @@ class Presentations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['activity_id', 'offer_id'], 'required'],
-            [['activity_id', 'offer_id'], 'integer'],
-            [['description'], 'string']
+            [['activity_id', 'offer_id', 'provider_service_id'], 'required'],
+            [['activity_id', 'offer_id', 'provider_service_id'], 'integer'],
+            [['description'], 'string'],
+            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activities::className(), 'targetAttribute' => ['activity_id' => 'id']],
+            [['offer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Offers::className(), 'targetAttribute' => ['offer_id' => 'id']],
         ];
     }
 
@@ -45,11 +51,44 @@ class Presentations extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'activity_id' => Yii::t('app', 'Activity ID'),
-            'offer_id' => Yii::t('app', 'Offer ID'),
-            'description' => Yii::t('app', 'Description'),
+            'id' => 'ID',
+            'activity_id' => 'Activity ID',
+            'offer_id' => 'Offer ID',
+            'provider_service_id' => 'Provider Service ID',
+            'description' => 'Description',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationImages()
+    {
+        return $this->hasMany(PresentationImages::className(), ['presentation_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationIssues()
+    {
+        return $this->hasMany(PresentationIssues::className(), ['presentation_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationMethods()
+    {
+        return $this->hasMany(PresentationMethods::className(), ['presentation_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationSpecs()
+    {
+        return $this->hasMany(PresentationSpecs::className(), ['presentation_id' => 'id']);
     }
 
     /**
@@ -74,13 +113,5 @@ class Presentations extends \yii\db\ActiveRecord
     public function getPromotions()
     {
         return $this->hasMany(Promotions::className(), ['presentation_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServices()
-    {
-        return $this->hasMany(ProviderServices::className(), ['presentation_id' => 'id']);
     }
 }

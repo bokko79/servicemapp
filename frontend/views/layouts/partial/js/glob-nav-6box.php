@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 ?>
-<script type="text/javascript">            
+<script type="text/javascript">
 // MARKET
 $(document).ready(function(){
   $("#category_filter_display").click(function(){
@@ -24,7 +24,7 @@ $(document).ready(function(){
 
     category.show();
 
-    $('.subindustry0').html(''); 
+    $('.subindustry0').html('');
     $('.subindustry1').hide();
     $('.subindustry2').hide();
     $('.subindustry3').hide();
@@ -41,13 +41,13 @@ $(document).ready(function(){
     var url_globHead = '<?= Url::to("/glob-nav-market-head") ?>';
     $.get( url_globHead, function(data) {
         $('.industry_6box_head').html(data);
-    }); 
+    });
 
     var url = '<?= Url::to("/glob-nav-market-body") ?>';
     $.get( url, function(data) {
         $('.subindustry0').html(data);
-    });          
-  }); 
+    });
+  });
 
 // REQUEST/SERVICE
   $(".first a.show_services").click(function(){
@@ -73,7 +73,7 @@ $(document).ready(function(){
     $('.category').show();
 
 
-    $('.subindustry0').html(''); 
+    $('.subindustry0').html('');
     $('.subindustry1').hide();
     $('.subindustry2').hide();
     $('.subindustry3').hide();
@@ -90,13 +90,13 @@ $(document).ready(function(){
     var url_globHead = '<?= Url::to("/glob-nav-services-head") ?>';
       $.get( url_globHead, function(data) {
           $('.industry_6box_head').html(data);
-      }); 
+      });
 
     var url = '<?= Url::to("/glob-nav-services-body") ?>';
       $.get( url, function(data) {
           $('.subindustry0').html(data);
-      });          
-  });     
+      });
+  });
 
 // GLOBAL NAV GENERAL
   $("#glob_hover_service, #glob_hover_market, #glob_hover_provider").click(function(){
@@ -105,13 +105,13 @@ $(document).ready(function(){
     $('.category').hide();
 
     $('.industry_6box_head').html(''); 
-    $('.industry_6box').html(''); 
+    $('.industry_6box').html('');
 
     $('.industry_6box_slider').removeClass('white');
 
     $(this).closest('li').find('.category').show();
 
-    $('.subindustry0').html(''); 
+    $('.subindustry0').html('');
     $('.subindustry1').hide();
     $('.subindustry2').hide();
     $('.subindustry3').hide();
@@ -124,20 +124,22 @@ $(document).ready(function(){
         $('.industry_6box').html(data);
         sektor();
     });
-  });  
+  });
 
 // SERVICES
-  $("#glob_hover_service").click(function(){      
+  $("#glob_hover_service").click(function(){
     var url_globHead = '<?= Url::to("/glob-nav-services-head") ?>';
     $.get( url_globHead, function(data) {
         $('.industry_6box_head').html(data);
-    });                    
+    });
 
     var url = '<?= Url::to("/glob-nav-services-body") ?>';
     $.get( url, function(data) {
         $('.subindustry0').html(data);
     });
-  });                  
+
+
+  });
 
 // MARKET
   $("#glob_hover_market").click(function(){
@@ -166,21 +168,17 @@ $(document).ready(function(){
 });
 
 /*$(document).ready(function(){
-    $("#glob_hover_event").click(function(){
-        
-        $('.category').hide();
-
-        $(this).closest('li').find('.category').show();
-
-        var url_globHead = '<?= Url::to("globEventHead"); ?>';
-          $.get( url_globHead, function(data) {
-              $('.industry_6box_head').html(data);
-          });
-
-        var url = '<?= Url::to("globEvent"); ?>';
-          $.get( url, function(data) {
-              $('.subindustry0').html(data);
-          });
+    $("#glob_hover_event").click(function(){        
+      $('.category').hide();
+      $(this).closest('li').find('.category').show();
+      var url_globHead = '<?= Url::to("globEventHead"); ?>';
+        $.get( url_globHead, function(data) {
+            $('.industry_6box_head').html(data);
+        });
+      var url = '<?= Url::to("globEvent"); ?>';
+        $.get( url, function(data) {
+            $('.subindustry0').html(data);
+        });
     });                  
 });*/
 
@@ -190,13 +188,13 @@ function close_category(){
 
   $('.category').slideUp(400);
 
-  $('.subindustry0').html('');   
+  $('.subindustry0').html('');
   $('.subindustry1').hide();
   $('.subindustry2').hide();
   $('.subindustry3').hide();
   $('.subindustry4').hide();
   $('.subindustry5').hide();
-  $('.subindustry6').hide();                       
+  $('.subindustry6').hide();
 }
 
 

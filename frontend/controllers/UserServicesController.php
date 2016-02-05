@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\UserServices;
 use frontend\models\UserServicesSearch;
+use frontend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -33,9 +34,7 @@ class UserServicesController extends Controller
      * @return mixed
      */
     public function actionIndex($username=null)
-    {
-        $this->layout = '//user_index';
-        
+    {        
         if (isset($username)) {
             $user = \frontend\models\User::find()->where(['username'=>$username])->one();
         }

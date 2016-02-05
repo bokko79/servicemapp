@@ -84,7 +84,7 @@ class OrderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderServiceImages()
+    public function getImages()
     {
         return $this->hasMany(OrderServiceImages::className(), ['order_service_id' => 'id']);
     }
@@ -92,7 +92,7 @@ class OrderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderServiceIssues()
+    public function getIssues()
     {
         return $this->hasMany(OrderServiceIssues::className(), ['order_service_id' => 'id']);
     }
@@ -100,7 +100,7 @@ class OrderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderServiceMethods()
+    public function getMethods()
     {
         return $this->hasMany(OrderServiceMethods::className(), ['order_service_id' => 'id']);
     }
@@ -108,7 +108,7 @@ class OrderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderServiceSpecs()
+    public function getSpecs()
     {
         return $this->hasMany(OrderServiceSpecs::className(), ['order_service_id' => 'id']);
     }

@@ -39,11 +39,13 @@ use Yii;
  * @property User $user
  * @property CsIndustries $industry
  * @property ProviderComments[] $providerComments
+ * @property ProviderIndustries[] $providerIndustries
  * @property ProviderLanguages[] $providerLanguages
  * @property ProviderLocations[] $providerLocations
  * @property ProviderPortfolio $providerPortfolio
  * @property ProviderRecommendation[] $providerRecommendations
  * @property ProviderServices[] $providerServices
+ * @property ProviderTerms $providerTerms
  */
 class Provider extends \yii\db\ActiveRecord
 {
@@ -69,7 +71,9 @@ class Provider extends \yii\db\ActiveRecord
             [['website'], 'string', 'max' => 50],
             [['bank_acc_no', 'licence_no'], 'string', 'max' => 30],
             [['licence_hash'], 'string', 'max' => 13],
-            [['user_id'], 'unique']
+            [['user_id'], 'unique'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsIndustries::className(), 'targetAttribute' => ['industry_id' => 'id']],
         ];
     }
 
@@ -165,6 +169,14 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getProviderIndustries()
+    {
+        return $this->hasMany(ProviderIndustries::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getProviderLanguages()
     {
         return $this->hasMany(ProviderLanguages::className(), ['provider_id' => 'id']);
@@ -200,5 +212,13 @@ class Provider extends \yii\db\ActiveRecord
     public function getProviderServices()
     {
         return $this->hasMany(ProviderServices::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProviderTerms()
+    {
+        return $this->hasOne(ProviderTerms::className(), ['provider_id' => 'id']);
     }
 }

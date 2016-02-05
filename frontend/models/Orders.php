@@ -158,4 +158,19 @@ class Orders extends \yii\db\ActiveRecord
     {
         return $this->activity->user;
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function validityPercentage()
+    {
+        $start_f = new \DateTime($this->activity->time);
+        $start = $start_f->format('U');
+        $validity_f = new \DateTime($this->validity);
+        $validity = $validity_f->format('U');
+        $now_f = new \DateTime();
+        $now = $now_f->format('U');
+
+        return round(($now-$start)*100/($validity-$start));
+    }
 }

@@ -4,15 +4,11 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
-use kartik\select2\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
-use frontend\models\CsServices;
-use kartik\widgets\Typeahead;
 ?>
 <div class="industry_6box_container_back a">
-	<div class="industry_6box_slider" style="">
-	
+	<div class="industry_6box_slider" style="">	
 		<div class="featured" style="margin: 0 auto;">
 			<table class="">
 				<tr>
@@ -36,38 +32,25 @@ use kartik\widgets\Typeahead;
 </div><!-- <div class="row-fluid industry"> -->	
 
 <div class="featured" style="margin: 0 auto; text-align:center;">
-	<h2 style=" margin: 20px 0 0; ">Izaberite usluge</h2>
+	<h2 style="margin: 20px 0 0; ">Izaberite usluge</h2>
 	<hr>
 	<?= Html::a('Index usluga', Url::to('/services'), array()); ?>
 	
-	<div class="service_autocomplete_search" style="width:60%;; margin:0 auto;">
-		<?php $form = kartik\widgets\ActiveForm::begin([]); 
-		$url = \yii\helpers\Url::to(['/auto/list-services']); ?>
-	    <?= $form->field(new CsServices, 'name')->widget(Select2::classname(), [
-	    		'data' => ArrayHelper::map(CsServices::find()->all(), 'id', 'name'),
-			    'options' => ['placeholder' => 'Search for a service ...'],
-			    'pluginLoading' => false,
-			    'pluginOptions' => [
-			        'allowClear' => true,
-			        'minimumInputLength' => 3,
-			        'ajax' => [
-			            'url' => $url,
-			            'dataType' => 'json',
-			            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-			        ],
-			    ],
-			    'addon' => [
-			        'prepend' => [
-			            'content' => 'Services'
-			        ],
-			        'append' => [
-			            'content' => Html::button('<i class="fa fa-map-marker"></i>', [
-			                'class' => 'btn btn-primary', 
-			            ]),
+	<div class="service_autocomplete_search" style="width:60%;; margin:30px auto 0;">
+		<?php $form = kartik\widgets\ActiveForm::begin([
+			'action' => ['/services'],
+        	'method' => 'get',
+		]); ?>
+			<?= $form->field(new \frontend\models\CsServicesSearch, 'name', [				
+				'options' => ['placeholder' => 'Pretražite usluge pomoću ključih reči...',],
+				'addon' => [
+					'prepend' => ['content'=>'Usluge'],
+					'append' => [
+			            'content' => Html::button('Traži', ['class'=>'btn btn-primary']), 
 			            'asButton' => true
-			        ]
-			    ],
-			]); ?>
+			        ],
+				]
+			])->label(false) ?>
 		<?php ActiveForm::end(); ?>
 	</div>
 </div>

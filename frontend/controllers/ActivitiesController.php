@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
  */
 class ActivitiesController extends Controller
 {
-    public $layout='index';
+    public $layout='market';
 
     public function behaviors()
     {
@@ -37,6 +37,11 @@ class ActivitiesController extends Controller
         $searchModel = new ActivitiesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        if (isset($_REQUEST['CsServices']['industry_id']) && isset($_REQUEST['CsServices']['action_id']) && isset($_REQUEST['CsServices']['object_id'])){
+            $service = \frontend\models\CsServices::find()->where('industry_id='.$_REQUEST['CsServices']['industry_id'].' and action_id='.$_REQUEST['CsServices']['action_id'].' and object_id='.$_REQUEST['CsServices']['object_id'])->one();
+            //print_r($service); die();
+            return $this->redirect('/add/'.mb_strtolower(str_replace(' ', '-', $service->name)));
+        }        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

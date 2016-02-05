@@ -33,30 +33,6 @@ class Card extends \yii\bootstrap\Widget
 
     public $card = self::CARD_RECORD;
 
-    // box type
-    /*const TYPE_ACTIVITY = 'activity';
-    const TYPE_PROVIDER = 'provider';
-    const TYPE_BID = 'bidding';
-    const TYPE_COMMENT = 'commentary';
-    const TYPE_SERVICE = 'service';
-    const TYPE_OBJECT = 'object';
-    const TYPE_INDUSTRY = 'industry';
-    const TYPE_USEROBJECT = 'userObject';
-    const TYPE_USERLOCATION = 'userLocation';
-    const TYPE_USERPAYMENT = 'userPayment';
-    const TYPE_NOTIFICATION = 'notification';
-    const TYPE_TRANSACTION = 'transaction';
-    const TYPE_CARTITEM = 'cartItem';
-    const TYPE_MESSAGE = 'message';
-    const TYPE_ORDER = 'order';
-    const TYPE_PROMOTION = 'promotion';
-    const TYPE_PRESENTATION = 'presentation';
-    const TYPE_HISTORY = 'history';
-    const TYPE_POST = 'post';
-    const TYPE_CUSTOM = 'custom';
-
-    public $type = self::TYPE_ORDER;*/
-
     // box size
     const SIZE_FULL = 'full';
     const SIZE_XL = 'xl';
@@ -143,7 +119,6 @@ class Card extends \yii\bootstrap\Widget
 
     public $containerOptions = [];
 
-
     /**
      * Initializes the detail view.
      * This method will initialize required property values.
@@ -171,12 +146,12 @@ class Card extends \yii\bootstrap\Widget
                 throw new InvalidConfigException('Please specify the "location" property.');
             }
         }
-        if ($this->comment) {
+        if ($this->comments) {
             if ($this->comment === null) {
                 throw new InvalidConfigException('Please specify the "comment" property.');
             }
         }
-        if ($this->bid) {
+        if ($this->bids) {
             if ($this->bid === null) {
                 throw new InvalidConfigException('Please specify the "bid" property.');
             }
@@ -205,18 +180,25 @@ class Card extends \yii\bootstrap\Widget
         $version = (isset($this->sections[$id]['version'])) ? $this->sections[$id]['version'] : 1;
         $hr = (isset($this->sections[$id]['hr'])) ? $this->sections[$id]['hr'] : false;
         $upperContainer = (isset($this->sections[$id]['upperContainer'])) ? $this->sections[$id]['upperContainer'] : false;
+        $upperContainerContent = (isset($this->sections[$id]['upperContainerContent'])) ? $this->sections[$id]['upperContainerContent'] : false;
         $lowerContainer = (isset($this->sections[$id]['lowerContainer'])) ? $this->sections[$id]['lowerContainer'] : false;
+        
         echo $this->render('cardParts/header.php', [
                 'model' => $this->model,
                 'formatter' => $this->formatter,
                 'avatar' => (isset($options['avatar'])) ? $options['avatar'] : null,
                 'avatarIcon' => (isset($options['avatarIcon'])) ? $options['avatarIcon'] : null,
-                'head' => (isset($options['head'])) ? $options['head'] : 'second',
-                'headContent' => (isset($options['headContent'])) ? $options['headContent'] : null,
-                'subhead' => (isset($options['subhead'])) ? $options['subhead'] : 'subhead',
-                'subheadContent' => (isset($options['subheadContent'])) ? $options['subheadContent'] : null,
-                'subaction' => (isset($options['subaction'])) ? $options['subaction'] : 'subaction',
-                'subactionContent' => (isset($options['subactionContent'])) ? $options['subactionContent'] : null,                
+                'titleClass' => (isset($options['titleClass'])) ? $options['titleClass'] : null,
+                'preheadClass' => (isset($options['prehead']['class'])) ? $options['prehead']['class'] : null,
+                'prehead' => (isset($options['prehead']['content'])) ? $options['prehead']['content'] : null,
+                'headClass' => (isset($options['head']['class'])) ? $options['head']['class'] : 'second',
+                'head' => (isset($options['head']['content'])) ? $options['head']['content'] : null,
+                'subheadClass' => (isset($options['subhead']['class'])) ? $options['subhead']['class'] : 'subhead',
+                'subhead' => (isset($options['subhead']['content'])) ? $options['subhead']['content'] : null,
+                'subhead2Class' => (isset($options['subhead2']['class'])) ? $options['subhead2']['class'] : 'subhead',
+                'subhead2' => (isset($options['subhead2']['content'])) ? $options['subhead2']['content'] : null,
+                'subactionClass' => (isset($options['subaction']['class'])) ? $options['subaction']['class'] : 'subaction',
+                'subaction' => (isset($options['subaction']['content'])) ? $options['subaction']['content'] : null,                
                 'class' => (isset($options['class'])) ? $options['class'] : null,
                 'version' => $version,
                 'hr' => $hr,

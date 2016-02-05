@@ -3,14 +3,24 @@ use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
 ?>          
-<div class="card_container record-650 list-item color-border fadeInUp animated" id="card_container" style="float:none; border-left-color: purple;">
-    <a href="<?= Url::to('/services') ?>">
-        
+<div class="card_container record-xl list-item color-border fadeInUp animated" id="card_container" style="float:none; border-left-color: purple;">
+    <a href="<?= Url::to('/p/'.$model->user->username) ?>">        
         <table class="main-context"> 
             <tr>
+                <td class="media-area left">
+                    <div >                
+                        <div class="image">
+                            <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
+                        </div>
+                    </div> 
+                </td>
                 <td class="body-area">
                     <div class="primary-context">
-                        <div class="head"><?= $model->user->fullname ?></div>
+                        <div class="head"><?= $model->user->fullname ?>
+                            <div class="action-area free">
+                                <?= Html::a('<i class="fa fa-arrow-circle-right"></i>&nbsp;'.Yii::t('app', 'Profil'), Url::to(), ['class'=>'btn btn-info']); ?>
+                            </div>
+                        </div>
                         <div class="subhead"><?= $model->user->userDetails->loc->city ?></div>
                         <span class="label label-default">arhitekta</span>
                         <span class="label label-default">dizajner</span>
@@ -25,17 +35,9 @@ use yii\helpers\Url;
                             ex ea commodo consequat.</p>
                     </div>
                 </td>
-                <td class="media-area">
-                    <div >                
-                        <div class="image">
-                            <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>
-                        </div>
-                    </div> 
-                </td>
+                
             </tr>                        
         </table>
-        <div class="action-area">
-            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
-        </div>
+        
     </a>
 </div>

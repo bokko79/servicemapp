@@ -35,8 +35,6 @@ class UserLocationsController extends Controller
      */
     public function actionIndex($username=null)
     {
-        $this->layout = '//user_index';
-
         if (isset($username)) {
             $user = User::find()->where(['username'=>$username])->one();
         }

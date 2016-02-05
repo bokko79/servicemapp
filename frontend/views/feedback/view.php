@@ -25,6 +25,34 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+<?= StarRating::widget([
+    'name' => 'rating_21',
+    'pluginOptions' => [
+        'min' => 0,
+        'max' => 12,
+        'step' => 2,
+        'size' => 'lg',
+        'starCaptions' => [
+            0 => 'Extremely Poor',
+            2 => 'Very Poor',
+            4 => 'Poor',
+            6 => 'Ok',
+            8 => 'Good',
+            10 => 'Very Good',
+            12 => 'Extremely Good',
+        ],
+        'starCaptionClasses' => [
+            0 => 'text-danger',
+            2 => 'text-danger',
+            4 => 'text-warning',
+            6 => 'text-info',
+            8 => 'text-primary',
+            10 => 'text-success',
+            12 => 'text-success'
+        ],
+    ],
+]) ?>
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

@@ -77,7 +77,7 @@ class Activities extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getActivityComments()
+    public function getComments()
     {
         return $this->hasMany(ActivityComments::className(), ['activity_id' => 'id']);
     }
@@ -152,5 +152,42 @@ class Activities extends \yii\db\ActiveRecord
     public function getPromotions()
     {
         return $this->hasMany(Promotions::className(), ['activity_id' => 'id']);
+    }
+    
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function FeedText()
+    {
+        switch ($this->activity) {
+            case 'order':
+                return Yii::t('app', 'poručuje uslugu');
+                break;
+
+            case 'promotion':
+                return Yii::t('app', 'promoviše uslugu');
+                break;
+
+            case 'bid':
+                return Yii::t('app', 'daje ponudu na poručene usluge');
+                break;
+
+            case 'agreement':
+                return Yii::t('app', 'je izabrao pružaoca usluge');
+                break;
+
+            case 'feedback':
+                return Yii::t('app', 'je ocennio pružaoca usluge');
+                break;
+
+            case 'comment_order':
+                return Yii::t('app', 'komentariše na porudžbinu usluge');
+                break;
+            
+            default:
+                return Yii::t('app', 'promoviše uslugu');
+                break;
+        }
     }
 }

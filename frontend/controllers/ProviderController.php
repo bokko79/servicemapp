@@ -94,22 +94,42 @@ class ProviderController extends Controller
     }
 
     /**
-     * Updates an existing Provider model.
+     * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($username=null)
     {
-        $model = $this->findModel($id);
+        $this->layout = '//settings';
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(isset($username)) {
+            $model = $this->findModelByUsername($username);
+
+            if($model) {               
+                
+                $details = $model->userDetails;
+                $filters = ($model->userFilters) ? $model->userFilters : new \frontend\models\UserFilters;
+                $images = $model->userImages;
+                $notifications = $model->userNotifications;
+                $notificationsSms = $model->userNotificationsSms;
+
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    return $this->render('update', [
+                        'model' => $model,
+                        'details' => $details,
+                        'filters' => $filters,
+                        'images' => $images,
+                    ]);
+                }
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }          
     }
 
     /**
@@ -135,6 +155,22 @@ class ProviderController extends Controller
     protected function findModel($id)
     {
         if (($model = Provider::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the User model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string $id
+     * @return User the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelByUsername($username)
+    {
+        if (($model = User::find()->where('username=:username', [':username'=>$username])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

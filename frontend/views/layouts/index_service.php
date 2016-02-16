@@ -3,12 +3,16 @@
 /* @var $content string */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\Breadcrumbs;
 ?>
-
 <?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
 
-<?php /* PROFILE HEADING */ ?>
+<?php /* SUBNAV/SCREEN */ ?>
+<?php /* SCREEN */ ?>
+<?php /* 6BOX INDUSTRIES */ ?>
+<?php /* PROFILE INFO */ ?>
+<?php /* INDEX (CONTENT) */ ?>
+<?php /* COMMERCIAL (CONTENT) */ ?>
+<?php /* FOOTER *//* ?>
 <div class="subnav-fixed">
     <ul class="">
         <li><?= Html::a('Sve usluge', Url::to('/services'), ['class'=>'', 'onclick'=>'']) ?></li>
@@ -17,28 +21,35 @@ use yii\widgets\Breadcrumbs;
         <li><?= Html::a('Pregledane', Url::to(), []) ?></li>
         <li class="float-right button">
             <div class="btn-group btn-group-sm" role="group" aria-label="...">
-                <?= Html::a('Naruči uslugu', null, ['class'=>'btn btn-default control order-service']); ?>
-                <?= Html::a('Promoviši uslugu', null, ['class'=>'btn btn-default control promote-service']); ?>
-                <?= Html::a('Najavi događaj', null, ['class'=>'btn btn-default control announce-event']); ?>
+                <?= Html::a('Naruči uslugu', Url::to('choose-service'), ['class'=>'btn btn-default control order-service']); ?>
+                <?= Html::a('Ponudi uslugu', null, ['class'=>'btn btn-default control promote-service']); ?>
             </div>
         </li> 
     </ul>
 </div>
-
-<div class="grid-container" style="margin-top:70px;">
-    <div class="grid-row">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-    </div>
+<?php */ ?>
+<div class="screen <?= (!$this->params['getService']) ? '' : 'mini' ?>">
+    <?= $this->render('partial/screen.php', ['getService'=>$this->params['getService']]) ?>
 </div>
-<?php // $this->render('partial/service_head.php') ?>
-<div class="grid-container">    
+
+    <?= $this->render('partial/six_boxes.php') ?>
+
+
+<?php if(isset($this->params['getService']['industry_id'])): ?>
+    <?= $this->render('partial/service_head.php') ?>
+<?php endif; ?>
+
+
+<?php if($this->params['getService']): ?>
+<div class="grid-container" style="">    
     <div class="grid-row">
         <div class="grid-full">           
             <?= $content ?>
         </div>
     </div>
 </div>
+<?php endif; ?>
+
+    <?= $this->render('//services/_commercial.php', ['services'=>$this->params['getService']]) ?>
 
 <?php $this->endContent(); // HTML ?>

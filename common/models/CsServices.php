@@ -9,31 +9,45 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property string $image_id
  * @property integer $industry_id
  * @property integer $action_id
- * @property string $action
+ * @property string $action_name
  * @property integer $object_id
  * @property string $object_name
- * @property integer $unit_id
+ * @property integer $object_model_relevance 
  * @property string $service_type
+ * @property integer $unit_id
  * @property string $amount
+ * @property integer $amount_default 
+ * @property integer $amount_range_min 
+ * @property integer $amount_range_max 
+ * @property string $amount_range_step 
+ * @property string $consumer 
+ * @property string $consumer_children 
+ * @property integer $consumer_default 
+ * @property integer $consumer_range_min 
+ * @property integer $consumer_range_max 
+ * @property string $consumer_range_step 
+ * @property string $service_object 
  * @property string $pic
- * @property string $service_object
- * @property string $consumer_count
- * @property string $support
  * @property string $location
  * @property string $time
  * @property string $duration
+ * @property string $frequency 
+ * @property string $support 
  * @property string $turn_key
- * @property string $addinfo_tools
- * @property integer $skill_id
- * @property integer $regulation_id
+ * @property string $tools
  * @property string $labour_type
  * @property string $frequency
  * @property string $coverage
+ * @property integer $geospecific 
  * @property integer $process
- * @property integer $geospecific
  * @property string $dat
+ * @property string $availability 
+ * @property string $ordering 
+ * @property string $pricing 
+ * @property string $terms 
  * @property string $status
  * @property string $added_by
  * @property string $added_time
@@ -74,14 +88,17 @@ class CsServices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'industry_id', 'action_id', 'action', 'object_id', 'object_name', 'unit_id', 'frequency', 'coverage'], 'required'],
-            [['industry_id', 'action_id', 'object_id', 'unit_id', 'skill_id', 'regulation_id', 'process', 'geospecific', 'added_by', 'hit_counter'], 'integer'],
+            [['name', 'industry_id', 'action_id', 'action_name', 'object_id', 'object_name', 'unit_id', 'coverage'], 'required'],
+            [['image_id', 'industry_id', 'action_id', 'object_id', 'object_model_relevance', 'unit_id', 'amount_default', 'amount_range_min', 'amount_range_max', 'consumer_default', 'consumer_range_min', 'consumer_range_max', 'geospecific', 'process', 'added_by', 'hit_counter'], 'integer'],
+            [['amount_range_step', 'consumer_range_step'], 'number'], 
             [['dat', 'status'], 'string'],
             [['added_time'], 'safe'],
             [['name'], 'string', 'max' => 90],
-            [['action'], 'string', 'max' => 80],
+            [['action_name'], 'string', 'max' => 80],
             [['object_name'], 'string', 'max' => 60],
-            [['service_type', 'amount', 'pic', 'service_object', 'consumer_count', 'support', 'location', 'time', 'duration', 'turn_key', 'addinfo_tools', 'labour_type', 'frequency', 'coverage'], 'string', 'max' => 1]
+            [['service_type', 'amount', 'consumer', 'consumer_children', 'service_object', 'pic', 'location', 'time', 'duration', 'frequency', 'support', 'turn_key', 'tools', 'labour_type', 'coverage', 'availability', 'ordering', 'pricing', 'terms'], 'string', 'max' => 1],
+            [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['unit_id' => 'id']],
+            [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
         ];
     }
 
@@ -91,44 +108,56 @@ class CsServices extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Ime usluge.',
-            'industry_id' => 'ID delatnosti usluge.',
-            'action_id' => 'ID akcije usluge.',
-            'action' => 'Akcija usluge.',
-            'object_id' => 'ID predmeta usluge.',
-            'object_name' => 'Predmet usluge.',
-            'unit_id' => 'Jedinica mere po kojoj se usluga izvršava.',
-            'service_type' => 'CRUD tip usluge. 1 - Create; 2 - Read; 3 - Update; 4 - Delete; 5 - Rent; 41 - Zamena; 6 - Other.',
-            'amount' => 'Obim usluge. 0 - no; 1 - obavezan; 2 - opciono.',
-            'pic' => 'Slika predmeta usluge. 0 - no; 1 - opciono.',
-            'service_object' => 'Predmet usluge. 0 - ne postoji; 1 - Predmet usluge je pružaočev (iznajmljivanje); 2 - Predmet usluge je korisnikov; 3 - neopipljiv.',
-            'consumer_count' => 'Broj korisnika usluge. 0 - no; 1 - obavezno; 2 - opciono.',
-            'support' => 'Podrška klijentima (Customer support). 0 - no; 1 - opciono.',
-            'location' => 'Lokacija usluge. 0 - no; 1 - Lokacija korisnika; 2 - Lokacija korisnika startna i završna; 3 - Lokacija ili korisnika, a ako nije uneta onda pružaoca usluge; 4- Lokacija korisnika startna i završna (opciono); 5 - Lokacija pružaoca usluge.',
-            'time' => 'Vreme izvršenje usluge. 0 - no; 1 - određuje korisnik; 2 - ASAP (određuje pružalac usluge); ',
-            'duration' => 'Trajanje izvršenja usluge. 0 - no; 1 - obavezno; 2 - opciono; 3 - isto kao obim usluge (kad je izražen u vremenu).',
-            'turn_key' => 'Važenje ponuđene cene za izvršenje usluge. 0 - no; 1 - ruke/ruke+materijal.',
-            'addinfo_tools' => 'Alat za izvršenje usluge. 0 - no; 1 - korisnikov; 2 - pružaočev.',
-            'skill_id' => 'Potrebna veština ili dozvola za obavljanje dozvole.',
-            'regulation_id' => 'Zakon koji obuhvata izvršenje usluge.',
-            'labour_type' => 'Vrsta korišćenog rada prilikom izvršenja usluge. 1 - oprema; 2 - čovek.',
-            'frequency' => 'Učestalost izvršenja usluge. 0 - no; 1 - jednom; 2 - povratno (dvaput); 3 - frekventno; 4 - neodređeno.',
-            'coverage' => 'Razdaljina koju pokrivaju pružaoci usluga. 0 - no; 1 - mala pokrivenost (nivo grada - do 10km); 2 - srednja (od 10 - 50km - region); 3 - velika (od 50 - 500km - država); 4 - neograničena (ceo svet). ',
-            'process' => 'Usluga je deo procesa. Npr. zidanje kuće je usluga koja je deo procesa \"Izgradnja kuće\".',
-            'geospecific' => 'Usluga je specifična za određeno podneblje, državu, region ili grad.',
-            'dat' => 'DAT - default auction type: Podrazumevana vrsta zahteva za uslugu.',
-            'status' => 'Status usluge.',
-            'added_by' => 'Korisnik koji je uneo uslugu.',
-            'added_time' => 'Vreme unošenja usluge.',
-            'hit_counter' => 'Broj pregleda usluge.',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'image_id' => Yii::t('app', 'Image ID'), 
+            'industry_id' => Yii::t('app', 'Industry ID'),
+            'action_id' => Yii::t('app', 'Action ID'),
+            'action_name' => Yii::t('app', 'Action'),
+            'object_id' => Yii::t('app', 'Object ID'),
+            'object_name' => Yii::t('app', 'Object Name'),
+            'object_model_relevance' => Yii::t('app', 'Object Model Relevance'), 
+            'service_type' => Yii::t('app', 'Service Type'), 
+            'amount' => Yii::t('app', 'Amount'),
+            'amount_default' => Yii::t('app', 'Amount Default'), 
+            'amount_range_min' => Yii::t('app', 'Amount Range Min'), 
+            'amount_range_max' => Yii::t('app', 'Amount Range Max'), 
+            'amount_range_step' => Yii::t('app', 'Amount Range Step'), 
+            'consumer' => Yii::t('app', 'Consumer'), 
+            'consumer_children' => Yii::t('app', 'Consumer Children'), 
+            'consumer_default' => Yii::t('app', 'Consumer Default'), 
+            'consumer_range_min' => Yii::t('app', 'Consumer Range Min'), 
+            'consumer_range_max' => Yii::t('app', 'Consumer Range Max'), 
+            'consumer_range_step' => Yii::t('app', 'Consumer Range Step'), 
+            'service_object' => Yii::t('app', 'Service Object'), 
+            'pic' => Yii::t('app', 'Pic'),
+            'location' => Yii::t('app', 'Location'),
+            'time' => Yii::t('app', 'Time'),
+            'duration' => Yii::t('app', 'Duration'),
+            'frequency' => Yii::t('app', 'Frequency'), 
+            'support' => Yii::t('app', 'Support'), 
+            'turn_key' => Yii::t('app', 'Turn Key'),
+            'tools' => Yii::t('app', 'Tools'),
+            'labour_type' => Yii::t('app', 'Labour Type'),
+            'coverage' => Yii::t('app', 'Coverage'),
+            'geospecific' => Yii::t('app', 'Geospecific'), 
+            'process' => Yii::t('app', 'Process'),
+            'dat' => Yii::t('app', 'Dat'),
+            'availability' => Yii::t('app', 'Availability'), 
+            'ordering' => Yii::t('app', 'Ordering'), 
+            'pricing' => Yii::t('app', 'Pricing'), 
+            'terms' => Yii::t('app', 'Terms'), 
+            'status' => Yii::t('app', 'Status'),
+            'added_by' => Yii::t('app', 'Added By'),
+            'added_time' => Yii::t('app', 'Added Time'),
+            'hit_counter' => Yii::t('app', 'Hit Counter'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsRecommendedServices()
+    public function getRecommendedServices()
     {
         return $this->hasMany(CsRecommendedServices::className(), ['service_id' => 'id']);
     }
@@ -136,7 +165,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsRecommendedServices0()
+    public function getRecommendedServices0()
     {
         return $this->hasMany(CsRecommendedServices::className(), ['rcmd_service_id' => 'id']);
     }
@@ -144,7 +173,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceProcesses()
+    public function getServiceProcesses()
     {
         return $this->hasMany(CsServiceProcesses::className(), ['service_id' => 'id']);
     }
@@ -152,7 +181,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceRegulations()
+    public function getServiceRegulations()
     {
         return $this->hasMany(CsServiceRegulations::className(), ['service_id' => 'id']);
     }
@@ -160,7 +189,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceSpecs()
+    public function getServiceSpecs()
     {
         return $this->hasMany(CsServiceSpecs::className(), ['service_id' => 'id']);
     }
@@ -184,7 +213,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAction0()
+    public function getAction()
     {
         return $this->hasOne(CsActions::className(), ['id' => 'action_id']);
     }
@@ -208,7 +237,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServicesTranslations()
+    public function getT()
     {
         return $this->hasMany(CsServicesTranslation::className(), ['service_id' => 'id']);
     }
@@ -216,7 +245,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSimilarServices()
+    public function getSimilarServices()
     {
         return $this->hasMany(CsSimilarServices::className(), ['service_id' => 'id']);
     }
@@ -224,7 +253,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSimilarServices0()
+    public function getSimilarServices0()
     {
         return $this->hasMany(CsSimilarServices::className(), ['sim_service_id' => 'id']);
     }
@@ -256,7 +285,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getServiceComments()
+    public function getComments()
     {
         return $this->hasMany(ServiceComments::className(), ['service_id' => 'id']);
     }

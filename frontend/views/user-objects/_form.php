@@ -29,7 +29,7 @@ use PetraBarus\Yii2\GooglePlacesAutoComplete\GooglePlacesAutoComplete;
 
             <div class="wrapper" style="border-top:none;margin-bottom:10px !important;">
 
-                <?= $form->field($model, 'object_id', [
+                <?= $form->field($model, 'object_id', [                    
                     'feedbackIcon' => [
                         'default' => 'envelope',
                         'success' => 'ok',

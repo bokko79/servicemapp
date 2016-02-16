@@ -11,7 +11,7 @@ use frontend\models\CsSectors;
 	<div id="sektor<?= $key+1 ?>" class="fadeInDown animated col-sm-2" <?= ($key==0) ? 'style="margin-left:0;"' : ''; ?>>
 		<div class="popup" style="background: linear-gradient(to bottom, <?= Yii::$app->operator->hex2rgba($sek->color, 0.1) ?>, <?= Yii::$app->operator->hex2rgba($sek->color, 0.9) ?>, <?= Yii::$app->operator->hex2rgba($sek->color, 1) ?>)">
 			<span class="icon"><i class="<?= $sek->icon ?>"></i></span>
-			<span class="text"><?= $sek->csSectorsTranslations[0]->name; ?></span>
+			<span class="text"><?= $sek->tName; ?></span>
 		</div>
 	</div>
 <?php } // foreach ($sektor as $key=>$sek) ?>

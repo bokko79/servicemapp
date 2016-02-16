@@ -8,38 +8,20 @@ use Yii;
  * This is the model class for table "provider_services".
  *
  * @property string $id
- * @property string $presentation_id
  * @property string $provider_id
+ * @property string $provider_industry_id
  * @property integer $service_id
  * @property integer $industry_id
- * @property string $loc_id
- * @property string $name
- * @property string $description
- * @property integer $period
- * @property integer $period_unit
- * @property string $price
- * @property string $price_max
- * @property integer $currency_id
- * @property integer $fixed_price
- * @property integer $warranty
- * @property string $note
- * @property integer $on_sale
  * @property integer $is_set
  * @property string $update_time
  *
  * @property OrderServices[] $orderServices
+ * @property Presentations[] $presentations
  * @property PromotionServices[] $promotionServices
- * @property ProviderServiceImages[] $providerServiceImages
- * @property ProviderServiceMethods[] $providerServiceMethods
- * @property ProviderServiceSpecs[] $providerServiceSpecs
- * @property ProviderServiceTerms $providerServiceTerms
  * @property Provider $provider
  * @property CsServices $service
- * @property CsUnits $periodUnit
- * @property CsCurrencies $currency
- * @property Locations $loc
- * @property Presentations $presentation
  * @property CsIndustries $industry
+ * @property ProviderIndustries $providerIndustry
  */
 class ProviderServices extends \yii\db\ActiveRecord
 {
@@ -57,11 +39,13 @@ class ProviderServices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_id', 'provider_id', 'service_id', 'industry_id', 'update_time'], 'required'],
-            [['presentation_id', 'provider_id', 'service_id', 'industry_id', 'loc_id', 'period', 'period_unit', 'price', 'price_max', 'currency_id', 'fixed_price', 'warranty', 'on_sale', 'is_set'], 'integer'],
-            [['description', 'note'], 'string'],
+            [['provider_id', 'provider_industry_id', 'service_id', 'industry_id', 'update_time'], 'required'],
+            [['provider_id', 'provider_industry_id', 'service_id', 'industry_id', 'is_set'], 'integer'],
             [['update_time'], 'safe'],
-            [['name'], 'string', 'max' => 32]
+            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Provider::className(), 'targetAttribute' => ['provider_id' => 'id']],
+            [['service_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsServices::className(), 'targetAttribute' => ['service_id' => 'id']],
+            [['industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsIndustries::className(), 'targetAttribute' => ['industry_id' => 'id']],
+            [['provider_industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProviderIndustries::className(), 'targetAttribute' => ['provider_industry_id' => 'id']],
         ];
     }
 
@@ -71,25 +55,13 @@ class ProviderServices extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'presentation_id' => Yii::t('app', 'Presentation ID'),
-            'provider_id' => Yii::t('app', 'Provider ID'),
-            'service_id' => Yii::t('app', 'Service ID'),
-            'industry_id' => Yii::t('app', 'Industry ID'),
-            'loc_id' => Yii::t('app', 'Loc ID'),
-            'name' => Yii::t('app', 'Name'),
-            'description' => Yii::t('app', 'Description'),
-            'period' => Yii::t('app', 'Period'),
-            'period_unit' => Yii::t('app', 'Period Unit'),
-            'price' => Yii::t('app', 'Price'),
-            'price_max' => Yii::t('app', 'Price Max'),
-            'currency_id' => Yii::t('app', 'Currency ID'),
-            'fixed_price' => Yii::t('app', 'Fixed Price'),
-            'warranty' => Yii::t('app', 'Warranty'),
-            'note' => Yii::t('app', 'Note'),
-            'on_sale' => Yii::t('app', 'On Sale'),
-            'is_set' => Yii::t('app', 'Is Set'),
-            'update_time' => Yii::t('app', 'Update Time'),
+            'id' => 'ID',
+            'provider_id' => 'Provider ID',
+            'provider_industry_id' => 'Provider Industry ID',
+            'service_id' => 'Service ID',
+            'industry_id' => 'Industry ID',
+            'is_set' => 'Is Set',
+            'update_time' => 'Update Time',
         ];
     }
 
@@ -104,41 +76,17 @@ class ProviderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPresentations()
+    {
+        return $this->hasMany(Presentations::className(), ['provider_service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPromotionServices()
     {
         return $this->hasMany(PromotionServices::className(), ['provider_service_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceImages()
-    {
-        return $this->hasMany(ProviderServiceImages::className(), ['provider_service_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceMethods()
-    {
-        return $this->hasMany(ProviderServiceMethods::className(), ['provider_service_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceSpecs()
-    {
-        return $this->hasMany(ProviderServiceSpecs::className(), ['provider_service_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceTerms()
-    {
-        return $this->hasOne(ProviderServiceTerms::className(), ['provider_service_id' => 'id']);
     }
 
     /**
@@ -160,40 +108,16 @@ class ProviderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPeriodUnit()
-    {
-        return $this->hasOne(CsUnits::className(), ['id' => 'period_unit']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCurrency()
-    {
-        return $this->hasOne(CsCurrencies::className(), ['id' => 'currency_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLoc()
-    {
-        return $this->hasOne(Locations::className(), ['id' => 'loc_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPresentation()
-    {
-        return $this->hasOne(Presentations::className(), ['id' => 'presentation_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getIndustry()
     {
         return $this->hasOne(CsIndustries::className(), ['id' => 'industry_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProviderIndustry()
+    {
+        return $this->hasOne(ProviderIndustries::className(), ['id' => 'provider_industry_id']);
     }
 }

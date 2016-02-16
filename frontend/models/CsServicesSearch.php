@@ -18,8 +18,8 @@ class CsServicesSearch extends CsServices
     public function rules()
     {
         return [
-            [['id', 'industry_id', 'action_id', 'object_id', 'unit_id', 'skill_id', 'regulation_id', 'process', 'geospecific', 'added_by', 'hit_counter'], 'integer'],
-            [['name', 'action', 'object_name', 'service_type', 'amount', 'pic', 'service_object', 'consumer_count', 'support', 'location', 'time', 'duration', 'turn_key', 'addinfo_tools', 'labour_type', 'frequency', 'coverage', 'dat', 'status', 'added_time'], 'safe'],
+            [['id', 'industry_id', 'action_id', 'object_id', 'unit_id', 'process', 'geospecific', 'added_by', 'hit_counter'], 'integer'],
+            [['name', 'action', 'object_name', 'service_type', 'amount', 'pic', 'service_object', 'consumer', 'support', 'location', 'time', 'duration', 'turn_key', 'tools', 'labour_type', 'frequency', 'coverage', 'dat', 'status', 'added_time'], 'safe'],
         ];
     }
 
@@ -60,9 +60,7 @@ class CsServicesSearch extends CsServices
             'industry_id' => $this->industry_id,
             'action_id' => $this->action_id,
             'object_id' => $this->object_id,
-            'unit_id' => $this->unit_id,
-            'skill_id' => $this->skill_id,
-            'regulation_id' => $this->regulation_id,
+            'unit_id' => $this->unit_id,            
             'process' => $this->process,
             'geospecific' => $this->geospecific,
             'added_by' => $this->added_by,
@@ -77,13 +75,13 @@ class CsServicesSearch extends CsServices
             ->andFilterWhere(['like', 'amount', $this->amount])
             ->andFilterWhere(['like', 'pic', $this->pic])
             ->andFilterWhere(['like', 'service_object', $this->service_object])
-            ->andFilterWhere(['like', 'consumer_count', $this->consumer_count])
+            ->andFilterWhere(['like', 'consumer', $this->consumer])
             ->andFilterWhere(['like', 'support', $this->support])
             ->andFilterWhere(['like', 'location', $this->location])
             ->andFilterWhere(['like', 'time', $this->time])
             ->andFilterWhere(['like', 'duration', $this->duration])
             ->andFilterWhere(['like', 'turn_key', $this->turn_key])
-            ->andFilterWhere(['like', 'addinfo_tools', $this->addinfo_tools])
+            ->andFilterWhere(['like', 'tools', $this->tools])
             ->andFilterWhere(['like', 'labour_type', $this->labour_type])
             ->andFilterWhere(['like', 'frequency', $this->frequency])
             ->andFilterWhere(['like', 'coverage', $this->coverage])

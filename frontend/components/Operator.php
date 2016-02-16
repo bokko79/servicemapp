@@ -45,4 +45,13 @@ class Operator extends Component
 		//Return rgb(a) color string
 		return $output;
 	}
+
+	/* Za prva slova č, ć, š, đ, ž */
+	public static function sentenceCase($string)
+	{
+	    $strlen = mb_strlen($string, 'UTF-8');
+	    $firstChar = mb_substr($string, 0, 1, 'UTF-8');
+	    $then = mb_substr($string, 1, $strlen - 1, 'UTF-8');
+	    return mb_strtoupper($firstChar, 'UTF-8') . $then;
+	}
 }

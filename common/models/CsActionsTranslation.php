@@ -11,6 +11,8 @@ use Yii;
  * @property integer $action_id
  * @property string $lang_code
  * @property string $name
+ * @property string $name_akk 
+ * @property string $name_inst 
  * @property string $orig_name
  * @property string $description
  *
@@ -33,12 +35,13 @@ class CsActionsTranslation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['action_id', 'lang_code', 'name'], 'required'],
+            [['action_id', 'lang_code', 'name', 'name_akk', 'name_inst'], 'required'],
             [['action_id'], 'integer'],
             [['description'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
             [['name'], 'string', 'max' => 100],
-            [['orig_name'], 'string', 'max' => 64]
+            [['name_akk', 'name_inst', 'orig_name'], 'string', 'max' => 64],
+            [['lang_code'], 'exist', 'skipOnError' => true, 'targetClass' => CsLanguages::className(), 'targetAttribute' => ['lang_code' => 'code']],
         ];
     }
 
@@ -52,6 +55,8 @@ class CsActionsTranslation extends \yii\db\ActiveRecord
             'action_id' => 'Akcija usluge.',
             'lang_code' => 'Jezik.',
             'name' => 'Prevod imena akcije usluge,',
+            'name_akk' => Yii::t('app', 'Name Akk'), 
+            'name_inst' => Yii::t('app', 'Name Inst'),
             'orig_name' => 'Originalno ime akcije usluge (iz tabele actions).',
             'description' => 'Opis stavke.',
         ];

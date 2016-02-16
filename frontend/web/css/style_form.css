@@ -2,58 +2,27 @@
 .delatnost_cover p {font-size: 11px;}
 
 /* *********** SETTINGS FORM ************* */
-.settings {background: #fff; margin: 0 0 30px 0 !important; padding:0 0 20px 0px !important; border: 1px solid #ddd; border-top: none;}
+.settings {background: transparent; margin: 0 0 30px 0 !important; padding:0 0 20px 0px !important; border: none;}
 .settings table td {vertical-align: middle;}
 .settings .row {margin-left: 15px;margin-right: 15px;}
 
-.settings .wrapper {padding:10px 20px; background: #F6F7F8; margin-bottom: 0px; /*border-bottom:1px solid #ddd;*/}
-.settings .wrapper.headline {margin-top: 0px; height: 45px; padding: 15px 20px 5px; cursor:pointer; background: #FFF; border-top:1px solid #ddd; border-bottom:none;}
+.settings .wrapper {padding:20px 20px 40px; /*background: #F6F7F8; margin-bottom: 0px; /*border-bottom:1px solid #ddd;*/}
+.settings .wrapper.headline {margin-top: 0px; height: 55px; padding: 15px 20px; cursor:pointer; /*background: #FFF;*/ border-top:1px solid #ddd; border-bottom:none;}
 .settings .wrapper.headline.blue {background: #EEE; }
 .settings .wrapper.headline:hover {background: #BBDEFB;}
-.settings .wrapper.headline i.chevron {float: right;}
+.settings .wrapper.headline i.chevron {float: right; margin-top: 6px;}
 .settings .wrapper.headline.error {background: rgba(255,0,0,.3); color:#444 !important;}
 .settings .wrapper.hide {display: none;}
 .settings .wrapper.plaza {border-top: none; padding-bottom: 0;}
 
-/*.settings .dublin {width:auto;}
-.settings .dublin.subnote {width:100%; text-align: left; font-size: 11px; line-height: 12px; text-align: justify;}
-
-.settings .rome {text-align: right; width: 30%; font-size: 12px; line-height: 12px; padding-right: 10px;}
-
-.settings .milano {width: 70%;}
-.settings .milano input {width: 80px; text-align:right; margin-right: 5px;}
-.settings .milano select {width: 80px; text-align:right;}
-.settings .milano .unit {font-weight: 700; color: #2196F3; font-size: 15px; padding-left: 5px;}
-
-.settings .torino {text-align: left; width:80px;}
-.settings .torino select {width:80px;}
-
-.settings .input {text-align: left; width: 70%; font-size: 11px; padding: 0;}
-.settings .input input[type=text], .settings .input select {width:220px; margin-right: 10px; }
-.settings .input[placeholder] {font-size: 10px;}
-.settings input::-webkit-input-placeholder {font-size: 10px;}
-.settings input:-moz-placeholder {font-size: 10px;}
-.settings .input input[type=number] {text-align: right; width: 80px;}
-.settings .input.textarea textarea {width: 95%; font-size:12px; font-weight:400px;}
-.settings .input .main {/* width:30%; *//*padding: 0px;}
-.settings .input .main .or {font-weight:100; font-size:18px; line-height:30px;}
-.settings .input .main .asap.disabled, .request_maker table td.main .till.disabled {color:#ccc;}
-.settings .input .btn, .settings table .price .btn {/* width:30%; */font-size: 13px; font-weight: 700; display:block; width:180px; margin-top:20px;}
-/*fieldset.settings table .input td.main input[type=number] { text-align: right;}*/
-/*.settings .input .main input[type="text"] {text-align: left !important;}
-.settings select, .settings input[type="text"], .settings input[type="number"], .settings textarea {font-weight: 400; font-size: 13px; border-color:#bbb; box-shadow: inset 0 0 3px #ddd;}
-.settings select, .settings input[type="text"], .settings input[type="number"] {height:30px; padding: 0 0 0 10px;/* margin:5px 5px 5px 0;*/ }
-*/s
 .settings textarea:focus, .settings input[type="text"]:focus, .settings input[type="datetime"]:focus, .settings input[type="number"]:focus { border: 1px solid #2196F3; box-shadow: 0 0 5px #82B1FF; -moz-box-shadow: 0 0 5px #82B1FF;}
 
-.settings input[type=checkbox] {margin:5px 0;}
 .settings textarea {padding: 10px;}
 
 .settings .input .main .approx {padding: 0px; font-size:20px; font-weight: 900;}
 .settings .input .main .approx input.counter {width:25px; padding-top:6px; height:18px;}
 .settings .input .error {padding-left:10px; line-height: 12px;}
 .settings .input .radio { display:inline;padding-left:0;}
-.settings input[type=radio]{ margin-left:10px;}
 
 /*fieldset.settings table label { display:inline; margin-left:5px; float:left;}*/
 ul.multiselect {margin: 0 0 15px 0; background:#fff; padding: 10px 20px; border-radius:2px; border:1px solid #ddd;}
@@ -64,7 +33,7 @@ ul.multiselect  li label {font-size: 11px; font-weight: 400;cursor: pointer; fon
 .settings label.multiselect input[type=checkbox] {height: 13px; width:13px; }
 .settings .profile_cont {margin-left: 15px; text-align: center;}
 
-.settings label.head {margin-bottom: 1px !important; color:#2196F3; float:left; cursor:pointer; font-size: 15px; font-weight: 700; padding-left: 5px;}
+.settings label.head {margin-bottom: 1px !important; color:#263238; float:left; cursor:pointer; font-size: 19px; font-weight: 900; padding-left: 5px;}
 .settings .optional {font-size: 11px; opacity:.6; font-style: italic;}
 
 .settings .price {/*padding: 10px; background-image: linear-gradient(to bottom,#455A64,#263238); color:white; box-shadow:1px 1px 4px #000; border-radius:3px; */margin-bottom:10px;}

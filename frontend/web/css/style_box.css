@@ -128,6 +128,15 @@ tr.strikeout td.line.right:before { left: -5px; }
 .bids-area .body .head, .comments-area .body .head {float: left; width: 80%;}
 .bids-area .body .subaction, .comments-area .body .subaction {text-align: right; width: 20%;}
 
+.indexed {border-bottom:1px solid #ddd;}
+.indexed td {padding: 10px; font-size: 13px;}
+.indexed .table-header td {background: #263238; color: #ccc; font-size: 12px;}
+.indexed tr:hover > td {}
+.indexed .id-column, .indexed .action-column {width: 50px;}
+.indexed .detail-column {width: 260px;}
+.indexed .subdetail-column {width: 150px;}
+
+.index-sorter {}
 
 .wrapper.two {
 	max-width: 48%;

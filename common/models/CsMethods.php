@@ -9,14 +9,16 @@ use Yii;
  *
  * @property integer $id
  * @property integer $action_id
- * @property integer $attribute_id
+ * @property integer $action
+ * @property integer $property_id
+ * @property integer $property
  * @property string $type
- * @property integer $req
+ * @property integer $required
  *
  * @property CsActions $action
  * @property CsAttributes $attribute
  * @property OrderServiceMethods[] $orderServiceMethods
- * @property ProviderServiceMethods[] $providerServiceMethods
+ * @property PresentationMethods[] $presentationMethods
  */
 class CsMethods extends \yii\db\ActiveRecord
 {
@@ -34,9 +36,10 @@ class CsMethods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['action_id', 'attribute_id', 'type'], 'required'],
-            [['action_id', 'attribute_id', 'req'], 'integer'],
-            [['type'], 'string']
+            [['action_id', 'property_id', 'type'], 'required'],
+            [['action_id', 'property_id', 'required'], 'integer'],
+            [['type'], 'string'],
+            [['action', 'property'], 'string', 'max' => 64],
         ];
     }
 
@@ -46,11 +49,13 @@ class CsMethods extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'action_id' => 'Usluga.',
-            'attribute_id' => 'Atribut.',
-            'type' => 'Vrsta opcije usluge. 1 - input[number], 2 - radio, 3 - select, 4 - multiselect, 5 - checkbox(y/n), 6 - input[text]',
-            'req' => 'Važnost opcije usluge. 0 - opciono; 1 - obavezno.',
+            'id' => Yii::t('app', 'ID'),
+            'action_id' => Yii::t('app', 'Action ID'),
+            'action' => Yii::t('app', 'Action'),
+            'property_id' => Yii::t('app', 'Property ID'),
+            'property' => Yii::t('app', 'Property'),
+            'type' => Yii::t('app', 'Type'),
+            'required' => Yii::t('app', 'Required'),
         ];
     }
 
@@ -65,9 +70,9 @@ class CsMethods extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAttribute()
+    public function getProperty()
     {
-        return $this->hasOne(CsAttributes::className(), ['id' => 'attribute_id']);
+        return $this->hasOne(CsProperties::className(), ['id' => 'property_id']);
     }
 
     /**
@@ -81,9 +86,9 @@ class CsMethods extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServiceMethods()
+    public function getPresentationMethods()
     {
-        return $this->hasMany(ProviderServiceMethods::className(), ['method_id' => 'id']);
+        return $this->hasMany(PresentationMethods::className(), ['method_id' => 'id']);
     }
 
     /**

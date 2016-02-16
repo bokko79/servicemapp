@@ -26,7 +26,9 @@ return [
         '<username:\w+>/home' => 'user/view',
         '<username:\w+>/setup' => 'user/update',
         '<username:\w+>/account-setup' => 'user/account',
-        '<username:\w+>/activities' => 'user/activities',
+        '<username:\w+>/orders' => 'user/orders',
+        '<username:\w+>/ready-orders' => 'user/saved-orders',
+        '<username:\w+>/arrangements' => 'user/arrangements',
         '<username:\w+>/profile' => 'user/profile',
         '<username:\w+>/finances' => 'user/finances',
 
@@ -37,6 +39,9 @@ return [
         'review/<id:\d+>' =>'provider/review',
         'rate/<id:\d+>' =>'provider/rate',
         '<username:\w+>/portfolio-setup' => 'provider/update',
+        '<username:\w+>/bids' => 'provider/bids',
+        '<username:\w+>/presentations' => 'provider/presentations',
+        '<username:\w+>/promotions' => 'provider/promotions',
 
         // 5 PRESENTATIONS
         'new-presentation' => 'presentations/create', // :page
@@ -108,6 +113,7 @@ return [
         'feedback/<id:\d+>' => 'feedback/view', // :page
 
         // 20 ORDERS
+        'choose-service' => 'orders/choose', // :page
         'add/<title>' => 'orders/add', // :page
         'new-order' => 'orders/create', // :page
         'order/<id:\d+>' => 'orders/view', // :page

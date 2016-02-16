@@ -9,14 +9,12 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property integer $industry_id
  * @property integer $object_mode
  * @property string $status
  * @property string $added_by
  * @property string $added_time
  * @property string $description
  *
- * @property CsIndustries $industry
  * @property User $addedBy
  * @property CsActionsTranslation[] $csActionsTranslations
  * @property CsMethods[] $csMethods
@@ -38,8 +36,8 @@ class CsActions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'industry_id'], 'required'],
-            [['industry_id', 'object_mode', 'added_by'], 'integer'],
+            [['name'], 'required'],
+            [['object_mode', 'added_by'], 'integer'],
             [['status', 'description'], 'string'],
             [['added_time'], 'safe'],
             [['name'], 'string', 'max' => 64]
@@ -54,21 +52,12 @@ class CsActions extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Akcija usluge.',
-            'industry_id' => 'Delatnost akcije.',
             'object_mode' => 'Parametar koji označava da li akcija sadrži više usluga. 0 - Akcija ima samo jednu  uslugu; 1 - Akcija ima više od jedne usluge.',
             'status' => 'Status aktivnosti.',
             'added_by' => 'Korisnik koji je uneo aktivnost.',
             'added_time' => 'Vreme unošenja aktivnosti.',
             'description' => 'Opis akcije.',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIndustry()
-    {
-        return $this->hasOne(CsIndustries::className(), ['id' => 'industry_id']);
     }
 
     /**
@@ -82,7 +71,7 @@ class CsActions extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsActionsTranslations()
+    public function getT()
     {
         return $this->hasMany(CsActionsTranslation::className(), ['action_id' => 'id']);
     }

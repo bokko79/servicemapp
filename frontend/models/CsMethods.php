@@ -9,14 +9,16 @@ use Yii;
  *
  * @property integer $id
  * @property integer $action_id
- * @property integer $attribute_id
+ * @property integer $action_name
+ * @property integer $property_id
+ * @property integer $property_name
  * @property string $type
- * @property integer $req
+ * @property integer $required
  *
  * @property CsActions $action
  * @property CsAttributes $attribute
  * @property OrderServiceMethods[] $orderServiceMethods
- * @property ProviderServiceMethods[] $providerServiceMethods
+ * @property PresentationMethods[] $presentationMethods
  */
 class CsMethods extends \yii\db\ActiveRecord
 {
@@ -34,9 +36,10 @@ class CsMethods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['action_id', 'attribute_id', 'type'], 'required'],
-            [['action_id', 'attribute_id', 'req'], 'integer'],
-            [['type'], 'string']
+            [['action_id', 'property_id', 'type'], 'required'],
+            [['action_id', 'property_id', 'required'], 'integer'],
+            [['type'], 'string'],
+            [['action_name', 'property_name'], 'string', 'max' => 64],
         ];
     }
 
@@ -48,9 +51,11 @@ class CsMethods extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'action_id' => Yii::t('app', 'Action ID'),
-            'attribute_id' => Yii::t('app', 'Attribute ID'),
+            'action_name' => Yii::t('app', 'Action'),
+            'property_id' => Yii::t('app', 'Property ID'),
+            'property_name' => Yii::t('app', 'Property'),
             'type' => Yii::t('app', 'Type'),
-            'req' => Yii::t('app', 'Req'),
+            'required' => Yii::t('app', 'Required'),
         ];
     }
 
@@ -65,9 +70,9 @@ class CsMethods extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAttribute()
+    public function getProperty()
     {
-        return $this->hasOne(CsAttributes::className(), ['id' => 'attribute_id']);
+        return $this->hasOne(CsProperties::className(), ['id' => 'property_id']);
     }
 
     /**
@@ -81,8 +86,8 @@ class CsMethods extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServiceMethods()
+    public function getPresentationMethods()
     {
-        return $this->hasMany(ProviderServiceMethods::className(), ['method_id' => 'id']);
+        return $this->hasMany(PresentationMethods::className(), ['method_id' => 'id']);
     }
 }

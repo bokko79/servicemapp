@@ -35,15 +35,6 @@ $this->profileSubNavData = [
     'loc' => $model->userDetails->loc->city,        
 ];
 
-// <!-- TABS -->
-$this->tabs = [
-    ['url'=>Url::to('/'.$model->username.'/activities'), 'class'=>'', 'role'=>'', 'icon'=>'fa-bars', 'label'=>Yii::t('app', 'Moji poslovi'), 'active'=>''],
-    ['url'=>Url::to('/'.$model->username.'/home'), 'class'=>'', 'role'=>'', 'icon'=>'fa-feed', 'label'=>Yii::t('app', 'Feed'), 'active'=>'provider/services'],        
-    ['url'=>Url::to('/'.$model->username.'/inbox'), 'class'=>'', 'role'=>'', 'icon'=>'fa-envelope-o', 'label'=>Yii::t('app', 'Inbox'), 'active'=>''],
-    ['url'=>Url::to('/'.$model->username.'/finances'), 'class'=>'', 'role'=>'', 'icon'=>'fa-money', 'label'=>Yii::t('app', 'Finansije'), 'active'=>''],
-    ['url'=>Url::to('/'.$model->username.'/profile'), 'class'=>'', 'role'=>'', 'icon'=>'fa-user', 'label'=>Yii::t('app', 'Moj profil'), 'active'=>''],
-];
-
 $this->profileTitle = [
     'icon'          => '',
     'title'         => ($model->fullname!=null) ? $model->fullname : $model->username,
@@ -84,18 +75,11 @@ $marker->attachInfoWindow(
 // Add marker to the map
 $map->addOverlay($marker);
 ?>
-<div class="user-view" style="margin-top:20px;">
-    <?= Alert::widget([
-        'type' => Alert::TYPE_SUCCESS,
-        'title' => 'Note',
-        'titleOptions' => ['icon' => 'info-sign'],
-        'body' => 'This is an informative alert'
-    ]) ?>
+<div class="activities-index">
+    <h1 class="padding-top-20 padding-bottom-20">Feed</h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 </div>
-
-    
-
-<div class="card_container record-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+<div class="card_container record-xl grid-item fadeInUp animated" id="card_container" style="float:none;">
     <a href="<?= Url::to('/services') ?>">
         <div class="header-context">                
             <div class="avatar">
@@ -148,7 +132,7 @@ $map->addOverlay($marker);
     </a>
 </div>
 
-<div class="card_container record-650 grid-item fadeInUp animated" id="card_container" style="float:none;">
+<div class="card_container record-xl grid-item fadeInUp animated" id="card_container" style="float:none;">
     <a href="<?= Url::to('/services') ?>">
         <div class="header-context">                
             <div class="avatar">
@@ -306,39 +290,3 @@ $map->addOverlay($marker);
             </div>                  
         </div>           
 </div>
-
-
-<?= DetailView::widget([
-    'model' => $model,
-    'attributes' => [
-        'id',
-        'username',
-        'auth_key',
-        'password_hash',
-        'password_reset_token',
-        'email:email',
-        'email_reset_hash:email',
-        'email_reset_time:email',
-        'fullname',
-        'is_provider',
-        'ip_address',
-        'activation_hash',
-        'activation_time',
-        'invite_hash',
-        'registered_by',
-        'type',
-        'last_login_time',
-        'login_count',
-        'login_hash',
-        'online_status',
-        'last_activity',
-        'phone',
-        'phone_verification_hash',
-        'phone_verification_time',
-        'rememberme_token',
-        'role_code',
-        'status',
-        'created_at',
-        'updated_at',
-    ],
-]) ?>

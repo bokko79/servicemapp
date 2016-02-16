@@ -197,6 +197,11 @@ function close_category(){
   $('.subindustry6').hide();
 }
 
+function close_six_boxes(){
+  $('.six_boxes_container_industries').slideUp(400);
+  $('body').animate({scrollTop: 0}, 400);
+}
+
 
 function close_all(){
   $('header.main').removeClass('full');
@@ -242,7 +247,7 @@ $(document).keyup(function (e) {
 });
 
 
-function sektor(){
+function sektor(e){
   $("[id^=sektor]").click(function(){
     var id = $(this).attr('id');
     var lastChar = id.substr(id.length - 1);
@@ -273,7 +278,9 @@ function sektor(){
         }
     });
 
-    $('div.category').animate({scrollTop: 365}, 400);
+    //$('div.category').animate({scrollTop: 365}, 400);
+    $('body').animate({scrollTop: ($(this).offset().top-102)}, 400);
+    return false;
   });
 }
 </script>

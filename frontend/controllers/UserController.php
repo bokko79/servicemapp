@@ -7,6 +7,8 @@ use frontend\models\User;
 use frontend\models\UserSearch;
 use frontend\models\Orders;
 use frontend\models\OrdersSearch;
+use frontend\models\Agreements;
+use frontend\models\AgreementsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -102,7 +104,7 @@ class UserController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionActivities($username=null)
+    public function actionOrders($username=null)
     {
         $this->layout = '//user_list';
 
@@ -114,11 +116,15 @@ class UserController extends Controller
                 $searchModel = new OrdersSearch();
                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-                return $this->render('activities', [
-                    'model' => $model,
+                $dataProvider->pagination = [
+                    'defaultPageSize' => 10,
+                    'pageSizeLimit' => [10, 100],
+                ];
+
+                return $this->render('orders', [
+                    'model' => $user,
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'user' => $user,
                 ]);
             } else {
                 throw new NotFoundHttpException('The requested page does not exist.');
@@ -127,6 +133,65 @@ class UserController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }           
     }
+
+    /**
+     * Displays a single User model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionSavedOrders($username=null)
+    {
+        $this->layout = '//user_list';
+
+        if(isset($username)) {
+            $user = $this->findModelByUsername($username);
+
+            if($user) {
+                $model = $user->activities;
+                $searchModel = new OrdersSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+                return $this->render('saved-orders', [
+                    'model' => $user,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                ]);
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }           
+    }
+
+    /**
+     * Displays a single User model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionArrangements($username=null)
+    {
+        $this->layout = '//user_list';
+
+        if(isset($username)) {
+            $user = $this->findModelByUsername($username);
+
+            if($user) {
+                $searchModel = new AgreementsSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+                return $this->render('arrangements', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'model' => $user,
+                ]);
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }           
+    }    
 
     /**
      * Displays a single User model.

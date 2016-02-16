@@ -12,15 +12,15 @@ $menuItems[] = ['label' => 'Nalog', 'url' => [Yii::$app->user->username.'/accoun
 $menuItems[] = ['label' => 'Notifikacije', 'url' => [Yii::$app->user->username.'/notifications-setup'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='user-notifications/update') ? 'active' : null)]];
 $menuItems[] = ['label' => 'Načini plaćanja', 'url' => [Yii::$app->user->username.'/payments'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='user-payments/index') ? 'active' : null)]];
 $menuItems[] = ['label' => 'Članstvo', 'url' => ['/membership'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='site/membership') ? 'active' : null)]];
-$menuItems[] = ['label' => 'Moje lokacije', 'url' => [Yii::$app->user->username.'/locations'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='user-locations/index') ? 'active' : null)]];
-$menuItems[] = ['label' => 'Moji predmeti', 'url' => [Yii::$app->user->username.'/objects'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='user-objects/index') ? 'active' : null)]];
-$menuItems[] = ['label' => 'Moje veštine', 'url' => [Yii::$app->user->username.'/skills'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='provider-industry-skills/index') ? 'active' : null)]];
-$menuItems[] = ['label' => 'Moje delatnosti', 'url' => [Yii::$app->user->username.'/industries'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='provider-industries/index') ? 'active' : null)]];
-$menuItems[] = ['label' => 'Moje usluge', 'url' => [Yii::$app->user->username.'/services'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='provider-services/index') ? 'active' : null)]];
-$menuItems[] = ['label' => 'Moji uslovi izvršavanja usluga', 'url' => [Yii::$app->user->username.'/terms'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='provider-terms/update') ? 'active' : null)]];
+$menuItems[] = ['label' => 'Lokacije', 'url' => [Yii::$app->user->username.'/locations'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='user-locations/index') ? 'active' : null)]];
+$menuItems[] = ['label' => 'Predmeti usluga', 'url' => [Yii::$app->user->username.'/objects'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='user-objects/index') ? 'active' : null)]];
+$menuItems[] = ['label' => 'Veštine', 'url' => [Yii::$app->user->username.'/skills'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='provider-industry-skills/index') ? 'active' : null)]];
+$menuItems[] = ['label' => 'Delatnosti', 'url' => [Yii::$app->user->username.'/industries'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='provider-industries/index') ? 'active' : null)]];
+$menuItems[] = ['label' => 'Usluge', 'url' => [Yii::$app->user->username.'/services'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='provider-services/index') ? 'active' : null)]];
+$menuItems[] = ['label' => 'Uslovi izvršavanja usluga', 'url' => [Yii::$app->user->username.'/terms'], 'options'=>['class'=>((Yii::$app->controller->getRoute()=='provider-terms/update') ? 'active' : null)]];
 
 echo Menu::widget([
-        'options' => ['class' => 'sidebar-menu'],
+        'options' => ['class' => 'sidebar-menu right'],
         'encodeLabels' => false,
         'items' => $menuItems,
     ]);

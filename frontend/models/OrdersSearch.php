@@ -12,6 +12,8 @@ use frontend\models\Orders;
  */
 class OrdersSearch extends Orders
 {
+    public $service; 
+
     /**
      * @inheritdoc
      */
@@ -20,6 +22,7 @@ class OrdersSearch extends Orders
         return [
             [['id', 'activity_id', 'loc_id', 'loc_id2', 'loc_within', 'registered_to', 'phone_contact', 'turn_key', 'process_id', 'success', 'hit_counter'], 'integer'],
             [['delivery_starts', 'delivery_ends', 'validity', 'update_time', 'lang_code', 'class', 'order_type', 'success_time'], 'safe'],
+            [['service'], 'safe'],
         ];
     }
 
@@ -43,9 +46,20 @@ class OrdersSearch extends Orders
     {
         $query = Orders::find();
 
+        $query->joinWith(['activity', 'services']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        // Important: here is how we set up the sorting
+        // The key is the attribute name
+        $dataProvider->sort->attributes['time_asc'] = [
+            'asc' => ['activities.time' => SORT_ASC],
+        ];
+        $dataProvider->sort->attributes['time_desc'] = [
+            'asc' => ['activities.time' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -55,7 +69,7 @@ class OrdersSearch extends Orders
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
+        /*$query->andFilterWhere([
             'id' => $this->id,
             'activity_id' => $this->activity_id,
             'loc_id' => $this->loc_id,
@@ -63,7 +77,7 @@ class OrdersSearch extends Orders
             'loc_within' => $this->loc_within,
             'delivery_starts' => $this->delivery_starts,
             'delivery_ends' => $this->delivery_ends,
-            'validity' => $this->validity,
+            'orders.validity' => $this->validity,
             'update_time' => $this->update_time,
             'registered_to' => $this->registered_to,
             'phone_contact' => $this->phone_contact,
@@ -76,7 +90,9 @@ class OrdersSearch extends Orders
 
         $query->andFilterWhere(['like', 'lang_code', $this->lang_code])
             ->andFilterWhere(['like', 'class', $this->class])
-            ->andFilterWhere(['like', 'order_type', $this->order_type]);
+            ->andFilterWhere(['like', 'order_type', $this->order_type]);*/
+
+        $query->andFilterWhere(['like', 'cs_services.name', $this->service]);
 
         return $dataProvider;
     }

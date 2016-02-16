@@ -73,7 +73,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsActionsTranslations()
+    public function getActionsTranslations()
     {
         return $this->hasMany(CsActionsTranslation::className(), ['lang_code' => 'code']);
     }
@@ -81,7 +81,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsAttributeModelsTranslations()
+    public function getAttributeModelsTranslations()
     {
         return $this->hasMany(CsAttributeModelsTranslation::className(), ['lang_code' => 'code']);
     }
@@ -89,7 +89,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsAttributesTranslations()
+    public function getAttributesTranslations()
     {
         return $this->hasMany(CsAttributesTranslation::className(), ['lang_code' => 'code']);
     }
@@ -97,7 +97,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsCategoriesTranslations()
+    public function getCategoriesTranslations()
     {
         return $this->hasMany(CsCategoriesTranslation::className(), ['lang_code' => 'code']);
     }
@@ -105,7 +105,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsIndustriesTranslations()
+    public function getIndustriesTranslations()
     {
         return $this->hasMany(CsIndustriesTranslation::className(), ['lang_code' => 'code']);
     }
@@ -113,7 +113,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsObjectClassesTranslations()
+    public function getObjectClassesTranslations()
     {
         return $this->hasMany(CsObjectClassesTranslation::className(), ['lang_code' => 'code']);
     }
@@ -121,7 +121,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsObjectIssuesTranslations()
+    public function getObjectIssuesTranslations()
     {
         return $this->hasMany(CsObjectIssuesTranslation::className(), ['lang_code' => 'code']);
     }
@@ -129,7 +129,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsObjectTypesTranslations()
+    public function getObjectTypesTranslations()
     {
         return $this->hasMany(CsObjectTypesTranslation::className(), ['lang_code' => 'code']);
     }
@@ -137,7 +137,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsObjectsTranslations()
+    public function getObjectsTranslations()
     {
         return $this->hasMany(CsObjectsTranslation::className(), ['lang_code' => 'code']);
     }
@@ -145,7 +145,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsProcessesTranslations()
+    public function getProcessesTranslations()
     {
         return $this->hasMany(CsProcessesTranslation::className(), ['lang_code' => 'code']);
     }
@@ -153,7 +153,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsRegulationsTranslations()
+    public function getRegulationsTranslations()
     {
         return $this->hasMany(CsRegulationsTranslation::className(), ['lang_code' => 'code']);
     }
@@ -161,7 +161,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSectorsTranslations()
+    public function getSectorsTranslations()
     {
         return $this->hasMany(CsSectorsTranslation::className(), ['lang_code' => 'code']);
     }
@@ -169,7 +169,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServicesTranslations()
+    public function getServicesTranslations()
     {
         return $this->hasMany(CsServicesTranslation::className(), ['lang_code' => 'code']);
     }
@@ -177,7 +177,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsTags()
+    public function getTags()
     {
         return $this->hasMany(CsTags::className(), ['lang_code' => 'code']);
     }
@@ -185,7 +185,7 @@ class CsLanguages extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsUnitsTranslations()
+    public function getUnitsTranslations()
     {
         return $this->hasMany(CsUnitsTranslation::className(), ['lang_code' => 'code']);
     }

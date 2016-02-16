@@ -58,7 +58,7 @@ class GlobalNavController extends \yii\web\Controller
 
     public function actionGetid()
     {
-        $id= isset($_POST['lastChar']) ? $_POST['lastChar'] : '';
+        $id = isset($_POST['lastChar']) ? $_POST['lastChar'] : '';
         return '/ind/'.$id;
     }
 

@@ -30,8 +30,8 @@ use Yii;
  * @property User $user
  * @property Orders[] $orders
  * @property Orders[] $orders0
+ * @property Presentations[] $presentations
  * @property ProviderLocations[] $providerLocations
- * @property ProviderServices[] $providerServices
  * @property UserDetails[] $userDetails
  * @property UserLocations[] $userLocations
  * @property UserObjects[] $userObjects
@@ -58,7 +58,8 @@ class Locations extends \yii\db\ActiveRecord
             [['ime'], 'string', 'max' => 100],
             [['country', 'state', 'district', 'city', 'mz', 'ulica'], 'string', 'max' => 64],
             [['broj'], 'string', 'max' => 4],
-            [['ime_lokacije'], 'string', 'max' => 128]
+            [['ime_lokacije'], 'string', 'max' => 128],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -68,24 +69,24 @@ class Locations extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'is_fav' => Yii::t('app', 'Is Fav'),
-            'user_id' => Yii::t('app', 'User ID'),
-            'def' => Yii::t('app', 'Def'),
-            'ime' => Yii::t('app', 'Ime'),
-            'country' => Yii::t('app', 'Country'),
-            'state' => Yii::t('app', 'State'),
-            'district' => Yii::t('app', 'District'),
-            'city' => Yii::t('app', 'City'),
-            'zip' => Yii::t('app', 'Zip'),
-            'mz' => Yii::t('app', 'Mz'),
-            'ulica' => Yii::t('app', 'Ulica'),
-            'broj' => Yii::t('app', 'Broj'),
-            'sprat' => Yii::t('app', 'Sprat'),
-            'stan' => Yii::t('app', 'Stan'),
-            'lat' => Yii::t('app', 'Lat'),
-            'lng' => Yii::t('app', 'Lng'),
-            'ime_lokacije' => Yii::t('app', 'Ime Lokacije'),
+            'id' => 'ID',
+            'is_fav' => 'Is Fav',
+            'user_id' => 'User ID',
+            'def' => 'Def',
+            'ime' => 'Ime',
+            'country' => 'Country',
+            'state' => 'State',
+            'district' => 'District',
+            'city' => 'City',
+            'zip' => 'Zip',
+            'mz' => 'Mz',
+            'ulica' => 'Ulica',
+            'broj' => 'Broj',
+            'sprat' => 'Sprat',
+            'stan' => 'Stan',
+            'lat' => 'Lat',
+            'lng' => 'Lng',
+            'ime_lokacije' => 'Ime Lokacije',
         ];
     }
 
@@ -124,17 +125,17 @@ class Locations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderLocations()
+    public function getPresentations()
     {
-        return $this->hasMany(ProviderLocations::className(), ['loc_id' => 'id']);
+        return $this->hasMany(Presentations::className(), ['loc_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServices()
+    public function getProviderLocations()
     {
-        return $this->hasMany(ProviderServices::className(), ['loc_id' => 'id']);
+        return $this->hasMany(ProviderLocations::className(), ['loc_id' => 'id']);
     }
 
     /**

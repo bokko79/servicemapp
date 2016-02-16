@@ -74,15 +74,15 @@ class CsUnits extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsAttributes()
+    public function getProperties()
     {
-        return $this->hasMany(CsAttributes::className(), ['unit_id' => 'id']);
+        return $this->hasMany(CsProperties::className(), ['unit_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServices()
+    public function getServices()
     {
         return $this->hasMany(CsServices::className(), ['unit_id' => 'id']);
     }
@@ -90,7 +90,7 @@ class CsUnits extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsUnitsTranslations()
+    public function getT()
     {
         return $this->hasMany(CsUnitsTranslation::className(), ['unit_id' => 'id']);
     }

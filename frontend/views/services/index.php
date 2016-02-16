@@ -9,21 +9,31 @@ use yii\widgets\ListView;
 
 $this->title = Yii::t('app', 'Index usluga');
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->params['getService'] = $getService;
+$this->params['industry'] = $industry;
+
+$this->cardData = [
+    'pic' => ($industry) ? 'industries/'.$industry->id : null, 
+];
+
+$this->profileTitle = [
+    'icon'          => ($industry) ? $industry->icon : null,
+    'title'         => ($industry) ? Yii::$app->operator->sentenceCase($industry->tName) : null, 
+    'description'   => ($industry) ? $industry->t[0]->description : null, 
+];
+
+$this->stats = [
+    ['title'=>'Porudžbine', 'value'=>163, 'sub'=>95, 'perc'=>'--'],
+    ['title'=>'Provajderi', 'value'=>42, 'sub'=>'--', 'perc'=>'--'],
+    ['title'=>'Promocije', 'value'=>17, 'sub'=>'--', 'perc'=>'--'],
+];
 ?>
-<h1 class="padding-bottom-20 padding-top-20"><?= Html::encode($this->title) ?></h1>
-<div class="card_container record-full transparent no-border no-shadow hidden-content-container" id="card_container" style="float:none;">   
-    <div class="header-context page-title side-widget">
-        <h4><i class="fa fa-filter"></i> Filteri <?= Html::a('<i class="fa fa-chevron-right"></i>', null, ['class'=>'btn btn-link float-right show-more']); ?></h4>
-    </div>
-    <div class="secondary-context hidden hidden-content fadeInDown animated">
-        <?= $this->render('_search', ['model' => $searchModel]) ?>
-    </div>   
-</div>
 
 <div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 30 }' style="margin-top:40px;">
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '_card',
+        'summary' => '',
     ]) ?>
-
 </div>

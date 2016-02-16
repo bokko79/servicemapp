@@ -15,8 +15,8 @@ use Yii;
  *
  * @property Bids[] $bids
  * @property OrderServices[] $orderServices
+ * @property Presentations[] $presentations
  * @property Promotions[] $promotions
- * @property ProviderServices[] $providerServices
  * @property UserDetails[] $userDetails
  * @property UserOrder[] $userOrders
  */
@@ -40,7 +40,7 @@ class CsCurrencies extends \yii\db\ActiveRecord
             [['state_id'], 'integer'],
             [['rate'], 'number'],
             [['name'], 'string', 'max' => 30],
-            [['code'], 'string', 'max' => 3]
+            [['code'], 'string', 'max' => 3],
         ];
     }
 
@@ -50,11 +50,11 @@ class CsCurrencies extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'code' => Yii::t('app', 'Code'),
-            'state_id' => Yii::t('app', 'State ID'),
-            'rate' => Yii::t('app', 'Rate'),
+            'id' => 'ID',
+            'name' => 'Name',
+            'code' => 'Code',
+            'state_id' => 'State ID',
+            'rate' => 'Rate',
         ];
     }
 
@@ -77,17 +77,17 @@ class CsCurrencies extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPromotions()
+    public function getPresentations()
     {
-        return $this->hasMany(Promotions::className(), ['currency_id' => 'id']);
+        return $this->hasMany(Presentations::className(), ['currency_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServices()
+    public function getPromotions()
     {
-        return $this->hasMany(ProviderServices::className(), ['currency_id' => 'id']);
+        return $this->hasMany(Promotions::className(), ['currency_id' => 'id']);
     }
 
     /**

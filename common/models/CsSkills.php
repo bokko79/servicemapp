@@ -9,11 +9,14 @@ use Yii;
  *
  * @property integer $id
  * @property integer $industry_id
- * @property integer $attribute_id
+ * @property integer $property_id
+ * @property string $property
+ * @property integer $required
  * @property string $description
  *
  * @property CsIndustries $industry
- * @property CsAttributes $attribute
+ * @property CsProperties $property
+ * @property ProviderIndustrySkills[] $providerIndustrySkills
  */
 class CsSkills extends \yii\db\ActiveRecord
 {
@@ -31,9 +34,10 @@ class CsSkills extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['industry_id', 'attribute_id'], 'required'],
-            [['industry_id', 'attribute_id'], 'integer'],
-            [['description'], 'string']
+            [['industry_id', 'property_id'], 'required'],
+            [['industry_id', 'property_id', 'required'], 'integer'],
+            [['description'], 'string'],
+            [['industry', 'property'], 'string', 'max' => 64],
         ];
     }
 
@@ -43,10 +47,11 @@ class CsSkills extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'industry_id' => 'Delatnost.',
-            'attribute_id' => 'Vešina.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'industry' => Yii::t('app', 'Industry'),
+            'property_id' => Yii::t('app', 'Property ID'),
+            'property' => Yii::t('app', 'Property'),
+            'required' => Yii::t('app', 'Required'),
         ];
     }
 
@@ -61,9 +66,9 @@ class CsSkills extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAttribute()
+    public function getProperty()
     {
-        return $this->hasOne(CsAttributes::className(), ['id' => 'attribute_id']);
+        return $this->hasOne(CsProperties::className(), ['id' => 'property_id']);
     }
 
     /**

@@ -1,5 +1,5 @@
 /* --------------------------------------------------MAIN CONTENT------------------------------------------------------------*/
-.profile_head {background: #F6F7F8;  border-bottom:1px solid #ddd; height:236px; padding-top:20px; position:relative;}
+.profile_head {background: #F6F7F8;  border-bottom:1px solid #ddd; height:240px; padding:20px 0; position:relative;}
 .profile_head_stick {background-image: linear-gradient(to bottom,#455A64,#263238); height: 50px; color: #fff; box-shadow: 2px 2px 5px #aaa; display: none;}
 
 .cover_user_profile {position:absolute; left:0; right:0; top:0; height:185px; z-index:0; background-image: linear-gradient(to bottom,#455A64,#263238); background: url('../images/backgrounds/land_back_4.jpg') center center; border-bottom: 1px solid #2196F3;}
@@ -22,7 +22,7 @@
 .profile_head_stick h1 {font-size: 20px; color: #fff; line-height:28px;}
 .profile_head .title_holder_home {color:#fff !important; text-shadow:1px 1px 3px #444; border: none; background: transparent; position: absolute; bottom: 50px;}
 .profile_head .index_services .title_holder_home {top: 0px; width: 100%; color:#000 !important; text-shadow:1px 1px 1px #ddd;}
-.profile_head .index_services .title_holder_home p {margin: 0 0 0 10px;}
+.profile_head .index_services .title_holder_home p {margin:20px 0;}
 .profile_head .index_services #quick_form_makers { top: 174px; position: absolute; width: 100%; z-index:100;}
 
 .profile_head .pageTitle p {margin:10px 0 0 ; opacity: .6; font-size: 11px; line-height: 14px;}
@@ -49,7 +49,7 @@
 /* UPPER STATS */
 .profile_head .stat_box_cont {background: rgba(255,255,255,.3); border:1px solid #ddd; box-shadow: 0px -1px 3px #fff;}
 .profile_head .stat_box_cont .title {color: #ddd;  background: transparent;}
-.profile_head .stat_box .main_data {text-shadow: 1px 1px 2px #000; opacity:1; border-bottom:1px solid #ccc; color: white;}
+.profile_head .stat_box .main_data {text-shadow: 1px 1px 2px #bbb; opacity:1; border-bottom:1px solid #ccc; color: #777;}
 .profile_head.product .stat_box .main_data {text-shadow: none;color: black;}
 
 .profile_right_controls {text-align:right; width: 100%; position: absolute; bottom: 20px; right: 0;}

@@ -57,7 +57,7 @@ class CsProcesses extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsProcessesTranslations()
+    public function getT()
     {
         return $this->hasMany(CsProcessesTranslation::className(), ['process_id' => 'id']);
     }
@@ -65,7 +65,7 @@ class CsProcesses extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceProcesses()
+    public function getServiceProcesses()
     {
         return $this->hasMany(CsServiceProcesses::className(), ['process_id' => 'id']);
     }

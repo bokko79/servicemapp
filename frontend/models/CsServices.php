@@ -9,31 +9,45 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property string $image_id
  * @property integer $industry_id
  * @property integer $action_id
- * @property string $action
+ * @property string $action_name
  * @property integer $object_id
  * @property string $object_name
- * @property integer $unit_id
+ * @property integer $object_model_relevance 
  * @property string $service_type
+ * @property integer $unit_id
  * @property string $amount
+ * @property integer $amount_default 
+ * @property integer $amount_range_min 
+ * @property integer $amount_range_max 
+ * @property string $amount_range_step 
+ * @property string $consumer 
+ * @property string $consumer_children 
+ * @property integer $consumer_default 
+ * @property integer $consumer_range_min 
+ * @property integer $consumer_range_max 
+ * @property string $consumer_range_step 
+ * @property string $service_object 
  * @property string $pic
- * @property string $service_object
- * @property string $consumer_count
- * @property string $support
  * @property string $location
  * @property string $time
  * @property string $duration
+ * @property string $frequency 
+ * @property string $support 
  * @property string $turn_key
- * @property string $addinfo_tools
- * @property integer $skill_id
- * @property integer $regulation_id
+ * @property string $tools
  * @property string $labour_type
  * @property string $frequency
  * @property string $coverage
+ * @property integer $geospecific 
  * @property integer $process
- * @property integer $geospecific
  * @property string $dat
+ * @property string $availability 
+ * @property string $ordering 
+ * @property string $pricing 
+ * @property string $terms 
  * @property string $status
  * @property string $added_by
  * @property string $added_time
@@ -43,6 +57,7 @@ use Yii;
  * @property CsRecommendedServices[] $csRecommendedServices0
  * @property CsServiceProcesses[] $csServiceProcesses
  * @property CsServiceRegulations[] $csServiceRegulations
+ * @property CsServiceMethods[] $csServiceMethods
  * @property CsServiceSpecs[] $csServiceSpecs
  * @property CsObjects $object
  * @property CsUnits $unit
@@ -75,14 +90,17 @@ class CsServices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'industry_id', 'action_id', 'action', 'object_id', 'object_name', 'unit_id', 'frequency', 'coverage'], 'required'],
-            [['industry_id', 'action_id', 'object_id', 'unit_id', 'skill_id', 'regulation_id', 'process', 'geospecific', 'added_by', 'hit_counter'], 'integer'],
+            [['name', 'industry_id', 'action_id', 'action_name', 'object_id', 'object_name', 'unit_id', 'coverage'], 'required'],
+            [['image_id', 'industry_id', 'action_id', 'object_id', 'object_model_relevance', 'unit_id', 'amount_default', 'amount_range_min', 'amount_range_max', 'consumer_default', 'consumer_range_min', 'consumer_range_max', 'geospecific', 'process', 'added_by', 'hit_counter'], 'integer'],
+            [['amount_range_step', 'consumer_range_step'], 'number'], 
             [['dat', 'status'], 'string'],
             [['added_time'], 'safe'],
             [['name'], 'string', 'max' => 90],
-            [['action'], 'string', 'max' => 80],
+            [['action_name'], 'string', 'max' => 80],
             [['object_name'], 'string', 'max' => 60],
-            [['service_type', 'amount', 'pic', 'service_object', 'consumer_count', 'support', 'location', 'time', 'duration', 'turn_key', 'addinfo_tools', 'labour_type', 'frequency', 'coverage'], 'string', 'max' => 1]
+            [['service_type', 'amount', 'consumer', 'consumer_children', 'service_object', 'pic', 'location', 'time', 'duration', 'frequency', 'support', 'turn_key', 'tools', 'labour_type', 'coverage', 'availability', 'ordering', 'pricing', 'terms'], 'string', 'max' => 1],
+            [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['unit_id' => 'id']],
+            [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
         ];
     }
 
@@ -94,31 +112,43 @@ class CsServices extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
+            'image_id' => Yii::t('app', 'Image ID'), 
             'industry_id' => Yii::t('app', 'Industry ID'),
             'action_id' => Yii::t('app', 'Action ID'),
-            'action' => Yii::t('app', 'Action'),
+            'action_name' => Yii::t('app', 'Action'),
             'object_id' => Yii::t('app', 'Object ID'),
             'object_name' => Yii::t('app', 'Object Name'),
-            'unit_id' => Yii::t('app', 'Unit ID'),
-            'service_type' => Yii::t('app', 'Service Type'),
+            'object_model_relevance' => Yii::t('app', 'Object Model Relevance'), 
+            'service_type' => Yii::t('app', 'Service Type'), 
             'amount' => Yii::t('app', 'Amount'),
+            'amount_default' => Yii::t('app', 'Amount Default'), 
+            'amount_range_min' => Yii::t('app', 'Amount Range Min'), 
+            'amount_range_max' => Yii::t('app', 'Amount Range Max'), 
+            'amount_range_step' => Yii::t('app', 'Amount Range Step'), 
+            'consumer' => Yii::t('app', 'Consumer'), 
+            'consumer_children' => Yii::t('app', 'Consumer Children'), 
+            'consumer_default' => Yii::t('app', 'Consumer Default'), 
+            'consumer_range_min' => Yii::t('app', 'Consumer Range Min'), 
+            'consumer_range_max' => Yii::t('app', 'Consumer Range Max'), 
+            'consumer_range_step' => Yii::t('app', 'Consumer Range Step'), 
+            'service_object' => Yii::t('app', 'Service Object'), 
             'pic' => Yii::t('app', 'Pic'),
-            'service_object' => Yii::t('app', 'Service Object'),
-            'consumer_count' => Yii::t('app', 'Consumer Count'),
-            'support' => Yii::t('app', 'Support'),
             'location' => Yii::t('app', 'Location'),
             'time' => Yii::t('app', 'Time'),
             'duration' => Yii::t('app', 'Duration'),
+            'frequency' => Yii::t('app', 'Frequency'), 
+            'support' => Yii::t('app', 'Support'), 
             'turn_key' => Yii::t('app', 'Turn Key'),
-            'addinfo_tools' => Yii::t('app', 'Addinfo Tools'),
-            'skill_id' => Yii::t('app', 'Skill ID'),
-            'regulation_id' => Yii::t('app', 'Regulation ID'),
+            'tools' => Yii::t('app', 'Tools'),
             'labour_type' => Yii::t('app', 'Labour Type'),
-            'frequency' => Yii::t('app', 'Frequency'),
             'coverage' => Yii::t('app', 'Coverage'),
+            'geospecific' => Yii::t('app', 'Geospecific'), 
             'process' => Yii::t('app', 'Process'),
-            'geospecific' => Yii::t('app', 'Geospecific'),
             'dat' => Yii::t('app', 'Dat'),
+            'availability' => Yii::t('app', 'Availability'), 
+            'ordering' => Yii::t('app', 'Ordering'), 
+            'pricing' => Yii::t('app', 'Pricing'), 
+            'terms' => Yii::t('app', 'Terms'), 
             'status' => Yii::t('app', 'Status'),
             'added_by' => Yii::t('app', 'Added By'),
             'added_time' => Yii::t('app', 'Added Time'),
@@ -129,7 +159,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsRecommendedServices()
+    public function getRecommendedServices()
     {
         return $this->hasMany(CsRecommendedServices::className(), ['service_id' => 'id']);
     }
@@ -137,7 +167,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsRecommendedServices0()
+    public function getRecommendedServices0()
     {
         return $this->hasMany(CsRecommendedServices::className(), ['rcmd_service_id' => 'id']);
     }
@@ -145,7 +175,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceProcesses()
+    public function getServiceProcesses()
     {
         return $this->hasMany(CsServiceProcesses::className(), ['service_id' => 'id']);
     }
@@ -153,7 +183,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceRegulations()
+    public function getServiceRegulations()
     {
         return $this->hasMany(CsServiceRegulations::className(), ['service_id' => 'id']);
     }
@@ -161,7 +191,15 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceSpecs()
+    public function getServiceMethods()
+    {
+        return $this->hasMany(CsServiceMethods::className(), ['service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServiceSpecs()
     {
         return $this->hasMany(CsServiceSpecs::className(), ['service_id' => 'id']);
     }
@@ -185,7 +223,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAction0()
+    public function getAction()
     {
         return $this->hasOne(CsActions::className(), ['id' => 'action_id']);
     }
@@ -209,7 +247,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServicesTranslations()
+    public function getT()
     {
         return $this->hasMany(CsServicesTranslation::className(), ['service_id' => 'id']);
     }
@@ -217,7 +255,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSimilarServices()
+    public function getSimilarServices()
     {
         return $this->hasMany(CsSimilarServices::className(), ['service_id' => 'id']);
     }
@@ -225,7 +263,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSimilarServices0()
+    public function getSimilarServices0()
     {
         return $this->hasMany(CsSimilarServices::className(), ['sim_service_id' => 'id']);
     }
@@ -284,5 +322,36 @@ class CsServices extends \yii\db\ActiveRecord
     public function getAveragePrice()
     {
         return '2.499,99&nbsp;RSD/m<sup>2</sup>';
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $service_translation = \frontend\models\CsServicesTranslation::find()->where('lang_code="SR" and service_id='.$this->id)->one();
+        if($service_translation) {
+            return $service_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSCaseName()
+    {
+        return Yii::$app->operator->sentenceCase($this->tName); 
     }
 }

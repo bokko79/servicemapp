@@ -3,21 +3,15 @@
 /* @var $content string */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use frontend\widgets\Stats;
+use yii\widgets\Breadcrumbs;
+use frontend\widgets\PageTitle;
 use frontend\widgets\ProfileSubNav;
 ?>
 
 <?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
 
 <?php /* PROFILE HEADING */ ?>
-<div class="profile_head_stick fadeInDown animated">
-    <div class="profile_head_container grid-container" style="">
-        <?php /* WIDGET: PROFILE HEAD NAV */ ?>
-        <?= ProfileSubNav::widget([
-            'profileSubNavData'=>$this->profileSubNavData,
-        ]) ?>
-    </div>
-</div>
+
 <div class="subnav-fixed">
     <?= $this->render('partial/subnav/user_profile.php') ?>
 </div>
@@ -25,17 +19,27 @@ use frontend\widgets\ProfileSubNav;
 
     <div class="grid-row">
         <div class="grid-leftacross">
-            <?php // Title Widget ?>
+            <div class="grid-row">
+                <?= Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    'options' => ['class' => 'breadcrumb bg-blue-gray-200'],
+                ]) ?>
+            </div>
+            <?php /* WIDGET: PAGETITLE */ ?>
+                <?= PageTitle::widget([
+                    'titleData'=>[
+                        'background' => 'bg-blue-gray-200',
+                        'icon' => 'shopping-bag',
+                        'title' => 'Poslovanje'.Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to('/'.Yii::$app->user->username.'/home'), ['class' => 'btn btn-default btn-sm float-right']),
+                        'description' => null,                        
+                    ],
+                    'invert' => false,
+                ]); ?>
             <?= $content ?>
         </div>
                 
         <div class="grid-right media_right_sidebar">
-            <?php /* WIDGET: STATS */ ?>
-                <?= Stats::widget([
-                    'boxData'=>$this->stats,
-                ]); ?>
-            <?= $this->render('partial/news-feed.php') ?>
-            <?= $this->render('partial/news.php') ?>
+            <?= $this->render('partial/side-menus/user-activities-menu.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

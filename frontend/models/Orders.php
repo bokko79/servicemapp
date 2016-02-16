@@ -52,8 +52,8 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             [['activity_id'], 'required'],
-            [['activity_id', 'loc_id', 'loc_id2', 'loc_within', 'registered_to', 'phone_contact', 'turn_key', 'process_id', 'success', 'hit_counter'], 'integer'],
-            [['delivery_starts', 'delivery_ends', 'validity', 'update_time', 'success_time'], 'safe'],
+            [['activity_id', 'loc_id', 'loc_id2', 'loc_within', 'registered_to', 'phone_contact', 'turn_key', 'support', 'tools', 'frequency_unit', 'duration_unit', 'frequency', 'duration', 'currency_id', 'process_id', 'success', 'hit_counter'], 'integer'],
+            [['delivery_starts', 'delivery_ends', 'validity', 'update_time', 'success_time', 'budget'], 'safe'],
             [['class', 'order_type'], 'string'],
             [['lang_code'], 'string', 'max' => 2]
         ];
@@ -73,12 +73,20 @@ class Orders extends \yii\db\ActiveRecord
             'delivery_starts' => Yii::t('app', 'Delivery Starts'),
             'delivery_ends' => Yii::t('app', 'Delivery Ends'),
             'validity' => Yii::t('app', 'Validity'),
+            'duration' => Yii::t('app', 'Duration'),
+            'duration_unit' => Yii::t('app', 'Duration unit'),
+            'frequency' => Yii::t('app', 'Frequency'),
+            'frequency_unit' => Yii::t('app', 'Frequency unit'),
+            'budget' => Yii::t('app', 'Budget'),
+            'currency_id' => Yii::t('app', 'Validity'),
             'update_time' => Yii::t('app', 'Update Time'),
             'lang_code' => Yii::t('app', 'Lang Code'),
             'class' => Yii::t('app', 'Class'),
             'registered_to' => Yii::t('app', 'Registered To'),
             'phone_contact' => Yii::t('app', 'Phone Contact'),
             'turn_key' => Yii::t('app', 'Turn Key'),
+            'tools' => Yii::t('app', 'Tools'),
+            'support' => Yii::t('app', 'Support'),
             'order_type' => Yii::t('app', 'Order Type'),
             'process_id' => Yii::t('app', 'Process ID'),
             'success' => Yii::t('app', 'Success'),
@@ -101,6 +109,12 @@ class Orders extends \yii\db\ActiveRecord
     public function getOrderServices()
     {
         return $this->hasMany(OrderServices::className(), ['order_id' => 'id']);
+    }
+
+    public function getServices() 
+    {
+        return $this->hasMany(CsServices::className(), ['id' => 'service_id'])
+          ->viaTable('order_services', ['order_id' => 'id']);
     }
 
     /**

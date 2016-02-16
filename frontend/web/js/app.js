@@ -58,4 +58,36 @@ $(document).ready(function(){
   $("[id^=card_container]").hover(function(){
       $(this).find('.hidden-widget').toggleClass('hidden');
   });
+  //indexed table row is link
+  $(".clickable-row").click(function() {
+    window.document.location = $(this).data("href");
+  });
+  // popovers
+  $('[data-toggle="popover"]').popover();
+
+  $(".industries-six-boxes-link").click(function(){
+      /*$('.subindustry0').html('');
+      $('.subindustry1').hide();
+      $('.subindustry2').hide();
+      $('.subindustry3').hide();
+      $('.subindustry4').hide();
+      $('.subindustry5').hide();
+      $('.subindustry6').hide();*/
+      $('.six_boxes_container_industries').show();      
+      sektor();
+      $('body').animate({scrollTop: 365}, 400);
+  });
+
+  $(".industries-six-boxes-link-mini").click(function(){
+      /*$('.subindustry0').html('');
+      $('.subindustry1').hide();
+      $('.subindustry2').hide();
+      $('.subindustry3').hide();
+      $('.subindustry4').hide();
+      $('.subindustry5').hide();
+      $('.subindustry6').hide();*/
+      $('.six_boxes_container_industries').show();      
+      sektor();
+      $('body').animate({scrollTop: 78}, 400);
+  });
 });

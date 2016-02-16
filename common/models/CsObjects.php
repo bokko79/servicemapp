@@ -10,6 +10,8 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property integer $object_type_id
+ * @property integer $has_model 
+ * @property string $object_id
  * @property integer $favour
  * @property string $image_id
  * @property string $status
@@ -17,6 +19,7 @@ use Yii;
  * @property string $added_time
  * @property string $description
  *
+ * @property CsObjects[] $csObjects
  * @property CsObjectIssues[] $csObjectIssues
  * @property CsObjectTypes $objectType
  * @property Images $image
@@ -43,10 +46,11 @@ class CsObjects extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['object_type_id', 'favour', 'image_id', 'added_by'], 'integer'],
+            [['object_type_id', 'has_model', 'object_id', 'favour', 'image_id', 'added_by'], 'integer'],
             [['status', 'description'], 'string'],
             [['added_time'], 'safe'],
-            [['name'], 'string', 'max' => 50]
+            [['name'], 'string', 'max' => 50],
+            [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
         ];
     }
 
@@ -60,6 +64,8 @@ class CsObjects extends \yii\db\ActiveRecord
             'name' => 'Ime predmeta usluge',
             'object_type_id' => 'Vrsta predmeta usluga kojoj ovaj predmet usluge pripada',
             'favour' => 'Mogućnost snimanja predmeta usluge kao \"favourite\" od strane korisnika. 0 - ne može; 1 - može.',
+            'has_model' => Yii::t('app', 'Has Model'), 
+            'object_id' => Yii::t('app', 'Object ID'), 
             'image_id' => 'Slika predmeta usluge.',
             'status' => 'Status predmeta usluge.',
             'added_by' => 'Korisnik koji je uneo predmet usluge.',
@@ -71,7 +77,7 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsObjectIssues()
+    public function getIssues()
     {
         return $this->hasMany(CsObjectIssues::className(), ['object_id' => 'id']);
     }
@@ -79,7 +85,7 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getObjectType()
+    public function getType()
     {
         return $this->hasOne(CsObjectTypes::className(), ['id' => 'object_type_id']);
     }
@@ -103,7 +109,7 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsObjectsTranslations()
+    public function getT()
     {
         return $this->hasMany(CsObjectsTranslation::className(), ['object_id' => 'id']);
     }
@@ -111,7 +117,7 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServices()
+    public function getServices()
     {
         return $this->hasMany(CsServices::className(), ['object_id' => 'id']);
     }
@@ -119,7 +125,7 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSpecs()
+    public function getSpecs()
     {
         return $this->hasMany(CsSpecs::className(), ['object_id' => 'id']);
     }
@@ -130,6 +136,14 @@ class CsObjects extends \yii\db\ActiveRecord
     public function getUserObjects()
     {
         return $this->hasMany(UserObjects::className(), ['object_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getModels()
+    {
+        return $this->hasMany(CsObjects::className(), ['object_id' => 'id']);
     }
 
     /**

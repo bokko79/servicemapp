@@ -11,7 +11,7 @@ use frontend\widgets\ServiceBox;
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
-		<div class="card_container record-270 grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
+		<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
 	        <a href="<?= Url::to('/services') ?>">
 	            <div class="media-area">                
 	                <div class="image">
@@ -45,7 +45,7 @@ use frontend\widgets\ServiceBox;
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
-		<div class="card_container record-270 grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
+		<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
 	        <a href="<?= Url::to('/services') ?>">
 	            <div class="media-area">                
 	                <div class="image">
@@ -79,7 +79,7 @@ use frontend\widgets\ServiceBox;
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<?php foreach (CsServices::find()->where('industry_id=13 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
-		<div class="card_container record-270 grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
+		<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
 	        <a href="<?= Url::to('/services') ?>">
 	            <div class="media-area">                
 	                <div class="image">
@@ -123,7 +123,7 @@ use frontend\widgets\ServiceBox;
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<?php foreach (CsServices::find()->where('industry_id=101 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
-		<div class="card_container record-270 grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
+		<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
 	        <a href="<?= Url::to('/services') ?>">
 	            <div class="media-area">                
 	                <div class="image">

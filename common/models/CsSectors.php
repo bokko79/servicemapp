@@ -59,7 +59,7 @@ class CsSectors extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsCategories()
+    public function getCategories()
     {
         return $this->hasMany(CsCategories::className(), ['sector_id' => 'id']);
     }
@@ -67,7 +67,7 @@ class CsSectors extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSectorsTranslations()
+    public function getT()
     {
         return $this->hasMany(CsSectorsTranslation::className(), ['sector_id' => 'id']);
     }

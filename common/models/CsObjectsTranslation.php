@@ -11,6 +11,7 @@ use Yii;
  * @property integer $object_id
  * @property string $lang_code
  * @property string $name
+ * @property string $name_gen
  * @property string $name_dat
  * @property string $name_akk
  * @property string $name_inst
@@ -36,12 +37,13 @@ class CsObjectsTranslation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['object_id', 'lang_code', 'name', 'name_dat', 'name_akk', 'name_inst', 'orig_name'], 'required'],
+            [['object_id', 'lang_code', 'name', 'name_gen', 'name_dat', 'name_akk', 'name_inst', 'orig_name'], 'required'],
             [['object_id'], 'integer'],
             [['description'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
-            [['name', 'name_dat', 'name_akk', 'name_inst'], 'string', 'max' => 100],
-            [['orig_name'], 'string', 'max' => 50]
+            [['name', 'name_gen', 'name_dat', 'name_akk', 'name_inst'], 'string', 'max' => 100],
+            [['orig_name'], 'string', 'max' => 50],
+            [['lang_code'], 'exist', 'skipOnError' => true, 'targetClass' => CsLanguages::className(), 'targetAttribute' => ['lang_code' => 'code']],
         ];
     }
 
@@ -55,6 +57,7 @@ class CsObjectsTranslation extends \yii\db\ActiveRecord
             'object_id' => 'Predmet usluge.',
             'lang_code' => 'Jezik.',
             'name' => 'Prevod imena predmeta usluge.',
+            'name_gen' => Yii::t('app', 'Name Gen'), 
             'name_dat' => 'Ime u dativu (kome?čemu?).',
             'name_akk' => 'Ime u akuzativu (koga?šta?).',
             'name_inst' => 'Ime u instrumentalu (s kim, čime).',

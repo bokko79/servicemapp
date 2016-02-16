@@ -4,10 +4,10 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\helpers\Url;    	
+use yii\helpers\Url;
 ?>
 <ul class="global_nav">
-	<li class="<?= (Url::current()=='/services') ? 'active' : null ?>">
+	<li class="<?= (Yii::$app->controller->id=='services' && Yii::$app->controller->action->id=='index') ? 'active' : null ?>">
 		<?= Html::a(Yii::t('app', 'Usluge'), Url::to('/services'), ['class'=>'careted', 'data-toggle'=>'tooltip', 'title'=>Yii::t('app', 'Index of Service industries')]) ?>
 		<?= Html::a('<i class="fa fa-caret-down"></i>', null, ['id'=>'glob_hover_service', 'class'=>'button']) ?>		
 		<div class="category fadeInDown animated quick services">
@@ -39,7 +39,7 @@ use yii\helpers\Url;
 			<?= $this->render('subnav/providers.php') ?>
 		</div>
 	</li>
-	<li class="<?= (Url::current()=='/infio') ? 'active' : null ?>">
+	<li class="<?= (Url::current()=='/info') ? 'active' : null ?>">
 		<?= Html::a(Yii::t('app', 'Info'), Url::to('/info'), ['class'=>'careted']); ?>
 		<div class="subnav">
 			<?= $this->render('subnav/info.php') ?>

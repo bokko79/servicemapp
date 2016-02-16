@@ -16,7 +16,11 @@ use frontend\widgets\PageTitle;
 <div class="grid-container">   
 
     <div class="grid-row">
-        <div class="grid-leftacross">
+        <div class="grid-left margin-top-20">
+            <?= $this->render('partial/side-menus/settings-menu.php') ?>
+            
+        </div>
+        <div class="grid-rightacross">
             <div class="grid-row">
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -38,12 +42,10 @@ use frontend\widgets\PageTitle;
                     'titleData'=>$this->pageTitle,
                 ]); ?> 
             <?= $content ?>
-        </div>
-                
-        <div class="grid-right media_right_sidebar">
-            <?= $this->render('partial/settings-menu.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
+                
+        
     </div>
 </div>
 

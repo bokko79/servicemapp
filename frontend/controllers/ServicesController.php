@@ -8,6 +8,8 @@ use frontend\models\CsServicesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Request;
+use yii\web\Session;
 
 /**
  * ServicesController implements the CRUD actions for CsServices model.
@@ -34,12 +36,26 @@ class ServicesController extends Controller
      */
     public function actionIndex()
     {
+        $request = Yii::$app->request;
+        $session = Yii::$app->session;
+
+        //$session->removeAll();
+
+        $getService = $request->get('CsServicesSearch');
+        $session->set('state', $request->get('s'));
+        $industry = null;
+        if(isset($getService['industry_id'])){
+            $industry = \frontend\models\CsIndustries::findOne($getService['industry_id']);
+        }
+
         $searchModel = new CsServicesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'getService' => $getService,
+            'industry' => $industry,            
         ]);
     }
 

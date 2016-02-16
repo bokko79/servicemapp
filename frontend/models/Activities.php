@@ -133,6 +133,15 @@ class Activities extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getOrders()
+    {
+        return $this->hasMany(Orders::className(), ['activity_id' => 'id']);
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getOrderServices()
     {
         return $this->hasMany(OrderServices::className(), ['activity_id' => 'id']);

@@ -20,7 +20,7 @@ use Yii;
  * @property CsAttributes[] $csAttributes
  * @property CsServices[] $csServices
  * @property CsUnitsTranslation[] $csUnitsTranslations
- * @property ProviderServices[] $providerServices
+ * @property Presentations[] $presentations
  */
 class CsUnits extends \yii\db\ActiveRecord
 {
@@ -42,7 +42,7 @@ class CsUnits extends \yii\db\ActiveRecord
             [['type'], 'string', 'max' => 30],
             [['name'], 'string', 'max' => 50],
             [['oznaka', 'oznaka_imp', 'description'], 'string', 'max' => 25],
-            [['ozn_htmlfree', 'ozn_htmlfree_imp'], 'string', 'max' => 10]
+            [['ozn_htmlfree', 'ozn_htmlfree_imp'], 'string', 'max' => 10],
         ];
     }
 
@@ -52,14 +52,14 @@ class CsUnits extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'type' => Yii::t('app', 'Type'),
-            'name' => Yii::t('app', 'Name'),
-            'oznaka' => Yii::t('app', 'Oznaka'),
-            'oznaka_imp' => Yii::t('app', 'Oznaka Imp'),
-            'ozn_htmlfree' => Yii::t('app', 'Ozn Htmlfree'),
-            'ozn_htmlfree_imp' => Yii::t('app', 'Ozn Htmlfree Imp'),
-            'description' => Yii::t('app', 'Description'),
+            'id' => 'ID',
+            'type' => 'Type',
+            'name' => 'Name',
+            'oznaka' => 'Oznaka',
+            'oznaka_imp' => 'Oznaka Imp',
+            'ozn_htmlfree' => 'Ozn Htmlfree',
+            'ozn_htmlfree_imp' => 'Ozn Htmlfree Imp',
+            'description' => 'Description',
         ];
     }
 
@@ -74,15 +74,15 @@ class CsUnits extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsAttributes()
+    public function getProperties()
     {
-        return $this->hasMany(CsAttributes::className(), ['unit_id' => 'id']);
+        return $this->hasMany(CsProperties::className(), ['unit_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServices()
+    public function getServices()
     {
         return $this->hasMany(CsServices::className(), ['unit_id' => 'id']);
     }
@@ -90,7 +90,7 @@ class CsUnits extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsUnitsTranslations()
+    public function getT()
     {
         return $this->hasMany(CsUnitsTranslation::className(), ['unit_id' => 'id']);
     }
@@ -98,8 +98,50 @@ class CsUnits extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServices()
+    public function getPresentations()
     {
-        return $this->hasMany(ProviderServices::className(), ['period_unit' => 'id']);
+        return $this->hasMany(Presentations::className(), ['period_unit' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $unit_translation = \frontend\models\CsUnitsTranslation::find()->where('lang_code="SR" and unit_id='.$this->id)->one();
+        if($unit_translation) {
+            return $unit_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSCaseName()
+    {
+        return Yii::$app->operator->sentenceCase($this->tName); 
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameGen()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_gen;
+        }       
+        return false;   
     }
 }

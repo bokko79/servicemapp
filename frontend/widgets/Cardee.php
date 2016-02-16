@@ -43,14 +43,14 @@ class Cardee extends Widget
     public function run()
     {
         if($this->cardData['pic']==null){
-            $this->cardData['pic'] = 'default_avatar';
+            $this->cardData['pic'] = 'cards/default_avatar';
         } ?>
 
             <div class="card_container record-200 grid-item fadeInUp animated no-margin" id="card_container" style="float:none; clear:both;">
                 <a href="<?= Url::to('/') ?>">            
                     <div class="media-area square">                
                         <div class="image">
-                            <?= Html::img(Yii::$app->homeUrl.'images/cards/'.$this->cardData['pic'].'.jpg', ['alt'=>'Profile card']) ?>               
+                            <?= Html::img(Yii::$app->homeUrl.'images/'.$this->cardData['pic'].'.jpg', ['alt'=>'Profile card']) ?>               
                         </div>
                         <?php if($this->scroller): ?>
                         <div class="primary-context in-media dark right">

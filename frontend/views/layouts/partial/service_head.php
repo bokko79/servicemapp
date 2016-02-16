@@ -20,7 +20,7 @@ use frontend\widgets\Stats;
 				?>
 			</div>
 
-			<div class="grid-center" style="height:215px;">
+			<div class="grid-center index_services" style="height:240px;position:relative;">
 				<?php /* WIDGET: PROFILETITLE */ ?>
 				<?= ProfileTitle::widget([
 					'titleData' => $this->profileTitle, // Card Picture
@@ -28,26 +28,13 @@ use frontend\widgets\Stats;
 				?>
 			</div>
 		
-			<div class="grid-right media_right_sidebar">
-					<?php /* WIDGET: STATS */ ?>
-					<?= Stats::widget([
-						'boxData'=>$this->stats,
-					]); ?>
+			<div class="grid-right">
+				<?php /* WIDGET: STATS */ ?>
+				<?= Stats::widget([
+					'boxData'=>$this->stats,
+				]); ?>
 			</div>
 		</div>			
-	</div>
-</div>
-
-<div class="profile_head_stick fadeInDown animated">
-	<div class="profile_head_container" style="">
-
-						<?php /* WIDGET: PROFILE HEAD NAV */ ?>
-						<?php
-						/*$this->widget('zii.widgets.CProfileHeadNav', array(
-							'headNavData'=>$this->profileHeadNav,
-							));*/
-							?>
-
 	</div>
 </div>
 	

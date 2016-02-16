@@ -88,7 +88,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsActions()
+    public function getActions()
     {
         return $this->hasMany(CsActions::className(), ['industry_id' => 'id']);
     }
@@ -112,6 +112,30 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getSector()
+    {
+        return $this->category->sector;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIcon()
+    {
+        return $this->sector->icon;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getColor()
+    {
+        return $this->sector->color;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getAddedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'added_by']);
@@ -120,7 +144,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsIndustriesTranslations()
+    public function getT()
     {
         return $this->hasMany(CsIndustriesTranslation::className(), ['industry_id' => 'id']);
     }
@@ -128,7 +152,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServices()
+    public function getServices()
     {
         return $this->hasMany(CsServices::className(), ['industry_id' => 'id']);
     }
@@ -136,7 +160,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSimilarIndustries()
+    public function getSimilarIndustries()
     {
         return $this->hasMany(CsSimilarIndustries::className(), ['industry_id' => 'id']);
     }
@@ -144,7 +168,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSimilarIndustries0()
+    public function getSimilarIndustries0()
     {
         return $this->hasMany(CsSimilarIndustries::className(), ['similar_industry_id' => 'id']);
     }
@@ -152,7 +176,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSkills()
+    public function getSkills()
     {
         return $this->hasMany(CsSkills::className(), ['industry_id' => 'id']);
     }
@@ -179,5 +203,28 @@ class CsIndustries extends \yii\db\ActiveRecord
     public function getUserServices()
     {
         return $this->hasMany(UserServices::className(), ['industry_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $industry_translation = \frontend\models\CsIndustriesTranslation::find()->where('lang_code="SR" and industry_id='.$this->id)->one();
+        if($industry_translation) {
+            return $industry_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
     }
 }

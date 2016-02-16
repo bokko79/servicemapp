@@ -3,11 +3,11 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[CsAttributeModels]].
+ * This is the ActiveQuery class for [[CsPropertyModels]].
  *
- * @see CsAttributeModels
+ * @see CsPropertyModels
  */
-class CsAttributeModelsQuery extends \yii\db\ActiveQuery
+class CsPropertyModelsQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -17,7 +17,7 @@ class CsAttributeModelsQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return CsAttributeModels[]|array
+     * @return CsPropertyModels[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class CsAttributeModelsQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return CsAttributeModels|array|null
+     * @return CsPropertyModels|array|null
      */
     public function one($db = null)
     {

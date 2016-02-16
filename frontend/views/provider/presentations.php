@@ -1,0 +1,44 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\ListView;
+use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use kartik\widgets\ActiveForm;
+use yii\grid\GridView;
+
+$this->title = 'Prezentacije usluga';
+$this->params['breadcrumbs'][] = ['label' => $model->username, 'url' => [$model->username.'/home']];
+$this->params['breadcrumbs'][] = ['label' => 'Vaše poslovanje', 'url' => [$model->username.'/orders']];
+$this->params['breadcrumbs'][] = $this->title;
+
+?>
+<div class="title_holder_home">
+   <h2 style="padding: 20px 20px 10px 50px;"><?= Html::encode($this->title) ?></h2>
+</div>
+<div class="card_container record-full list-item margin-bottom-20" style="float:none; background:#F6F7F8;">
+    <?= $this->render('_search_presentations.php', ['model'=>$searchModel]) ?>
+    <table class="indexed table table-striped table-hover">
+        <tr class="table-header">
+            <td class="detail-column">Usluga</td>
+            <td class="subdetail-column">Cena</td>
+            <td>Status</td>
+            <td class="center"><i class="fa fa-shopping-cart fa-lg"></i></td>
+            <td class="center"><i class="fa fa-comments fa-lg"></i></td>
+            <td class="center action-column">Akcija</td>
+        </tr>
+        <?= ListView::widget([
+            'dataProvider' => $dataProvider,
+            'itemView' => 'activity/_presentations',
+            'options' => [
+                'class' => 'index-sorter float-right padding-right-20',
+            ],
+            'summary' => false,
+            'layout' => "{sorter}\n{summary}\n{items}\n{pager}", // Add sorter to layout because it's turned off by default
+            'sorter' => [
+                'class' => \frontend\widgets\IndexSorter::className(),
+                'attributes' => ['time_asc', 'time_desc'],
+            ],
+        ]) ?> 
+    </table>
+</div>

@@ -51,7 +51,7 @@ class CsRegulations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsRegulationsTranslations()
+    public function getT()
     {
         return $this->hasMany(CsRegulationsTranslation::className(), ['regulation_id' => 'id']);
     }
@@ -59,7 +59,7 @@ class CsRegulations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceRegulations()
+    public function getServiceRegulations()
     {
         return $this->hasMany(CsServiceRegulations::className(), ['regulation_id' => 'id']);
     }

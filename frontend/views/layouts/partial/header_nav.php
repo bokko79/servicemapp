@@ -37,8 +37,8 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
                         'label' => $user_avatar,    
                         'items' => [
                               ['label' => '<i class="fa fa-home"></i>&nbsp'.Yii::t('app', 'Početna'), 'url' => ['/'.Yii::$app->user->username.'/home']],
-                              ['label' => '<i class="fa fa-file-text-o"></i>&nbsp'.Yii::t('app', 'Vaši poslovi'), 'url' => ['/'.Yii::$app->user->username.'/activities']],
-                              ['label' => '<i class="fa fa-save"></i>&nbsp'.Yii::t('app', 'Vaše sačuvane porudžbine'), 'url' => ['/'.Yii::$app->user->username.'/saved-orders']],                               
+                              ['label' => '<i class="fa fa-file-text-o"></i>&nbsp'.Yii::t('app', 'Vaši poslovi'), 'url' => ['/'.Yii::$app->user->username.'/orders']],
+                              ['label' => '<i class="fa fa-save"></i>&nbsp'.Yii::t('app', 'Vaše spremne porudžbine'), 'url' => ['/'.Yii::$app->user->username.'/ready-orders']],                               
                               (($user->is_provider==1) ? '<li class="divider"></li>' : ''),
                               ['label' => '<i class="fa fa-user"></i>&nbsp'.Yii::t('app', 'Vaš profil'), 'url' => ['/'.Yii::$app->user->username.'/profile'], 'visible' => $user->is_provider==1],                              
                               (($user->is_provider==1) ? '<li class="divider"></li>' : ''),
@@ -88,7 +88,9 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
       </nav>-->
   </header>
 </div>
-<?php Modal::begin([
+<?php
+if(Yii::$app->user->isGuest){
+  Modal::begin([
         'id'=>'uac-modal',
         'size'=>Modal::SIZE_LARGE,
     ]); ?>
@@ -101,6 +103,7 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
     </div>
   </div>
 
-<?php Modal::end(); ?>
+<?php Modal::end();
+}  ?>
 
 

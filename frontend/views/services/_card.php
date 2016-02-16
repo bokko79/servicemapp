@@ -2,7 +2,7 @@
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-
+use yii\bootstrap\Modal;
 ?>
 <div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="">
 <a href="<?= Url::to('/s/'.mb_strtolower(str_replace(' ', '-', $model->name))) ?>">
@@ -29,8 +29,30 @@ use yii\helpers\Url;
 		<?php } ?>		
 
 		<div class="button right float-right">
-			<?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to('/add/'.mb_strtolower(str_replace(' ', '-', $model->name))), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']); ?>
+        <?php if($model->object->models): ?>
+			<?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-modal'.$model->id]); ?>
+        <?php else: ?>
+            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to('/add/'.mb_strtolower(str_replace(' ', '-', $model->name))), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']); ?>
+        <?php endif; ?>
 		</div>
     </div>
 </a>
 </div>
+
+<?php Modal::begin([
+        'id'=>'object-models-modal'.$model->id,
+        'size'=>Modal::SIZE_SMALL,
+        'class'=>'overlay_modal',
+        'header'=> ($model->service_object==1) ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' Vas interesuju:</h3>' :
+        '<h3>Izaberite vrstu '. $model->object->tNameGen.'</h3>',
+    ]); ?>
+
+   <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <?= $this->render('_object_models.php', ['object'=>$model->object, 'model'=>$model]) ?>
+      </div>
+    </div>
+  </div>
+
+<?php Modal::end(); ?>

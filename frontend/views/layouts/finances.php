@@ -5,7 +5,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
-use frontend\widgets\Tabs;
 use frontend\widgets\PageTitle;
 ?>
 
@@ -44,7 +43,7 @@ use frontend\widgets\PageTitle;
         </div>
                 
         <div class="grid-right media_right_sidebar margin-top-0">
-            <?= $this->render('partial/finances-menu.php') ?>
+            <?= $this->render('partial/side-menus/finances-menu.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

@@ -59,8 +59,7 @@ use frontend\widgets\ProfileSubNav;
                         <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
                     </div>
                 </a>
-            </div>
-            
+            </div>            
         </div>
 
         <div class="grid-center" style="">   

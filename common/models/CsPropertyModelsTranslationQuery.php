@@ -3,11 +3,11 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[CsAttributesTranslation]].
+ * This is the ActiveQuery class for [[CsPropertyModelsTranslation]].
  *
- * @see CsAttributesTranslation
+ * @see CsPropertyModelsTranslation
  */
-class CsAttributesTranslationQuery extends \yii\db\ActiveQuery
+class CsPropertyModelsTranslationQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -17,7 +17,7 @@ class CsAttributesTranslationQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return CsAttributesTranslation[]|array
+     * @return CsPropertyModelsTranslation[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class CsAttributesTranslationQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return CsAttributesTranslation|array|null
+     * @return CsPropertyModelsTranslation|array|null
      */
     public function one($db = null)
     {

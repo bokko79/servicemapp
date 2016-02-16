@@ -65,7 +65,7 @@ class CsObjectIssues extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsObjectIssuesTranslations()
+    public function getT()
     {
         return $this->hasMany(CsObjectIssuesTranslation::className(), ['object_issue_id' => 'id']);
     }

@@ -9,21 +9,21 @@ use Yii;
  *
  * @property string $id
  * @property integer $object_id
- * @property string $object
- * @property integer $attribute_id
- * @property string $attribute
- * @property string $type
+ * @property string $object_name
+ * @property integer $property_id
+ * @property string $property_name
+ * @property string $default_value 
  * @property integer $range_min
  * @property string $range_max
  * @property integer $range_step
- * @property string $req_opt
+ * @property string $required
  * @property string $description
  *
  * @property CsServiceSpecs[] $csServiceSpecs
- * @property CsObjects $object0
- * @property CsAttributes $attribute0
+ * @property CsObjects $object
+ * @property CsProperties $property
  * @property OrderServiceSpecs[] $orderServiceSpecs
- * @property ProviderServiceSpecs[] $providerServiceSpecs
+ * @property PresentationSpecs[] $presentationSpecs
  */
 class CsSpecs extends \yii\db\ActiveRecord
 {
@@ -41,11 +41,11 @@ class CsSpecs extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['object_id', 'attribute_id', 'type'], 'required'],
-            [['object_id', 'attribute_id', 'range_min', 'range_max', 'range_step'], 'integer'],
-            [['type', 'description'], 'string'],
-            [['object', 'attribute'], 'string', 'max' => 64],
-            [['req_opt'], 'string', 'max' => 1]
+            [['object_id', 'property_id'], 'required'],
+            [['object_id', 'property_id', 'range_min', 'range_max', 'range_step', 'required'], 'integer'],
+            [['description'], 'string'],
+            [['object_name', 'property_name'], 'string', 'max' => 64],
+            [['default_value'], 'string', 'max' => 16],
         ];
     }
 
@@ -57,14 +57,14 @@ class CsSpecs extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'object_id' => Yii::t('app', 'Object ID'),
-            'object' => Yii::t('app', 'Object'),
-            'attribute_id' => Yii::t('app', 'Attribute ID'),
-            'attribute' => Yii::t('app', 'Attribute'),
-            'type' => Yii::t('app', 'Type'),
+            'object_name' => Yii::t('app', 'Object'),
+            'property_id' => Yii::t('app', 'Property ID'),
+            'property_name' => Yii::t('app', 'Property'),
+            'default_value' => Yii::t('app', 'Default Value'),
             'range_min' => Yii::t('app', 'Range Min'),
             'range_max' => Yii::t('app', 'Range Max'),
             'range_step' => Yii::t('app', 'Range Step'),
-            'req_opt' => Yii::t('app', 'Req Opt'),
+            'required' => Yii::t('app', 'Required'),
             'description' => Yii::t('app', 'Description'),
         ];
     }
@@ -72,7 +72,7 @@ class CsSpecs extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceSpecs()
+    public function getServiceSpecs()
     {
         return $this->hasMany(CsServiceSpecs::className(), ['spec_id' => 'id']);
     }
@@ -80,7 +80,7 @@ class CsSpecs extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getObject0()
+    public function getObject()
     {
         return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
     }
@@ -88,9 +88,9 @@ class CsSpecs extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAttribute0()
+    public function getProperty()
     {
-        return $this->hasOne(CsAttributes::className(), ['id' => 'attribute_id']);
+        return $this->hasOne(CsProperties::className(), ['id' => 'property_id']);
     }
 
     /**
@@ -104,8 +104,8 @@ class CsSpecs extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServiceSpecs()
+    public function getPresentationSpecs()
     {
-        return $this->hasMany(ProviderServiceSpecs::className(), ['spec_id' => 'id']);
+        return $this->hasMany(PresentationSpecs::className(), ['spec_id' => 'id']);
     }
 }

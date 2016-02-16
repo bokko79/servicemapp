@@ -6,6 +6,12 @@ use Yii;
 use frontend\models\Provider;
 use frontend\models\ProviderSearch;
 use frontend\models\User;
+use frontend\models\Bids;
+use frontend\models\BidsSearch;
+use frontend\models\Presentations;
+use frontend\models\PresentationsSearch;
+use frontend\models\Promotions;
+use frontend\models\PromotionsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -73,6 +79,93 @@ class ProviderController extends Controller
                 'provider' => $provider,
             ]);
         }        
+    }
+
+    /**
+     * Displays a single User model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionBids($username=null)
+    {
+        $this->layout = '//user_list';
+
+        if(isset($username)) {
+            $user = $this->findModelByUsername($username);
+
+            if($user) {
+                $searchModel = new BidsSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+                return $this->render('bids', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'model' => $user,
+                ]);
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }           
+    }
+
+    /**
+     * Displays a single User model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionPresentations($username=null)
+    {
+        $this->layout = '//user_list';
+
+        if(isset($username)) {
+            $user = $this->findModelByUsername($username);
+
+            if($user) {
+                $searchModel = new PresentationsSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+                return $this->render('presentations', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'model' => $user,
+                ]);
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }           
+    }
+
+    /**
+     * Displays a single User model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionPromotions($username=null)
+    {
+        $this->layout = '//user_list';
+
+        if(isset($username)) {
+            $user = $this->findModelByUsername($username);
+
+            if($user) {
+                $searchModel = new PromotionsSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+                return $this->render('promotions', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'user' => $user,
+                ]);
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } 
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }           
     }
 
     /**

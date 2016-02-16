@@ -63,7 +63,7 @@ class CsCategories extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsCategoriesTranslations()
+    public function getT()
     {
         return $this->hasMany(CsCategoriesTranslation::className(), ['category_id' => 'id']);
     }
@@ -71,8 +71,31 @@ class CsCategories extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsIndustries()
+    public function getIndustries()
     {
         return $this->hasMany(CsIndustries::className(), ['category_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $category_translation = \frontend\models\CsCategoriesTranslation::find()->where('lang_code="SR" and category_id='.$this->id)->one();
+        if($category_translation) {
+            return $category_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
     }
 }

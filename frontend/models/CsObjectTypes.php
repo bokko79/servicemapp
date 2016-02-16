@@ -64,7 +64,7 @@ class CsObjectTypes extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsObjectTypesTranslations()
+    public function getT()
     {
         return $this->hasMany(CsObjectTypesTranslation::className(), ['object_type_id' => 'id']);
     }
@@ -72,7 +72,7 @@ class CsObjectTypes extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsObjects()
+    public function getObjects()
     {
         return $this->hasMany(CsObjects::className(), ['object_type_id' => 'id']);
     }

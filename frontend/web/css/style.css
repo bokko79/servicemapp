@@ -87,7 +87,7 @@ article,aside,details,dialog,figcaption,figure,footer,header,hgroup,menu,nav,sec
 
 html { margin:0; padding:0; border:none; height: 100%; -webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }
 
-body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-serif; font-size: 13px; font-weight: 400; text-align: left;  position:absolute; top:50px; bottom:0; right:0; left:0;  overflow-y: scroll; z-index: -1;}
+body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-serif; font-size: 13px; font-weight: 400; text-align: left;  position:absolute; padding-top:50px; top:0px; bottom:0; right:0; left:0;  overflow-y: scroll; z-index: -1;}
 
 /* grid system for layouts*/
 .grid-container {margin:0 auto;padding: 0 15px;width:1200px; display: table;}
@@ -136,6 +136,7 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 .muted {color:#999}
 
 .hint, .disabled {opacity:.4;}
+
 
 .no-border {border:none;}
 .no-bottom-border {border-bottom: none;}
@@ -796,8 +797,8 @@ img.card-image {width:200px; height:200px; box-shadow: 0px 0px 6px #444;}
 /* TITLE NA REQUEST/SERVICE (layout form) */
 .title_holder_home.request_maker {border-top:none; background:#fff; padding: 20px;}
 .request_maker .avatar {width:100px;}
-.request_maker .avatar img {width:100px; height:100px; box-shadow: 0px 2px 5px #777; margin:0px;}
-.request_maker .detail {padding: 10px 0 0 20px; }
+.request_maker .avatar img {width:100px; height:56px; box-shadow: 0px 2px 5px #777; margin:0px;}
+.request_maker .detail {padding: 0 0 0 20px; }
 .request_maker .detail .icon {width:30px; padding:0 5px; font-size: 20px; text-align: center;}
 .request_maker .detail .title {width:auto; vertical-align: bottom;}
 .request_maker .detail .subtitle p {margin:0; float: left;}
@@ -949,5 +950,3 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 .cart #box_service {margin: 20px 17px;}
 .profile_body #box_service {margin: 20px 9px 10px 8px;}
 .profile_body .provider #box_service {margin: 20px 7px 10px 8px;}
-
-

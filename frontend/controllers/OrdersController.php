@@ -78,8 +78,7 @@ class OrdersController extends Controller
             {
                 $request = Yii::$app->request;
                 $session = Yii::$app->session;
-                $object_models = ($request->get('CsObjects')) ? $request->get('CsObjects')['id'] : null;
-                
+                $object_models = ($request->get('CsObjects')) ? $request->get('CsObjects')['id'] : null;                
 
                 $service = $this->findService($ser_tr->service_id);
                 $key = (isset($session['cart']['industry'])) ? count($session['cart']['industry'][$service->industry_id])+1 : 1;
@@ -87,6 +86,14 @@ class OrdersController extends Controller
                 $model->service = $service;
                 $model->object_models = $object_models;
                 $model->key = $key;
+
+                $no_skill = ($service->industry->skills && !isset($session['cart'])) ? 0 : 1;
+                $no_method = ($service->serviceMethods) ? 0 : 1; 
+                $no_spec = ($service->serviceSpecs!=null) ? 0 : 1;
+                $no_pic = ($service->pic==1 && $service->service_object!=1) ? 0 : 1;
+                $no_issue = ($service->service_type==3 && $service->object->issues!=null) ? 0 : 1;
+                $no_amount = ($service->amount!=0) ? 0 : 1;
+                $no_consumer = ($service->consumer!=0) ? 0 : 1;
 
                 // method model
                 $model_method = null;
@@ -173,6 +180,13 @@ class OrdersController extends Controller
                     'object_models' => $object_models,
                     'serviceSpecs' => $service->serviceSpecs,
                     'serviceMethods' => $service->serviceMethods,
+                    'no_skill' => $no_skill,
+                    'no_method' => $no_method, 
+                    'no_spec' => $no_spec,
+                    'no_pic' => $no_pic,
+                    'no_issue' => $no_issue,
+                    'no_amount' => $no_amount,
+                    'no_consumer' => $no_consumer,
                 ]);
             } else {
                 throw new NotFoundHttpException('The requested page does not exist.');
@@ -204,27 +218,48 @@ class OrdersController extends Controller
      * @return mixed
      */
     public function actionCreate()
-    {        
-        $activity = new Activities();
-        $model = new Orders();
-        $model_services = new OrderServices();
-        $model_service_specs = new OrderServiceSpecs();
-        $model_service_methods = new OrderServiceMethods();
-        $model_service_issues = new OrderServiceIssues();
-        $model_service_images = new OrderServiceImages();
-        $image = new Images();
-        $location = new Locations();
-        $notification = new Notifications();
-        $log = new Log();
-        $user_log = new UserLog();
+    {
+        $session = Yii::$app->session;
+        if($session['cart']!=null) {
+            foreach($session['cart']['industry'] as $ind){
+                $service_id = $ind[1]['service'];
+                break;
+            }
+            $service = \frontend\models\CsServices::findOne($service_id);
+            $activity = new Activities();
+            $model = new Orders();
+            $model_services = [new OrderServices()];
+            $model_service_specs = [new OrderServiceSpecs()];
+            $model_service_methods = [new OrderServiceMethods()];
+            $model_service_issues = [new OrderServiceIssues()];
+            $model_service_images = [new OrderServiceImages()];
+            $image = [new Images()];
+            $location = new Locations();
+            $location_end = new Locations();
+            $notification = new Notifications();
+            $log = new Log();
+            $user_log = new UserLog();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $no_location = ($service->location!=0) ? 0 : 1;
+            $no_time = ($service->time!=0) ? 0 : 1;
+            $no_freq = ($service->frequency!=0) ? 0 : 1;
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'service' => $service,
+                    'model' => $model,
+                    'location'=> $location,
+                    'location_end'=> $location_end,
+                    'no_location' => $no_location,
+                    'no_time' => $no_time,
+                    'no_freq' => $no_freq,
+                ]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+            return $this->redirect('/services');
+        }            
     }
 
     /**

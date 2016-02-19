@@ -12,16 +12,13 @@ use Yii;
  * @property string $order_id
  * @property integer $service_id
  * @property string $provider_service_id
- * @property string $qty
+ * @property string $title
+ * @property string $amount
+ * @property string $amount_operator
  * @property integer $consumer
- * @property integer $frequency
- * @property string $frequency_unit
+ * @property integer $consumer_children
  * @property string $issue_text
  * @property string $note
- * @property string $rec_price
- * @property integer $currency_id
- * @property integer $turnkey
- * @property integer $support
  * @property string $description
  *
  * @property OrderServiceImages[] $orderServiceImages
@@ -50,9 +47,10 @@ class OrderServices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['activity_id', 'order_id', 'service_id', 'support'], 'required'],
-            [['activity_id', 'order_id', 'service_id', 'provider_service_id', 'qty', 'consumer', 'frequency', 'rec_price', 'currency_id', 'turnkey', 'support'], 'integer'],
-            [['frequency_unit', 'issue_text', 'note', 'description'], 'string']
+            [['activity_id', 'order_id', 'service_id'], 'required'],
+            [['activity_id', 'order_id', 'service_id', 'provider_service_id', 'amount', 'consumer', 'consumer_children'], 'integer'],
+            [['title', 'issue_text', 'note', 'description'], 'string'],
+            [['amount_operator'], 'safe']
         ];
     }
 
@@ -67,16 +65,13 @@ class OrderServices extends \yii\db\ActiveRecord
             'order_id' => Yii::t('app', 'Order ID'),
             'service_id' => Yii::t('app', 'Service ID'),
             'provider_service_id' => Yii::t('app', 'Provider Service ID'),
-            'qty' => Yii::t('app', 'Qty'),
+            'amount' => Yii::t('app', 'Amount'),
             'consumer' => Yii::t('app', 'Consumer'),
-            'frequency' => Yii::t('app', 'Frequency'),
-            'frequency_unit' => Yii::t('app', 'Frequency Unit'),
+            'consumer_children' => Yii::t('app', 'Frequency'),
+            'amount_operator' => Yii::t('app', 'Amount operator'),
             'issue_text' => Yii::t('app', 'Issue Text'),
             'note' => Yii::t('app', 'Note'),
-            'rec_price' => Yii::t('app', 'Rec Price'),
-            'currency_id' => Yii::t('app', 'Currency ID'),
-            'turnkey' => Yii::t('app', 'Turnkey'),
-            'support' => Yii::t('app', 'Support'),
+            'title' => Yii::t('app', 'Title'),            
             'description' => Yii::t('app', 'Description'),
         ];
     }

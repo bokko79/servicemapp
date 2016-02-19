@@ -17,8 +17,11 @@ class CartForm extends Model
     public $imageFiles = [];
     public $issues = [];
     public $amount;
+    public $amount_to;
     public $amount_operator;
     public $consumer;
+    public $consumer_to;
+    public $consumer_operator;
     public $consumer_children;
     public $note;
     public $title;
@@ -41,12 +44,13 @@ class CartForm extends Model
             $amount,
             $consumer,
             $consumer_children,
-            [['consumer', 'consumer_children', 'amount_operator'], 'integer'],
+            [['consumer', 'consumer_children', 'amount_to', 'consumer_to'], 'integer'],
             ['amount', 'number'],
             ['title', 'string', 'max' => 64], 
             ['note', 'string'],            
             [['title', 'note'], 'filter', 'filter' => 'trim'],
             $pic,
+            [['consumer_operator', 'amount_operator', 'skills'], 'safe'],
         ];
     }
 
@@ -110,8 +114,11 @@ class CartForm extends Model
             'object_models' => $this->object_models,
             'skills' => $this->skills,
             'amount' => $this->amount,
+            'amount_to' => $this->amount_to,
             'amount_operator' => $this->amount_operator,
             'consumer' => $this->consumer,
+            'consumer_to' => $this->consumer_to,
+            'consumer_operator' => $this->consumer_operator,
             'consumer_children' => $this->consumer_children,
             'note' => $this->note,
             'title' => $this->title,
@@ -120,7 +127,6 @@ class CartForm extends Model
             // specifications
             // methods
             // process
-            // industry
         ];
 
         return true;

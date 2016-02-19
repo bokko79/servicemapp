@@ -77,7 +77,7 @@ $countDown = \russ666\widgets\Countdown::widget([
                     <div class="head"><?= $orderService->service->name ?><span class="margin-left-10"><?= Html::a('<i class="fa fa-external-link"></i>', Url::to(''), ['class'=>'fs_12']) ?></span></div>
                     <div class="subhead">
                         <div class="label label-success fs_11 margin-right-15"><i class="fa fa-building"></i> Izdavanje nekretnina</div>
-                        <?= ($orderService->qty) ? '<span class="margin-right-15"><i class="fa fa-signal fa-rotate-270 margin-right-5"></i>'.$orderService->qty.' m<sup>2</sup></span>' : null ?>
+                        <?= ($orderService->amount) ? '<span class="margin-right-15"><i class="fa fa-signal fa-rotate-270 margin-right-5"></i>'.$orderService->amount.' m<sup>2</sup></span>' : null ?>
                         <?= ($orderService->consumer) ? '<span class="margin-right-15"><i class="fa fa-user"></i> '.$orderService->consumer.'</span>' : null ?>
                     </div>
                 </div>

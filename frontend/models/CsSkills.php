@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $industry_id
  * @property integer $property_id
- * @property string $property
+ * @property string $property_name
  * @property integer $required
  * @property string $description
  *
@@ -37,7 +37,7 @@ class CsSkills extends \yii\db\ActiveRecord
             [['industry_id', 'property_id'], 'required'],
             [['industry_id', 'property_id', 'required'], 'integer'],
             [['description'], 'string'],
-            [['industry', 'property'], 'string', 'max' => 64],
+            [['industry_name', 'property_name'], 'string', 'max' => 64],
         ];
     }
 
@@ -48,9 +48,9 @@ class CsSkills extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'industry' => Yii::t('app', 'Industry'),
+            'industry_name' => Yii::t('app', 'Industry'),
             'property_id' => Yii::t('app', 'Property ID'),
-            'property' => Yii::t('app', 'Property'),
+            'property_name' => Yii::t('app', 'Property'),
             'required' => Yii::t('app', 'Required'),
         ];
     }

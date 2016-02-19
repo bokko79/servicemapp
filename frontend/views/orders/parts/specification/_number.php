@@ -12,11 +12,11 @@ use yii\helpers\ArrayHelper;
 <?= $form->field($model_spec, '['.$key.']spec', [
 	'addon' => ['append' => ['content'=>$service->unit->oznaka]],
 	'feedbackIcon' => [
-                        'success' => 'ok',
-                        'error' => 'exclamation-sign',
-                        'successOptions' => ['class'=>'text-primary', 'style'=>'right:18%;'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'right:18%;']
-                    ],
+        'success' => 'ok',
+        'error' => 'exclamation-sign',
+        'successOptions' => ['class'=>'text-primary', 'style'=>'right:18%;'],
+        'errorOptions' => ['class'=>'text-primary', 'style'=>'right:18%;']
+    ],
 	'hintType' => ActiveField::HINT_SPECIAL,
 	'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
     ])->input('number', ['min'=>$specification->range_min, 'max'=>$specification->range_max, 'step'=>$specification->range_step, 'value'=>$specification->default_value])->label($property->label)->hint($property->tHint) ?>

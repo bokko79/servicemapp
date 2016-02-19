@@ -11,7 +11,6 @@ use Yii;
  * @property string $order_service_id
  * @property integer $method_id
  * @property string $value
- * @property string $value_max
  *
  * @property OrderServices $orderService
  * @property CsMethods $method
@@ -34,7 +33,7 @@ class OrderServiceMethods extends \yii\db\ActiveRecord
         return [
             [['order_service_id', 'method_id'], 'required'],
             [['order_service_id', 'method_id'], 'integer'],
-            [['value', 'value_max'], 'string', 'max' => 120]
+            [['value'], 'string', 'max' => 120]
         ];
     }
 
@@ -48,7 +47,6 @@ class OrderServiceMethods extends \yii\db\ActiveRecord
             'order_service_id' => Yii::t('app', 'Order Service ID'),
             'method_id' => Yii::t('app', 'Method ID'),
             'value' => Yii::t('app', 'Value'),
-            'value_max' => Yii::t('app', 'Value Max'),
         ];
     }
 

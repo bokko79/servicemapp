@@ -11,20 +11,20 @@ use Yii;
  * @property integer $is_fav
  * @property string $user_id
  * @property integer $def
- * @property string $ime
+ * @property string $name
  * @property string $country
  * @property string $state
  * @property string $district
  * @property string $city
  * @property string $zip
  * @property string $mz
- * @property string $ulica
- * @property string $broj
- * @property integer $sprat
- * @property integer $stan
+ * @property string $street
+ * @property string $no
+ * @property integer $floor
+ * @property integer $apt
  * @property string $lat
  * @property string $lng
- * @property string $ime_lokacije
+ * @property string $location_name
  *
  * @property Bids[] $bids
  * @property User $user
@@ -52,13 +52,13 @@ class Locations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['is_fav', 'user_id', 'def', 'zip', 'sprat', 'stan'], 'integer'],
-            [['user_id', 'ime'], 'required'],
+            [['is_fav', 'user_id', 'def', 'zip', 'floor', 'apt'], 'integer'],
+            [['user_id', 'name'], 'required'],
             [['lat', 'lng'], 'number'],
-            [['ime'], 'string', 'max' => 100],
-            [['country', 'state', 'district', 'city', 'mz', 'ulica'], 'string', 'max' => 64],
-            [['broj'], 'string', 'max' => 4],
-            [['ime_lokacije'], 'string', 'max' => 128],
+            [['name'], 'string', 'max' => 100],
+            [['country', 'state', 'district', 'city', 'mz', 'street'], 'string', 'max' => 64],
+            [['no'], 'string', 'max' => 4],
+            [['location_name'], 'string', 'max' => 128],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -73,20 +73,20 @@ class Locations extends \yii\db\ActiveRecord
             'is_fav' => 'Is Fav',
             'user_id' => 'User ID',
             'def' => 'Def',
-            'ime' => 'Ime',
+            'name' => 'Ime',
             'country' => 'Country',
             'state' => 'State',
             'district' => 'District',
             'city' => 'City',
             'zip' => 'Zip',
             'mz' => 'Mz',
-            'ulica' => 'Ulica',
-            'broj' => 'Broj',
-            'sprat' => 'Sprat',
-            'stan' => 'Stan',
+            'street' => 'Ulica',
+            'no' => 'Broj',
+            'floor' => 'Sprat',
+            'apt' => 'Stan',
             'lat' => 'Lat',
             'lng' => 'Lng',
-            'ime_lokacije' => 'Ime Lokacije',
+            'location_name' => 'Ime Lokacije',
         ];
     }
 

@@ -5,83 +5,48 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-use PetraBarus\Yii2\GooglePlacesAutoComplete\GooglePlacesAutoComplete;
+use yii\web\Session;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Orders */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
+<?php $form = kartik\widgets\ActiveForm::begin([
+    'id' => 'form-horizontal',
+    'type' => ActiveForm::TYPE_HORIZONTAL,
+    'fullSpan' => 12,      
+    'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
+    'options' => ['enctype' => 'multipart/form-data'],
+]); ?>
 
-    <?php $form = kartik\widgets\ActiveForm::begin([
-        'id' => 'form-horizontal',
-        'type' => ActiveForm::TYPE_HORIZONTAL,
-        'fullSpan' => 7,      
-        'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
-    ]); ?>
-    <fieldset class="settings new_object_atts" style="margin-bottom:10px !important;">
-        <div class="wrapper addition" style="">
-            <label class="head">
-                <i class="fa fa-map-marker"></i>&nbsp;
-                <?php echo Yii::t('app', 'Location'); ?>
-            </label>
-            <i class="fa fa-chevron-right chevron"></i>
-        </div>
+    <fieldset class="settings" style="margin-bottom:10px !important;">
+    <?php 
+        
+        if($service->location!=0): // DELIVERY TIME ?>
+        <?= $this->render('parts/location.php', ['form'=>$form, 'service' => $service, 'model'=>$model,'location'=> $location, 'location_end'=> $location_end,]) ?>
+    <?php endif; ?>
+    <?php 
+        
+        if($service->time!=0): // DELIVERY TIME ?>
+        <?= $this->render('parts/time.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'no'=>2-$no_location]) ?>
+    <?php endif; ?>        
+    <?php 
+        
+        if($service->frequency!=0): // FREQUENCY ?>
+        <?= $this->render('parts/frequency.php', ['form'=>$form, 'model'=>$model, 'no'=>3-$no_location-$no_time]) ?>
+    <?php endif; ?>
+        <?= $this->render('parts/validity.php', ['form'=>$form, 'model'=>$model, 'no'=>4-$no_location-$no_time-$no_freq]) ?>
+        <?= $this->render('parts/budget.php', ['form'=>$form, 'model'=>$model, 'no'=>5-$no_location-$no_time-$no_freq]) ?>
+        <?= $this->render('parts/other.php', ['form'=>$form, 'model'=>$model, 'no'=>6-$no_location-$no_time-$no_freq]) ?>
+    <?php if(Yii::$app->user->isGuest): ?>
+        <?= $this->render('parts/uac.php', ['form'=>$form, 'model'=>$model, 'no'=>7-$no_location-$no_time-$no_freq]) ?>
+    <?php endif; ?>
 
-        <div class="wrapper location" style="border-top:none;">
-            <?= $form->field($model, 'loc_id')->textInput(['maxlength' => true]) ?>
-
-            <?= $form->field($model, 'loc_id2')->textInput(['maxlength' => true]) ?>
-
-            <?= $form->field($model, 'loc_within')->textInput() ?>
-        </div>
-
-        <div class="wrapper addition" style="">
-            <label class="head">
-                <i class="fa fa-map-marker"></i>&nbsp;
-                <?php echo Yii::t('app', 'Time'); ?>
-            </label>
-            <i class="fa fa-chevron-right chevron"></i>
-        </div>
-
-        <div class="wrapper location" style="border-top:none;">
-            <?= $form->field($model, 'delivery_starts')->textInput() ?>
-
-            <?= $form->field($model, 'delivery_ends')->textInput() ?>
-        </div>
-
-        <div class="wrapper addition" style="">
-            <label class="head">
-                <i class="fa fa-map-marker"></i>&nbsp;
-                <?php echo Yii::t('app', 'Validity'); ?>
-            </label>
-            <i class="fa fa-chevron-right chevron"></i>
-        </div>
-
-        <div class="wrapper location" style="border-top:none;">
-            <?= $form->field($model, 'validity')->textInput() ?>
-        </div>
-
-        <div class="wrapper addition" style="">
-            <label class="head">
-                <i class="fa fa-map-marker"></i>&nbsp;
-                <?php echo Yii::t('app', 'Other'); ?>
-            </label>
-            <i class="fa fa-chevron-right chevron"></i>
-        </div>
-
-        <div class="wrapper location" style="border-top:none;">
-             <?= $form->field($model, 'phone_contact')->textInput() ?>
-
-            <?= $form->field($model, 'turn_key')->textInput() ?>
-
-            <?= $form->field($model, 'order_type')->dropDownList([ 'single' => 'Single', 'multi' => 'Multi', 'operation' => 'Operation', 'process' => 'Process', ], ['prompt' => '']) ?>
-
-        </div>
-
-        <div class="col-sm-offset-3 col-sm-9">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="float-right  col-md-3" style="margin:20px;">
+            <?= Html::submitButton(Yii::t('app', '<i class="fa fa-shopping-cart"></i> Naruči'), ['class' => 'btn btn-success btn-lg', 'style'=>'width:100%']) ?>
         </div>
     </fieldset>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 

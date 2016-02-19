@@ -1,5 +1,5 @@
 <?php
 return [
     'baseUrl' => '',
-    'scriptUrl' => 'http://servicemappadv.localhost',
+    'scriptUrl' => 'http://servicemapp',
 ];

@@ -11,7 +11,7 @@ use yii\web\Session;
 $session = Yii::$app->session;
 ?>
 
-<?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
+<?php $this->beginContent('@app/views/layouts/html/html_forms.php'); ?>
 
 <?php /* PROFILE HEADING */ ?>
 
@@ -21,10 +21,11 @@ $session = Yii::$app->session;
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>        
-            <?php /* WIDGET: PAGETITLE */ ?>
+            <?php /* WIDGET: PAGETITLE */ if(Yii::$app->controller->id!='orders'): ?>
                 <?= PageTitle::widget([
                     'titleData' => $this->pageTitle, // Card Picture
                 ]) ?>
+            <?php endif; ?>
             <?php /* WIDGET: PAGETITLE */ /* ?>
                 <?= Steps::widget([
                     'steps' => $this->steps, // Card Picture
@@ -41,7 +42,9 @@ $session = Yii::$app->session;
                 ]);
                 endif;
                 ?>
-            <?= $this->render('partial/help.php') ?>
+            <?php if(Yii::$app->controller->id=='orders' && Yii::$app->controller->action->id=='add' && isset($session['cart'])): ?>
+            <?= $this->render('partial/order_hint.php') ?>
+            <?php endif; ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
     </div>

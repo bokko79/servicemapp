@@ -32,7 +32,7 @@ class OrderServiceSpecs extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order_service_id', 'spec_id', 'value'], 'required'],
+            [['order_service_id', 'spec_id'], 'required'],
             [['order_service_id', 'spec_id'], 'integer'],
             [['value', 'value_max'], 'string', 'max' => 100]
         ];
@@ -66,5 +66,13 @@ class OrderServiceSpecs extends \yii\db\ActiveRecord
     public function getSpec()
     {
         return $this->hasOne(CsSpecs::className(), ['id' => 'spec_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getModels()
+    {
+        return $this->hasMany(OrderServiceSpecModels::className(), ['order_service_spec_id' => 'id']);
     }
 }

@@ -141,6 +141,14 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getOrderObjectModels()
+    {
+        return $this->hasMany(OrderServiceObjectmodels::className(), ['object_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getModels()
     {
         return $this->hasMany(CsObjects::className(), ['object_id' => 'id']);

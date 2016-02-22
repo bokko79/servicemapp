@@ -30,12 +30,12 @@ class CartServiceObjectSpecification extends Model
         $spec_validation_requirement = ($objectSpec->required) ? ['spec', 'required', 'message'=>Yii::t('app', 'Unesite {specification_name}', ['specification_name'=>$property->tNameAkk])] : ['spec', 'safe'];
         switch ($property->type) {
             case 1:
-                if($this->service->service_object=!1){ // number
+                if($this->service->service_object!=1){ // number
                     $spec_validation_type = ['spec', 'integer', 'message'=>Yii::t('app', 'Vrednost "{specification_name}" mora biti broj', ['specification_name'=>$property->tName])];
                     $spec_to_validation_type = ['spec_to', 'safe'];
                 } else { // range
-                    $spec_validation_type = ['spec', 'number', 'min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max, 'message'=>Yii::t('app', 'Mora biti između {min} i {max}', ['min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max])];
-                    $spec_to_validation_type = ['spec_to', 'number', 'min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max, 'message'=>Yii::t('app', 'Mora biti između {min} i {max}', ['min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max])];
+                    $spec_validation_type = ['spec', 'integer', 'min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max, 'message'=>Yii::t('app', 'Mora biti između {min} i {max}', ['min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max])];
+                    $spec_to_validation_type = ['spec_to', 'integer', 'min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max, 'message'=>Yii::t('app', 'Mora biti između {min} i {max}', ['min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max])];
                 }                
                 break;
 
@@ -43,23 +43,17 @@ class CartServiceObjectSpecification extends Model
                 $spec_validation_type = ['spec', 'safe'];
                 $spec_to_validation_type = ['spec_to', 'safe'];
                 break;
-
-            case 6:
-                $spec_validation_type = ['spec', 'string'];
-                $spec_to_validation_type = ['spec_to', 'safe'];
-                break;
             
             default:
-                $spec_validation_type = ['spec', 'safe'];
+                $spec_validation_type = ['spec', 'filter', 'filter'=>'trim'];
                 $spec_to_validation_type = ['spec_to', 'safe'];
-                break;
         }
 
         return [
             $spec_validation_requirement,
             $spec_validation_type,
             $spec_to_validation_type,
-            //[['spec', 'spec_models'] , 'safe'],
+            [['spec_models'] , 'safe'],
         ];
     }
 
@@ -99,7 +93,7 @@ class CartServiceObjectSpecification extends Model
         if (!$this->validate()) {
             return false;         
         }
-        $_SESSION['cart']['industry'][$this->service->industry_id][$this->key]['specifications'][$this->getProperty()->id] = [
+        $_SESSION['cart']['industry'][$this->service->industry_id]['data'][$this->key]['specifications'][$this->getProperty()->id] = [
             'spec' => $this->spec,
             'spec_models' => $this->spec_models,
             'spec_to' => $this->spec_to,

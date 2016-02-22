@@ -13,11 +13,20 @@ foreach($property->models as $prop_model){
 		$model->skills[] = $prop_model->id;
 	}
 }
+
+if($session['cart']!=null){
+    if($session['cart']['industry'][$industry->id]['skills']!=null){
+        foreach($session['cart']['industry'][$industry->id]['skills'] as $skill){
+            $model->skills[] = $skill;
+        }
+    }        
+}
+//print_r($model->skills); die();
+$message = 'Za obavljanje pojedinih usluga, pružalac usluge bi trebalo da poseduje neophodan pribor, određeno stručno znanje i veštine ili neke druge osobine, karakteristične za usluge koje obavlja.';
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
         <span class="badge">1</span>&nbsp;
-        <i class="<?= $service->industry->icon ?> fa-lg"></i>&nbsp;
         <?php echo Yii::t('app', 'Kakvo {industry} zahtevate?', ['industry'=>$industry->tName]); ?>
     </label>
     <?= ' <span class="optional">(opciono)</span>' ?>
@@ -25,13 +34,13 @@ foreach($property->models as $prop_model){
 </div>
 
 <div class="wrapper notshown body fadeIn animated" style="border-top:none;">
-<p class="hint-text">Za obavljanje pojedinih usluga, pružalac usluge bi trebalo da poseduje neophodan pribor, određeno stručno znanje i veštine ili neke druge osobine, karakteristične za usluge koje obavlja.</p>
+<?= $this->render('../_hint.php', ['message'=>$message]) ?>
 <?= Form::widget([
     'model'=>$model,
     'form'=>$form,
     'options'=>['tag'=>'div', 'style'=>'margin:10px 0;'],
     'attributes'=> [
-    	'skills[]' => [
+    	'skills' => [
     		'type'=>Form::INPUT_CHECKBOX_LIST,
     		'label' => $property->label,
     		//'hint'=> $property->tHint,

@@ -15,9 +15,9 @@ $model_list_hints = ArrayHelper::map($property->models, 'id', 'tNameWithHint');
 		}
 	} ?>
 	<?= $form->field($model_method, '['.$key.']method', [
-		'hintType' => ActiveField::HINT_SPECIAL,
-		'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
-	    ])->radioButtonGroup($model_list, [
-							    'class' => 'btn-group-sm',
-							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+				'hintType' => ActiveField::HINT_SPECIAL,
+				'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
+			    ])->radioButtonGroup($model_list, [
+							    'class' => 'btn-group-lg',
+							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default btn-lg']]
 							])->label($property->label)->hint($property->tHint) ?>

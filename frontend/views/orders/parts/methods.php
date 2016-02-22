@@ -16,11 +16,12 @@ switch ($action->t[0]->name_gender) {
 		$whatkind = 'Kakvo';
 		break;
 }
+
+$message = Yii::t('app', '{whatkind} {action} Vam treba?', ['whatkind'=>$whatkind, 'action'=>$action->tName]);
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
         <span class="badge"><?= $no ?></span>&nbsp;
-        <i class="fa fa-hand-paper-o fa-lg"></i>&nbsp;
         <?= Yii::t('app', '{whatkind} {action} Vam treba?', ['whatkind'=>$whatkind, 'action'=>$action->tName]) ?>
     </label>
     <?= ' <span class="optional">(opciono)</span>' ?>
@@ -28,7 +29,7 @@ switch ($action->t[0]->name_gender) {
 </div>
 
 <div class="wrapper notshown body fadeIn animated" style="border-top:none;">
-<p class="hint-text"><?= Yii::t('app', '{whatkind} {action} Vam treba?', ['whatkind'=>$whatkind, 'action'=>$action->tName]) ?></p>
+<?= $this->render('../_hint.php', ['message'=>$message]) ?>
 <?php foreach($model_methods as $model_method) {
 		$method = $model_method->serviceMethod;
 		$property = $model_method->property;

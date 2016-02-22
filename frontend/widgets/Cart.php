@@ -12,6 +12,7 @@ use yii\base\Widget;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * Cart displays a card on the left sidebar.
@@ -30,14 +31,30 @@ use yii\helpers\Html;
  */
 class Cart extends Widget
 {
-    public $cart=array();
+    public $cart=[];
 
 
     /**
      * Renders the widget
      */
     public function run()
-    {
-        return true;
+    { ?>
+		<div class="card_container record-270 no-shadow" id="card_container" style="float:none;">		       
+	        <div class="primary-context small-margin">
+	            <div class="head lower">Vaša korpa</div>
+	            <div class="subhead">Lorem ipsum</div>
+	        </div>
+	        <?php foreach ($this->cart['session'] as $s){
+	        		$service = \frontend\models\CsServices::findOne($s['service']); ?>
+			        <div class="secondary-context tease">
+			            <p><?= c($service->tName) ?></p>
+			        </div>
+	        <?php } ?>
+	        
+	        <div class="action-area right">
+	            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Poruči'), Url::to(), ['class'=>'btn btn-link']); ?>
+	        </div>		   
+		</div>
+<?php
     }
 }

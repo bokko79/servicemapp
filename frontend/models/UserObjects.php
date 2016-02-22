@@ -112,4 +112,12 @@ class UserObjects extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectName()
+    {
+        return c($this->object->tName);
+    }
 }

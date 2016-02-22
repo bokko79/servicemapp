@@ -286,7 +286,7 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 select, input, textarea {border:1px solid #dddddd;}
 select, input[type="text"], input[type="password"], input[type="number"], input[type="email"] {height: 34px; border-radius: 2px;}
-select {font-weight: 700; padding-left:10px;}
+select {font-weight: 500; padding-left:10px;}
 
 button::-moz-focus-inner,input::-moz-focus-inner {padding:0;border:0}
 button,html input[type=button],input[type=reset],input[type=submit] {cursor:pointer;-webkit-appearance:button}
@@ -950,3 +950,25 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 .cart #box_service {margin: 20px 17px;}
 .profile_body #box_service {margin: 20px 9px 10px 8px;}
 .profile_body .provider #box_service {margin: 20px 7px 10px 8px;}
+
+.divider {display: table;white-space: nowrap;height: auto;margin: 0;overflow: hidden;
+    line-height: 1;text-align: center; letter-spacing: 2px;
+}
+
+.divider:before {
+    background-position: right 1em top 50%;
+}
+
+.divider:after, .divider:before {
+    content: '';
+    display: table-cell;
+    position: relative;
+    top: 50%;
+    width: 50%;
+    background-repeat: no-repeat;
+    background-image: url('../images/general/divider.png');
+}
+
+.divider:after {
+    background-position: left 1em top 50%;
+}

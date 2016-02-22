@@ -4,57 +4,47 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
+
+$model->amount = $service->amount_default;
+
+$message = Yii::t('app', 'Koliko {unit} Vam treba {service}?', ['unit'=>$service->unit->tNameGen, 'service'=>$service->tName]);
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
         <span class="badge"><?= $no ?></span>&nbsp;
         <i class="fa fa-signal fa-rotate-270 fa-lg"></i>&nbsp;
-        <?= Yii::t('app', 'Koliko?') ?>
+        <?= Yii::t('app', 'Koliko {unit}?', ['unit'=>$service->unit->tNameGen,]) ?>
     </label>
     <?= ($service->amount==2) ? ' <span class="optional">(opciono)</span>' : '' ?>
-    <i class="fa fa-chevron-right chevron"></i>
+    <i class="fa fa-chevron-<?= ($service->amount==2) ? 'right' : 'down' ?> chevron"></i>
 </div>
-
 <div class="wrapper <?= ($service->amount==2) ? 'notshown' : '' ?> body fadeIn animated" style="border-top:none;">
-<p class="hint-text"><?= Yii::t('app', 'Koliko {unit} Vam treba {service}?', ['unit'=>$service->unit->tNameGen, 'service'=>$service->tName]); ?></p>
-    <?php if($service->amount==1): ?>
-        <?= $form->field($model, 'amount', [
-                    'addon' => [
-                        'append' => ['content'=>$service->unit->oznaka],
-                        //'groupOptions' => ['class'=>'input-group-lg'],
-                    ],
-                    'feedbackIcon' => [
-                        'success' => 'ok',
-                        'error' => 'exclamation-sign',
-                        'successOptions' => ['class'=>'text-primary', 'style'=>'left:180px;'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'left:180px;']
-                    ]])->input('number', ['min'=>$service->amount_range_min, 'max'=>$service->amount_range_max, 'step'=>$service->amount_range_step, 'value'=>$service->amount_default, 'style' => '']) ?>
-
-    <?php else: ?>
+    <?= $this->render('../_hint.php', ['message'=>$message]) ?>
     <div class="form-group kv-fieldset-inline">
         <?= Html::activeLabel($model, 'amount', [
-            'label'=>'Količina', 
+            'label'=>'Obim usluge', 
             'class'=>'col-sm-3 control-label'
         ]); ?>
-        <div class="col-sm-2" style="padding-right:0;">
-            <?= $form->field($model, 'amount_operator', [
-                'showLabels'=>false
-            ])->dropDownList(['exact'=>'tačno', 'approx'=>'oko', 'min'=>'najmanje', 'max'=>'najviše'])->label(false) ?>
+        <div class="col-sm-2" style="padding-right:0">
+            <?= $form->field($model, 'amount_operator',[
+                    'showLabels'=>false
+                ])->dropDownList(['exact'=>'tačno', 'approx'=>'oko', 'min'=>'najmanje', 'max'=>'najviše'], ['class'=>'input-lg']) ?>
         </div>
-        <div class="col-sm-4">
-            <?= $form->field($model, 'amount', [
-                    'showLabels'=>false,
-            		'addon' => [
+        <div class="col-sm-3" style="padding-right:0">
+            <?= $form->field($model, 'amount',[
+                    'addon' => [
                         'append' => ['content'=>$service->unit->oznaka],
-                        //'groupOptions' => ['class'=>'input-group-lg'],
-                    ],
+                        'groupOptions' => ['class'=>'input-group-lg']],
                     'feedbackIcon' => [
                         'success' => 'ok',
                         'error' => 'exclamation-sign',
-                        'successOptions' => ['class'=>'text-primary', 'style'=>'left:180px;'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'left:180px;']
-                    ]])->input('number', ['min'=>$service->amount_range_min, 'max'=>$service->amount_range_max, 'step'=>$service->amount_range_step, 'value'=>$service->amount_default, 'style' => ''])->label(false) ?>
-        </div>
+                        'successOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%'],
+                        'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%']
+                    ],
+                    'hintType' => ActiveField::HINT_SPECIAL,
+                    'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
+                    'showLabels'=>false
+                ])->input('number', ['min'=>$service->amount_range_min, 'max'=>$service->amount_range_max, 'step'=>$service->amount_range_step]); ?>
+        </div>        
     </div>
-    <?php endif; ?>
 </div>

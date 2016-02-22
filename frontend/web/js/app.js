@@ -16,7 +16,7 @@ $.fn.followToProfile = function (pos) {
             'top': '50px',
             'z-index': 1000,
         });
-        $('header.main nav').css({'box-shadow':'0 1px 7px #000'});
+        //$('header.main nav').css({'box-shadow':'0 1px 7px #000'});
     }
   });
 };
@@ -28,6 +28,8 @@ $(document).ready(function(){
   // forms and settings divisions titlebars
   $(".settings .wrapper.headline").click(function(){
       $(this).next('.wrapper').toggle();
+      $(this).find('i.chevron').toggleClass('fa-chevron-right');
+      $(this).find('i.chevron').toggleClass('fa-chevron-down');
       $('html,body').animate({
               scrollTop: $(this).offset().top-60},
               500);
@@ -38,12 +40,6 @@ $(document).ready(function(){
       $(this).find('i.fa').toggleClass('fa-chevron-down');
       $(this).find('i.fa').toggleClass('fa-chevron-right');
   });
-  // settings help on right-sidebar
-  /*$(".hovering .header-context").click(function(){
-      $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
-      $(this).closest('.hidden-content-container').find('.show-more i.fa').toggleClass('fa-chevron-down');
-      $(this).closest('.hidden-content-container').find('.show-more i.fa').toggleClass('fa-chevron-right');
-  });*/
   // ProfileSubNav
   $(".profile_head").followToProfile(220);
   // Quick forms
@@ -89,5 +85,35 @@ $(document).ready(function(){
       $('.six_boxes_container_industries').show();      
       sektor();
       $('body').animate({scrollTop: 78}, 400);
+  });
+  // toggle select/deselect all checkboxes
+  $( "[id^='ckbCheckAll']").on('click', function () {
+    $(this).closest('.enclosedCheckboxes').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
+  });
+
+  //var radioNewTime = $("input[type='radio']").val();
+
+ /* if(radioNewTime==1){
+    $('.enter_time').slideDown();    
+    $('html,body').animate({
+      scrollTop: $(this).offset().top-60},
+      500);
+  }*/
+  $("#orders-new_time").click(function(){
+      var radioValue = $("input[name='Orders[new_time]']:checked").val();
+      if(radioValue==0){
+        $('.enter_time').slideDown();    
+        $('html,body').animate({
+          scrollTop: $(this).offset().top-60},
+          500);
+      } else {
+        $('.enter_time').hide();
+      }
+  });
+  $(".new_obj").on('click', function(){  
+    $('.enter_objectSpec').slideDown();    
+    $('html,body').animate({
+      scrollTop: $(this).offset().top-60},
+      500);
   });
 });

@@ -32,10 +32,6 @@ class CartServiceActionMethod extends Model
                 $method_validation_type = ['method', 'integer', 'message'=>Yii::t('app', 'Vrednost "{method_name}" mora biti broj', ['method_name'=>$property->tName])];
                 break;
 
-            case 4:
-                $method_validation_type = ['method', 'safe'];
-                break;
-
             case 6:
                 $method_validation_type = ['method', 'string'];
                 break;
@@ -87,7 +83,7 @@ class CartServiceActionMethod extends Model
         if (!$this->validate()) {
             return false;         
         }
-        $_SESSION['cart']['industry'][$this->service->industry_id][$this->key]['methods'][$this->getProperty()->id] = [
+        $_SESSION['cart']['industry'][$this->service->industry_id]['data'][$this->key]['methods'][$this->getProperty()->id] = [
             'method' => $this->method,
             'method_models' => $this->method_models,
             'property' => $this->property->id,

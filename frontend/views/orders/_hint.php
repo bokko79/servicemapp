@@ -1,0 +1,1 @@
+<p class="hint-text"><i class="fa fa-info-circle"></i> <?= $message ?></p>

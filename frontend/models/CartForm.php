@@ -3,6 +3,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\web\Request;
 use yii\web\Session;
 /**
@@ -16,6 +17,7 @@ class CartForm extends Model
     public $skills = [];
     public $imageFiles = [];
     public $issues = [];
+    public $user_object;
     public $amount;
     public $amount_to;
     public $amount_operator;
@@ -33,24 +35,28 @@ class CartForm extends Model
      */
     public function rules()
     {
-        $service = $this->getService();
-        $amount = ($service->amount==1) ? ['amount', 'required', 'message'=>Yii::t('app', 'Unesite količinu usluge u datoj jedinici mere.')] : ['amount', 'safe'];
+        $service = $this->service;
+        // amount
+        $amount = ($service->amount==1) ? ['amount', 'required', 'message'=>Yii::t('app', 'Unesite količinu usluge u datoj jedinici mere.')] : ['amount', 'safe'];        
         $consumer = ($service->consumer==1) ? ['consumer', 'required', 'message'=>Yii::t('app', 'Unesite broj odraslih koji će koristiti ovu uslugu.')] : ['consumer', 'safe'];
-        $consumer_children = ($service->consumer_children==1) ? ['consumer_children', 'required', 'message'=>Yii::t('app', 'Unesite broj dece koja će koristiti ovu uslugu.')] : ['consumer_children', 'safe'];
-        $pic = ($service->pic==1) ? [['imageFiles'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 4] : ['imageFiles', 'safe'];      
+        $consumer_children = ($service->consumer!=0 && $service->consumer_children==1) ? ['consumer_children', 'required', 'message'=>Yii::t('app', 'Unesite broj dece koja će koristiti ovu uslugu.')] : ['consumer_children', 'safe'];
+        $pic = ($service->pic==1) ? [['imageFiles'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 8, 'tooMany'=>'Možete prikačiti najviše 8 fotografija.'] : ['imageFiles', 'safe'];      
 
         return [
             ['service', 'required'],
             $amount,
+            ['amount', 'number', 'min'=>$service->amount_range_min, 'max'=>$service->amount_range_max],
+            ['amount_operator', 'default', 'value'=>'exact'],
             $consumer,
             $consumer_children,
-            [['consumer', 'consumer_children', 'amount_to', 'consumer_to'], 'integer'],
-            ['amount', 'number'],
+            [['consumer_children', 'amount_to', 'consumer_to'], 'integer'],
+            ['consumer', 'integer', 'min'=>$service->consumer_range_min, 'max'=>$service->consumer_range_max],
+            ['consumer_operator', 'default', 'value'=>'exact'],
             ['title', 'string', 'max' => 64], 
             ['note', 'string'],            
             [['title', 'note'], 'filter', 'filter' => 'trim'],
             $pic,
-            [['consumer_operator', 'amount_operator', 'skills'], 'safe'],
+            [['skills'], 'safe'],
         ];
     }
 
@@ -66,6 +72,7 @@ class CartForm extends Model
             'amount' => Yii::t('app', 'Količina').$amount,
             'consumer' => Yii::t('app', 'Broj korisnika'),
             'consumer_children' => Yii::t('app', 'Broj dece'),
+            'imageFiles' => Yii::t('app', 'Slike'),
             'note' => Yii::t('app', 'Napomena'),
             'title' => Yii::t('app', 'Naslov'),        
         ];
@@ -107,12 +114,17 @@ class CartForm extends Model
     {
         if (!$this->validate()) {
             return false;         
-        }   
+        }
 
-        $_SESSION['cart']['industry'][$this->service->industry_id][$this->key] = [
+        if(!isset($_SESSION['cart']['industry'][$this->service->industry_id])){
+            $_SESSION['cart']['industry'][$this->service->industry_id] = [            
+                'skills' => $this->skills,
+            ];
+        }
+        
+        $_SESSION['cart']['industry'][$this->service->industry_id]['data'][$this->key] = [
             'service' => $this->getService()->id,
             'object_models' => $this->object_models,
-            'skills' => $this->skills,
             'amount' => $this->amount,
             'amount_to' => $this->amount_to,
             'amount_operator' => $this->amount_operator,

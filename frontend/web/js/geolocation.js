@@ -13,8 +13,6 @@ $(document).ready(function(){
       500);
   });
 
-  
-
   $("#orders-loc_id").on('change', function(){                  
     $('.enter_location').hide();
     $("form").clearForm();
@@ -23,8 +21,6 @@ $(document).ready(function(){
       $(this).closest("div.wrapper").prev().css("background-color","rgba(60,118,61,.1)");
     }
   });
-  
-
 });
 
 // reset
@@ -34,7 +30,7 @@ $.fn.clearForm = function() {
     if (tag == 'form')
       return $(':input',this).clearForm();
     if (id == 'hidden-geo-input')
-      this.value = '';    
+      this.value = '';
   });
 };
 

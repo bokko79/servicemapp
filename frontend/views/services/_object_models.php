@@ -18,7 +18,10 @@ $model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
 	
 	<?php if($model->service_object==1): ?>
 		<p class="hint">Možete izabrati više vrsta.</p>
-		<?= $form->field(new \frontend\models\CsObjects, 'id[]')->checkboxList($model_list)->label(false) ?>
+		<div class="enclosedCheckboxes">
+			<div class="checkbox"><label><input type="checkbox" id="ckbCheckAll"> <i>Izaberite/Poništite sve</i></label></div>
+			<?= $form->field(new \frontend\models\CsObjects, 'id[]')->checkboxList($model_list)->label(false) ?>
+		</div>
 	<?php else: ?>
 		<?= $form->field(new \frontend\models\CsObjects, 'id[]', [])->radioList($model_list)->label(false) ?>
 	<?php endif; ?>

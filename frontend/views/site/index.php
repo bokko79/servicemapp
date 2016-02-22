@@ -18,12 +18,13 @@ use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\overlays\InfoWindow;
 use dosamigos\google\maps\overlays\Marker;
 use dosamigos\google\maps\Map;
+use dosamigos\google\maps\overlays\Circle;
 
 $model = frontend\models\User::findOne(1);
 $coord = new LatLng(['lat' => $model->userDetails->loc->lat, 'lng' => $model->userDetails->loc->lng]);
 $map = new Map([
     'center' => $coord,
-    'zoom' => 14,
+    'zoom' => 10,
     
 ]);
 
@@ -37,8 +38,15 @@ $marker = new Marker([
     'title' => 'My Home Town',
 ]);
 
+// Lets add a marker now
+$circle = new Circle([
+    'center' => $coord,
+    'radius' => 3000,
+]);
+
 // Add marker to the map
 $map->addOverlay($marker);
+$map->addOverlay($circle);
 
 $map2 = new Map([
     'center' => $coord,
@@ -672,13 +680,13 @@ $map2->addOverlay($marker2);
             echo ServiceBox::widget([
                 'serviceId' => $service->id,
                 'containerOptions' => '',
-                'link' => '/s/'.mb_strtolower(str_replace(' ', '-', $service->csServicesTranslations[0]->name)),
+                'link' => '/s/'.mb_strtolower(str_replace(' ', '-', $service->t[0]->name)),
                 'image' => [
                     'source'=>'info_docs'.substr($service->id, -1).'.jpg',
                 ],
-                'name' => $service->csServicesTranslations[0]->name,
-                'subhead' => $service->industry->csIndustriesTranslations[0]->name,
-                'description' => $service->industry->csIndustriesTranslations[0]->description,
+                'name' => $service->t[0]->name,
+                'subhead' => $service->industry->t[0]->name,
+                'description' => $service->industry->t[0]->description,
                 'stats' => [
                     'orders'=> 346,
                     'providers' => 71,

@@ -53,7 +53,7 @@ class Locations extends \yii\db\ActiveRecord
     {
         return [
             [['is_fav', 'user_id', 'def', 'zip', 'floor', 'apt'], 'integer'],
-            [['user_id', 'name'], 'required'],
+            [['user_id'], 'required'],
             [['lat', 'lng'], 'number'],
             [['name'], 'string', 'max' => 100],
             [['country', 'state', 'district', 'city', 'mz', 'street'], 'string', 'max' => 64],

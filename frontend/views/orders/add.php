@@ -11,14 +11,7 @@ use kartik\builder\FormGrid;
 use yii\web\Session;
 
 $this->title = Yii::t('app', 'Naručivanje usluge');
-$this->params['breadcrumbs'][] = $this->title;
 
-$this->pageTitle = [
-    'icon' => 'cube',     
-    'title' => Html::encode($this->title),
-    'description' => '<p style="font-size:12px; line-height:14px; margin:10px;">'.Yii::t('app', '').'</p>',
-    'search' => null,
-];
 
 $service = $model->service;
 $object_type = $service->service_object;
@@ -38,26 +31,18 @@ $session = Yii::$app->session;
 
     <fieldset class="settings" style="margin:30px 0 !important;">      
 
-    <?php if($service->industry->skills && !isset($session['cart'])): // SERVICE INDUSTRY SKILLS ?>
-        <?= $this->render('parts/skills.php', ['form'=>$form, 'service'=>$service, 'model'=>$model, 'industry'=>$service->industry]) ?>
+    <?php if($service->industry->skills && !isset($session['cart']) && $session['cart']['industry'][$service->industry_id]==null): // SERVICE INDUSTRY SKILLS ?>
+        <?= $this->render('parts/skills.php', ['form'=>$form, 'service'=>$service, 'model'=>$model, 'industry'=>$service->industry, 'session'=>$session]) ?>
     <?php endif; ?>
 
-    <?php if($serviceMethods): // SERVICE OBJECT SPECIFICATIONS ?>
+    <?php if($serviceMethods): // SERVICE ACTION METHODS ?>
         <?= $this->render('parts/methods.php', ['form'=>$form, 'service'=>$service, 'model_methods'=>$model_methods, 'object_type'=>$object_type, 'serviceMethods'=>$serviceMethods, 'no'=>2-$no_skill]) ?>
     <?php endif; ?>
 
-    <?php if($serviceSpecs!=null) {
-            echo $this->render('parts/specifications.php', ['form'=>$form, 'service'=>$service, 'model_specs'=>$model_specs, 'object_type'=>$object_type, 'serviceSpecs'=>$serviceSpecs, 'object_models' => $object_models, 'no'=>3-$no_skill-$no_method]);
-        } elseif($object_models!=null){
-            foreach($object_models as $key=>$object_model) {
-                $object = \frontend\models\CsObjects::findOne($object_model);
-                if ($object) {
-                    if ($object->specs) {
-                        echo $this->render('parts/specifications.php', ['form'=>$form, 'service'=>$service, 'model_specs'=>$model_specs, 'object_type'=>$object_type, 'serviceSpecs'=>$serviceSpecs, 'object_models' => $object_models, 'no'=>3-$no_skill-$no_method]);
-                    }           
-                }       
-            }
-        } ?>
+    <?php if($objectSpecifications!=null): // SERVICE OBJECT SPECIFICATIONS ?>
+        <?= $this->render('parts/specifications.php', ['form'=>$form, 'model'=>$model, 'service'=>$service, 'model_specs'=>$model_specs, 'userObjects'=>$userObjects, 'object_type'=>$object_type, 'serviceSpecs'=>$objectSpecifications, 'object_models' => $object_models, 'no'=>3-$no_skill-$no_method]) ?>
+    <?php endif; ?>
+
     <?php if($service->pic==1 && $object_type!=1): // SERVICE OBJECT IMAGES ?>
         <?= $this->render('parts/pics.php', ['model'=>$model, 'form'=>$form, 'service'=>$service, 'no'=>4-$no_skill-$no_method-$no_spec]) ?>
     <?php endif; ?>
@@ -77,6 +62,7 @@ $session = Yii::$app->session;
     <?php // ORDER NOTE AND TITLE ?>        
         <?= $this->render('parts/note.php', ['model'=>$model, 'form'=>$form, 'service'=>$service, 'no'=>8-$no_skill-$no_method-$no_spec-$no_pic-$no_issue-$no_amount-$no_consumer]) ?>
 
+        <hr>
         <div class="float-right" style="margin:20px;">
             <?= Html::submitButton(Yii::t('app', 'Nastavite <i class="fa fa-arrow-circle-right"></i>'), ['class' => 'btn btn-primary btn-lg']) ?>
         </div>

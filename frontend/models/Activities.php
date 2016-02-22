@@ -46,7 +46,14 @@ class Activities extends \yii\db\ActiveRecord
             [['activity', 'user_id', 'time'], 'required'],
             [['activity', 'type', 'status', 'description'], 'string'],
             [['user_id'], 'integer'],
-            [['time'], 'safe']
+            [['activity'], 'default', 'value'=>'order'],
+            [['user_id'], 'default', 'value'=>Yii::$app->user->id],
+            [['type'], 'default', 'value'=>'normal'],
+            [['status'], 'default', 'value'=>'active'],
+            [['time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
+            //[['time'], 'default', 'value'=>date('Y-m-d H:i:s')],
         ];
     }
 
@@ -197,6 +204,25 @@ class Activities extends \yii\db\ActiveRecord
             default:
                 return Yii::t('app', 'promoviše uslugu');
                 break;
+        }
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function loadActivity($action='order', $type='normal', $status='active')
+    {
+        $activity = new Activities();
+        $activity->activity = $action;
+        $activity->user_id = Yii::$app->user->id;
+        $activity->type = $type;
+        $activity->status = $status;
+        $activity->time = date('Y-m-d H:i:s');
+
+        if($activity){
+            return $activity;
+        } else {
+            return false; 
         }
     }
 }

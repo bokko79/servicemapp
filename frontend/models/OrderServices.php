@@ -48,9 +48,9 @@ class OrderServices extends \yii\db\ActiveRecord
     {
         return [
             [['activity_id', 'order_id', 'service_id'], 'required'],
-            [['activity_id', 'order_id', 'service_id', 'provider_service_id', 'amount', 'consumer', 'consumer_children'], 'integer'],
+            [['activity_id', 'order_id', 'service_id', 'provider_service_id', 'amount', 'amount_to', 'consumer', 'consumer_to', 'consumer_children'], 'integer'],
             [['title', 'issue_text', 'note', 'description'], 'string'],
-            [['amount_operator'], 'safe']
+            [['amount_operator', 'consumer_operator'], 'safe']
         ];
     }
 
@@ -106,6 +106,14 @@ class OrderServices extends \yii\db\ActiveRecord
     public function getSpecs()
     {
         return $this->hasMany(OrderServiceSpecs::className(), ['order_service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectModels()
+    {
+        return $this->hasMany(OrderServiceObjectmodels::className(), ['order_service_id' => 'id']);
     }
 
     /**

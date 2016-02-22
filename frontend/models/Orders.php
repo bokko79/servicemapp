@@ -1,6 +1,8 @@
 <?php
 
 namespace frontend\models;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 use Yii;
 
@@ -37,6 +39,9 @@ use Yii;
  */
 class Orders extends \yii\db\ActiveRecord
 {
+    public $new_time = 0;
+    public $service;
+
     /**
      * @inheritdoc
      */
@@ -50,25 +55,43 @@ class Orders extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        $service = $this->service;
+        $loc_req = ['loc_id', 'safe'];
+        $loc2_req = ['loc_id2', 'safe'];
+        $time_req = ['time_req', 'safe'];
+        $time_end_req = ['time_end_req', 'safe'];
+        if($service){
+            switch ($service->location) {
+                case 1:
+                    $loc_req = ['loc_id', 'required'];
+                    $loc2_req = ['loc_id2', 'safe'];
+                    break;
+                case 2:
+                    $loc_req = ['loc_id', 'required'];
+                    $loc2_req = ['loc_id2', 'required'];
+                    break;
+                default: 
+                    $loc_req = ['loc_id', 'safe'];
+                    $loc2_req = ['loc_id2', 'safe'];
+                    break;
+            }
+            $time_req = ($service->time==1 || $service->time==3) ? ['delivery_starts', 'required', 'message'=>Yii::t('app', 'Datum i vreme početka izvršenja usluge su obavezni.')] : ['delivery_starts', 'safe'];
+            $time_end_req = ($service->time==3) ? ['delivery_ends', 'required', 'message'=>Yii::t('app', 'Datum i vreme završetka izvršenja usluge su obavezni.')] : ['delivery_ends', 'safe'];
+        }
+            
         return [
             [['activity_id'], 'required'],
             [['activity_id', 'loc_id', 'loc_id2', 'loc_within', 'registered_to', 'frequency', 'duration', 'currency_id', 'process_id', 'hit_counter'], 'integer'],
-            [['delivery_starts', 'delivery_ends', 'validity', 'update_time', 'success_time', 'budget', 'delivery_time_operator', 'duration_operator', 'budget_operator'], 'safe'],
-            [['delivery_starts', 'delivery_ends', 'validity', 'update_time', 'success_time'], 'date', 'message'=>'Format mora biti d-M-yyyy h:ii'],
-            [['class', 'order_type', 'frequency_unit', 'duration_unit'], 'string'],
-            [['lang_code'], 'string', 'max' => 2],
-            ['order_type', 'default', 'value' => 'single'],
-            ['class', 'default', 'value' => 'global'],
-            [['delivery_time_operator', 'duration_operator', 'budget_operator',], 'default', 'value' => 'exact'],
-            ['lang_code', 'default', 'value' => Yii::$app->language],
-            ['hit_counter', 'default', 'value' => 0],
-            [['phone_contact', 'turn_key', 'support', 'tools', 'success'], 'boolean'],
-            [['phone_contact', 'turn_key', 'support', 'tools', 'success'], 'default', 'value' => 0],
+            [['delivery_ends', 'validity', 'update_time', 'success_time', 'budget', 'delivery_time_operator', 'duration_operator', 'budget_operator'], 'safe'],
+            $loc_req,
+            $loc2_req,
+            $time_req,
+            $time_end_req,
             [['validity'], 'default', 'value' => function ($model, $attribute) {
                 return date('Y-m-d H:i:s', strtotime('+7 days'));
             }],
-            ['delivery_starts', 'compare', 'compareAttribute'=>'validity', 'operator'=>'>'],
-            ['budget', 'number', 'min'=>0],
+            [['lang_code'], 'string', 'max' => 2],         
+            [['class', 'order_type', 'frequency_unit', 'duration_unit'], 'string'],
         ];
     }
 

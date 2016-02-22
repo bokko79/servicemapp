@@ -12,7 +12,7 @@ use yii\bootstrap\Modal;
 		</div>
     </div>
     <div class="primary-context normal">
-        <div class="head major"><?=((strlen($model->name)<30) ? $model->name : substr($model->name, 0, 30).'...') ?></div>
+        <div class="head major"><?= c($model->tName) ?></div>
         <div class="subhead"><?= $model->object_name ?></div>
     </div>
     <div class="secondary-context tease">

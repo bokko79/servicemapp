@@ -194,7 +194,7 @@ class Activities extends \yii\db\ActiveRecord
                 break;
 
             case 'feedback':
-                return Yii::t('app', 'je ocennio pružaoca usluge');
+                return Yii::t('app', 'je ocenio pružaoca usluge');
                 break;
 
             case 'comment_order':

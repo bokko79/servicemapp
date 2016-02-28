@@ -3,10 +3,10 @@
 return [
     'enablePrettyUrl' => true,
     'showScriptName' => false,
-    'baseUrl' => '',
-    'scriptUrl' => 'http://servicemappadv.localhost',
+    'baseUrl' => 'http://servicemapp/',
+    'scriptUrl' => 'http://servicemapp/',
     'rules' => [
-        'intro' => 'intro/main',    
+        'intro' => 'intro/main',
         'index' => 'site/index',
         'about-us' => 'site/about', // :page
         'contact-us' => 'site/contact', // :page

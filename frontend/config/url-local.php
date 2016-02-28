@@ -1,5 +1,5 @@
 <?php
 return [
-    'baseUrl' => '',
-    'scriptUrl' => 'http://servicemapp',
+    'baseUrl' => 'http://servicemapp/',
+    'scriptUrl' => 'http://servicemapp/',
 ];

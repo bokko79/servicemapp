@@ -11,7 +11,7 @@ $message = Yii::t('app', 'Koliko {unit} Vam treba {service}?', ['unit'=>$service
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noAmount ?></span>&nbsp;
         <i class="fa fa-signal fa-rotate-270 fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Koliko {unit}?', ['unit'=>$service->unit->tNameGen,]) ?>
     </label>
@@ -39,7 +39,7 @@ $message = Yii::t('app', 'Koliko {unit} Vam treba {service}?', ['unit'=>$service
                         'success' => 'ok',
                         'error' => 'exclamation-sign',
                         'successOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%']
+                        'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%; top: 6px;']
                     ],
                     'hintType' => ActiveField::HINT_SPECIAL,
                     'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],

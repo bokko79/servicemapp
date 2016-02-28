@@ -12,11 +12,11 @@ use kartik\datecontrol\DateControl;
 $time7 = Yii::$app->formatter->asDate(date('Y-m-d H:i:s', strtotime('+7 days')), "php:d M yy h:i");
 //$model->delivery_starts = $time7;
 $data = [0=>'Što je pre moguće', 1=>'<i class="fa fa-calendar-check-o"></i> Odredite tačan početak izvršenja usluga'];
-$message = 'Kada želite da pružalac usluge počne sa izvršavanjem usluge? '. (($service->time==3) ? 'Do kada želite da završi? ' : '') . (($service->duration==3 || $service->duration==4) ? 'Koliko želite da traje?' : '');
+$message = 'Kada želite da pružalac usluge počne sa izvršavanjem usluge? '. (($service->time==3) ? 'Do kada želite da završi? ' : '');
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noTime ?></span>&nbsp;
         <i class="fa fa-calendar fa-lg"></i>&nbsp;
         <?php echo Yii::t('app', 'Kada?'); ?>
     </label>
@@ -34,7 +34,7 @@ $message = 'Kada želite da pružalac usluge počne sa izvršavanjem usluge? '. 
                             'success' => 'ok',
                             'error' => 'exclamation-sign',
                             'successOptions' => ['class'=>'text-primary'],
-                            'errorOptions' => ['class'=>'text-primary']
+                            'errorOptions' => ['class'=>'text-primary', 'style'=>'top: 6px;']
                         ],
                     ])->widget(DateControl::classname(), [
                             'language' => 'sr-Ln',
@@ -86,7 +86,7 @@ $message = 'Kada želite da pružalac usluge počne sa izvršavanjem usluge? '. 
                             'success' => 'ok',
                             'error' => 'exclamation-sign',
                             'successOptions' => ['class'=>'text-primary'],
-                            'errorOptions' => ['class'=>'text-primary']
+                            'errorOptions' => ['class'=>'text-primary', 'style'=>'top: 6px;']
                         ],
                     ])->widget(DateControl::classname(), [
                             'language' => 'sr-Ln',

@@ -10,7 +10,7 @@ $message = 'Koliko ste spremni da izdvojite novca za izvršenje usluga koje naru
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noBudget ?></span>&nbsp;
         <i class="fa fa-money fa-lg"></i>&nbsp;
         <?php echo Yii::t('app', 'Budžet'); ?>
     </label>
@@ -38,7 +38,7 @@ $message = 'Koliko ste spremni da izdvojite novca za izvršenje usluga koje naru
 				        'success' => 'ok',
 				        'error' => 'exclamation-sign',
 				        'successOptions' => ['class'=>'text-primary'],
-				        'errorOptions' => ['class'=>'text-primary']
+				        'errorOptions' => ['class'=>'text-primary', 'style'=>'top: 6px;']
 				    ],
 					'hintType' => ActiveField::HINT_SPECIAL,
 					'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],

@@ -36,3 +36,18 @@ function c($string)
     $then = mb_substr($string, 1, $strlen - 1, 'UTF-8');
     return mb_strtoupper($firstChar, 'UTF-8') . $then;
 }
+
+function now()
+{
+    return date('Y-m-d H:i:s');
+}
+
+function f_date($date)
+{
+    return Yii::$app->formatter->asDate($date, 'd. MMM yy');
+}
+
+function f_date_short($date)
+{
+    return Yii::$app->formatter->asDate($date, 'd. MMMM yy');
+}

@@ -41,6 +41,8 @@ class Orders extends \yii\db\ActiveRecord
 {
     public $new_time = 0;
     public $service;
+    public $new_user = 0;
+
 
     /**
      * @inheritdoc
@@ -145,6 +147,14 @@ class Orders extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getOrderSkills()
+    {
+        return $this->hasMany(OrderSkills::className(), ['order_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getOrderServices()
     {
         return $this->hasMany(OrderServices::className(), ['order_id' => 'id']);
@@ -159,6 +169,14 @@ class Orders extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getIndustry()
+    {
+        return $this->orderServices[0]->service->industry;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getLoc()
     {
         return $this->hasOne(Locations::className(), ['id' => 'loc_id']);
@@ -167,7 +185,7 @@ class Orders extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getLocId2()
+    public function getLoc2()
     {
         return $this->hasOne(Locations::className(), ['id' => 'loc_id2']);
     }
@@ -225,5 +243,50 @@ class Orders extends \yii\db\ActiveRecord
         $now = $now_f->format('U');
 
         return round(($now-$start)*100/($validity-$start));
+    }
+
+    public function checkIfLocation()
+    {
+        return ($this->service->location!=0) ? 0 : 1;
+    }
+
+    public function checkIfTime()
+    {
+        return ($this->service->time!=0) ? 0 : 1;
+    }
+
+    public function checkIfFreq()
+    {
+        return ($this->service->frequency!=0) ? 0 : 1;
+    }
+
+    public function getNoTime()
+    {
+        return 2-$this->checkIfLocation();
+    }
+
+    public function getNoFreq()
+    {
+        return 3-$this->checkIfLocation()-$this->checkIfTime();
+    }
+
+    public function getNoVal()
+    {
+        return 4-$this->checkIfLocation()-$this->checkIfTime()-$this->checkIfFreq();
+    }
+
+    public function getNoBudget()
+    {
+        return 5-$this->checkIfLocation()-$this->checkIfTime()-$this->checkIfFreq();
+    }
+
+    public function getNoOther()
+    {
+        return 6-$this->checkIfLocation()-$this->checkIfTime()-$this->checkIfFreq();
+    }
+
+    public function getNoUac()
+    {
+        return 7-$this->checkIfLocation()-$this->checkIfTime()-$this->checkIfFreq();
     }
 }

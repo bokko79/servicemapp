@@ -16,24 +16,25 @@ use yii\web\Session;
     'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
     'options' => ['enctype' => 'multipart/form-data'],
 ]); ?>
-    <fieldset class="settings" style="margin-bottom:10px !important;">
+    <fieldset class="settings" style="margin:30px 0 !important;">
     <?php if($service->location!=0 && $service->location!=5): // LOCATION ?>
         <?= $this->render('parts/location.php', ['form'=>$form, 'service' => $service, 'model'=>$model,'location'=> $location, 'location_end'=> $location_end,]) ?>
     <?php endif; ?>
     <?php if($service->time!=0): // DELIVERY TIME ?>
-        <?= $this->render('parts/time.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'no'=>2-$no_location]) ?>
+        <?= $this->render('parts/time.php', ['form'=>$form, 'service' => $service, 'model'=>$model]) ?>
     <?php endif; ?>        
     <?php if($service->frequency!=0): // FREQUENCY ?>
-        <?= $this->render('parts/frequency.php', ['form'=>$form, 'model'=>$model, 'no'=>3-$no_location-$no_time]) ?>
+        <?= $this->render('parts/frequency.php', ['form'=>$form, 'model'=>$model]) ?>
     <?php endif; ?>
-        <?= $this->render('parts/validity.php', ['form'=>$form, 'model'=>$model, 'no'=>4-$no_location-$no_time-$no_freq]) ?>
-        <?= $this->render('parts/budget.php', ['form'=>$form, 'model'=>$model, 'no'=>5-$no_location-$no_time-$no_freq]) ?>
-        <?= $this->render('parts/other.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'no'=>6-$no_location-$no_time-$no_freq]) ?>
+        <?= $this->render('parts/validity.php', ['form'=>$form, 'model'=>$model]) ?>
+        <?= $this->render('parts/budget.php', ['form'=>$form, 'model'=>$model]) ?>
+        <?= $this->render('parts/other.php', ['form'=>$form, 'service' => $service, 'model'=>$model]) ?>
     <?php if(Yii::$app->user->isGuest): ?>
-        <?= $this->render('parts/uac.php', ['form'=>$form, 'model'=>$model, 'no'=>7-$no_location-$no_time-$no_freq]) ?>
+        <?= $this->render('parts/uac.php', ['form'=>$form, 'model'=>$model, 'new_user' => $new_user, 'returning_user' => $returning_user,]) ?>
     <?php endif; ?>
 
-        <div class="float-right  col-md-3" style="margin:20px;">
+        <hr>
+        <div class="float-right col-md-3" style="margin:20px;">
             <?= Html::submitButton(Yii::t('app', '<i class="fa fa-shopping-cart"></i> Naruči'), ['class' => 'btn btn-success btn-lg', 'style'=>'width:100%']) ?>
         </div>
     </fieldset>

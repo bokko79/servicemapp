@@ -36,13 +36,13 @@ $session = Yii::$app->session;
         <div class="grid-right media_right_sidebar">
             <?php // Progress Meter ?>
             <?php /* WIDGET: CART */ 
-                if(Yii::$app->controller->id=='orders' && Yii::$app->controller->action->id=='add' && isset($session['cart'])): ?>
+                if(Yii::$app->controller->id=='orders' && (Yii::$app->controller->action->id=='add' || Yii::$app->controller->action->id=='create') && isset($session['cart'])): ?>
                 <?= Cart::widget([
                     'cart' => $this->cart, // Card Picture
                 ]);
                 endif;
                 ?>
-            <?php if(Yii::$app->controller->id=='orders' && Yii::$app->controller->action->id=='add' && isset($session['cart'])): ?>
+            <?php if(Yii::$app->controller->id=='orders' && Yii::$app->controller->action->id=='add' && !isset($session['cart'])): ?>
             <?= $this->render('partial/order_hint.php') ?>
             <?php endif; ?>
             <?= $this->render('partial/footer.php') ?>

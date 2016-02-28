@@ -38,13 +38,15 @@ class Cart extends Widget
      * Renders the widget
      */
     public function run()
-    { ?>
+    { 
+    	if($this->cart['session']!=null): ?>
 		<div class="card_container record-270 no-shadow" id="card_container" style="float:none;">		       
 	        <div class="primary-context small-margin">
 	            <div class="head lower">Vaša korpa</div>
 	            <div class="subhead">Lorem ipsum</div>
 	        </div>
-	        <?php foreach ($this->cart['session'] as $s){
+	        <?php 
+	        	foreach ($this->cart['session'] as $s){
 	        		$service = \frontend\models\CsServices::findOne($s['service']); ?>
 			        <div class="secondary-context tease">
 			            <p><?= c($service->tName) ?></p>
@@ -56,5 +58,6 @@ class Cart extends Widget
 	        </div>		   
 		</div>
 <?php
+		endif;
     }
 }

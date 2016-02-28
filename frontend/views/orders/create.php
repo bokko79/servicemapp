@@ -7,8 +7,8 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Create Orders');
 
 $this->cart = [
-        'session' => Yii::$app->session['cart']['industry'][$service->industry_id]['data'],
-    ];
+    'session' => Yii::$app->session['cart']['industry'][$service->industry_id]['data'],
+];
 ?>
 <?= $this->render('_steps.php', ['service'=>$service]) ?>
 
@@ -21,8 +21,8 @@ $this->cart = [
     'model' => $model,
     'location'=> $location,
 	'location_end'=> $location_end,
-	'no_location' => $no_location,
-    'no_time' => $no_time,
-    'no_freq' => $no_freq,
+	'objects' => $objects,
+	'new_user' => $new_user,
+	'returning_user' => $returning_user,
 ]) ?>
 

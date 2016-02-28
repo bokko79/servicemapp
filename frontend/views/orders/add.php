@@ -12,6 +12,9 @@ use yii\web\Session;
 
 $this->title = Yii::t('app', 'Naručivanje usluge');
 
+$this->cart = [
+    'session' => (Yii::$app->session['cart']['industry']!=null) ? Yii::$app->session['cart']['industry'][$service->industry_id]['data'] : null,
+];
 
 $service = $model->service;
 $object_type = $service->service_object;
@@ -36,34 +39,35 @@ $session = Yii::$app->session;
     <?php endif; ?>
 
     <?php if($serviceMethods): // SERVICE ACTION METHODS ?>
-        <?= $this->render('parts/methods.php', ['form'=>$form, 'service'=>$service, 'model_methods'=>$model_methods, 'object_type'=>$object_type, 'serviceMethods'=>$serviceMethods, 'no'=>2-$no_skill]) ?>
+        <?= $this->render('parts/methods.php', ['form'=>$form, 'service'=>$service, 'model'=>$model, 'model_methods'=>$model_methods, 'object_type'=>$object_type, 'serviceMethods'=>$serviceMethods]) ?>
     <?php endif; ?>
 
     <?php if($objectSpecifications!=null): // SERVICE OBJECT SPECIFICATIONS ?>
-        <?= $this->render('parts/specifications.php', ['form'=>$form, 'model'=>$model, 'service'=>$service, 'model_specs'=>$model_specs, 'userObjects'=>$userObjects, 'object_type'=>$object_type, 'serviceSpecs'=>$objectSpecifications, 'object_models' => $object_models, 'no'=>3-$no_skill-$no_method]) ?>
+        <?= $this->render('parts/specifications.php', ['form'=>$form, 'model'=>$model, 'service'=>$service, 'model_specs'=>$model_specs, 'userObjects'=>$userObjects, 'object_type'=>$object_type, 'serviceSpecs'=>$objectSpecifications, 'object_models' => $object_models]) ?>
     <?php endif; ?>
 
     <?php if($service->pic==1 && $object_type!=1): // SERVICE OBJECT IMAGES ?>
-        <?= $this->render('parts/pics.php', ['model'=>$model, 'form'=>$form, 'service'=>$service, 'no'=>4-$no_skill-$no_method-$no_spec]) ?>
+        <?= $this->render('parts/pics.php', ['model'=>$model, 'form'=>$form, 'service'=>$service]) ?>
     <?php endif; ?>
 
     <?php if($service->service_type==3 && $service->object->issues!=null): // SERVICE OBJECT ISSUES ?>
-        <?= $this->render('parts/issues.php', ['form'=>$form, 'service'=>$service, 'object_type'=>$object_type, 'serviceSpecs'=>$serviceSpecs, 'object_models' => $object_models, 'no'=>5-$no_skill-$no_method-$no_spec-$no_pic]) ?>
+        <?= $this->render('parts/issues.php', ['form'=>$form, 'service'=>$service, 'object_type'=>$object_type, 'serviceSpecs'=>$serviceSpecs, 'object_models' => $object_models]) ?>
     <?php endif; ?>
 
     <?php if($service->amount!=0): // SERVICE AMOUNT ?>
-        <?= $this->render('parts/amount.php', ['model'=>$model, 'form'=>$form, 'service'=>$service, 'no'=>6-$no_skill-$no_method-$no_spec-$no_pic-$no_issue]) ?>
+        <?= $this->render('parts/amount.php', ['model'=>$model, 'form'=>$form, 'service'=>$service]) ?>
     <?php endif; ?>
 
     <?php if($service->consumer!=0): // SERVICE CONSUMERS ?>
-        <?= $this->render('parts/consumers.php', ['model'=>$model, 'form'=>$form, 'service'=>$service, 'no'=>7-$no_skill-$no_method-$no_spec-$no_pic-$no_issue-$no_amount]) ?>
+        <?= $this->render('parts/consumers.php', ['model'=>$model, 'form'=>$form, 'service'=>$service]) ?>
     <?php endif; ?> 
 
     <?php // ORDER NOTE AND TITLE ?>        
-        <?= $this->render('parts/note.php', ['model'=>$model, 'form'=>$form, 'service'=>$service, 'no'=>8-$no_skill-$no_method-$no_spec-$no_pic-$no_issue-$no_amount-$no_consumer]) ?>
+        <?= $this->render('parts/note.php', ['model'=>$model, 'form'=>$form, 'service'=>$service, 'objects' => $objects]) ?>
 
         <hr>
         <div class="float-right" style="margin:20px;">
+            <?= Html::hiddenInput('industry', $service->industry_id) ?>
             <?= Html::submitButton(Yii::t('app', 'Nastavite <i class="fa fa-arrow-circle-right"></i>'), ['class' => 'btn btn-primary btn-lg']) ?>
         </div>
 

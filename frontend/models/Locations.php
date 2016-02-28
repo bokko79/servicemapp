@@ -38,6 +38,9 @@ use Yii;
  */
 class Locations extends \yii\db\ActiveRecord
 {
+    public $control;
+    public $userControl;
+
     /**
      * @inheritdoc
      */

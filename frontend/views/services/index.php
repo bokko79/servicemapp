@@ -1,15 +1,12 @@
 <?php
-
-use yii\helpers\Html;
-use yii\widgets\ListView;
-
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\CsServicesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+use yii\helpers\Html;
+use yii\widgets\ListView;
 
 $this->title = Yii::t('app', 'Index usluga');
 $this->params['breadcrumbs'][] = $this->title;
-
 $this->params['getService'] = $getService;
 $this->params['industry'] = $industry;
 

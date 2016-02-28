@@ -24,7 +24,7 @@ $model_spec->spec = $specification->default_value;
                         'success' => 'ok',
                         'error' => 'exclamation-sign',
                         'successOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%']
+                        'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%; top: 6px;']
                     ],
                     'hintType' => ActiveField::HINT_SPECIAL,
                     'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
@@ -51,11 +51,6 @@ $model_spec->spec = $specification->default_value;
 			    'widgetOptions1' => [
 			    	'options' => ['style'=>'width:100%;', 'placeholder' => 'Od ...'],
 				    'pluginOptions' => [
-				        /*'buttonup_class' => 'btn btn-default', 
-				        'buttondown_class' => 'btn btn-default', 
-				        'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
-				        'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',*/
-				        'verticalbuttons' => true,
 				        'initval' => $specification->default_value,
 				        'min' => $specification->range_min,
 				        'max' => $specification->range_max,
@@ -65,10 +60,6 @@ $model_spec->spec = $specification->default_value;
 			    'widgetOptions2' => [
 			    	'options' => ['style'=>'width:100%;', 'placeholder' => '... do'],
 				    'pluginOptions' => [
-				        /*'buttonup_class' => 'btn btn-default', 
-				        'buttondown_class' => 'btn btn-default', 
-				        'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
-				        'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',*/
 				        'verticalbuttons' => true,
 				        'initval' => $specification->default_value,
 				        'min' => $specification->range_min,

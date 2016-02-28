@@ -26,13 +26,15 @@ $message = 'Lokacija za izvršenje usluga.';
 			<div class="form-group">
 	            <div class="col-md-offset-3 col-md-9" style="">	                
 	                <h4 class="divider"><i class="fa fa-sort"></i> ILI</h4>
-	                <div class="center">
+	                <div class="center" style="margin:30px 0 20px">
 	                    <?= Html::a('<i class="fa fa-plus-circle"></i> Odredite novu lokaciju', null, ['class'=>'btn btn-default new_loc']) ?>
 	                </div>
 	            </div>
 	        </div>
 	
     <?php } ?>
+    <?= yii\helpers\Html::activeHiddenInput($location, 'control', ['id'=>'checkLocation']) ?>
+    <?= yii\helpers\Html::activeHiddenInput($location, 'userControl', ['id'=>'checkUserType']) ?>
     <div class="enter_location fadeIn animated" style="<?= (Yii::$app->user->isGuest) ? '' : 'display:none;' ?>">
 	    <?= $form->field($location, 'name', [
 		    	'addon' => ['prepend' => ['content'=>'<i class="fa fa-map-marker"></i>']],
@@ -40,7 +42,7 @@ $message = 'Lokacija za izvršenje usluga.';
 			        'success' => 'ok',
 			        'error' => 'exclamation-sign',
 			        'successOptions' => ['class'=>'text-primary'],
-			        'errorOptions' => ['class'=>'text-primary']
+			        'errorOptions' => ['class'=>'text-primary', 'style'=>'top: 6px;']
 			    ],
 		    ])->input([], []) ?>
 
@@ -60,8 +62,8 @@ $message = 'Lokacija za izvršenje usluga.';
 		<?= yii\helpers\Html::activeHiddenInput($location, 'no', ['data-geo'=>'street_number', 'id'=>'hidden-geo-input']) ?>
 		<?= yii\helpers\Html::activeHiddenInput($location, 'location_name', ['data-geo'=>'formatted_address', 'id'=>'hidden-geo-input']) ?>
 	    
-		<input type="hidden" id="control_input_lat" value="<?= $user->location->lat ?>">
-		<input type="hidden" id="control_input_lng" value="<?= $user->location->lng ?>">
+		<input type="hidden" id="control_input_lat" value="<?= (isset($user)) ? $user->location->lat : 44.786568 ?>">
+		<input type="hidden" id="control_input_lng" value="<?= (isset($user)) ? $user->location->lng : 20.44892159999995 ?>">
 	</div>
 <?php } ?>
 <?php if($service->location==2 || $service->location==4): ?>

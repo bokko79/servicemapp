@@ -10,33 +10,11 @@ use frontend\models\CsServices;
 	<h2 style="text-align:center; margin:30px 0 10px 0;">Pregledane usluge</h2>
 	<hr>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
+	<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 30 }' style="margin-top:40px;">
 	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
-		<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
-	        <a href="<?= Url::to('/services') ?>">
-	            <div class="media-area">                
-	                <div class="image">
-	                    <?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg') ?>                    
-	                </div>
-	                <div class="primary-context in-media">
-	                    <div class="head"><?= $service->name ?></div>
-	                </div>
-	            </div>
-	            <div class="primary-context">
-	                <div class="subhead"><?= $service->industry->name ?></div>
-	            </div>
-	            <div class="secondary-context">
-	                <span><i class="fa fa-globe"></i>&nbsp;7.345</span>
-	                <span>&nbsp;<i class="fa fa-users"></i>&nbsp;468</span>
-	                <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>
-	                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-	                    ex ea commodo consequat.</p>
-	            </div>
-	            <div class="action-area right">
-	                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service']); ?>
-	            </div>
-	        </a>
-	    </div>
+		<?= $this->render('_card.php', ['model'=>$service]) ?>
 	<?php } // foreach ($sektor as $key=>$sek) ?>
+	</div>
 </div>
 <div class="show_more"><?= Html::a('POKAŽI JOŠ', Url::to('/services'), array('class'=>'btn btn-default')); ?></div>
 <?php endif; ?>

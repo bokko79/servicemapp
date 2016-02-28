@@ -11,10 +11,13 @@ class CartServiceObjectSpecification extends Model
     public $key;
     public $service;
     public $specification;
+    public $cart; // to connect to CartForm Model
     public $property;
     public $spec;
     public $spec_models = [];
     public $spec_to;
+    public $checkUserObject;
+    public $checkIfRequired;
 
     private $_specification;
     private $_property;
@@ -27,7 +30,6 @@ class CartServiceObjectSpecification extends Model
     {
         $objectSpec = $this->getObjectSpecification();
         $property = $this->property;
-        $spec_validation_requirement = ($objectSpec->required) ? ['spec', 'required', 'message'=>Yii::t('app', 'Unesite {specification_name}', ['specification_name'=>$property->tNameAkk])] : ['spec', 'safe'];
         switch ($property->type) {
             case 1:
                 if($this->service->service_object!=1){ // number
@@ -50,10 +52,14 @@ class CartServiceObjectSpecification extends Model
         }
 
         return [
-            $spec_validation_requirement,
             $spec_validation_type,
             $spec_to_validation_type,
             [['spec_models'] , 'safe'],
+            ['spec', 'required', 'when' => function ($model) {
+                return false;
+            }, 'whenClient' => "function (attribute, value) {
+                return ($('#checkUserObject_model_spec".$this->property->id."').val() == 1 && $('#checkIfRequired_model_spec".$this->property->id."').val() == 1);
+            }", 'message'=>Yii::t('app', 'Unesite {specification_name}', ['specification_name'=>$property->tNameAkk])]
         ];
     }
 
@@ -99,7 +105,7 @@ class CartServiceObjectSpecification extends Model
             'spec_to' => $this->spec_to,
             'property' => $this->property->id,
             'objectSpec' => $this->specification->id,
-        ];
+        ];    
         return true;
     }
 }

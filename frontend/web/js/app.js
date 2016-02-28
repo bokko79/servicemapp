@@ -21,6 +21,27 @@ $.fn.followToProfile = function (pos) {
   });
 };
 
+// reset
+$.fn.validateSpecs = function() {
+  return this.each(function() {
+    var name = this.name, tag = this.tagName.toLowerCase();
+    if (tag == 'form')
+      return $(':input',this).validateSpecs();
+    if (name == 'CartServiceObjectSpecification[checkUserObject]')
+      this.value = 1;
+  });
+};
+// reset
+$.fn.stopValidateSpecs = function() {
+  return this.each(function() {
+    var name = this.name, tag = this.tagName.toLowerCase();
+    if (tag == 'form')
+      return $(':input',this).stopValidateSpecs();
+    if (name == 'CartServiceObjectSpecification[checkUserObject]')
+      this.value = 0;
+  });
+};
+
 $(document).ready(function(){
   $(".search-index").click(function(){
       $(this).closest('.title_holder_home').find('.user-objects-search').toggle();
@@ -91,14 +112,6 @@ $(document).ready(function(){
     $(this).closest('.enclosedCheckboxes').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
   });
 
-  //var radioNewTime = $("input[type='radio']").val();
-
- /* if(radioNewTime==1){
-    $('.enter_time').slideDown();    
-    $('html,body').animate({
-      scrollTop: $(this).offset().top-60},
-      500);
-  }*/
   $("#orders-new_time").click(function(){
       var radioValue = $("input[name='Orders[new_time]']:checked").val();
       if(radioValue==0){
@@ -110,10 +123,37 @@ $(document).ready(function(){
         $('.enter_time').hide();
       }
   });
+
   $(".new_obj").on('click', function(){  
-    $('.enter_objectSpec').slideDown();    
+    $('.enter_objectSpec').slideDown(); 
+    $("#cartform-user_object").val('');
+    $("#checkUserObject_model").val(0);
+    $("form").validateSpecs();
     $('html,body').animate({
       scrollTop: $(this).offset().top-60},
       500);
+  });
+
+  $("#cartform-user_object").on('change', function(){                  
+    $('.enter_objectSpec').hide();
+    $("#checkUserObject_model").val(1);
+    $("form").stopValidateSpecs();
+  });
+
+  $("#orders-new_user").click(function(){
+      var radioValue = $("input[name='Orders[new_user]']:checked").val();
+      if(radioValue==0){
+        $('.loginForm').show();  
+        $('.signUpForm').hide();  
+        $('html,body').animate({
+          scrollTop: $(this).offset().top-60},
+          500);
+      } else {
+        $('.signUpForm').show();
+        $('.loginForm').hide();
+        $('html,body').animate({
+          scrollTop: $(this).offset().top-60},
+          500);  
+      }
   });
 });

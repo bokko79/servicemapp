@@ -26,8 +26,8 @@ if (Yii::$app->controller->action->id=='add') {
 				<table>
 					<tr>
 						<td class="icon">
-							<span class="icon_check"><i class="fa fa-check"></i></span>	
-							<span class="icon_back"><i class="fa fa-arrow-circle-left"></i></span>
+							<span class="icon_check"><i class="fa fa-check animated fadeIn"></i></span>	
+							<span class="icon_back"><i class="fa fa-arrow-circle-left animated fadeIn"></i></span>
 						</td>
 						<td class="content">
 							<table>
@@ -57,8 +57,8 @@ if (Yii::$app->controller->action->id=='add') {
 					<tr>
 						<td class="icon">
 							<span class="icon_now">2</span>
-							<span class="icon_check"><i class="fa fa-check"></i></span>	
-							<span class="icon_back"><i class="fa fa-arrow-circle-left"></i></span>
+							<span class="icon_check"><i class="fa fa-check animated fadeIn"></i></span>	
+							<span class="icon_back"><i class="fa fa-arrow-circle-left animated fadeIn"></i></span>
 						</td>
 						<td class="content">
 							<table>

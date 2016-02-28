@@ -39,7 +39,7 @@ class ServicesController extends Controller
         $request = Yii::$app->request;
         $session = Yii::$app->session;
 
-        $session->removeAll();
+        //$session->removeAll();
 
         $getService = $request->get('CsServicesSearch');
         $session->set('state', $request->get('s'));

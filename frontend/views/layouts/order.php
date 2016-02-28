@@ -24,18 +24,55 @@ use frontend\widgets\Stats;
 		</div>
     </div>
 </div>
-<div class="grid-container">
+
+<?= $this->render('//orders/_summary.php', ['model'=>$this->params['model']]) ?>       
+
+<?php
+// ORDER DETAILS
+    // order
+    // auction
+    // industry
+    // ORDERED SERVICE
+        // title
+        // amount
+        // consumers
+        // note
+        // media
+        // specifications
+        // issues
+        // methods
+    // location
+    // time
+    // frequency
+    // budget
+    // support
+    // turn_key
+    // tools
+    // controls
+// BIDS
+// SIMILAR ORDERS
+// EXPLORE
+?>
+<div class="grid-container margin-top-20">
     <div class="grid-row">
-        <div class="grid-leftacross margin-top-20">
+        <div class="grid-leftacross ">
 			<?= $content ?>
 		</div>                
         <div class="grid-right">
-            <?= $this->render('//layouts/partial/news-feed.php') ?>
+            <?php // WIDGET: STATS ?>
+                <?= Stats::widget([
+                    'boxData'=>$this->stats,
+                ]); ?>
             <?= $this->render('//layouts/partial/news.php') ?>
             <?= $this->render('//layouts/partial/footer.php') ?>
         </div>
     </div>
 </div>
+<?php
+// BIDS
+// SIMILAR ORDERS
+// EXPLORE
+?>
 <div class="product-head">
     <div class="grid-container margin-bottom-20 border-bottom">
 		<div class="grid-row">

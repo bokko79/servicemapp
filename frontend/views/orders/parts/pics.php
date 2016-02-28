@@ -9,7 +9,7 @@ $message = 'Jedna slika vredi više od hiljadu reči. Pokažite pružaocima uslu
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noPic ?></span>&nbsp;
         <i class="fa fa-image fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Slike {object}', ['object'=>$service->object->tNameGen]) ?>
     </label>

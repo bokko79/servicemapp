@@ -86,6 +86,14 @@ class CsPropertyModels extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUserObjectSpecModels()
+    {
+        return $this->hasOne(UserObjectSpecModels::className(), ['id' => 'spec_model']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getEntryBy()
     {
         return $this->hasOne(User::className(), ['id' => 'entry_by']);

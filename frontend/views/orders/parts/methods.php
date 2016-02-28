@@ -21,7 +21,7 @@ $message = Yii::t('app', '{whatkind} {action} Vam treba?', ['whatkind'=>$whatkin
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noMethods ?></span>&nbsp;
         <?= Yii::t('app', '{whatkind} {action} Vam treba?', ['whatkind'=>$whatkind, 'action'=>$action->tName]) ?>
     </label>
     <?= ' <span class="optional">(opciono)</span>' ?>

@@ -9,7 +9,7 @@ $message = 'Koliko često Vam treba usluga?';
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noFreq ?></span>&nbsp;
         <i class="fa fa-history fa-lg"></i>&nbsp;
         <?php echo Yii::t('app', 'Koliko često?'); ?>
     </label>

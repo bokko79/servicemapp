@@ -1,6 +1,11 @@
 $(document).ready(function(){ 
   //initialize_add_loc();
-  var location = $(".field-orders-loc_id");
+  var checkLocationType = $('#checkLocation').val();
+  var checkUserType = $('#checkUserType').val();
+  if(checkUserType==0){
+    initialize_add_loc();
+  }
+
   $(".new_loc").on('click', function(){                  
     $('.enter_location').slideDown({
       complete:function (){
@@ -17,9 +22,6 @@ $(document).ready(function(){
     $('.enter_location').hide();
     $("form").clearForm();
     $("#locations-name").val("");
-    if(location.hasClass("has-success")){
-      $(this).closest("div.wrapper").prev().css("background-color","rgba(60,118,61,.1)");
-    }
   });
 });
 

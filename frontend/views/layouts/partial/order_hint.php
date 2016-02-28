@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
       
-<div class="card_container record-270 no-shadow" id="card_container" style="float:none; margin-top:40px">
+<div class="card_container record-270 no-shadow bordered" id="card_container" style="float:none; margin-top:40px">
     
         <div class="header-context page-title side-widget" style="background-color:#0FB84D; color:white;">
             <h4>NARUČIVANJE USLUGA ĆE UVEK BITI BESPLATNO!</h4>

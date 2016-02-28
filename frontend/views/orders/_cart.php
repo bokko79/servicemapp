@@ -17,7 +17,7 @@ $service = frontend\models\CsServices::findOne($order_service['service']);
             </td>
             <td class="body-area">
                 <div class="primary-context normal">
-                    <div class="head major"><?= c($service->tName).': '.$objects[0]->tName ?>
+                    <div class="head major"><?= c($service->tName).((isset($objects)) ? ': '.$objects[0]->tName : null) ?>
                         <div class="action-area free">
                             <?= Html::a('<i class="fa fa-wrench"></i>', Url::to(), ['class'=>'btn btn-default']); ?>
                             <?= Html::a('<i class="fa fa-times"></i>', Url::to(), ['class'=>'btn btn-danger']); ?>

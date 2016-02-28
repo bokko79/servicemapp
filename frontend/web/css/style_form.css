@@ -69,12 +69,13 @@ p.helps_hints.whitey {display: none; text-align: left !important; color:#fff; fo
 .shopping_steps {background:#F6F7F8 !important; width: 100%; margin: 20px 0; padding: 0; border-radius: 0; border: 1px solid #ddd; font-size: 12px; line-height:15px; font-weight:700; position: relative;}
 .shopping_steps td {margin: 0; padding: 0; vertical-align: middle; border-radius: 0; border: none; font-weight:700; color:#aaa; line-height: 12px;}
 .shopping_steps .first, .shopping_steps .scond, .shopping_steps .third {padding: 0;}
-.shopping_steps .first.active, .shopping_steps .scond {border-right: 1px solid #ddd;}
+.shopping_steps .first, .shopping_steps .scond {border-right: 1px solid #ddd;}
 .shopping_steps .scond.active {border-left: 1px solid #ddd;}
-.shopping_steps td.step.active { background: #fff; border-bottom:1px solid #ddd; border-top:1px solid #ddd;}
+.shopping_steps .step.active, .shopping_steps .step.passed { background: #fff;}
 
-.shopping_steps .first.active:after, .shopping_steps .scond:after, .shopping_steps .first.passed:after {position: absolute;z-index: 2; background: #f8f8f8; content: '';top: 50%;right: 0;border: solid; border-width: 0 1px 1px 0; border-color: #ddd; width: 15px;height:15px;
+.shopping_steps .first:after, .shopping_steps .scond:after {position: absolute;z-index: 2; content: '';top: 50%;right: 0;border: solid; border-width: 0 1px 1px 0; border-color: #ddd; width: 15px;height:15px;
 	transform: translateY(-50%) translateX(50%) rotate(-45deg);}
+.shopping_steps .first:after, .shopping_steps .scond:after {background: #fff;}
 
 .shopping_steps .scond.next {border-right:none;}
 .shopping_steps .scond.next:after {display:none;}
@@ -92,7 +93,8 @@ p.helps_hints.whitey {display: none; text-align: left !important; color:#fff; fo
 .shopping_steps .step a {}
 .shopping_steps .step table {}
 .shopping_steps .step table td {padding: 0; }
-.shopping_steps .step table .icon {width:40px; padding:0 15px 0 30px; vertical-align: middle; font-size: 48px;}
+.shopping_steps .step table .icon {width:45px; padding:0 15px 0 30px; vertical-align: middle; font-size: 48px; text-align: center;}
+.shopping_steps .step table .icon span {width:45px;}
 .shopping_steps .step table .content {padding:0;}
 .shopping_steps .step table .content td {text-align: left; padding: 3px 0px;}
 .shopping_steps .step table .content .main {font-size: 17px;}
@@ -101,9 +103,8 @@ p.helps_hints.whitey {display: none; text-align: left !important; color:#fff; fo
 .hitn {display: none; font-size: 90%; color:#aaa;  margin:0; line-height:10px;}
 
 .shopping_steps .step.passed, .shopping_steps .step.next {/*background: #fff !important; color:#444;*/ border-bottom:1px solid #ddd;}
-.shopping_steps .step.passed:hover { background: linear-gradient(to bottom, #fff, #ddd) !important; box-shadow: 0px 0px 5px #444; border-right:1px solid #2196F3;}
-.shopping_steps .step.passed:hover:after {background: #eee !important; border-color: #2196F3;}
-/*.shopping_steps .step.active:hover:after {background: #fff !important; border-color: #ddd;}*/
+.shopping_steps .step.passed:hover { background: linear-gradient(to bottom, #fff, #ddd) !important; box-shadow: 0px 0px 2px #999; /*border-right:1px solid #2196F3;*/}
+.shopping_steps .step.passed:hover:after {background: #eee !important; /*border-color: #2196F3;*/}
 .shopping_steps .text.active { color: #444; font-size: 11px; font-weight:900;}
 .shopping_steps .step.passed td, .shopping_steps .step.active td {color: #444 !important; cursor: pointer;}
 

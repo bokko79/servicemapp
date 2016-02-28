@@ -11,7 +11,8 @@ use Yii;
  * @property string $user_object_id
  * @property string $spec_id
  * @property string $value
- * @property string $max
+ * @property string $value_max
+ * @property string $value_operator
  *
  * @property UserObjects $userObject
  */
@@ -33,7 +34,8 @@ class UserObjectSpecs extends \yii\db\ActiveRecord
         return [
             [['user_object_id', 'spec_id', 'value'], 'required'],
             [['user_object_id', 'spec_id'], 'integer'],
-            [['value', 'max'], 'string', 'max' => 64]
+            [['value', 'value_max'], 'string', 'max' => 64],
+            [['value_operator'], 'safe'],
         ];
     }
 
@@ -47,7 +49,7 @@ class UserObjectSpecs extends \yii\db\ActiveRecord
             'user_object_id' => Yii::t('app', 'User Object ID'),
             'spec_id' => Yii::t('app', 'Spec ID'),
             'value' => Yii::t('app', 'Value'),
-            'max' => Yii::t('app', 'Max'),
+            'value_max' => Yii::t('app', 'Max'),
         ];
     }
 
@@ -57,5 +59,13 @@ class UserObjectSpecs extends \yii\db\ActiveRecord
     public function getUserObject()
     {
         return $this->hasOne(UserObjects::className(), ['id' => 'user_object_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getModels()
+    {
+        return $this->hasMany(UserObjectSpecModels::className(), ['user_object_spec_id' => 'id']);
     }
 }

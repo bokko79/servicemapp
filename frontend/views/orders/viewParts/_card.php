@@ -6,11 +6,6 @@ use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 use kartik\tabs\TabsX;
 
-/*use dosamigos\google\maps\LatLng;
-use dosamigos\google\maps\overlays\InfoWindow;
-use dosamigos\google\maps\overlays\Marker;
-use dosamigos\google\maps\Map;*/
-
 /* items */
 $industry = [
         'label'=>'<i class="fa fa-tag"></i> Izdavanje nekretnina: Veštine',
@@ -61,71 +56,8 @@ $additional = [
                             <span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;223</span>',
     ];
 $items = [ $industry, $action, $object, $issue, $additional ];
-
-/* maps */
-/*$coord = new LatLng(['lat' => $model->user->userDetails->loc->lat, 'lng' => $model->user->userDetails->loc->lng]);
-$map = new Map([
-    'center' => $coord,
-    'zoom' => 14,
-    
-]);
-
-$map->width = '100%';
-$map->height = '420';
-
-
-// Lets add a marker now
-$marker = new Marker([
-    'position' => $coord,
-    'title' => 'My Home Town',
-]);
-
-
-// Add marker to the map
-$map->addOverlay($marker);
-$map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', function() {
-        $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
-        initialize();
-    });");*/
 ?>
-<div class="card_container record-xl" id="card_container" style="float:none;"> 
-    <?php /* creator and product details */ ?>                   
-    <div class="header-context gray">                
-        <div class="avatar">
-            <?= Html::img('@web/images/cards/default_avatar.jpg') ?>    
-        </div>
-        <div class="title">
-            <div class="head second"><?= ($model->user->fullname) ? $model->user->fullname : $model->user->username ?></div>
-            <div class="subhead"><?= $model->user->userDetails->loc->city ?></div> 
-        </div>
-        <div class="subaction right">                        
-            <i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->activity->time]); ?>
-        </div>
-        
-    </div>           
-    <hr class="no-margin">
-    <div class="header-context">
-        <div class="avatar center gray-color">
-            <i class="fa fa-shopping-cart fa-3x"></i>        
-        </div>
-        <div class="title">
-            <div class="head second gray-color">Porudžbina br. #<?= sprintf("%'09d\n", $model->id) ?></div>
-            <span class="label label-primary margin-right-10"><i class="fa fa-bookmark"></i> <?= $model->activity->type ?></span> 
-                
-        </div> 
-        <div class="right fs_30">                        
-            <i class="fa fa-refresh fa-spin"></i> 
-            <?= \russ666\widgets\Countdown::widget([
-                    'datetime' => $model->validity,
-                    'format' => '%d<span class=\"fs_11\">d</span> %H<span class=\"fs_11\">h</span> %M<span class=\"fs_11\">m</span> %S<span class=\"fs_11\">s</span>',
-                    'events' => [
-                        //'finish' => 'function(){location.reload()}',
-                    ],
-                ]) ?>
-                <?= Html::a('<i class="fa fa-sticky-note"></i>&nbsp;'.Yii::t('app', 'Pošalji ponudu'), Url::to(), ['class'=>'btn btn-danger btn-xs no-margin']); ?>
-        </div>                
-    </div>           
-    <hr class="no-margin">
+<div class="card_container record-full" id="card_container" style="float:none;"> 
     <?php /* service */ ?>
     <?php $orderServicesCount = count($model->orderServices); ?>
     <?php foreach ($model->orderServices as $orderService): ?>
@@ -194,64 +126,5 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
         
         <hr class="no-margin">                 
     </div>
-    <?php endforeach; ?>
-
-    
-              
-    <?php /* time/loc */ ?>
-    <div class="header-context">  
-        <div class="avatar center gray-color">
-            <i class="fa fa-calendar fa-3x"></i>    
-        </div>
-        <div class="title">
-            <div class="subhead"><?= Yii::t('app', 'vreme') ?></div> 
-            <div class="head second"><?= $model->delivery_starts ?></div>                           
-        </div>
-    </div>
-    <?php /* time/loc */ ?>
-    <div class="hidden-content-container">
-        <div class="header-context">                    
-            <div class="avatar center gray-color">
-                <i class="fa fa-map-marker fa-3x"></i>    
-            </div>
-            <div class="title">
-                <div class="subhead"><?= Yii::t('app', 'delivery location') ?></div> 
-                <div class="head second"><?= $model->loc->city ?></div>                           
-            </div>
-            <?= Html::a('<i class="fa fa-chevron-right"></i>', null, ['class'=>'btn btn-link float-right show-more', 'id'=>'mapShowTrigger']); ?>
-        </div>
-        <div class="media-screen hidden hidden-content no-margin" id="map_container">                   
-            <?php /* $map->display() */ ?>
-        </div>
-    </div>
-    
-
-
-     <?php /* price/action */ ?>
-    <div class="secondary-context" style="height:84px;">
-        <div class="float-left" style="">
-            <div class="avatar center gray-color">
-                <i class="fa fa-barcode fa-3x"></i>    
-            </div>
-            <div class="title">
-                <div class="subhead"><?= Yii::t('app', 'cena') ?></div> 
-                <div class="head black no-padding"><?= Yii::$app->formatter->asCurrency(12750, 'EUR') ?></div>
-                <span class="strikethrough"><?= Yii::$app->formatter->asCurrency(13499.99, 'EUR') ?></span> <span class="label label-warning">popust 25%</span>
-            </div>
-        </div>
-        <div class="float-right action-area no-margin no-padding" style="">
-            <div class="head second padding-bottom-5 right gray-color">
-                <?= \russ666\widgets\Countdown::widget([
-                    'datetime' => $model->validity,
-                    'format' => '%d<span class=\"fs_11\">'.Yii::t('app', 'd').'</span> %H<span class=\"fs_11\">h</span> %M<span class=\"fs_11\">m</span> %S<span class=\"fs_11\">s</span>',
-                    'events' => [
-                        //'finish' => 'function(){location.reload()}',
-                    ],
-                ]) ?>
-            </div>
-            <?= Html::a('<i class="fa fa-eye"></i>&nbsp;'.Yii::t('app', 'Prati'), Url::to(), ['class'=>'btn btn-link']); ?>
-            <?= Html::a('<i class="fa fa-sticky-note"></i>&nbsp;'.Yii::t('app', 'Pošalji ponudu'), Url::to(), ['class'=>'btn btn-danger no-margin']); ?>
-                    
-        </div>                     
-    </div>                                                             
+    <?php endforeach; ?>                                 
 </div>

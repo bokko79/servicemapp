@@ -1,6 +1,6 @@
 <?php
 namespace common\models;
-use frontend\models\User;
+use common\models\User;
 use yii\base\Model;
 use Yii;
 /**
@@ -11,6 +11,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $password_repeat;
     /**
      * @inheritdoc
      */
@@ -19,15 +20,16 @@ class SignupForm extends Model
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', 'unique', 'targetClass' => '\frontend\models\User', 'targetAttribute' => 'username',  'message' => 'This username has already been taken.'],
+            ['username', 'string', 'min' => 4, 'max' => 16],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\frontend\models\User', 'message' => 'This email address has already been taken.'],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            ['password', 'compare'],
         ];
     }
     /**

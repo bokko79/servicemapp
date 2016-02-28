@@ -151,4 +151,19 @@ class Images extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserObjectImages::className(), ['image_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImageByName($name=null)
+    {
+        if($name!=null){
+            $image = Images::find()->where('ime="'.$name.'"')->one();
+            if($image){
+                return $image;
+            }
+            return null;
+        }
+        return false;
+    }
 }

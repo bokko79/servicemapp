@@ -8,7 +8,7 @@ $message = 'Što bolje i opširnije opišete šta Vam treba i šta zahtevate, bo
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noOther ?></span>&nbsp;
         <i class="fa fa-pencil fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Ukoliko imate još nešto da dodate...') ?>
     </label>
@@ -20,5 +20,5 @@ $message = 'Što bolje i opširnije opišete šta Vam treba i šta zahtevate, bo
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
     <?= $form->field($model, 'note')->textArea(['rows'=>4]) ?>
 
-    <?= $form->field($model, 'title', [])->input('text', ['value'=>$service->sCaseName]) ?>    
+    <?= $form->field($model, 'title', [])->input('text', ['value'=>$service->sCaseName.((isset($objects)) ? ': '.$objects[0]->tName : null)]) ?>    
 </div>

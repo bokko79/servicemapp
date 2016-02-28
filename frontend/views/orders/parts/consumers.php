@@ -11,7 +11,7 @@ $message = Yii::t('app', 'Za koliko osoba Vam treba {service}?', ['service'=>$se
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noConsumer ?></span>&nbsp;
         <i class="fa fa-user fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Za koliko osoba?') ?>
     </label>
@@ -41,7 +41,7 @@ $message = Yii::t('app', 'Za koliko osoba Vam treba {service}?', ['service'=>$se
                         'success' => 'ok',
                         'error' => 'exclamation-sign',
                         'successOptions' => ['class'=>'text-primary', 'style'=>'padding-right:25%'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:25%'],
+                        'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:25%; top: 6px;'],
                     ],
                     'hintType' => ActiveField::HINT_SPECIAL,
                     'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
@@ -60,7 +60,7 @@ $message = Yii::t('app', 'Za koliko osoba Vam treba {service}?', ['service'=>$se
                         'success' => 'ok',
                         'error' => 'exclamation-sign',
                         'successOptions' => ['class'=>'text-primary', 'style'=>'padding-right:25%'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:25%'],
+                        'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:25%; top: 6px;'],
                     ],
                     'hintType' => ActiveField::HINT_SPECIAL,
                     'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],

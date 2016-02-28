@@ -11,7 +11,7 @@ $message = 'Do kada Vam pružaoci usluga mogu slati ponude za ovu porudžbinu? S
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noVal ?></span>&nbsp;
         <i class="fa fa-hourglass-1 fa-lg"></i>&nbsp;
         <?php echo Yii::t('app', 'Rok za slanje ponuda'); ?>
     </label>
@@ -29,7 +29,7 @@ $message = 'Do kada Vam pružaoci usluga mogu slati ponude za ovu porudžbinu? S
 	                            'success' => 'ok',
 	                            'error' => 'exclamation-sign',
 	                            'successOptions' => ['class'=>'text-primary'],
-	                            'errorOptions' => ['class'=>'text-primary']
+	                            'errorOptions' => ['class'=>'text-primary', 'style'=>'top: 6px;']
 	                        ],
 		    			])->widget(DateControl::classname(), [
                             'language' => 'sr-Ln',

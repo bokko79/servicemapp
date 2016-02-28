@@ -15,7 +15,7 @@ $message = 'Dodatne opcije za ovu porudžbinu, koji mogu da pomognu pružaocima 
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $no ?></span>&nbsp;
+        <span class="badge"><?= $model->noOther ?></span>&nbsp;
         <i class="fa fa-cogs fa-lg"></i>&nbsp;
         <?php echo Yii::t('app', 'Ostali detalji porudžbine'); ?>
     </label>

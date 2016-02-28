@@ -46,4 +46,20 @@ class OrderSkills extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrder()
+    {
+        return $this->hasOne(Orders::className(), ['id' => 'order_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSkill()
+    {
+        return $this->hasOne(CsSkills::className(), ['id' => 'skill_id']);
+    }
 }

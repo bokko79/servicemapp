@@ -23,7 +23,7 @@ $model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
 			<?= $form->field(new \frontend\models\CsObjects, 'id[]')->checkboxList($model_list)->label(false) ?>
 		</div>
 	<?php else: ?>
-		<?= $form->field(new \frontend\models\CsObjects, 'id[]', [])->radioList($model_list)->label(false) ?>
+		<?= $form->field(new \frontend\models\CsObjects, 'id[]')->radioList($model_list, ['unselect'=>null])->label(false) ?>
 	<?php endif; ?>
 	<div class="float-right">
             <?= Html::submitButton(Yii::t('app', 'Nastavi'), ['class' => 'btn btn-success']) ?>

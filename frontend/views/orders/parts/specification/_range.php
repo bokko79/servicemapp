@@ -18,10 +18,6 @@ use yii\helpers\ArrayHelper;
 	    'widgetOptions1' => [
 	    	'options' => ['style'=>'width:70px;', 'placeholder' => 'Od ...'],
 		    'pluginOptions' => [
-		        /*'buttonup_class' => 'btn btn-default', 
-		        'buttondown_class' => 'btn btn-default', 
-		        'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
-		        'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',*/
 		        'initval' => $specification->default_value,
 		        'min' => $specification->range_min,
 		        'max' => $specification->range_max,
@@ -31,10 +27,6 @@ use yii\helpers\ArrayHelper;
 	    'widgetOptions2' => [
 	    	'options' => ['style'=>'width:70px;', 'placeholder' => '... do'],
 		    'pluginOptions' => [
-		        /*'buttonup_class' => 'btn btn-default', 
-		        'buttondown_class' => 'btn btn-default', 
-		        'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
-		        'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',*/
 		        'initval' => $specification->default_value,
 		        'min' => $specification->range_min,
 		        'max' => $specification->range_max,
@@ -49,7 +41,7 @@ use yii\helpers\ArrayHelper;
                         'success' => 'ok',
                         'error' => 'exclamation-sign',
                         'successOptions' => ['class'=>'text-primary', 'style'=>'right:18%;'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'right:18%;']
+                        'errorOptions' => ['class'=>'text-primary', 'style'=>'right:18%; top: 6px;']
                     ],
 	'hintType' => ActiveField::HINT_SPECIAL,
 	'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],

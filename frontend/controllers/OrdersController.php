@@ -24,9 +24,15 @@ use frontend\models\UserLocations;
 use frontend\models\UserObjects;
 use frontend\models\UserObjectImages;
 use frontend\models\UserObjectSpecs;
+use frontend\models\UserObjectSpecModels;
 use frontend\models\Locations;
 use frontend\models\Images;
 use frontend\models\Notifications;
+use common\models\LoginForm;
+use frontend\models\PasswordResetRequestForm;
+use frontend\models\ResetPasswordForm;
+use common\models\SignupForm;
+use yii\web\UploadedFile;
 
 /**
  * OrdersController implements the CRUD actions for Orders model.
@@ -55,62 +61,48 @@ class OrdersController extends Controller
      */
     public function actionAdd($title=null)
     {
-        if (isset($title)) {
-            $ser_tr = $this->findServiceByTitle($title);
-            // ako je našao ime usluge, renderuj stranicu - URL injection
-            if ($ser_tr)
-            {
-                $request = Yii::$app->request;
-                $session = Yii::$app->session;
-                $object_models = ($request->get('CsObjects')) ? $request->get('CsObjects')['id'] : null;                
-
-                $service = $this->findService($ser_tr->service_id);
-                $key = (isset($session['cart']['industry'])) ? count($session['cart']['industry'][$service->industry_id]['data'])+1 : 1;
-                $model = new \frontend\models\CartForm();
-                $model->service = $service;
-                $model->object_models = $object_models;
-                $model->key = $key;
-                $image = [new Images()];
-                $user_object = new UserObjects();
-                $user_object_images = new UserObjectImages();
-                $user_object_specs = new UserObjectSpecs();
-
-                $no_skill = ($service->industry->skills && !isset($session['cart']) && $session['cart']['industry'][$service->industry_id]==null) ? 0 : 1;
-                $no_method = ($service->serviceMethods) ? 0 : 1; 
-                $no_spec = ($service->serviceSpecs!=null) ? 0 : 1;
-                $no_pic = ($service->pic==1 && $service->service_object!=1) ? 0 : 1;
-                $no_issue = ($service->service_type==3 && $service->object->issues!=null) ? 0 : 1;
-                $no_amount = ($service->amount!=0) ? 0 : 1;
-                $no_consumer = ($service->consumer!=0) ? 0 : 1;
-
-                // method model
-                $model_method = $this->loadServiceMethods($service, $key);
-                // specification model
-                $model_spec = $this->loadServiceSpecifications($service, $object_models, $key);                    
-                        
-                if($model->load(Yii::$app->request->post()) && $model->storeToCart()) {                          
-                    if($model_method!=null){ // methods
-                        if(yii\base\Model::loadMultiple($model_method, Yii::$app->request->post()) && yii\base\Model::validateMultiple($model_method)) {
-                            foreach ($model_method as $m_method) {
-                                if(!$m_method->store()) {
-                                    return $this->goBack();
-                                }
+        if (isset($title) && ($ser_tr = $this->findServiceByTitle($title))) {
+            $object_models = (Yii::$app->request->get('CsObjects')) ? Yii::$app->request->get('CsObjects')['id'] : null;
+            $service = $this->findService($ser_tr->service_id);
+            $key = (isset(Yii::$app->session['cart']['industry'][$service->industry_id]['data']) && Yii::$app->session['cart']['industry'][$service->industry_id]['data']!=null) ? count(Yii::$app->session['cart']['industry'][$service->industry_id]['data'])+1 : 1;
+            
+            $model = new \frontend\models\CartForm();
+            $model->service = $service;
+            $model->object_models = $object_models;
+            $model->key = $key;
+            $model->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 1 : 0;
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            // method model
+            $model_method = $this->loadServiceMethods($service, $key);
+            // specification model
+            $model_spec = $this->loadServiceSpecifications($service, $object_models, $key);                                   
+                    
+            if($model->load(Yii::$app->request->post()) && $model->storeToCart()) {                          
+                if($model_method!=null){ // methods
+                    if(yii\base\Model::loadMultiple($model_method, Yii::$app->request->post()) && yii\base\Model::validateMultiple($model_method)) {
+                        foreach ($model_method as $m_method) {
+                            if(!$m_method->store()) {
+                                return $this->goBack();
                             }
                         }
                     }
-                    if($model_spec!=null){ // specifications
-                        if(yii\base\Model::loadMultiple($model_spec, Yii::$app->request->post()) && yii\base\Model::validateMultiple($model_spec)) {
-                            foreach ($model_spec as $m_spec) {
-                                if(!$m_spec->store()) {
-                                    return $this->goBack();
-                                }
-                            }
-                        }
-                    }
-
-                    return $this->redirect('/new-order');
                 }
-
+                if($model_spec!=null && ($model->user_object=='' || $model->user_object==null)){ // specifications
+                    if(yii\base\Model::loadMultiple($model_spec, Yii::$app->request->post()) && yii\base\Model::validateMultiple($model_spec)) {
+                        foreach ($model_spec as $m_spec) {
+                            if(!$m_spec->store()) {
+                                return $this->goBack();
+                            }
+                        }
+                    }
+                }
+                if ($model->imageFiles) {
+                    if(!$model->upload()){
+                        return $this->goBack();
+                    }
+                }
+                return $this->redirect(['/new-order', 'industry'=>$service->industry_id]);
+            } else {
                 return $this->render('add', [
                     'model' => $model,
                     'model_specs' => $model_spec,
@@ -122,20 +114,9 @@ class OrdersController extends Controller
                     'objectSpecifications' => $this->objectSpecifications($service, $object_models),
                     'userObjects' => $this->checkUserObjectsExist($service, $object_models),
                     'serviceMethods' => $service->serviceMethods,
-                    'no_skill' => $no_skill,
-                    'no_method' => $no_method, 
-                    'no_spec' => $no_spec,
-                    'no_pic' => $no_pic,
-                    'no_issue' => $no_issue,
-                    'no_amount' => $no_amount,
-                    'no_consumer' => $no_consumer,
                 ]);
-            } else {
-                throw new NotFoundHttpException('The requested page does not exist.');
-            }   
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+            }  
+        } else {return $this->redirect('/services');}
     }
 
     /**
@@ -145,7 +126,7 @@ class OrdersController extends Controller
      */
     public function actionView($id)
     {
-        $this->layout = '//product';
+        $this->layout = '//order';
 
         $this->param_model = $this->findModel($id);
         
@@ -161,60 +142,71 @@ class OrdersController extends Controller
      */
     public function actionCreate()
     {
-        $session = Yii::$app->session;
-        if($session['cart']!=null) {
-            foreach($session['cart']['industry'] as $ind){
-                $service_id = $ind['data'][1]['service']; // regulatorna usluga
-                break;
+        $industry = Yii::$app->request->get('industry');
+        $process = Yii::$app->request->get('process');
+        if(Yii::$app->session['cart']!=null && ($industry!=null || $process!=null)) {
+            foreach(Yii::$app->session['cart']['industry'] as $key=>$ind){
+                if($key==$industry){
+                    $cart[$key] = $ind;
+                }                
             }
-            $cart = $session['cart']['industry'];
-            $service = \frontend\models\CsServices::findOne($service_id);
-            $objects = $this->getObjectModels($cart[$service->industry_id]['data'][1]['object_models']);           
+            $service = \frontend\models\CsServices::findOne($cart[$industry]['data'][1]['service']);
+            $objects = $this->getObjectModels($cart[$industry]['data'][1]['object_models']);
 
             $model = new Orders();
-            $model->service = $service;
+            $model->service = $service;            
             $location = new Locations();
-            $location_end = new Locations();
-            
+            $location->control = $service->location;
+            $location->userControl = (Yii::$app->user->isGuest) ? 0 : 1;
+            $location_end = new Locations();            
             $notification = new Notifications();
             $log = new Log();
-            $user_log = new UserLog();          
+            $user_log = new UserLog();
+            $new_user = new SignupForm();
+            $returning_user = new LoginForm();
 
-            $no_location = ($service->location!=0) ? 0 : 1;
-            $no_time = ($service->time!=0) ? 0 : 1;
-            $no_freq = ($service->frequency!=0) ? 0 : 1;
-
-            if ($model->load(Yii::$app->request->post())) { 
+            if ($model->load(Yii::$app->request->post())) {
+                if(Yii::$app->user->isGuest){
+                    // register $ login user                    
+                    if ($new_user->load(Yii::$app->request->post())) {
+                        if ($user = $new_user->signup()) {
+                            if (!Yii::$app->getUser()->login($user)) {
+                                return $this->goBack();
+                            }
+                        }
+                    }
+                    // login user
+                    if ($returning_user->load(Yii::$app->request->post())) {
+                        if(!$returning_user->login()){
+                            return $this->goBack();
+                        }                        
+                    }
+                }
+                // continue
                 $activity = Activities::loadActivity();
                 if($activity->save()){ // new activity saved 
-                    $model->activity_id = $activity->id;                   
-                    // check locations
+                    $model->activity_id = $activity->id;
                     $this->saveOrderLocation($model, $location, $service);
-                    if($service->location==2 || $service->location==4){
-                        $this->saveOrderLocation($model, $location, $service);
-                    }
-                    if ($model->save()) {
+                    $this->saveOrderEndLocation($model, $location_end, $service);
+                    if ($model->save()){
                         $this->saveOrderSkills($model, $cart, $service);
                         $this->saveOrderServices($model, $activity, $cart, $service);
+                        $this->eraseSessionData($industry); // izbaci snimljene usluge iz korpe
                         return $this->redirect('/order/'.$model->id);                        
-                    }
-                                        
+                    }                                        
                 } else {
-                    return $this->redirect('/index');
+                    return $this->redirect('/services');
                 }
-
-                return $this->redirect('/market');
-                
+                return $this->redirect('/services');                
             } else {
                 return $this->render('create', [
                     'service' => $service,
                     'model' => $model,
                     'location'=> $location,
                     'location_end'=> $location_end,
-                    'no_location' => $no_location,
-                    'no_time' => $no_time,
-                    'no_freq' => $no_freq,
                     'objects' => $objects,
+                    'new_user' => $new_user,
+                    'returning_user' => $returning_user,
                 ]);
             }
         } else {
@@ -300,8 +292,56 @@ class OrdersController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }    
+
+    /**
+     * Izlistava sve modele izabranih predmeta usluga.
+     */
+    protected function getObjectModels($object_models=null)
+    {
+        if($object_models!=null){
+            $object_container = [];
+            foreach($object_models as $object_model) {
+                $object = \frontend\models\CsObjects::findOne($object_model);
+                if ($object) {
+                    $object_container[] = $object;          
+                }       
+            }
+            return $object_container;
+        } 
+        return null;           
     }
 
+    /**
+     * Izlistava sve specifikacije izabranih predmeta usluga i modela predmeta.
+     */
+    protected function objectSpecifications($service, $object_models)
+    {
+        if($object_models!=null || $service->serviceSpecs!=null) {
+            if($service->serviceSpecs!=null){
+               foreach($service->serviceSpecs as $serviceSpec) {
+                    if($serviceSpec->spec) {
+                        $objectSpecification[] = $serviceSpec->spec;
+                    }           
+                } 
+            }
+            if($object_models!=null){
+                foreach($object_models as $object_model) {
+                    $object = \frontend\models\CsObjects::findOne($object_model);
+                    if ($object) {
+                        if ($object->specs) {
+                            foreach($object->specs as $objectSpec) {
+                                if(!in_array($objectSpec, $objectSpecification)){ 
+                                    $objectSpecification[] = $objectSpec;                               
+                                }                                   
+                            }
+                        }           
+                    }       
+                }
+            }          
+        } 
+        return (isset($objectSpecification)) ? $objectSpecification : null;
+    }
 
     protected function loadServiceMethods($service, $key)
     {
@@ -323,95 +363,39 @@ class OrdersController extends Controller
         return null;
     }
 
+    /**
+     * Kreira Modele CartServiceObjectSpecification za sve izabrane specifikacije.
+     */
     protected function loadServiceSpecifications($service, $object_models, $key)
     {
-        if($object_models!=null || $service->serviceSpecs!=null) {
-            foreach($service->serviceSpecs as $serviceSpec) {
-                if($serviceSpec->spec) {
-                    if($serviceSpec->spec->property) { 
-                        $property = $serviceSpec->spec->property;
-                        $model_spec[$property->id] = new \frontend\models\CartServiceObjectSpecification();
-                        $model_spec[$property->id]->specification = $serviceSpec->spec;
-                        $model_spec[$property->id]->property = $property;
-                        $model_spec[$property->id]->service = $service;
-                        $model_spec[$property->id]->key = $key;
-                        $specific_properties[] = $property->id;
-                    }
-                }           
-            }                
-            foreach($object_models as $object_model) {
-                $object = \frontend\models\CsObjects::findOne($object_model);
-                if ($object) {
-                    if ($object->specs) {
-                        foreach($object->specs as $objectSpec) {
-                            if($objectSpec->property) {
-                                $property = $objectSpec->property;
-                                if(!in_array($property->id, $specific_properties)){ 
-                                    $model_spec[$property->id] = new \frontend\models\CartServiceObjectSpecification();
-                                    $model_spec[$property->id]->specification = $objectSpec;
-                                    $model_spec[$property->id]->property = $property;
-                                    $model_spec[$property->id]->service = $service;
-                                    $model_spec[$property->id]->key = $key;
-                                    $specific_properties[] = $property->id;
-                                }
-                            }                                   
-                        }
-                    }           
-                }       
-            }           
-        } 
-        return (isset($model_spec)) ? $model_spec : null;
-    }
-
-    protected function objectSpecifications($service, $object_models)
-    {
-        if($object_models!=null || $service->serviceSpecs!=null) {
-            foreach($service->serviceSpecs as $serviceSpec) {
-                if($serviceSpec->spec) {
-                    $objectSpecification[] = $serviceSpec->spec;
-                }           
-            }                
-            foreach($object_models as $object_model) {
-                $object = \frontend\models\CsObjects::findOne($object_model);
-                if ($object) {
-                    if ($object->specs) {
-                        foreach($object->specs as $objectSpec) {
-                            if(!in_array($objectSpec, $objectSpecification)){ 
-                                $objectSpecification[] = $objectSpec;                               
-                            }                                   
-                        }
-                    }           
-                }       
-            }           
-        } 
-        return (isset($objectSpecification)) ? $objectSpecification : null;
-    }
-
-    protected function getObjectModels($object_models=null)
-    {
-        if($object_models!=null){
-            $object_container = [];
-            foreach($object_models as $object_model) {
-                $object = \frontend\models\CsObjects::findOne($object_model);
-                if ($object) {
-                    $object_container[] = $object;          
-                }       
+        $objectSpecs = $this->objectSpecifications($service, $object_models);
+        if($objectSpecs!=null){
+            foreach($objectSpecs as $objectSpec) {
+                if($objectSpec->property) {
+                    $property = $objectSpec->property;
+                    $model_spec[$property->id] = new \frontend\models\CartServiceObjectSpecification();
+                    $model_spec[$property->id]->specification = $objectSpec;
+                    $model_spec[$property->id]->property = $property;
+                    $model_spec[$property->id]->service = $service;
+                    $model_spec[$property->id]->key = $key;
+                    $model_spec[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 0 : 1;
+                    $model_spec[$property->id]->checkIfRequired = ($objectSpec->required==1) ? 1 : 0;             
+                }                                   
             }
-
-            return $object_container;
-        } 
-        return null;           
-    }
+            return (isset($model_spec)) ? $model_spec : null;
+        }
+        return null;        
+    }    
 
     protected function saveOrderServices($model, $activity, $cart, $service)
     {
-        if($cart[$service->industry_id]['data']!=null){
+        if(isset($cart[$service->industry_id]['data']) && $cart[$service->industry_id]['data']!=null){
             // order services
             foreach($cart[$service->industry_id]['data'] as $keyd=>$data){
                 $model_services[$keyd] = new OrderServices();
                 $model_services[$keyd]->activity_id = $activity->id;
                 $model_services[$keyd]->order_id = $model->id;
-                $model_services[$keyd]->service_id = $service->id;
+                $model_services[$keyd]->service_id = $data['service'];
                 $model_services[$keyd]->provider_service_id = null;
                 $model_services[$keyd]->title = $data['title'];
                 $model_services[$keyd]->amount = $data['amount'];
@@ -425,7 +409,7 @@ class OrdersController extends Controller
                 $model_services[$keyd]->note = $data['note'];
                 $model_services[$keyd]->save();
 
-                if($data['object_models']!=null){
+                if(isset($data['object_models']) && $data['object_models']!=null){
                     foreach ($data['object_models'] as $key_o => $object_model) {
                         $model_service_objects[$key_o] = new OrderServiceObjectmodels();
                         $model_service_objects[$key_o]->order_service_id = $model_services[$keyd]->id;
@@ -434,29 +418,95 @@ class OrdersController extends Controller
                     }
                 }
 
-                if($data['specifications']!=null){
-                    foreach ($data['specifications'] as $key_s => $specification) {
-                        if($specification['spec']!=null || $specification['spec_models']!=null){
-                            $model_service_specs[$key_s] = new OrderServiceSpecs();
-                            $model_service_specs[$key_s]->order_service_id = $model_services[$keyd]->id;
-                            $model_service_specs[$key_s]->spec_id = $specification['objectSpec'];
-                            $model_service_specs[$key_s]->value = $specification['spec'];
-                            $model_service_specs[$key_s]->value_max = $specification['spec_to'];
-                            $model_service_specs[$key_s]->value_operator = 'exact';
-                            $model_service_specs[$key_s]->save();
-                            if($specification['spec_models']!=null){
-                                foreach($specification['spec_models'] as $key_sp=>$spec_model){
-                                    $model_service_spec_models[$key_sp] = new OrderServiceSpecModels();
-                                    $model_service_spec_models[$key_sp]->order_service_spec_id = $model_service_specs[$key_s]->id;
-                                    $model_service_spec_models[$key_sp]->spec_model = $spec_model;
-                                    $model_service_spec_models[$key_sp]->save();
-                                }
+                if(isset($data['user_object']) && ($data['user_object']!='' || $data['user_object']!=null)){ // snimi iz USER OBJECT
+                    $user_object = $data['user_object'];
+                    $userObject = UserObjects::findOne($user_object);
+                    if($userObject){
+                        if($userObject->userObjectSpecs){
+                            foreach($userObject->userObjectSpecs as $key_s=>$userObjectSpec){
+                                $model_service_specs[$key_s] = new OrderServiceSpecs();
+                                $model_service_specs[$key_s]->order_service_id = $model_services[$keyd]->id;
+                                $model_service_specs[$key_s]->spec_id = $userObjectSpec->spec_id;
+                                $model_service_specs[$key_s]->value = $userObjectSpec->value;
+                                $model_service_specs[$key_s]->value_max = $userObjectSpec->value_max;
+                                $model_service_specs[$key_s]->value_operator = 'exact';
+                                $model_service_specs[$key_s]->save();
                             }
-                        }                             
+                        }
+                        if($userObject->userObjectImages){
+                            foreach ($userObject->userObjectImages as $key_im => $userObjectImage) {
+                                $model_service_images[$key_im] = new OrderServiceImages();
+                                $model_service_images[$key_im]->order_service_id = $model_services[$keyd]->id;
+                                $model_service_images[$key_im]->image_id = $userObjectImage->image_id;
+                                $model_service_images[$key_im]->save();
+                            }
+                        }                        
+                    }
+                } else {
+                    $user_object_model[$keyd] = new UserObjects();
+                    $user_object_model[$keyd]->user_id = Yii::$app->user->id;
+                    $user_object_model[$keyd]->object_id = (isset($data['object_models']) && $data['object_models']!=null) ? $data['object_models'][0] : $service->object_id;
+                    $user_object_model[$keyd]->object_type_id = $service->object->object_type_id;
+                    $user_object_model[$keyd]->ime = 'Moj '.$service->object->tName;
+                    $user_object_model[$keyd]->loc_id = ($model->loc_id) ? $model->loc_id : null;
+                    $user_object_model[$keyd]->note = null;
+                    $user_object_model[$keyd]->is_set = 1;
+                    $user_object_model[$keyd]->update_time = date('Y-m-d H:i:s');
+                    $user_object_model[$keyd]->save();
+                    if(isset($data['specifications']) && $data['specifications']!=null){ // SNIMI IZ PODESAVANJA IZ ADD SERVICE -> SPECIFICATIONS                        
+                        foreach ($data['specifications'] as $key_s => $specification) {
+                            if($specification['spec']!=null || $specification['spec_models']!=null){
+                                $model_service_specs[$key_s] = new OrderServiceSpecs();
+                                $model_service_specs[$key_s]->order_service_id = $model_services[$keyd]->id;
+                                $model_service_specs[$key_s]->spec_id = $specification['objectSpec'];
+                                $model_service_specs[$key_s]->value = $specification['spec'];
+                                $model_service_specs[$key_s]->value_max = $specification['spec_to'];
+                                $model_service_specs[$key_s]->value_operator = 'exact';
+                                $model_service_specs[$key_s]->save();
+
+                                $user_object_model_specs[$key_s] = new UserObjectSpecs();
+                                $user_object_model_specs[$key_s]->user_object_id = $user_object_model[$keyd]->id;
+                                $user_object_model_specs[$key_s]->spec_id = $specification['objectSpec'];
+                                $user_object_model_specs[$key_s]->value = $specification['spec'];
+                                $user_object_model_specs[$key_s]->value_max = $specification['spec_to'];
+                                $user_object_model_specs[$key_s]->value_operator = 'exact';
+                                $user_object_model_specs[$key_s]->save();
+                                //
+                                if($specification['spec_models']!=null){
+                                    foreach($specification['spec_models'] as $key_sp=>$spec_model){
+                                        $model_service_spec_models[$key_sp] = new OrderServiceSpecModels();
+                                        $model_service_spec_models[$key_sp]->order_service_spec_id = $model_service_specs[$key_s]->id;
+                                        $model_service_spec_models[$key_sp]->spec_model = $spec_model;
+                                        $model_service_spec_models[$key_sp]->save();
+
+                                        $user_object_model_spec_models[$key_sp] = new UserObjectSpecModels();
+                                        $user_object_model_spec_models[$key_sp]->user_object_spec_id = $user_object_model_specs[$key_s]->id;
+                                        $user_object_model_spec_models[$key_sp]->spec_model = $spec_model;
+                                        $user_object_model_spec_models[$key_sp]->save();
+                                    }
+                                }
+                            }                             
+                        }
+                    }
+                    if(isset($data['images']) && $data['images']!=null){
+                        foreach ($data['images'] as $key_im => $image) {
+                            $imageInstance = \frontend\models\Images::getImageByName($image->name);
+                            if($imageInstance!=null){
+                                $model_service_images[$key_im] = new OrderServiceImages();
+                                $model_service_images[$key_im]->order_service_id = $model_services[$keyd]->id;
+                                $model_service_images[$key_im]->image_id = $imageInstance->id;
+                                $model_service_images[$key_im]->save();
+
+                                $user_object_model_images[$key_im] = new UserObjectImages();
+                                $user_object_model_images[$key_im]->user_object_id = $user_object_model[$keyd]->id;
+                                $user_object_model_images[$key_im]->image_id = $imageInstance->id;
+                                $user_object_model_images[$key_im]->save();
+                            }                                
+                        }
                     }
                 }
 
-                if($data['methods']!=null){
+                if(isset($data['methods']) && $data['methods']!=null){
                     foreach ($data['methods'] as $key_m => $method) {
                         $model_service_methods[$key_m] = new OrderServiceMethods();
                         $model_service_methods[$key_m]->order_service_id = $model_services[$keyd]->id;
@@ -466,24 +516,14 @@ class OrdersController extends Controller
                     }
                 }
 
-                if($data['issues']!=null){
+                if(isset($data['issues']) && $data['issues']!=null){
                     foreach ($data['issues'] as $key_is => $issue) {
                         $model_service_issues[$key_is] = new OrderServiceIssues();
                         $model_service_issues[$key_is]->order_service_id = $model_services[$keyd]->id;
                         $model_service_issues[$key_is]->object_issue_id = $issue;
                         $model_service_issues[$key_is]->save();
                     }
-                }
-
-                if($data['images']!=null){
-                    foreach ($data['images'] as $key_im => $image) {
-                        $model_service_images[$key_im] = new OrderServiceImages();
-                        $model_service_images[$key_im]->order_service_id = $model_services[$keyd]->id;
-                        $model_service_images[$key_im]->image_id = $image;
-                        $model_service_images[$key_im]->save();
-                    }
-                }                             
-
+                }                    
             }
         } else {
             return false;
@@ -550,7 +590,7 @@ class OrdersController extends Controller
 
     protected function checkUserObjectsExist($service, $object_models)
     {
-        if(!Yii::$app->user->isGuest){
+        if(!Yii::$app->user->isGuest && $object_models){
             $user = \frontend\models\User::findOne(Yii::$app->user->id);
             if($user->userObjects){
                 foreach ($user->userObjects as $userObject){
@@ -566,5 +606,13 @@ class OrdersController extends Controller
             return false;
         }        
     }
-        
+
+    protected function eraseSessionData($industry)
+    {
+        $session = Yii::$app->session;
+        $cart = $session['cart'];
+        unset($cart['industry'][$industry]);
+        $session['cart'] = $cart;
+        return;
+    }        
 }

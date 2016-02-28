@@ -65,4 +65,12 @@ class OrderServiceMethods extends \yii\db\ActiveRecord
     {
         return $this->hasOne(CsMethods::className(), ['id' => 'method_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPropertyModel()
+    {
+        return $this->hasOne(CsPropertyModels::className(), ['id' => 'value']);
+    }
 }

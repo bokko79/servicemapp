@@ -54,17 +54,24 @@ $service = $model->orderServices[0]->service;
 
 			</div> */ ?>
 			<div class="grid-leftacross">
+				<div class="label fs_11" style="background:transparent; border-left: 5px solid #2196F3; color:#999; padding-left: 10px;"><i class="fa fa-bookmark"></i> Aukcijska porudžbina: <?= ' #'. sprintf("%'07d\n", $model->id) ?></div>
             	<div style="display:table; width:100%; margin:20px 0;">
             		
 	    			<div class="float-left">
 	    			<?php 
 	    				foreach($model->orderServices as $oService){
-	    					echo '<h1 style=" margin: 0; font-size:28px; font-weight:300; color:#444">';
-	    					echo c($oService->service->action->tName). ' ';
+	    					echo '<h1 style=" margin: 0; font-size:32px; font-weight:300; color:#444">';
+	    					//echo c($oService->service->action->tName). ' ';
 	    					//echo ($oService->methods) ? $oService->methods[0] : ; // method
-	    					echo $oService->service->object->tNameGen;
+	    					//echo $oService->service->object->tNameGen;
 	    					// object_model
+	    					echo '<a href="#service-details">';
+	    					echo 'Izdavanje';
+	    					echo ' apartmana';
+	    					echo ($oService->methods) ? '<div class="label label-success fs_13 center margin-left-10" style="background:#ddd; color:#777;">'.$oService->methods[0]->propertyModel->tName.'</div>' : null;
+	    					echo '</a>';
 	    					echo '</h1>';
+	    					
 	    				}
 	    			?>
 	    			</div>
@@ -131,7 +138,7 @@ $service = $model->orderServices[0]->service;
 				</table>
 			</div>
 			<div class="grid-right media_right_sidebar">
-				<div class="label label-primary" style="width:100%; padding:10px; display:block"><i class="fa fa-bookmark"></i> aukcijska porudžbina</div> 				
+				 				
 				<?php // CONTROLS/STATUS/VALIDITY ?>
 				<div class="controls-box" style="">
 					<table>

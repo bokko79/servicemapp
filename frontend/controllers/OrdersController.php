@@ -429,7 +429,7 @@ class OrdersController extends Controller
                                 $model_service_specs[$key_s]->spec_id = $userObjectSpec->spec_id;
                                 $model_service_specs[$key_s]->value = $userObjectSpec->value;
                                 $model_service_specs[$key_s]->value_max = $userObjectSpec->value_max;
-                                $model_service_specs[$key_s]->value_operator = 'exact';
+                                $model_service_specs[$key_s]->value_operator = $userObjectSpec->value_operator;
                                 $model_service_specs[$key_s]->save();
                             }
                         }
@@ -461,7 +461,7 @@ class OrdersController extends Controller
                                 $model_service_specs[$key_s]->spec_id = $specification['objectSpec'];
                                 $model_service_specs[$key_s]->value = $specification['spec'];
                                 $model_service_specs[$key_s]->value_max = $specification['spec_to'];
-                                $model_service_specs[$key_s]->value_operator = 'exact';
+                                $model_service_specs[$key_s]->value_operator = $specification['spec_operator'];
                                 $model_service_specs[$key_s]->save();
 
                                 $user_object_model_specs[$key_s] = new UserObjectSpecs();
@@ -469,7 +469,7 @@ class OrdersController extends Controller
                                 $user_object_model_specs[$key_s]->spec_id = $specification['objectSpec'];
                                 $user_object_model_specs[$key_s]->value = $specification['spec'];
                                 $user_object_model_specs[$key_s]->value_max = $specification['spec_to'];
-                                $user_object_model_specs[$key_s]->value_operator = 'exact';
+                                $user_object_model_specs[$key_s]->value_operator = $specification['spec_operator'];
                                 $user_object_model_specs[$key_s]->save();
                                 //
                                 if($specification['spec_models']!=null){

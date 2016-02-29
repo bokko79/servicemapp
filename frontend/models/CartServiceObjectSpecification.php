@@ -16,6 +16,7 @@ class CartServiceObjectSpecification extends Model
     public $spec;
     public $spec_models = [];
     public $spec_to;
+    public $spec_operator;
     public $checkUserObject;
     public $checkIfRequired;
 
@@ -55,6 +56,7 @@ class CartServiceObjectSpecification extends Model
             $spec_validation_type,
             $spec_to_validation_type,
             [['spec_models'] , 'safe'],
+            ['spec_operator', 'default', 'value'=>'exact'],
             ['spec', 'required', 'when' => function ($model) {
                 return false;
             }, 'whenClient' => "function (attribute, value) {
@@ -103,6 +105,7 @@ class CartServiceObjectSpecification extends Model
             'spec' => $this->spec,
             'spec_models' => $this->spec_models,
             'spec_to' => $this->spec_to,
+            'spec_operator' => $this->spec_operator,
             'property' => $this->property->id,
             'objectSpec' => $this->specification->id,
         ];    

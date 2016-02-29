@@ -61,7 +61,7 @@ $items = [ $industry, $action, $object, $issue, $additional ];
     <?php /* service */ ?>
     <?php $orderServicesCount = count($model->orderServices); ?>
     <?php foreach ($model->orderServices as $orderService): ?>
-    <div class="hidden-content-container hovering" id="service-details" style="position:relative;">
+    <div class="hidden-content-container hovering" style="position:relative;">
         <div class="header-context head">              
             <div class="avatar">
                 <?= Html::img('@web/images/cards/'.$orderService->service->avatar) ?>          

@@ -78,8 +78,6 @@ $this->stats = [
     <?= $this->render('viewParts/_other', [
         'model' => $model,
     ]) ?>
-    
-
 
 <h2 class="product-section-heading">
     <?= Html::encode('Ponude') ?>

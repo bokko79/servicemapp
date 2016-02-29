@@ -87,7 +87,7 @@ article,aside,details,dialog,figcaption,figure,footer,header,hgroup,menu,nav,sec
 
 html { margin:0; padding:0; border:none; height: 100%; -webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }
 
-body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-serif; font-size: 13px; font-weight: 400; text-align: left;  position:absolute; padding-top:50px; top:0px; bottom:0; right:0; left:0;  overflow-y: scroll; z-index: -1;}
+body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-serif; font-size: 13px; font-weight: 400; text-align: left;  position:absolute; padding-top:60px; top:0px; bottom:0; right:0; left:0;  overflow-y: scroll; z-index: -1;}
 
 /* grid system for layouts*/
 .grid-container {margin:0 auto;padding: 0 15px;width:1200px; display: table;}
@@ -449,9 +449,9 @@ img {height:auto;max-width:100%;vertical-align:middle;border:0;-ms-interpolation
 
 /* ----------------- 31.1. HEADER GENERAL */
 
-header.main {position: fixed; top: 0px; bottom: 0; height: 50px; width:100%; z-index: 1010;}
+header.main {position: fixed; top: 0px; bottom: 0; height: 60px; width:100%; z-index: 1010;}
 header.main.full {bottom: 0; height: 100%;}
-header.main nav { min-height: 50px; width:100%; background: #fff; /*border-bottom:1px solid #ccc; */
+header.main nav { min-height: 60px; width:100%; background: #fff; /*border-bottom:1px solid #ccc; */
 		box-shadow: 0 1px 7px rgba(0, 0, 0, .15); -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .5); }
 .m_container {display: none;}
 
@@ -495,14 +495,14 @@ header.main nav { min-height: 50px; width:100%; background: #fff; /*border-botto
 
 /* ----------------- 31.4. NAVBAR CONTROL BOX (SPAN3 GDE JE USERNAME, NOTICATIONS, LANGUAGE, MESSAGES i INFO) */
 
-.navbar_control_box {padding: 0;  height:50px; margin: 0; list-style: none;}
-.navbar_control_box > li {display: inline-table; float: left; padding:0; background: transparent; min-width: 30px; height: 50px; border-radius: 0px;-moz-border-radius:0px; margin: 0 8px; /*box-shadow: 0px 0px 3px #eee;*/border:none;}
+.navbar_control_box {padding: 0;  height:60px; margin: 0; list-style: none;}
+.navbar_control_box > li {display: inline-table; float: left; padding:0; background: transparent; min-width: 30px; height: 60px; border-radius: 0px;-moz-border-radius:0px; margin: 0 8px; /*box-shadow: 0px 0px 3px #eee;*/border:none;}
 .navbar_control_box > li:first-child, .navbar_control_box > li:nth-last-child(2) {margin: 0;}
 .navbar_control_box > li.notif_li { position: relative;}
 .navbar_control_box > li.blank {box-shadow: none;}
 .navbar_control_box > li:hover {background: #2196F3;}
 .navbar_control_box > li:hover > a {color:white; background: none;}
-.navbar_control_box > li > a {width:50px; height:50px; padding: 0; text-decoration: none; display: table-cell; vertical-align: middle; text-align: center; font-size: 12px; font-weight: 700; border:none;}
+.navbar_control_box > li > a {width:60px; height:60px; padding: 0; text-decoration: none; display: table-cell; vertical-align: middle; text-align: center; font-size: 12px; font-weight: 700; border:none;}
 .navbar_control_box > li.shopping-cart {/*width:60px;*/}
 .navbar_control_box > li.open {box-shadow: 0px 0px 8px #ddd inset;}
 .navbar_control_box > li.open > a {color: #2196F3 !important; opacity:1;}
@@ -536,16 +536,16 @@ header.main nav { min-height: 50px; width:100%; background: #fff; /*border-botto
 
 /* ----------------- 32.1. GLOBAL NAVIGATION: GENERAL */
 
-.global_nav {padding: 0;  height:50px; margin: 0; list-style: none;}
-.global_nav > li { display: inline-block; float: left; padding:0px; background: transparent; width: auto; height: 50px; margin: 0 5px; }
+.global_nav {padding: 0;  height:60px; margin: 0; list-style: none;}
+.global_nav > li { display: inline-block; float: left; padding:0px; background: transparent; width: auto; height: 60px; margin: 0 5px; }
 .global_nav > li:hover {border-bottom:4px solid #2196F3; cursor: pointer;}
 /*.global_nav > li.active {border-bottom:4px solid #455A64;}*/
 .global_nav > li:hover {background: #2196F3;}.global_nav > li:hover > a {background: #2196F3; color:white;}
 .global_nav > li.right {float: right;}
 .global_nav > li.search_icon i.fa-search {font-size: 19px; text-shadow:0px 0px 2px #82B1FF; opacity:1;}
-.global_nav > li > a {height:50px; display:block; float:left; padding: 17px 10px; color:#000; font-size: 14px; text-transform:; font-weight: 400; text-decoration: none;}
+.global_nav > li > a {height:60px; display:block; float:left; padding: 22px 10px; color:#000; font-size: 13px; text-transform: uppercase; font-weight: 500; text-decoration: none;}
 .global_nav > li > a:hover { }
-.global_nav > li > a.button {padding:17px 5px; border-left: 1px solid white;}
+.global_nav > li > a.button {padding:22px 5px; border-left: 1px solid white;}
 .global_nav > li:hover > a.button:hover {background: #263238;}
 .global_nav > li.active > a.careted {position: relative;}
 .global_nav > li.active > a.careted:after{width: 0;height: 0;border-style: solid;content: '';-moz-transform: scale(.9999);position: absolute;
@@ -553,7 +553,7 @@ header.main nav { min-height: 50px; width:100%; background: #fff; /*border-botto
     bottom: 0px;border-width: 0 10px 10px;border-color: transparent transparent #263238;}
 .global_nav > li:hover > a.careted:after {bottom:-15px;}
 
-div.subnav {position: absolute; top:50px; padding: 5px 0; background: #fff; border: 1px solid #ddd; display: none; box-shadow: 0px 3px 4px #444;}	
+div.subnav {position: absolute; top:60px; padding: 5px 0; background: #fff; border: 1px solid #ddd; display: none; box-shadow: 0px 3px 4px #444;}	
 div.subnav > ul {margin: 0 auto; width: auto; border-radius: 4px;}
 .global_nav > li:hover > div.subnav {display: block;}
 div.subnav > ul > li {display: block; padding:3px 0; color: #fff; }
@@ -572,7 +572,7 @@ div.subnav > ul > li.header {    display: block;
     text-transform: uppercase;
     white-space: nowrap}
 
-div.subnav-fixed {position: absolute; top:0px; padding: 0; background: #263238; border: none; height: 50px; left:0; right:0; display: block; box-shadow: 0px 2px 4px #444;}
+div.subnav-fixed {position: absolute; top:60px; padding: 0; background: #263238; border: none; height: 50px; left:0; right:0; display: block; box-shadow: 0px 2px 4px #444;}
 div.subnav-fixed.search {display: none;}
 div.subnav-fixed > ul {margin: 0 auto; width: 1170px; padding: 0 15px;}
 div.subnav-fixed > ul > li {display: inline-block; padding:18px 15px 10px; color: #fff;}
@@ -954,15 +954,15 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 .profile_body #box_service {margin: 20px 9px 10px 8px;}
 .profile_body .provider #box_service {margin: 20px 7px 10px 8px;}
 
-.divider {display: table;white-space: nowrap;height: auto;margin: 0;overflow: hidden;
+.divider.horizontal {display: table;white-space: nowrap;height: auto;margin: 0;overflow: hidden;
     line-height: 1;text-align: center; letter-spacing: 2px; color:#999;
 }
 
-.divider:before {
+.divider.horizontal:before {
     background-position: right 1em top 50%;
 }
 
-.divider:after, .divider:before {
+.divider.horizontal:after, .divider.horizontal:before {
     content: '';
     display: table-cell;
     position: relative;
@@ -972,21 +972,23 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
     background-image: url('../images/general/divider.png');
 }
 
-.divider:after {
+.divider.horizontal:after {
     background-position: left 1em top 50%;
 }
 
 .card-width-cover img {top:0 !important; left: 0 !important;}
 
+.summary-head {display:table; width:100%; margin:20px 0;}
+.summary-head a {color:black;}
 .summary-data {margin-top: 10px;}
 .summary-data td {text-align: center; color:#bbb;}
 .summary-data .icon {height:30px;}
 .summary-data .data {font-size: 15px; font-weight: 400; color:#777;}
 
-.controls-box {width:100%; border: 1px solid #ddd; border-radius: 3px; padding: 10px; margin: 20px 0; background: #fff;}
+.controls-box {width:100%; border: 1px solid #ddd; border-radius: 3px; padding: 10px; background: #fff;}
 .controls-box table {}
 .controls-box table td {width: 100%; text-align: center; vertical-align: middle; font-size: 17px;}
 .controls-box table .icon {font-weight: 500; color: green; letter-spacing: 4px;}
 .controls-box table .cntd {font-weight: 900;font-size: 15px; color: #777;}
 .controls-box table .butn {}
-a.butn {width: 100%; font-weight: 700; text-transform: uppercase; border-radius: 2px;}
+a.butn {width: 100%; font-weight: 700; text-transform: uppercase; border-radius: 2px; margin: 20px 0 0;}

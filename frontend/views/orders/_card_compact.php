@@ -21,7 +21,7 @@ $countDown = \russ666\widgets\Countdown::widget([
         <div class="title">
             <div class="head second gray-color"><?= Html::a('Porudžbina #'. sprintf("%'09d\n", $model->id), Url::to('/order/'.$model->id), ['class'=>'']); ?></div>
             <div class="subhead">                 
-                <?= $model->activity->user->location->city.', '.$model->activity->user->location->country ?> <span class="divider"></span> <i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->activity->time]); ?>
+                <?= $model->activity->user->location->city.', '.$model->activity->user->location->country ?> <span class=""></span> <i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->activity->time]); ?>
                 <span class="label label-default"><i class="fa fa-bookmark"></i> Aukcijska porudžbina</span> <?= $countDown ?>
             </div>
         </div>

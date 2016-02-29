@@ -8,7 +8,7 @@ use yii\bootstrap\Nav;
 use \frontend\models\User;
 use yii\bootstrap\Modal;
 
-$logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Servicemapp Logo', 'class'=>'', 'style' => 'margin:10px;', 'width'=>180]);
+$logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Servicemapp Logo', 'class'=>'', 'style' => 'margin:15px 10px;', 'width'=>180]);
 ?>
 <div style="position:relative;">
  <!-- HEADER -->

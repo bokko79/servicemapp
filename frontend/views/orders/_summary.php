@@ -25,10 +25,10 @@ $service = $model->orderServices[0]->service;
                     'hash' => true,
                     'allowfullscreen' => 'native',
                     'width' => '100%',
-                    'height' => '320',
+                    'height' => '360',
                     'maxheight' => '100%',
                     'minwidth'=> '1380',
-                    'ratio' => 1920/320,
+                    'ratio' => 1920/360,
                     'nav' => false,
                     'fit' => 'none',
                 ],
@@ -55,7 +55,8 @@ $service = $model->orderServices[0]->service;
 			</div> */ ?>
 			<div class="grid-leftacross">
 				<div class="label fs_11" style="background:transparent; border-left: 5px solid #2196F3; color:#999; padding-left: 10px;"><i class="fa fa-bookmark"></i> Aukcijska porudžbina: <?= ' #'. sprintf("%'07d\n", $model->id) ?></div>
-            	<div style="display:table; width:100%; margin:20px 0;">
+            	<div class="float-right right"><i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->activity->time]); ?></div>
+            	<div class="summary-head" style="">
             		
 	    			<div class="float-left">
 	    			<?php 
@@ -70,12 +71,11 @@ $service = $model->orderServices[0]->service;
 	    					echo ' apartmana';
 	    					echo ($oService->methods) ? '<div class="label label-success fs_13 center margin-left-10" style="background:#ddd; color:#777;">'.$oService->methods[0]->propertyModel->tName.'</div>' : null;
 	    					echo '</a>';
-	    					echo '</h1>';
-	    					
+	    					echo '</h1>';	    					
 	    				}
 	    			?>
 	    			</div>
-	    			<div class="float-right right color-blue-gray-200"><i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->activity->time]); ?></div>
+	    			
             	</div>
 	    		<div class="label label-success fs_13 center" style="background:<?= $model->industry->color ?>; letter-spacing:1px; font-weight:400"><i class="fa <?= $model->industry->icon ?>"></i> <?= c($model->industry->tName) ?></div>	
 				<table class="summary-data">
@@ -95,24 +95,6 @@ $service = $model->orderServices[0]->service;
 							<table>
 								<tr><td class="icon"><i class="fa fa-user fa-2x"></i></td></tr>
 								<tr><td class="data"><?= $model->orderServices[0]->consumer ?> osobe</td></tr>
-							</table>
-						</td>
-						<?php endif; ?>
-						<?php // required spec 1 ?>
-						<?php if($model->orderServices[0]->amount!=null): ?>
-						<td>
-							<table>
-								<tr><td class="icon"><i class="fa fa-signal fa-rotate-270"></i></td></tr>
-								<tr><td class="data"><?= $model->orderServices[0]->amount ?></td></tr>
-							</table>
-						</td>
-						<?php endif; ?>
-						<?php // required spec 2 ?>
-						<?php if($model->orderServices[0]->amount!=null): ?>
-						<td>
-							<table>
-								<tr><td class="icon"><i class="fa fa-signal fa-rotate-270"></i></td></tr>
-								<tr><td class="data"><?= $model->orderServices[0]->amount ?></td></tr>
 							</table>
 						</td>
 						<?php endif; ?>
@@ -144,19 +126,20 @@ $service = $model->orderServices[0]->service;
 					<table>
 						<tr><td class="icon"><i class="fa fa-refresh fa-spin"></i> AKTIVNO</td></tr>
 						<tr><td class="cntd"><?php $valid = \russ666\widgets\Countdown::widget([
-                    'datetime' => $model->validity,
-                    'format' => '%d<span class=\"fs_11\">d</span> %H<span class=\"fs_11\">h</span> %M<span class=\"fs_11\">m</span> %S<span class=\"fs_11\">s</span>',
-                    'events' => [
-                        //'finish' => 'function(){location.reload()}',
-                    ],
-                ]); ?></td></tr>
-            			<tr><td class="butn"></td></tr>
+				                    'datetime' => $model->validity,
+				                    'format' => '%d<span class=\"fs_11\">d</span> %H<span class=\"fs_11\">h</span> %M<span class=\"fs_11\">m</span> %S<span class=\"fs_11\">s</span>',
+				                    'events' => [
+				                        //'finish' => 'function(){location.reload()}',
+				                    ],
+				                ]); ?>
+				                <?= $valid ?></td></tr>
 					</table>
 				 
 					
                 
 				</div>
-				<?= Html::a($valid.'<br><i class="fa fa-sticky-note"></i>&nbsp;'.Yii::t('app', 'Pošalji ponudu'), Url::to(), ['class'=>'btn btn-success butn no-margin']); ?>
+				<?= Html::a('<i class="fa fa-sticky-note"></i>&nbsp;'.Yii::t('app', 'Pošalji ponudu'), Url::to(), ['class'=>'btn btn-warning butn']); ?>
+				<?= Html::a('<i class="fa fa-bookmark"></i>&nbsp;'.Yii::t('app', 'Obeleži porudžbinu'), Url::to(), ['class'=>'btn btn-default butn']); ?>
 				
 			</div>  
         </div>

@@ -8,23 +8,6 @@ use frontend\widgets\Stats;
 ?>
 
 <?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
-
-<?php /* PROFILE HEADING */ ?>
-<div class="product-head">
-    <div class="grid-container">
-		<div class="grid-row">
-			<div class="grid-leftacross">
-				<?= Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
-			</div>
-			<div class="grid-right right" style="padding-top: 10px;">
-				<?= $this->render('partial/share.php') ?>				
-			</div>
-		</div>
-    </div>
-</div>
-
 <?= $this->render('//orders/_summary.php', ['model'=>$this->params['model']]) ?>       
 
 <?php

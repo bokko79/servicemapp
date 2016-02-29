@@ -25,7 +25,7 @@ $message = 'Lokacija za izvršenje usluga.';
 			<?= $form->field($model, 'loc_id', [])->dropDownList(ArrayHelper::map($user->locations, 'id', 'location_name'), ['prompt'=>'Izaberite jednu od sačuvanih lokacija', 'class'=>'input-lg']) ?>
 			<div class="form-group">
 	            <div class="col-md-offset-3 col-md-9" style="">	                
-	                <h4 class="divider"><i class="fa fa-sort"></i> ILI</h4>
+	                <h4 class="divider horizontal"><i class="fa fa-sort"></i> ILI</h4>
 	                <div class="center" style="margin:30px 0 20px">
 	                    <?= Html::a('<i class="fa fa-plus-circle"></i> Odredite novu lokaciju', null, ['class'=>'btn btn-default new_loc']) ?>
 	                </div>

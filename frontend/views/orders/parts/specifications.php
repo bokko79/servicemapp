@@ -46,7 +46,7 @@ $message = ($service->service_object!=1) ? Yii::t('app', 'Opišite ukratko {your
         <?= Html::activeHiddenInput($model, 'checkUserObject', ['id'=>'checkUserObject_model']) ?>
         <div class="form-group">
             <div class="col-md-offset-3 col-md-9" style="">                 
-                <h4 class="divider"><i class="fa fa-sort"></i> ILI</h4>
+                <h4 class="divider horizontal"><i class="fa fa-sort"></i> ILI</h4>
                 <div class="center" style="margin:30px 0 20px">
                     <?= Html::a('<i class="fa fa-plus-circle"></i> Opišite novi '.$object->tName, null, ['class'=>'btn btn-default new_obj']) ?>
                 </div>

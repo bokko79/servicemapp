@@ -986,7 +986,7 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 .summary-second {margin:20px 0;}
 .summary-head {margin:20px 0;}
 .summary-head h1 {margin: 0; font-size:32px; font-weight:300; color:#444; float:left; letter-spacing: 1px;}
-.summary-head .title_details {line-height:52px;float:left; margin-left:10px;}
+.summary-head .title_details {font-size:15px; display: inline; letter-spacing: 0; margin-left:10px;}
 .summary-data {margin: 10px;}
 .summary-data td {text-align: left; color:#bbb;}
 .summary-data .icon {height:30px;}

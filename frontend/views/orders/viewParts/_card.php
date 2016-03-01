@@ -58,8 +58,8 @@ $additional = [
 $items = [ $industry, $action, $object, $issue, $additional ];
 ?>
 <div class="card_container record-full" id="" style="float:none;"> 
-    <div class="primary-context">
-        <div class="head muted">Detalji porudžbine</div>
+    <div class="secondary-context indexed">
+        <div class="head major thin">Detalji porudžbine</div>
     </div>
     <?php /* service */ ?>
     <?php $orderServicesCount = count($model->orderServices); ?>
@@ -70,9 +70,10 @@ $items = [ $industry, $action, $object, $issue, $additional ];
                 <?= Html::img('@web/images/cards/'.$orderService->service->avatar) ?>          
             </div>
             <div class="title">
-                <div class="head" style="color:#2196F3; font-weight:300;"><?= $orderService->service->name ?><span class="margin-left-10 fs_11"><?= Html::a('<i class="fa fa-external-link"></i>', Url::to(''), []) ?></span></div>
+                <div class="head" style="font-weight:300;"><?= ($orderService->title) ? $orderService->title : $orderService->customTitle; ?></div>
                 <div class="subhead">
-                    <div class="label label-success fs_11 margin-right-15"><i class="fa fa-building"></i> Izdavanje nekretnina</div>
+                    <div class="label label-success fs_11 center margin-right-15" style="background:<?= $model->industry->color ?>; letter-spacing:1px; font-weight:400"><i class="fa <?= $model->industry->icon ?>"></i> <?= c($model->industry->tName) ?></div>
+                    <?= Html::a($orderService->service->tName.' <i class="fa fa-external-link"></i>', Url::to('/s/'.slug($orderService->service->tName)), []) ?>
                     <?= ($orderService->amount) ? '<span class="margin-right-15"><i class="fa fa-signal fa-rotate-270 margin-right-5"></i>'.$orderService->amount.'</span>' : null ?>
                     <?= ($orderService->consumer) ? '<span class="margin-right-15"><i class="fa fa-user"></i> '.$orderService->consumer.'</span>' : null ?>
                 </div>                                   
@@ -82,7 +83,7 @@ $items = [ $industry, $action, $object, $issue, $additional ];
 
         </div>
         <div class="secondary-context avatar-padded <?= ($orderServicesCount>1) ? 'hidden' : '' ?> hidden-content fadeIn animated">
-            <?= ($orderService->note) ? '<p><b><i class="fa fa-sticky-note"></i> Note:</b> '.$orderService->note.'</p>' : null ?>                
+            <?= $orderService->note ?>                
         </div>
         <?php if($orderService->images): ?>
         <div class="media-area <?= ($orderServicesCount>1) ? 'hidden' : '' ?> hidden-content">

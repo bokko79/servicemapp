@@ -155,4 +155,13 @@ class OrderServices extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Orders::className(), ['id' => 'order_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCustomTitle()
+    {
+        return c($this->service->action->tName). ' ' . 
+                (($this->objectModels) ? $this->objectModels[0]->object->tNameGen : $this->service->object->tNameGen);
+    }
 }

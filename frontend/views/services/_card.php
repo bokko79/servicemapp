@@ -32,7 +32,7 @@ use yii\bootstrap\Modal;
         <?php if($model->object->models): ?>
 			<?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-modal'.$model->id]); ?>
         <?php else: ?>
-            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to('/add/'.mb_strtolower(str_replace(' ', '-', $model->name))), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']); ?>
+            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to('/add/'.slug($model->name)), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']); ?>
         <?php endif; ?>
 		</div>
     </div>

@@ -12,7 +12,7 @@ $model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
 <?php $form = kartik\widgets\ActiveForm::begin([
     'id' => 'form-vertical',
     'method' => 'get',
-    'action' => '/add/'.mb_strtolower(str_replace(' ', '-', $model->name)),
+    'action' => '/add/'.slug($model->name),
     'type' => ActiveForm::TYPE_VERTICAL,
 ]); ?>
 	
@@ -20,7 +20,7 @@ $model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
 		<p class="hint">Možete izabrati više vrsta.</p>
 		<div class="enclosedCheckboxes">
 			<div class="checkbox"><label><input type="checkbox" id="ckbCheckAll"> <i>Izaberite/Poništite sve</i></label></div>
-			<?= $form->field(new \frontend\models\CsObjects, 'id[]')->checkboxList($model_list)->label(false) ?>
+			<?= $form->field(new \frontend\models\CsObjects, 'id[]')->checkboxList($model_list, ['unselect'=>null])->label(false) ?>
 		</div>
 	<?php else: ?>
 		<?= $form->field(new \frontend\models\CsObjects, 'id[]')->radioList($model_list, ['unselect'=>null])->label(false) ?>

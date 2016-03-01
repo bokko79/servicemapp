@@ -91,14 +91,14 @@ $valid = \russ666\widgets\Countdown::widget([
 	    					//echo $oService->service->object->tNameGen;
 	    					// object_model
 	    					echo '<a href="#service-details'.$key.'">';
-	    					echo 'Izdavanje';
-	    					echo ' apartmana';
+	    					echo $oService->customTitle;
 	    					echo ($oService->methods) ? '<div class="label label-success fs_13 center margin-left-10" style="background:#ddd; color:#777;">'.$oService->methods[0]->propertyModel->tName.'</div>' : null;
 	    					echo '</a>';
+	    					
+	    					echo ($oService->amount!=null) ? '<div class="title_details muted"><i class="fa fa-signal fa-rotate-270"></i> '.$oService->amount.' '.$service->unit->oznaka.'</div>' : null;
+	    					echo ($oService->consumer!=null) ? '<div class="title_details muted"><i class="fa fa-user"></i> za '.$oService->consumer.' osobe </div>' : null;	
+	    					echo ($oService->consumer_children!=null) ? '<div class="title_details muted"><i class="fa fa-child"></i> +'.$oService->consumer_children.' dete </div>' : null;
 	    					echo '</h1>';
-	    					echo ($model->orderServices[0]->amount!=null) ? '<div class="title_details muted"><i class="fa fa-signal fa-rotate-270"></i> '.$model->orderServices[0]->amount.' '.$service->unit->oznaka.'</div>' : null;
-	    					echo ($model->orderServices[0]->consumer!=null) ? '<div class="title_details muted"><i class="fa fa-user"></i> za '.$model->orderServices[0]->consumer.' osobe </div>' : null;	
-	    					echo ($model->orderServices[0]->consumer_children!=null) ? '<div class="title_details muted"><i class="fa fa-child"></i> +'.$model->orderServices[0]->consumer_children.' dete </div>' : null;
 	    					echo '</div>';
 	    				}
 	    			?>
@@ -132,7 +132,7 @@ $valid = \russ666\widgets\Countdown::widget([
 						<div class="col-md-2">
 							<table>
 								<tr>
-									<td class="icon"><i class="fa fa-history fa-2x"></i></td>
+									<td class="icon"><i class="fa fa-repeat fa-2x"></i></td>
 									<td class="data"><a href="#service-frequency"><?= $model->frequency ?>x <?= $model->frequency_unit ?></a><br><span class="small muted normal-thin">Učestalost</span></td>
 								</tr>
 							</table>

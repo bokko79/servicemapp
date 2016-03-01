@@ -46,4 +46,20 @@ class OrderServiceObjectmodels extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObject()
+    {
+        return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderService()
+    {
+        return $this->hasOne(OrderServices::className(), ['id' => 'order_service_id']);
+    }
 }

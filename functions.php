@@ -51,3 +51,14 @@ function f_date_short($date)
 {
     return Yii::$app->formatter->asDate($date, 'd. MMMM yy');
 }
+
+function f_datetime($date)
+{
+    return Yii::$app->formatter->asDate($date, 'd. MMMM yyyy. HH:mm');
+}
+
+/* titles/slugs */
+function slug($string)
+{
+    return mb_strtolower(str_replace(' ', '-', $string));
+}

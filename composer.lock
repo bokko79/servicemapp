@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "22b069c69aea37459ef8bd9d58e8e077",
-    "content-hash": "07cde9215073ee6524f4c2f4f9dc8b61",
+    "hash": "c094791c33dfafbeb5941f5547a51605",
+    "content-hash": "e6b3cc390f0a6554dc9752c023711737",
     "packages": [
         {
             "name": "2amigos/yii2-google-maps-library",
@@ -157,31 +157,31 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mgcrea/angular-strap.git",
-                "reference": "7c9f1b5038631c0f92432d5d9e11a192b95c77e6"
+                "reference": "9a29385e7e39941120b3fcb5dcefb85b0d7ef37b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mgcrea/angular-strap/zipball/7c9f1b5038631c0f92432d5d9e11a192b95c77e6",
-                "reference": "7c9f1b5038631c0f92432d5d9e11a192b95c77e6",
+                "url": "https://api.github.com/repos/mgcrea/angular-strap/zipball/9a29385e7e39941120b3fcb5dcefb85b0d7ef37b",
+                "reference": "9a29385e7e39941120b3fcb5dcefb85b0d7ef37b",
                 "shasum": ""
             },
             "require": {
                 "bower-asset/angular": ">=1.2.21,<2.0.0"
             },
             "require-dev": {
-                "bower-asset/angular-animate": "~1.5",
-                "bower-asset/angular-i18n": "~1.5",
-                "bower-asset/angular-mocks": "~1.5",
-                "bower-asset/angular-motion": ">=0.4.3,<0.5.0",
-                "bower-asset/angular-route": "~1.5",
-                "bower-asset/angular-sanitize": "~1.5",
-                "bower-asset/angular-scenario": "~1.5",
-                "bower-asset/bootstrap": ">=3.3.6,<4.0.0",
-                "bower-asset/bootstrap-additions": ">=0.3.1,<0.4.0",
-                "bower-asset/fastclick": ">=1.0.6,<2.0.0",
-                "bower-asset/font-awesome": ">=4.5.0,<5.0.0",
-                "bower-asset/highlightjs": ">=9.1.0,<10.0.0",
-                "bower-asset/jquery": ">=2.2.0,<3.0.0"
+                "bower-asset/angular-animate": "~1.4",
+                "bower-asset/angular-i18n": "~1.4",
+                "bower-asset/angular-mocks": "~1.4",
+                "bower-asset/angular-motion": ">=0.3.3,<0.4.0",
+                "bower-asset/angular-route": "~1.4",
+                "bower-asset/angular-sanitize": "~1.4",
+                "bower-asset/angular-scenario": "~1.4",
+                "bower-asset/bootstrap": ">=3.2.0,<4.0.0",
+                "bower-asset/bootstrap-additions": ">=0.2.3,<0.3.0",
+                "bower-asset/fastclick": ">=1.0.3,<2.0.0",
+                "bower-asset/font-awesome": ">=4.1.0,<5.0.0",
+                "bower-asset/highlightjs": ">=8.0.0,<9.0.0",
+                "bower-asset/jquery": ">=2.1.1,<3.0.0"
             },
             "type": "bower-asset-library",
             "extra": {
@@ -203,8 +203,7 @@
             "keywords": [
                 "angular",
                 "bootstrap"
-            ],
-            "time": "2016-02-22 15:56:04"
+            ]
         },
         {
             "name": "bower-asset/bootstrap",
@@ -305,6 +304,61 @@
             ]
         },
         {
+            "name": "bower-asset/fullcalendar",
+            "version": "v2.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fullcalendar/fullcalendar.git",
+                "reference": "4a15df42d12edd56b6b9df24e18c90349c649f53"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fullcalendar/fullcalendar/zipball/4a15df42d12edd56b6b9df24e18c90349c649f53",
+                "reference": "4a15df42d12edd56b6b9df24e18c90349c649f53",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.7.1",
+                "bower-asset/moment": ">=2.5.0"
+            },
+            "require-dev": {
+                "bower-asset/bootstrap": "~3.2.0",
+                "bower-asset/jasmine-fixture": "~1.2.0",
+                "bower-asset/jasmine-jquery": "~2.0.3",
+                "bower-asset/jquery-mockjax": "~1.5.4",
+                "bower-asset/jquery-simulate": "~1.0.1",
+                "bower-asset/jquery-ui": ">=1.11.1",
+                "bower-asset/moment-timezone": "~0.2.1"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "dist/fullcalendar.js",
+                    "dist/fullcalendar.css"
+                ],
+                "bower-asset-ignore": [
+                    "*",
+                    "**/.*",
+                    "!/dist/**",
+                    "!/README.*",
+                    "!/LICENSE.*",
+                    "!/CHANGELOG.*",
+                    "!/CONTRIBUTING.*"
+                ]
+            },
+            "license": {
+                "type": "MIT",
+                "url": "https://github.com/fullcalendar/fullcalendar/blob/master/LICENSE.txt"
+            },
+            "description": "Full-sized drag & drop event calendar",
+            "keywords": [
+                "calendar",
+                "event",
+                "full-sized",
+                "jquery-plugin"
+            ]
+        },
+        {
             "name": "bower-asset/jquery",
             "version": "2.2.1",
             "source": {
@@ -370,8 +424,7 @@
             "keywords": [
                 "infinitescroll",
                 "jquery"
-            ],
-            "time": "2015-04-06 07:52:27"
+            ]
         },
         {
             "name": "bower-asset/jquery-timeago",
@@ -480,8 +533,7 @@
                 "coupons",
                 "date",
                 "datetime"
-            ],
-            "time": "2015-08-19 17:52:25"
+            ]
         },
         {
             "name": "bower-asset/jquery.inputmask",
@@ -596,16 +648,16 @@
         },
         {
             "name": "bower-asset/yii2-pjax",
-            "version": "v2.0.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/jquery-pjax.git",
-                "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67"
+                "reference": "3bceef03fa80ceee8da5854fa3249df1afc871cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/6818718408086db6bdcf33649cecb86b6b4f9b67",
-                "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67",
+                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/3bceef03fa80ceee8da5854fa3249df1afc871cd",
+                "reference": "3bceef03fa80ceee8da5854fa3249df1afc871cd",
                 "shasum": ""
             },
             "require": {
@@ -618,10 +670,14 @@
                     ".travis.yml",
                     "Gemfile",
                     "Gemfile.lock",
+                    "CONTRIBUTING.md",
                     "vendor/",
                     "script/",
                     "test/"
-                ]
+                ],
+                "branch-alias": {
+                    "dev-master": "2.0.3-dev"
+                }
             },
             "license": [
                 "MIT"
@@ -1113,12 +1169,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
-                "reference": "d66083c14f9386ede23fccb76dea1a380db67ded"
+                "reference": "9a9c2befce0c76db975a6a8d28073efa7b4922b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/d66083c14f9386ede23fccb76dea1a380db67ded",
-                "reference": "d66083c14f9386ede23fccb76dea1a380db67ded",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/9a9c2befce0c76db975a6a8d28073efa7b4922b3",
+                "reference": "9a9c2befce0c76db975a6a8d28073efa7b4922b3",
                 "shasum": ""
             },
             "type": "library",
@@ -1149,7 +1205,7 @@
                 "star",
                 "svg"
             ],
-            "time": "2016-02-28 16:13:18"
+            "time": "2016-03-01 18:20:14"
         },
         {
             "name": "kartik-v/bootstrap-tabs-x",
@@ -2965,6 +3021,55 @@
             "time": "2015-10-26 06:11:43"
         },
         {
+            "name": "philippfrenzel/yii2fullcalendar",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/philippfrenzel/yii2fullcalendar.git",
+                "reference": "7b6d4f94e0a050ef3dcb013270207b49c27a9e56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/philippfrenzel/yii2fullcalendar/zipball/7b6d4f94e0a050ef3dcb013270207b49c27a9e56",
+                "reference": "7b6d4f94e0a050ef3dcb013270207b49c27a9e56",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/fullcalendar": "2.*",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-jui": "*"
+            },
+            "require-dev": {
+                "codeception/codeception": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yii2fullcalendar\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Philipp Frenzel",
+                    "email": "philipp@frenzel.net",
+                    "homepage": "http://www.frenzel.net/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Yii2 fullcalendar Widgets",
+            "homepage": "http://www.frenzel.net/",
+            "keywords": [
+                "fullcalendar",
+                "yii2"
+            ],
+            "time": "2015-12-28 07:25:32"
+        },
+        {
             "name": "russ666/yii2-countdown",
             "version": "dev-master",
             "source": {
@@ -3194,12 +3299,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "b9439593c280f2eb26a3c1c761a8ec5595a9e377"
+                "reference": "5daf281b63f7cc5c182bd27eb0dbcd499baf230d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/b9439593c280f2eb26a3c1c761a8ec5595a9e377",
-                "reference": "b9439593c280f2eb26a3c1c761a8ec5595a9e377",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/5daf281b63f7cc5c182bd27eb0dbcd499baf230d",
+                "reference": "5daf281b63f7cc5c182bd27eb0dbcd499baf230d",
                 "shasum": ""
             },
             "require": {
@@ -3280,7 +3385,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-02-26 17:31:39"
+            "time": "2016-02-29 08:40:58"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -3609,12 +3714,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "737e5e42c2320c9ccb7c314e5e2a387fe7381536"
+                "reference": "416a132083aa6f19a6ac42ae0b31fdb26159e72f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/737e5e42c2320c9ccb7c314e5e2a387fe7381536",
-                "reference": "737e5e42c2320c9ccb7c314e5e2a387fe7381536",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/416a132083aa6f19a6ac42ae0b31fdb26159e72f",
+                "reference": "416a132083aa6f19a6ac42ae0b31fdb26159e72f",
                 "shasum": ""
             },
             "require": {
@@ -3651,7 +3756,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-02-26 11:19:03"
+            "time": "2016-02-29 14:07:32"
         },
         {
             "name": "phpspec/php-diff",

@@ -10,7 +10,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'basePath' => dirname(__DIR__),
+    'basePath' => dirname(__DIR__),    
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
@@ -39,7 +39,7 @@ return [
         ],
     ],
     'modules' => [
-       'datecontrol' =>  [
+        'datecontrol' =>  [
             'class' => '\kartik\datecontrol\Module',
             // format settings for displaying each date attribute (ICU format example)
             'displaySettings' => [

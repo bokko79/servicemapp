@@ -41,7 +41,7 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
 ?>
 <div class="card_container record-full" id="card_container" style="float:none;">
     <?php /* time/loc */ ?>
-    <div class="hidden-content-container">
+    <div class="hidden-content-container" id="service-location">
         <div class="header-context">                    
             <div class="avatar center gray-color">
                 <i class="fa fa-map-marker fa-3x"></i>    

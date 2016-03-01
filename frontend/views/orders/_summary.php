@@ -102,7 +102,7 @@ $service = $model->orderServices[0]->service;
 						<?php if($model->loc!=null): ?>
 						<td>
 							<table>
-								<tr><td class="icon"><i class="fa fa-map-marker fa-2x"></i></td></tr>
+								<tr><td class="icon"><i class="fa fa-map-marker fa-2x"></i> Lokacija</td></tr>
 								<tr><td class="data"><?= $model->loc->city ?></td></tr>
 							</table>
 						</td>

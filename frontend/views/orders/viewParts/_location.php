@@ -14,7 +14,7 @@ use dosamigos\google\maps\Map;
 /* items */
 
 /* maps */
-$coord = new LatLng(['lat' => $model->user->userDetails->loc->lat, 'lng' => $model->user->userDetails->loc->lng]);
+$coord = new LatLng(['lat' => $model->loc->lat, 'lng' => $model->loc->lng]);
 $map = new Map([
     'center' => $coord,
     'zoom' => 14,
@@ -39,9 +39,9 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
         initialize();
     });");
 ?>
-<div class="card_container record-full" id="card_container" style="float:none;">
+<div class="card_container record-full" id="service-location" style="float:none;">
     <?php /* time/loc */ ?>
-    <div class="hidden-content-container" id="service-location">
+    <div class="hidden-content-container">
         <div class="header-context">                    
             <div class="avatar center gray-color">
                 <i class="fa fa-map-marker fa-3x"></i>    
@@ -52,7 +52,7 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
             </div>
             <?= Html::a('<i class="fa fa-chevron-right"></i>', null, ['class'=>'btn btn-link float-right show-more', 'id'=>'mapShowTrigger']); ?>
         </div>
-        <div class="media-screen hidden hidden-content no-margin" id="map_container">                   
+        <div class="media-screen no-margin" id="gmap0-map-canvas">                   
             <?php $map->display() ?>
         </div>
     </div>                                               

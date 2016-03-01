@@ -6,9 +6,10 @@ use frontend\models\CsServices;
 use frontend\widgets\ServiceBox;
 ?>
 <!-- VIEWED SERVICES -->
+<hr>
 <div class="featured">
-	<h2 style="text-align:center; margin:30px 0 10px 0;">Pregledane usluge</h2>
-	<hr>
+	<h1 style="text-align:left; margin:30px 0 10px 0;">Pregledane usluge</h1>
+	
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
 		<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
@@ -40,9 +41,9 @@ use frontend\widgets\ServiceBox;
 </div>
 <div class="show_more"><?= Html::a('POKAŽI JOŠ', Url::to('/services'), array('class'=>'btn btn-default')); ?></div>
 <!-- ORDERED SERVICES -->
+<hr>
 <div class="featured">
-	<h2 style="text-align:center; margin:30px 0 10px 0;">Usluge koje ste poručivali</h2>
-	<hr>
+	<h1 style="text-align:left; margin:30px 0 10px 0;">Usluge koje ste poručivali</h1>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<?php foreach (CsServices::find()->where('industry_id=632 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
 		<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
@@ -74,9 +75,9 @@ use frontend\widgets\ServiceBox;
 </div>
 <div class="show_more"><?= Html::a('POKAŽI JOŠ', Url::to('/services'), array('class'=>'btn btn-default')); ?></div>	   		
 <!-- FOLLOWED SERVICES -->
+<hr>
 <div class="featured">
-	<h2 style="text-align:center; margin:30px 0 10px 0;">Usluge koje pratite</h2>
-	<hr>
+	<h1 style="text-align:left; margin:30px 0 10px 0;">Usluge koje pratite</h1>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<?php foreach (CsServices::find()->where('industry_id=13 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
 		<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
@@ -118,9 +119,9 @@ use frontend\widgets\ServiceBox;
 <div class="show_more"><?= Html::a('POKAŽI JOŠ', Url::to('/services'), array('class'=>'btn btn-default')); ?></div>
 <?php endif; */?>
 <!-- POPULAR SERVICES -->
+<hr>
 <div class="featured">
-	<h2 style="text-align:center; margin:30px 0 10px 0;">Popularne usluge</h2>
-	<hr>
+	<h1 style="text-align:left; margin:30px 0 10px 0;">Popularne usluge</h1>
 	<p class="paragraph" style="text-align:center; margin:0 0 10px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<?php foreach (CsServices::find()->where('industry_id=101 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
 		<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">

@@ -17,7 +17,7 @@ use yii\helpers\Url;
 			<?= $this->render('subnav/services.php') ?>	
 		</div>	
 	</li>
-	<li class="<?= (Url::current()=='/market') ? 'active' : null ?>">
+	<li class="<?= (Url::current()=='/market' || (Yii::$app->controller->id=='orders' && Yii::$app->controller->action->id=='view')) ? 'active' : null ?>">
 		<?= Html::a('Market', Url::to('/market'), ['class'=>'careted','style'=>'', 'data-toggle'=>'tooltip', 'title'=>Yii::t('app', 'Service Market: Index of Service Requests')]); ?>
 		<?= Html::a('<i class="fa fa-caret-down"></i>', null, ['id'=>'glob_hover_market', 'class'=>'button']) ?>
 

@@ -4,7 +4,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<div class="card_container record-full" id="card_container" style="float:none;">   
+<div class="card_container record-full" id="service-budget" style="float:none;">   
 
      <?php /* price/action */ ?>
     <div class="secondary-context" style="height:84px;">

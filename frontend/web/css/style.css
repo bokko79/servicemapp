@@ -126,6 +126,7 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 
 /* font-weight */
 .thin {font-weight: 100;}
+.normal-thin {font-weight:300;}
 .regular {font-weight: 400;}
 .bold {font-weight: 700;}
 .extra_bold {font-weight: 900;}
@@ -978,17 +979,21 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 
 .card-width-cover img {top:0 !important; left: 0 !important;}
 
-.summary-head {display:table; width:100%; margin:20px 0;}
-.summary-head a {color:black; letter-spacing: 1px;}
-.summary-data {margin-top: 10px;}
-.summary-data td {text-align: center; color:#bbb;}
+.summary {}
+.summary a {color:black;} 
+.summary a.label {color:white;}
+.summary-first {margin:0;}
+.summary-second {margin:20px 0;}
+.summary-head {margin:20px 0;}
+.summary-head h1 {margin: 0; font-size:32px; font-weight:300; color:#444; float:left; letter-spacing: 1px;}
+.summary-head .title_details {line-height:52px;float:left; margin-left:10px;}
+.summary-data {margin: 10px;}
+.summary-data td {text-align: left; color:#bbb;}
 .summary-data .icon {height:30px;}
-.summary-data .data {font-size: 15px; font-weight: 400; color:#777;}
+.summary-data .data {font-size: 15px; font-weight: 700; color:#444; line-height: 15px;}
 
-.controls-box {width:100%; /*border: 1px solid #ddd; border-radius: 3px;*/ padding: 0 10px 10px; /*background: #fff;*/}
-.controls-box table {}
-.controls-box table td {width: 100%; text-align: center; vertical-align: middle; font-size: 15px;}
-.controls-box table .icon {font-weight: 900; color: green; letter-spacing: 2px;}
-.controls-box table .cntd {font-weight: 400;font-size: 21px;}
-.controls-box table .butn {}
-a.butn {width: 100%; /*font-weight: 700;*/ font-size: 13px; text-transform: uppercase; border-radius: 2px; margin: 20px 0 0;}
+.controls-box {font-size: 13px; letter-spacing: 2px; color: #444; background: #fff; border: 1px solid #ddd; padding: 3px 20px;}
+.controls-box .icon {font-weight: 500; color: #444; letter-spacing: 2px;}
+.cntd {font-weight: 400; font-size: 21px;}
+.controls-box .butn {}
+a.butn {width: 100%; /*font-weight: 700;*/ font-size: 13px; text-transform: uppercase; border-radius: 2px;}

@@ -57,14 +57,14 @@ $additional = [
     ];
 $items = [ $industry, $action, $object, $issue, $additional ];
 ?>
-<div class="card_container record-full" id="card_container" style="float:none;"> 
+<div class="card_container record-full" id="" style="float:none;"> 
     <div class="primary-context">
-        <div class="head thin muted">Detalji porudžbine</div>
+        <div class="head muted">Detalji porudžbine</div>
     </div>
     <?php /* service */ ?>
     <?php $orderServicesCount = count($model->orderServices); ?>
-    <?php foreach ($model->orderServices as $orderService): ?>
-    <div class="hidden-content-container hovering" id="service-details" style="position:relative;">
+    <?php foreach ($model->orderServices as $key=>$orderService): ?>
+    <div class="hidden-content-container hovering" id="service-details<?= $key ?>" style="position:relative;">
         <div class="header-context head">              
             <div class="avatar">
                 <?= Html::img('@web/images/cards/'.$orderService->service->avatar) ?>          

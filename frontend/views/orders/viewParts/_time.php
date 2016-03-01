@@ -4,7 +4,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<div class="card_container record-full" id="card_container" style="float:none;">
+<div class="card_container record-full" id="service-time" style="float:none;">
     
     <?php /* time/loc */ ?>
     <div class="header-context">  

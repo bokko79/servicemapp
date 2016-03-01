@@ -45,14 +45,14 @@ $this->stats = [
     // auction
     // industry
     // ORDERED SERVICE
-        // title
+        // title + link
         // amount
         // consumers
+        // methods
         // note
         // media
         // specifications
-        // issues
-        // methods
+        // issues        
     // location
     // time
     // frequency
@@ -69,12 +69,16 @@ $this->stats = [
         'model' => $model,
         'orderServices' => $model->orderServices,
     ]) ?>
+    <?php if($model->loc!=null): ?>
     <?= $this->render('viewParts/_location', [
         'model' => $model,
     ]) ?>
+    <?php endif; ?>
+    <?php if($model->delivery_starts!=null): ?>
     <?= $this->render('viewParts/_time', [
         'model' => $model,
     ]) ?>
+    <?php endif; ?>
     <?= $this->render('viewParts/_other', [
         'model' => $model,
     ]) ?>

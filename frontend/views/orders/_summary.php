@@ -7,6 +7,7 @@ use frontend\widgets\Tabs;
 use frontend\widgets\Stats;
 
 $service = $model->orderServices[0]->service;
+/*
 ?>
 <div class="product-head" style="background:;">
 	<?php if($model->orderServices[0]->images): ?>
@@ -44,8 +45,8 @@ $service = $model->orderServices[0]->service;
     </div>
 
     <?php endif; ?>
-</div>	
-    <div class="grid-container" style="padding-top: 20px; padding-bottom: 10px">
+</div>	*/ ?>
+    <div class="grid-container" style="padding-top: 20px; padding-bottom: 10px; margin-top:50px;">
         <div class="grid-row">
             <?php /*<div class="grid-left center">	
             	<?= Html::img('@web/images/industries/'.$model->industry->id.'.jpg', ['style'=>'width:100px; height:100px; border-radius:50px;']) ?>	         
@@ -54,9 +55,9 @@ $service = $model->orderServices[0]->service;
 
 			</div> */ ?>
 			<div class="grid-leftacross">
-				<div class="label fs_11" style="background:transparent; border-left: 5px solid #2196F3; color:#999; padding-left: 10px;"><i class="fa fa-bookmark"></i> Aukcijska porudžbina: <?= ' #'. sprintf("%'07d\n", $model->id) ?></div>
-            	<div class="float-right right"><i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->activity->time]); ?></div>
-            	<div class="summary-head" style="">
+				<div class=" fs_11 col-md-6"><div class="label label-primary" style=""><i class="fa fa-bookmark"></i></div> <span class="muted">Aukcijska porudžbina: <?= ' #'. sprintf("%'07d\n", $model->id) ?></span></div>
+            	<div class="col-md-6 right muted"><i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->activity->time]); ?></div>
+            	<div class="summary-head col-md-12" style="">
             		
 	    			<div class="float-left">
 	    			<?php 
@@ -77,47 +78,56 @@ $service = $model->orderServices[0]->service;
 	    			</div>
 	    			
             	</div>
-	    		<div class="label label-success fs_13 center" style="background:<?= $model->industry->color ?>; letter-spacing:1px; font-weight:400"><i class="fa <?= $model->industry->icon ?>"></i> <?= c($model->industry->tName) ?></div>	
-				<table class="summary-data">
-					<tr>
+	    			
+				<div class="summary-data col-md-12">
+					<div class="label label-success fs_13 center float-left" style="background:<?= $model->industry->color ?>; letter-spacing:1px; font-weight:400"><i class="fa <?= $model->industry->icon ?>"></i> <?= c($model->industry->tName) ?></div>
 						<?php // amount ?>
 						<?php if($model->orderServices[0]->amount!=null): ?>
-						<td>
+						<div class="col-md-2">
 							<table>
 								<tr><td class="icon"><i class="fa fa-signal fa-rotate-270 fa-lg"></i></td></tr>
 								<tr><td class="data"><?= $model->orderServices[0]->amount ?> <?= $service->unit->oznaka ?></td></tr>
 							</table>
-						</td>
+						</div>
 						<?php endif; ?>
 						<?php // consumer ?>
 						<?php if($model->orderServices[0]->consumer!=null): ?>
-						<td>
+						<div class="col-md-3">
 							<table>
 								<tr><td class="icon"><i class="fa fa-user fa-2x"></i></td></tr>
 								<tr><td class="data"><?= $model->orderServices[0]->consumer ?> osobe</td></tr>
 							</table>
-						</td>
+						</div>
 						<?php endif; ?>
 						<?php // location ?>
 						<?php if($model->loc!=null): ?>
-						<td>
+						<div class="col-md-2">
 							<table>
 								<tr><td class="icon"><i class="fa fa-map-marker fa-2x"></i> Lokacija</td></tr>
 								<tr><td class="data"><?= $model->loc->city ?></td></tr>
 							</table>
-						</td>
+						</div>
 						<?php endif; ?>
 						<?php // time ?>
 						<?php if($model->delivery_starts!=null): ?>
-						<td>
+						<div class="col-md-2">
 							<table>
 								<tr><td class="icon"><i class="fa fa-calendar fa-2x"></i></td></tr>
 								<tr><td class="data"><?= f_date_short($model->delivery_starts) ?></td></tr>
 							</table>
-						</td>
-						<?php endif; ?>    						
-					</tr>
-				</table>
+						</div>
+						<?php endif; ?> 
+						<?php // budžet ?>
+						<?php if($model->budget!=null): ?>
+						<div class="col-md-2">
+							<table>
+								<tr><td class="icon"><i class="fa fa-money fa-2x"></i></td></tr>
+								<tr><td class="data"><?= $model->budget_operator. ' ' .Yii::$app->formatter->asCurrency($model->budget, $model->currency->code) ?></td></tr>
+							</table>
+						</div>
+						<?php endif; ?>   						
+					
+				</div>
 			</div>
 			<div class="grid-right media_right_sidebar">
 				 				
@@ -125,7 +135,7 @@ $service = $model->orderServices[0]->service;
 				<div class="controls-box" style="">
 					<table>
 						<tr><td class="icon"><i class="fa fa-refresh fa-spin"></i> AKTIVNO</td></tr>
-						<tr><td class="cntd"><?php $valid = \russ666\widgets\Countdown::widget([
+						<tr><td class="cntd muted"><?php $valid = \russ666\widgets\Countdown::widget([
 				                    'datetime' => $model->validity,
 				                    'format' => '%d<span class=\"fs_11\">d</span> %H<span class=\"fs_11\">h</span> %M<span class=\"fs_11\">m</span> %S<span class=\"fs_11\">s</span>',
 				                    'events' => [
@@ -138,7 +148,7 @@ $service = $model->orderServices[0]->service;
 					
                 
 				</div>
-				<?= Html::a('<i class="fa fa-sticky-note"></i>&nbsp;'.Yii::t('app', 'Pošalji ponudu'), Url::to(), ['class'=>'btn btn-warning butn']); ?>
+				<?= Html::a('<i class="fa fa-sticky-note"></i>&nbsp;'.Yii::t('app', 'Pošalji ponudu'), Url::to(), ['class'=>'btn btn-primary butn btn-lg']); ?>
 				<?= Html::a('<i class="fa fa-bookmark"></i>&nbsp;'.Yii::t('app', 'Obeleži porudžbinu'), Url::to(), ['class'=>'btn btn-default butn']); ?>
 				
 			</div>  

@@ -24,6 +24,7 @@
 .card_container .head.second {font-size: 14px; line-height: 14px; padding-top: 4px; font-weight: 700;}
 .card_container .head.major {font-size: 20px; line-height: 18px; padding-top: 4px; font-weight: 700;}
 .card_container .head.black {font-weight: 900;}
+.card_container .head.thin {font-weight: 300;}
 .dim {opacity:.36;}
 .card_container .subhead {font-size: 13px; font-weight: 400; color:#999; float:none; width:100%; line-height: 14px;}
 .card_container .subhead.float-left {float: left !important; font-weight:700;}

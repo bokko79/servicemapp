@@ -217,6 +217,14 @@ class Orders extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getCurrency()
+    {
+        return $this->hasOne(CsCurrencies::className(), ['id' => 'currency_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getActivity()
     {
         return $this->hasOne(Activities::className(), ['id' => 'activity_id']);

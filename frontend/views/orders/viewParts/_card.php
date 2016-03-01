@@ -58,6 +58,9 @@ $additional = [
 $items = [ $industry, $action, $object, $issue, $additional ];
 ?>
 <div class="card_container record-full" id="card_container" style="float:none;"> 
+    <div class="primary-context">
+        <div class="head thin muted">Detalji porudžbine</div>
+    </div>
     <?php /* service */ ?>
     <?php $orderServicesCount = count($model->orderServices); ?>
     <?php foreach ($model->orderServices as $orderService): ?>

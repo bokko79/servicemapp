@@ -93,6 +93,7 @@ if(Yii::$app->user->isGuest){
   Modal::begin([
         'id'=>'uac-modal',
         'size'=>Modal::SIZE_LARGE,
+        'options'=>['class'=>'overlay_modal fade','tabindex' => null,]
     ]); ?>
 
    <div class="container-fluid uac">

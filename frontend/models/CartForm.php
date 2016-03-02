@@ -29,6 +29,7 @@ class CartForm extends Model
     public $consumer_children;
     public $note;
     public $title;
+    public $issue_text;
     public $checkUserObject = 0; // proverava da li su unete specifikacije
 
     private $_service;
@@ -56,7 +57,7 @@ class CartForm extends Model
             ['consumer', 'integer', 'min'=>$service->consumer_range_min, 'max'=>$service->consumer_range_max],
             ['consumer_operator', 'default', 'value'=>'exact'],
             ['title', 'string', 'max' => 64], 
-            ['note', 'string'],            
+            [['note', 'issue_text'], 'string'],            
             [['title', 'note'], 'filter', 'filter' => 'trim'],
             //$pic,
             [['skills'], 'safe'],
@@ -230,6 +231,7 @@ class CartForm extends Model
             'consumer_children' => $this->consumer_children,
             'note' => $this->note,
             'title' => $this->title,
+            'issue_text' => $this->issue_text,
             'images' => $this->imageFiles,
             'issues' => $this->issues,
             'user_object' => $this->user_object,

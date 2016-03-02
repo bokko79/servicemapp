@@ -369,8 +369,8 @@ img {height:auto;max-width:100%;vertical-align:middle;border:0;-ms-interpolation
 .modal-backdrop,.modal-backdrop.fade.in{opacity:.95;filter:alpha(opacity=95)}
 
 .overlay_modal .modal-content {border:none; background: transparent; box-shadow: none; width:960px;}
-.overlay_modal .modal-header {padding:9px 15px; border-bottom:1px solid #777;}
-.overlay_modal .modal-header .close{margin-top:-15px; color:#fff;}
+.overlay_modal .modal-header {padding:9px 15px; border-bottom:none;}
+.overlay_modal .modal-header .close{margin-top:-15px; color:#fff; opacity: .7;}
 
 /*.overlay_modal{ font-weight: 100; height:100%; max-height:720px !important; position:fixed;left:0; top:0; z-index:1050;width:100%;background-color:transparent; color:#fff; text-align: left;}
 .overlay_modal.fade{top:-720px; -webkit-transition:opacity .1s linear,top .1s ease-out;-moz-transition:opacity .1s linear,top .1s ease-out;-o-transition:opacity .1s linear,top .1s ease-out;transition:opacity .1s linear,top .1s ease-out}
@@ -648,7 +648,7 @@ div.category::-webkit-scrollbar { display: none; }
 
 .featured {margin:0 auto 20px; display: table; width: 1170px;}
 .show_more {margin:30px 0 40px; display: table; text-align: center; width: 100%;}
-.show_more a {font-weight: 700; padding:20px 40px !important; font-size: 15px;}
+.show_more a {font-weight: 700; padding:10px 40px !important; font-size: 15px;}
 
 /* ----------------- 32.3. GLOBAL NAVIGATION: SEARCH */
 /* global nav search*/
@@ -997,4 +997,10 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 .cntd {font-weight: 400; font-size: 21px;}
 .controls-box .butn {}
 a.butn {width: 100%; /*font-weight: 700;*/ font-size: 13px; text-transform: uppercase; border-radius: 2px;}
+/* HACKS */
+/* full-calendar row height */
 .fc-row {height: 52px !important;}
+/* select2 input styling */
+.select2-container--krajee .select2-selection {border-radius: 0px !important;}
+/* for geocomplete in modals */
+.pac-container {z-index: 9999 !important;}

@@ -32,6 +32,20 @@ class SignupForm extends Model
             ['password', 'compare'],
         ];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => t('Korisničko ime'),
+            'password' => t('Lozinka'),
+            'password_repeat' => t('Ponovite lozinku'),
+            'email' => t('E-mail adresa'),
+        ];
+    }
+
     /**
      * Signs user up.
      *

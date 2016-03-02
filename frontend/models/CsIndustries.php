@@ -227,4 +227,23 @@ class CsIndustries extends \yii\db\ActiveRecord
         }       
         return false;   
     }
+
+    public static function getAllIndustriesByCategories() {
+        $options = [];
+         
+        $parents = CsCategories::find()->all();
+        foreach($parents as $key => $p) {
+            $children = self::find()->where("category_id=:parent_id", [":parent_id"=>$p->id])->all();
+            $children = self::find()->where("category_id=:parent_id", [":parent_id"=>$p->id])->all(); 
+            $options[$p->name] = yii\helpers\ArrayHelper::map($children, 'id', 'tName');
+
+            /*$child_options = [];
+            foreach($children as $child) {
+                $child_options[$child->id] = $child->tName;
+            }
+            $options[$p->tName] = $child_options;*/
+        }
+        return $options;
+    }
+
 }

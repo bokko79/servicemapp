@@ -118,3 +118,18 @@ function initialize_add_loc(){
     });
   });
 }
+// order location start
+function initialize_reg_loc(){
+  $("#locations-name").geocomplete({
+    map: "#my_map_register",
+    mapOptions: {
+      //zoom: 10,
+      scrollwheel: true,
+    },
+    markerOptions: {
+      draggable: true
+    },
+    details: "#signupprovider-form-vertical",
+    detailsAttribute: "data-geo",
+  });  
+}

@@ -32,6 +32,18 @@ class LoginForm extends Model
     }
 
     /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => t('Korisničko ime'),
+            'password' => t('Lozinka'),
+            'rememberMe' => t('Zapamti me'),
+        ];
+    }
+
+    /**
      * Validates the password.
      * This method serves as the inline validation for password.
      *

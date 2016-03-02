@@ -6,6 +6,7 @@ use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use common\models\SignupForm;
+use common\models\SignupProviderForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -108,9 +109,10 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
-            return $this->render('login', [
+            return $this->goHome();
+            /*return $this->render('login', [
                 'model' => $model,
-            ]);
+            ]);*/
         }
     }
 
@@ -243,6 +245,29 @@ class SiteController extends Controller
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Signs provider up.
+     *
+     * @return mixed
+     */
+    public function actionSignprovider()
+    {
+        $model = new SignupProviderForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                } else {
+                    $this->redirect('/info');
+                }
+            } else {
+                $this->redirect('/services');
+            }
+        } else {
+            $this->redirect('/provider');
+        }
     }
 
     /**

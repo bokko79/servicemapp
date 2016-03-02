@@ -405,7 +405,7 @@ class OrdersController extends Controller
                 $model_services[$keyd]->consumer_to = $data['consumer_to'];
                 $model_services[$keyd]->consumer_children = $data['consumer_children'];
                 $model_services[$keyd]->consumer_operator = $data['consumer_operator'];
-                $model_services[$keyd]->issue_text = null;
+                $model_services[$keyd]->issue_text = $data['issue_text'];
                 $model_services[$keyd]->note = $data['note'];
                 $model_services[$keyd]->save();
 

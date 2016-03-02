@@ -152,6 +152,13 @@ class User extends ActiveRecord implements IdentityInterface
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
     /**
+     * Generates new password hash
+     */
+    public function generatePasswordHash()
+    {
+        $this->password_hash = Yii::$app->security->generateRandomString() . '_' . time();
+    }
+    /**
      * Generates new password reset token
      */
     public function generatePasswordResetToken()
@@ -164,5 +171,47 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+    /**
+     * Generates "remember me" authentication key
+     */
+    public function generateEmailResetHash()
+    {
+        $this->email_reset_hash = Yii::$app->security->generateRandomString();
+    }
+    /**
+     * Generates
+     */
+    public function generateActivationHash()
+    {
+        $this->activation_hash = Yii::$app->security->generateRandomString();
+    }
+    /**
+     * Generates
+     */
+    public function generateInviteHash()
+    {
+        $this->invite_hash = Yii::$app->security->generateRandomString();
+    }
+    /**
+     * Generates
+     */
+    public function generateLoginHash()
+    {
+        $this->login_hash = Yii::$app->security->generateRandomString();
+    }
+    /**
+     * Generates
+     */
+    public function generatePhoneVerificationHash()
+    {
+        $this->phone_verification_hash = substr(str_shuffle(str_repeat("0123456789", 4)), 0, 4);
+    }
+    /**
+     * Generates
+     */
+    public function generateRoleCode()
+    {
+        $this->role_code = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 13)), 0, 13);
     }
 }

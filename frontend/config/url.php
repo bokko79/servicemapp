@@ -13,6 +13,8 @@ return [
         'invite-friends' => 'site/invite', // :page
         'membership' => 'site/membership', // :page
         'search' => 'site/search', // :page
+        'register' => 'site/signup',
+        'registerProvider' => 'site/signprovider',
 
         // 2. POSTS             
         'info' => 'posts/index', // :page

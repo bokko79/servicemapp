@@ -9,7 +9,7 @@ use frontend\widgets\Stats;
 $service = $model->orderServices[0]->service;
 $valid = \russ666\widgets\Countdown::widget([
     'datetime' => $model->validity,
-    'format' => '%d<span class=\"fs_11\">d</span> %H<span class=\"fs_11\">h</span> %M<span class=\"fs_11\">m</span> %S<span class=\"fs_11\">s</span>',
+    'format' => '%d<span class=\"fs_11\">d</span> %H<span class=\"fs_11\">h</span>:%M<span class=\"fs_11\">m</span>:%S',
     'events' => [
         //'finish' => 'function(){location.reload()}',
     ],

@@ -997,3 +997,4 @@ fieldset.no_data {margin: 0px 0 30px; padding: 40px; border:1px solid #ddd; bord
 .cntd {font-weight: 400; font-size: 21px;}
 .controls-box .butn {}
 a.butn {width: 100%; /*font-weight: 700;*/ font-size: 13px; text-transform: uppercase; border-radius: 2px;}
+.fc-row {height: 52px !important;}

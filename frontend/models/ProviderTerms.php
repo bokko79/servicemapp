@@ -47,6 +47,9 @@ class ProviderTerms extends \yii\db\ActiveRecord
             [['ip_warranty', 'performance_warranty', 'invoicing', 'payment_methods', 'payment', 'payment_at_once_time', 'payment_installment_frequency_unit', 'liability', 'agreement_effective_until', 'cancellation_policy'], 'string'],
             [['update_time'], 'safe'],
             [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Provider::className(), 'targetAttribute' => ['provider_id' => 'id']],
+            [['update_time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 

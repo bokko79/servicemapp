@@ -44,7 +44,10 @@ class UserNotificationsSms extends \yii\db\ActiveRecord
         return [
             [['user_id', 'update_time'], 'required'],
             [['user_id', 'new_req', 'exp_req', 'succ_req', 'new_bid', 'awa_bid', 'exp_bid', 'new_rev', 'new_rate', 'new_deal', 'subs_deal', 'exp_deal', 'upd_memb', 'exp_memb', 'jubilee'], 'integer'],
-            [['update_time'], 'safe']
+            [['update_time'], 'safe'],
+            [['update_time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 

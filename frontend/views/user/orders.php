@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td>Ponude</td>
             <td class="center action-column">Akcija</td>
         </tr>
+        <?php if($dataProvider->totalCount!=0): ?>
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
             'itemView' => 'activity/_orders',
@@ -41,5 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attributes' => ['time_asc', 'time_desc'],
             ],
         ]) ?> 
+    <?php endif; ?>
     </table>
 </div>

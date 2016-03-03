@@ -48,6 +48,10 @@ class OrdersSearch extends Orders
 
         $query->joinWith(['activity', 'services']);
 
+        $query->andFilterWhere([
+            'activities.user_id' => Yii::$app->user->id,
+        ]);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

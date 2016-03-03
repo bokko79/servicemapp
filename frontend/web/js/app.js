@@ -13,7 +13,7 @@ $.fn.followToProfile = function (pos) {
             'position': 'fixed',
             'left':0,
             'right':0,
-            'top': '50px',
+            'top': '60px',
             'z-index': 1000,
         });
         //$('header.main nav').css({'box-shadow':'0 1px 7px #000'});

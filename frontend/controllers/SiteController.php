@@ -234,17 +234,21 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
-            }
+        $location = new \frontend\models\Locations();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
         }
-
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+        if ($model->load(Yii::$app->request->post()) && ($user = $model->signup())) {      
+            if($this->saveUser($location, $user, $model)){
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goBack();
+                }
+                return $this->goBack();                    
+            }
+            return $this->goBack();            
+        }
+        return $this->goBack();
     }
 
     /**
@@ -255,19 +259,17 @@ class SiteController extends Controller
     public function actionSignprovider()
     {
         $model = new SignupProviderForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
+        $location = new \frontend\models\Locations();
+        if ($model->load(Yii::$app->request->post()) && ($user = $model->signup())) {            
+            if($this->saveProvider($location, $user, $model)){
                 if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                } else {
-                    $this->redirect('/info');
+                    return $this->redirect('/'.$user->username.'/home');
                 }
-            } else {
-                $this->redirect('/services');
+                return $this->goBack();
             }
-        } else {
-            $this->redirect('/provider');
+            return $this->goBack();
         }
+        return $this->goBack();
     }
 
     /**
@@ -317,5 +319,91 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    protected function saveUser($location, $user, $model)
+    {
+        if($location->load(Yii::$app->request->post())){
+            $location->user_id = $user->id;
+            if($location->save()){
+                $user_location = new \frontend\models\UserLocations();
+                $user_location->loc_id=$location->id;
+                $user_location->user_id=$user->id;
+                $user_location->save();
+                // user details
+                $userDetails = new \frontend\models\UserDetails();
+                $userDetails->user_id = $user->id;
+                $userDetails->loc_id = $location->id;
+                $userDetails->image_id = 2;
+                $userDetails->lang_code = 'SR';
+                $userDetails->currency_id = 1;
+                $userDetails->role_id = 1;
+                $userDetails->time_role_set = date('Y-m-d H:i:s');
+                $userDetails->update_time = date('Y-m-d H:i:s');
+                $userDetails->save();
+                // user notifications
+                $userNotifications = new \frontend\models\UserNotifications();
+                $userNotifications->user_id = $user->id;
+                $userNotifications->update_time = date('Y-m-d H:i:s');
+                $userNotifications->save();
+                // user notificationsSMS
+                $userNotificationsSMS = new \frontend\models\UserNotificationsSms();
+                $userNotificationsSMS->user_id = $user->id;
+                $userNotificationsSMS->update_time = date('Y-m-d H:i:s');
+                $userNotificationsSMS->save();
+                // user log
+                $userLog = new \frontend\models\UserLog();
+                $userLog->user_id = $user->id;
+                $userLog->action = 'provider_registered';
+                $userLog->alias = $user->id;
+                $userLog->time = date('Y-m-d H:i:s');
+                $userLog->save();
+                
+                return true;
+            } else {
+                return false;
+            }
+        }  
+        return false;
+    }
+
+    protected function saveProvider($location, $user, $model)
+    {
+        if($this->saveUser($location, $user, $model)){            
+            // provider
+            $provider = new \frontend\models\Provider();
+            $provider->user_id = $user->id;
+            $provider->industry_id = $model->industry;
+            $provider->registration_time = date('Y-m-d H:i:s');
+            if($provider->save()){
+                // provider Industry
+                $providerIndustry = new \frontend\models\ProviderIndustries();
+                $providerIndustry->provider_id = $provider->id;
+                $providerIndustry->industry_id = $model->industry;
+                $providerIndustry->main = 1;
+                $providerIndustry->save();
+                // provider Language
+                $providerLanguage = new \frontend\models\ProviderLanguages();
+                $providerLanguage->provider_id = $provider->id;
+                $providerLanguage->lang_code = 'SR';
+                $providerLanguage->save();
+                // provider Portfolio
+                $providerPortfolio = new \frontend\models\ProviderPortfolio();
+                $providerPortfolio->provider_id = $provider->id;
+                $providerPortfolio->name = 'Moj portfolio';
+                $providerPortfolio->save();
+                // provider Terms
+                $providerTerms = new \frontend\models\ProviderTerms();
+                $providerTerms->provider_id = $provider->id;
+                $providerTerms->update_time = date('Y-m-d H:i:s');
+                $providerTerms->save();
+
+                return true;
+
+            } else {
+                return false;
+            }
+        }  
+        return false;
     }
 }

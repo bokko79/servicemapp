@@ -63,7 +63,7 @@ class Provider extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'legal_form', 'registration_time'], 'required'],
+            [['user_id', 'registration_time'], 'required'],
             [['user_id', 'industry_id', 'is_active', 'score', 'rate', 'rating', 'hit_counter'], 'integer'],
             [['legal_form', 'status'], 'string'],
             [['work_time_start', 'work_time_end', 'registration_time', 'del_upd_time', 'service_upd_time', 'licence_upd_time'], 'safe'],
@@ -74,6 +74,9 @@ class Provider extends \yii\db\ActiveRecord
             [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsIndustries::className(), 'targetAttribute' => ['industry_id' => 'id']],
+            [['registration_time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 

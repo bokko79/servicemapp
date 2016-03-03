@@ -35,7 +35,10 @@ class UserLog extends \yii\db\ActiveRecord
             [['user_id', 'action', 'time'], 'required'],
             [['user_id', 'alias', 'alias2'], 'integer'],
             [['action'], 'string'],
-            [['time'], 'safe']
+            [['time'], 'safe'],
+            [['time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 

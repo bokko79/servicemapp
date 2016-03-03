@@ -1,27 +1,32 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\SignupForm;
+use frontend\models\Locations;
 
 $model = new SignupForm();
+$location = new Locations();
 ?>
 <div class="container-fluid">
 	<div class="row">
         <div class="col-md-5">
-            <h4><i class="fa fa-sign-in"></i>&nbsp;&nbsp; Registrujte se kao korisnik</h4>
+            <h4><i class="fa fa-sign-in"></i>&nbsp;Registracija korisnika</h4>
 
 
-           <div class="margin-top-20">
+           <div class="margin-top-20" onclick="initialize_reg_loc();">
             <?php 
                 $form = ActiveForm::begin([
                     'id' => 'signup-form-vertical', 
                     'type' => ActiveForm::TYPE_VERTICAL,
-                    'action' => Yii::$app->urlManager->createUrl('site/signup'),
+                    'action' => Url::to('/register'),                    
                 ]); 
             ?>
                 <?= $form->field($model, 'username', [
+                    //'enableAjaxValidation' => true,
+                    'enableClientValidation' => true,                   
                     'feedbackIcon' => [
                         'default' => 'user',
                         'success' => 'ok',
@@ -49,6 +54,27 @@ $model = new SignupForm();
                         'error' => 'exclamation-sign',
                         'defaultOptions' => ['class'=>'text-primary']
                     ]])->input('email') ?>
+                <?= $form->field($location, 'name', [
+                        'addon' => ['prepend' => ['content'=>'<i class="fa fa-map-marker"></i>']],
+                        'feedbackIcon' => [
+                            'success' => 'ok',
+                            'error' => 'exclamation-sign',
+                            'successOptions' => ['class'=>'text-primary'],
+                            'errorOptions' => ['class'=>'text-primary', 'style'=>'top: 6px;']
+                        ],
+                    ])->input([],[]) ?>
+                    <?= $form->field($location, 'lat')->hiddenInput(['data-geo'=>'lat', 'id'=>'hidden-geo-input'])->label(false) ?>
+                    <?= $form->field($location, 'lng')->hiddenInput(['data-geo'=>'lng', 'id'=>'hidden-geo-input'])->label(false) ?>                    
+                    <?= yii\helpers\Html::activeHiddenInput($location, 'country', ['data-geo'=>'country', 'id'=>'hidden-geo-input']) ?>
+                    <?= yii\helpers\Html::activeHiddenInput($location, 'state', ['data-geo'=>'state', 'id'=>'hidden-geo-input']) ?>
+                    <?= yii\helpers\Html::activeHiddenInput($location, 'district', ['data-geo'=>'sublocality', 'id'=>'hidden-geo-input']) ?>
+                    <?= yii\helpers\Html::activeHiddenInput($location, 'city', ['data-geo'=>'locality', 'id'=>'hidden-geo-input']) ?>
+                    <?= yii\helpers\Html::activeHiddenInput($location, 'zip', ['data-geo'=>'postal_code', 'id'=>'hidden-geo-input']) ?>
+                    <?= yii\helpers\Html::activeHiddenInput($location, 'mz', ['data-geo'=>'neighborhood', 'id'=>'hidden-geo-input']) ?>     
+                    <?= yii\helpers\Html::activeHiddenInput($location, 'street', ['data-geo'=>'route', 'id'=>'hidden-geo-input']) ?>
+                    <?= yii\helpers\Html::activeHiddenInput($location, 'no', ['data-geo'=>'street_number', 'id'=>'hidden-geo-input']) ?>
+                    <?= yii\helpers\Html::activeHiddenInput($location, 'location_name', ['data-geo'=>'formatted_address', 'id'=>'hidden-geo-input']) ?>
+                
                 <label>I Aggree With <a href="#">Terms &amp; Conditions</a></label>
                 <div class="form-group">
                     <?= Html::submitButton('Registracija korisnika', ['class' => 'btn btn-primary', 'style'=>'width:100%']) ?>
@@ -70,17 +96,11 @@ $model = new SignupForm();
         <div class="col-md-7">
             <h4><i class="fa fa-user"></i>&nbsp;&nbsp;Login</h4>
             <div class="box">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit fusce vel.
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit fusce vel sapien elit in.
-                </p>
+                Već imate nalog na servicempp.com?<br>
+                Da bi se prijavili, <a href="#w21-tab0" data-toggle="tab">kliknite ovde.</a>
+                <?= 333 ?>
             </div>
-            <div class="box">
-                Already Have An Account.<br>
-                Click Here For <a href="#panel2" data-toggle="tab">Login</a>
-            </div>
+            <div id="my_map_register" class="" style="height:260px; margin-bottom:20px;"></div>
         </div>
     </div>
 </div>

@@ -120,8 +120,23 @@ function initialize_add_loc(){
 }
 // order location start
 function initialize_reg_loc(){
-  $("#locations-name").geocomplete({
+  $("#signup-form-vertical #locations-name").geocomplete({
     map: "#my_map_register",
+    mapOptions: {
+      //zoom: 10,
+      scrollwheel: true,
+    },
+    markerOptions: {
+      draggable: true
+    },
+    details: "#signup-form-vertical",
+    detailsAttribute: "data-geo",
+  });  
+}
+// order location start
+function initialize_reg_pro_loc(){
+  $("#signupprovider-form-vertical #locations-name").geocomplete({
+    map: "#my_map_register_pro",
     mapOptions: {
       //zoom: 10,
       scrollwheel: true,

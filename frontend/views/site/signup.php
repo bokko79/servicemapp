@@ -5,7 +5,8 @@
 /* @var $model \frontend\models\SignupForm */
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use kartik\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
@@ -17,18 +18,45 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-
-                <?= $form->field($model, 'username') ?>
-
-                <?= $form->field($model, 'email') ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
+            <?php 
+                $form = ActiveForm::begin([
+                    'id' => 'signups-form-vertical', 
+                    'type' => ActiveForm::TYPE_VERTICAL,
+                    'action' => Yii::$app->urlManager->createUrl('/register'),
+                ]); 
+            ?>
+                <?= $form->field($model, 'username', [
+                    'feedbackIcon' => [
+                        'default' => 'user',
+                        'success' => 'ok',
+                        'error' => 'exclamation-sign',
+                        'defaultOptions' => ['class'=>'text-primary']
+                    ]])->input('text') ?>
+                <?= $form->field($model, 'password', [
+                    'feedbackIcon' => [
+                        'default' => 'lock',
+                        'success' => 'ok',
+                        'error' => 'exclamation-sign',
+                        'defaultOptions' => ['class'=>'text-primary']
+                    ]])->passwordInput() ?>
+                <?= $form->field($model, 'password_repeat', [
+                    'feedbackIcon' => [
+                        'default' => 'lock',
+                        'success' => 'ok',
+                        'error' => 'exclamation-sign',
+                        'defaultOptions' => ['class'=>'text-primary']
+                    ]])->passwordInput() ?>
+                <?= $form->field($model, 'email', [
+                    'feedbackIcon' => [
+                        'default' => 'envelope',
+                        'success' => 'ok',
+                        'error' => 'exclamation-sign',
+                        'defaultOptions' => ['class'=>'text-primary']
+                    ]])->input('email') ?>
+                <label>I Aggree With <a href="#">Terms &amp; Conditions</a></label>
                 <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton('Registracija korisnika', ['class' => 'btn btn-primary', 'style'=>'width:100%']) ?>
                 </div>
-
             <?php ActiveForm::end(); ?>
         </div>
     </div>

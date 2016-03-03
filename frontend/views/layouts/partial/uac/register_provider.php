@@ -10,15 +10,12 @@ use frontend\models\Locations;
 
 $model = new SignupProviderForm();
 $location = new Locations();
-$model->location = $location;
 ?>
 <div class="container-fluid">
 	<div class="row">
         <div class="col-md-5">
-            <h4><i class="fa fa-sign-in"></i>&nbsp;&nbsp; Registrujte se kao korisnik</h4>
-
-
-           <div class="margin-top-20" onclick="initialize_reg_loc();">
+            <h4><i class="fa fa-sign-in"></i>&nbsp;&nbsp; Registrujte se kao provajder</h4>
+            <div class="margin-top-20" onclick="initialize_reg_pro_loc();">
             <?php 
                 $form = ActiveForm::begin([
                     'id' => 'signupprovider-form-vertical', 
@@ -88,33 +85,14 @@ $model->location = $location;
             <?php ActiveForm::end(); ?>    
             </div>
         </div>
-        <?php /*<div class="col-md-3">
-            <h4><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Social</h4>
-            <div class="socials clearfix">
-                <a class="fa fa-facebook facebook"></a>
-                <a class="fa fa-twitter twitter"></a>
-                <a class="fa fa-google-plus google-plus"></a>
-                <a class="fa fa-pinterest pinterest"></a>
-                <a class="fa fa-linkedin linked-in"></a>
-                <a class="fa fa-github github"></a>
-            </div>
-        </div> */ ?>
         <div class="col-md-7">
             <h4><i class="fa fa-user"></i>&nbsp;&nbsp;Login</h4>
             <div class="box">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit fusce vel.
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit fusce vel sapien elit in.
-                </p>
-            </div>
-            <div class="box">
-                Already Have An Account.<br>
-                Click Here For <a href="#panel2" data-toggle="tab">Login</a>
+                Već imate nalog na servicempp.com?<br>
+                Da bi se prijavili, <a href="#w21-tab0" data-toggle="tab">kliknite ovde.</a>
                 <?= 333 ?>
             </div>
-            <div id="my_map_register" class="" style="height:200px; margin-bottom:20px;"></div>
+            <div id="my_map_register_pro" class="" style="height:260px; margin-bottom:20px;"></div>
         </div>
     </div>
 </div>

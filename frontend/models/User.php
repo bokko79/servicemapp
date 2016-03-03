@@ -92,7 +92,7 @@ class User extends \yii\db\ActiveRecord
         return [
             [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
             [['email_reset_time', 'activation_time', 'last_login_time', 'phone_verification_time'], 'safe'],
-            [['is_provider', 'registered_by', 'type', 'login_count', 'online_status', 'last_activity', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['is_provider', 'registered_by', 'type', 'login_count', 'online_status', 'last_activity', 'status'], 'integer'],
             [['rememberme_token'], 'string'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key', 'email_reset_hash', 'fullname', 'activation_hash', 'invite_hash', 'login_hash'], 'string', 'max' => 32],
@@ -102,7 +102,10 @@ class User extends \yii\db\ActiveRecord
             [['role_code'], 'string', 'max' => 13],
             [['username'], 'unique'],
             [['email'], 'unique'],
-            [['password_reset_token'], 'unique']
+            [['password_reset_token'], 'unique'],
+            [['created_at', 'updated_at'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 

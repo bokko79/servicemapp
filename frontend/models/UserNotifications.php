@@ -54,7 +54,10 @@ class UserNotifications extends \yii\db\ActiveRecord
         return [
             [['user_id', 'update_time'], 'required'],
             [['user_id', 'new_req', 'upd_req', 'del_req', 'exp_req', 'succ_req', 'new_bid', 'upd_bid', 'del_bid', 'rej_bid', 'rep_bid', 'awa_bid', 'exp_bid', 'new_rev', 'new_rate', 'new_comm', 'new_rcmnd', 'new_deal', 'subs_deal', 'upd_deal', 'exp_deal', 'del_deal', 'upd_memb', 'exp_memb', 'jubilee'], 'integer'],
-            [['update_time'], 'safe']
+            [['update_time'], 'safe'],
+            [['update_time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 

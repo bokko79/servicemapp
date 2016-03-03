@@ -53,7 +53,10 @@ class UserDetails extends \yii\db\ActiveRecord
             [['user_id', 'loc_id', 'image_id', 'currency_id', 'role_id', 'Mcoin', 'units', 'ticker_status', 'score', 'rate', 'rating'], 'integer'],
             [['time_role_set', 'time_role_exp', 'DOB', 'update_time'], 'safe'],
             [['timezone', 'gender'], 'string'],
-            [['lang_code'], 'string', 'max' => 2]
+            [['lang_code'], 'string', 'max' => 2],
+            [['update_time', 'time_role_set'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 

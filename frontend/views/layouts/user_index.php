@@ -10,7 +10,7 @@ use frontend\widgets\PageTitle;
 use frontend\widgets\Stats;
 use frontend\widgets\ProfileSubNav;
 ?>
-<?php $user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
+<?php $user = $this->params['user']; ?>
 
 <?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
 <div class="profile_head_stick fadeInDown animated">
@@ -22,7 +22,7 @@ use frontend\widgets\ProfileSubNav;
     </div>
 </div>
 <div class="subnav-fixed">
-    <?= $this->render('partial/subnav/user_profile.php') ?>
+    <?= $this->render('partial/subnav/user_profile.php', ['user'=>$user]) ?>
 </div>
 <div class="grid-container" style="margin-top:70px;">    
     <div class="grid-row">
@@ -37,29 +37,7 @@ use frontend\widgets\ProfileSubNav;
                 ]);
             ?>
             <?php // Details Widget ?>
-            <div class="card_container record-200 card-tile" id="card_container" style="float:none; clear:both;">
-                <a href="<?= Url::to('/services') ?>">                   
-                    <div class="primary-context right">
-                        <div class="head dim"><i class="fa fa-user"></i></div>
-                    </div>
-                    <div class="secondary-context cont">
-                        <p>test: @username</p>
-                    </div> 
-                </a>
-            </div>
-            <div class="card_container record-200 card-tile" id="card_container" style="float:none; clear:both;">
-                <a href="<?= Url::to('/services') ?>">                   
-                    <div class="primary-context right">
-                        <div class="head dim"><i class="fa fa-map-marker"></i></div>
-                    </div>
-                    <div class="secondary-context cont">
-                        <p>test: @username</p>
-                    </div>            
-                    <div class="action-area right">
-                        <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
-                    </div>
-                </a>
-            </div>            
+            <?= $this->render('partial/user_details.php', ['user'=>$user]) ?>
         </div>
 
         <div class="grid-center" style="">   

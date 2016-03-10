@@ -10,7 +10,7 @@ $session = Yii::$app->session;
 ?>
 <div class="container" style="">
 	<div class="content" style="">
-	<?php if($session->get("state")): ?>
+	<?php if($session->get("state") && !$getService): ?>
 		<h3 style="margin:0; text-align:center"><?= ($session->get("state")=='order') ? 'Izaberite uslugu koju želite da poručite' : 'Izaberite uslugu koju želite da ponudite' ?></h3>
 		<hr>
 	<?php endif; ?>

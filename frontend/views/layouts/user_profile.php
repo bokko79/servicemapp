@@ -14,8 +14,7 @@
             <?php // Details Widget ?>
         </div>
 
-        <div class="grid-center" style=""> 
-            <?= $this->render('partial/quick-forms.php') ?>           
+        <div class="grid-center" style="">          
             <?= $content ?>
         </div>
                 

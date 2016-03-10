@@ -114,7 +114,30 @@ class ProviderIndustriesController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionMain($id)
+    {
+        $provider_industry = $this->findModel($id);
+        $provider = $provider_industry->provider;
+        if($provider->industries){
+            foreach($provider->industries as $pro_ind){
+                if($pro_ind->main==1){
+                    $pro_ind->main=0;
+                    $pro_ind->save();
+                    break;
+                }
+            } 
+        }
+            
+        $provider_industry->main = 1;
+        $provider_industry->save();
+
+        $provider->industry_id = $provider_industry->industry_id;
+        $provider->save();
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**

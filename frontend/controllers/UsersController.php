@@ -16,7 +16,7 @@ use yii\filters\VerbFilter;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends Controller
+class UsersController extends Controller
 {
     public function behaviors()
     {
@@ -236,9 +236,9 @@ class UserController extends Controller
 
             if($model) {               
                 
-                $details = $model->userDetails;
-                $filters = ($model->userFilters) ? $model->userFilters : new \frontend\models\UserFilters;
-                $images = $model->userImages;
+                $details = ($model->details) ? $model->details : new \frontend\models\UserDetails;
+                $filters = ($model->filters) ? $model->filters : new \frontend\models\UserFilters;
+                $images = ($model->images) ? $model->images : new \frontend\models\UserImages;
                 $notifications = $model->userNotifications;
                 $notificationsSms = $model->userNotificationsSms;
 

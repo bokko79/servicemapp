@@ -86,9 +86,25 @@ class CsPropertyModels extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPresentationSpecModels()
+    {
+        return $this->hasOne(PresentationSpecModels::className(), ['id' => 'spec_model']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserObjectSpecModels()
     {
         return $this->hasOne(UserObjectSpecModels::className(), ['id' => 'spec_model']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProviderIndustrySkills()
+    {
+        return $this->hasMany(ProviderIndustrySkills::className(), ['id' => 'property_model_id']);
     }
 
     /**

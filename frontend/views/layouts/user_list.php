@@ -18,7 +18,11 @@ use frontend\widgets\ProfileSubNav;
 <div class="grid-container" style="margin-top:70px;">    
 
     <div class="grid-row">
-        <div class="grid-leftacross">
+        <div class="grid-left margin-top-20">
+            <?= $this->render('partial/side-menus/user-activities-menu.php') ?>
+            
+        </div>
+        <div class="grid-rightacross">
             <div class="grid-row">
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -30,18 +34,16 @@ use frontend\widgets\ProfileSubNav;
                     'titleData'=>[
                         'background' => 'bg-blue-gray-200',
                         'icon' => 'shopping-bag',
-                        'title' => 'Poslovanje'.Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to('/'.Yii::$app->user->username.'/home'), ['class' => 'btn btn-default btn-sm float-right']),
+                        'title' => 'Poslovanje'.Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to('/'.Yii::$app->user->identity->username.'/home'), ['class' => 'btn btn-default btn-sm float-right']),
                         'description' => null,                        
                     ],
                     'invert' => false,
                 ]); ?>
             <?= $content ?>
-        </div>
-                
-        <div class="grid-right media_right_sidebar">
-            <?= $this->render('partial/side-menus/user-activities-menu.php') ?>
             <?= $this->render('partial/footer.php') ?>
         </div>
+                
+        
     </div>
 </div>
 

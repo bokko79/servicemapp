@@ -71,6 +71,7 @@ class CsSkills extends \yii\db\ActiveRecord
         return $this->hasOne(CsProperties::className(), ['id' => 'property_id']);
     }
 
+    
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -84,7 +84,7 @@ class Orders extends \yii\db\ActiveRecord
         return [
             [['activity_id'], 'required'],
             [['activity_id', 'loc_id', 'loc_id2', 'loc_within', 'registered_to', 'frequency', 'duration', 'currency_id', 'process_id', 'hit_counter'], 'integer'],
-            [['delivery_ends', 'validity', 'update_time', 'success_time', 'budget', 'delivery_time_operator', 'duration_operator', 'budget_operator'], 'safe'],
+            [['update_time', 'success_time', 'budget', 'delivery_time_operator', 'duration_operator', 'budget_operator'], 'safe'],
             $loc_req,
             $loc2_req,
             $time_req,

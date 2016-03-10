@@ -64,6 +64,11 @@ class ProviderIndustriesSearch extends ProviderIndustries
             'main' => $this->main,
         ]);
 
+        // grid filtering conditions
+        $query->orderBy([
+            'main' => SORT_DESC
+        ]);
+
         return $dataProvider;
     }
 }

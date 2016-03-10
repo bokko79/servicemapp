@@ -53,7 +53,7 @@ class Cardee extends Widget
                             <?= Html::img(Yii::$app->homeUrl.'images/'.$this->cardData['pic'].'.jpg', ['alt'=>'Profile card']) ?>               
                         </div>
                         <?php if($this->scroller): ?>
-                        <div class="primary-context in-media dark right">
+                        <div class="primary-context in-media dark">
                             <div class="head"><?php echo $this->cardData['head']; ?></div>
                             <div class="subhead"><?php echo $this->cardData['subhead']; ?></div>
                         </div>

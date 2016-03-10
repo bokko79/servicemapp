@@ -159,4 +159,9 @@ $(document).ready(function(){
   $(window).on("hashchange", function () {
     window.scrollTo(window.scrollX, window.scrollY - 70);
   });
+  $('#provider-industries').on("show.bs.modal", function(e) {
+    $(this).find(".modal-body").load('/provider-industries', function() {
+      $('#providerindustries-selection').select2();
+    });
+  });
 });

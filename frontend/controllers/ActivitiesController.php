@@ -8,6 +8,8 @@ use frontend\models\ActivitiesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Request;
+use yii\web\Session;
 
 /**
  * ActivitiesController implements the CRUD actions for Activities model.
@@ -34,6 +36,13 @@ class ActivitiesController extends Controller
      */
     public function actionIndex()
     {
+        $request = Yii::$app->request;        
+        $invite_hash = $request->get('inv');
+        if($invite_hash!=null){
+            $session = Yii::$app->session;
+            $session->set('invite', $invite_hash);
+        }        
+
         $searchModel = new ActivitiesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

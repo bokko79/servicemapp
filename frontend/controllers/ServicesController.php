@@ -39,10 +39,13 @@ class ServicesController extends Controller
         $request = Yii::$app->request;
         $session = Yii::$app->session;
 
-        $session->removeAll();
+        //$session->removeAll();
 
         $getService = $request->get('CsServicesSearch');
-        $session->set('state', $request->get('s'));
+        if($state = $request->get('s')){
+            $session->set('state', $state);
+        }
+        
         $industry = null;
         if(isset($getService['industry_id'])){
             $industry = \frontend\models\CsIndustries::findOne($getService['industry_id']);

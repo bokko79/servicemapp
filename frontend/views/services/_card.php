@@ -3,6 +3,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
+use yii\web\Session;
+$session = Yii::$app->session;
 ?>
 <div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="">
 <a href="<?= Url::to('/s/'.mb_strtolower(str_replace(' ', '-', $model->name))) ?>">
@@ -22,17 +24,19 @@ use yii\bootstrap\Modal;
         <p><?= $model->industry->name ?></p>
     </div>
     <div class="action-area">
-        <?php if($model->averagePrice) { ?>
-		<div class="price left float-left fs_16">
-			<?= '<span class="label label-default">'.$model->averagePrice.'</span>' ?> 
-		</div>
-		<?php } ?>		
-
-		<div class="button right float-right">
+		<div class="button float-right">
         <?php if($model->object->models): ?>
-			<?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-modal'.$model->id]); ?>
+			<?= $session['state']!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-modal'.$model->id]) : null ?>
+            <?= $session['state']!='order' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Present'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-modal'.$model->id]) : null ?>
         <?php else: ?>
-            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to('/add/'.slug($model->name)), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']); ?>
+            <?= $session['state']!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to('/add/'.slug($model->name)), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']) : Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Present'), ['/new-presentation'], [
+                'class'=>'btn btn-warning', 
+                'style'=>'', 
+                'data'=>[
+                    'method' => 'post',
+                    'params'=>['Presentations[service_id]'=>$model->id],
+                ]
+            ]) ?>
         <?php endif; ?>
 		</div>
     </div>
@@ -54,5 +58,4 @@ use yii\bootstrap\Modal;
       </div>
     </div>
   </div>
-
 <?php Modal::end(); ?>

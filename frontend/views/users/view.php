@@ -14,6 +14,7 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\DepDrop;
 use kartik\widgets\Select2;
 use frontend\models\CsSectors;
+use yii\web\Session;
 
 use dosamigos\google\maps\LatLng;
 use dosamigos\google\maps\overlays\InfoWindow;
@@ -23,6 +24,7 @@ use dosamigos\google\maps\Map;
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['user'] = $model;
 
 $this->cardData = [
     'pic' => 'default_avatar', 
@@ -32,7 +34,7 @@ $this->profileSubNavData = [
     'pic' => 'default_avatar',
     'title' => $model->fullname ? $model->fullname : $model->username,
     'username' => $model->username,
-    'loc' => $model->userDetails->loc->city,        
+    'loc' => $model->location->city,        
 ];
 
 $this->profileTitle = [
@@ -48,7 +50,7 @@ $this->stats = [
 ];
 ?>
 <?php
-$coord = new LatLng(['lat' => $model->userDetails->loc->lat, 'lng' => $model->userDetails->loc->lng]);
+$coord = new LatLng(['lat' => $model->location->lat, 'lng' => $model->location->lng]);
 $map = new Map([
     'center' => $coord,
     'zoom' => 14,
@@ -75,12 +77,43 @@ $marker->attachInfoWindow(
 // Add marker to the map
 $map->addOverlay($marker);
 ?>
+<div class="card_container record-xl fadeIn animated" id="card_container" style="float:none;">
+    <div class="header-context">
+        <div class="head">Dobrodošli na Servicemapp!</div>
+        <div class="subhead">Lorem ipsum</div>
+    </div>
+    <div class="secondary-context cont">
+        <p>Usluge, delatnost, uslovi pružanja usluga.</p>
+        <p>Usluge, delatnost, uslovi pružanja usluga.</p>
+    </div>
+    <div class="secondary-context cont">
+        <div class="head thin">Podešavanje usluga koje pružate</div>
+        <div class="subhead">Lorem ipsum</div>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                            ex ea commodo consequat.</p>
+    </div>
+    <div class="action-area right">
+        <?= Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesite usluge'), Url::to('/'.$model->username.'/my-services'), ['class'=>'btn btn-success']); ?>
+    </div>
+    <div class="secondary-context cont">
+        <div class="head thin">Vaš profil</div>
+        <div class="subhead">Lorem ipsum</div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                            ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                            fugiat nulla pariatur.</p>
+    </div>
+    <div class="action-area right">
+        <?= Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesite usluge'), Url::to('/'.$model->username.'/my-services'), ['class'=>'btn btn-success']); ?>
+    </div>
+</div>
+
 <div class="activities-index">
-    <h1 class="padding-top-20 padding-bottom-20">Feed</h1>
+    <h1 class="padding-bottom-20">Feed</h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 </div>
 <div class="card_container record-xl grid-item fadeInUp animated" id="card_container" style="float:none;">
-    <a href="<?= Url::to('/services') ?>">
+    
         <div class="header-context">                
             <div class="avatar">
                 <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
@@ -129,7 +162,7 @@ $map->addOverlay($marker);
         <div class="action-area right">
             <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-link']); ?>
         </div>
-    </a>
+    
 </div>
 
 <div class="card_container record-xl grid-item fadeInUp animated" id="card_container" style="float:none;">

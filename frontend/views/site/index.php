@@ -21,7 +21,8 @@ use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\Circle;
 
 $model = frontend\models\User::findOne(1);
-$coord = new LatLng(['lat' => $model->userDetails->loc->lat, 'lng' => $model->userDetails->loc->lng]);
+$model2 = frontend\models\User::findOne(22);
+$coord = new LatLng(['lat' => $model->location->lat, 'lng' => $model->location->lng]);
 $map = new Map([
     'center' => $coord,
     'zoom' => 10,
@@ -66,6 +67,7 @@ $marker2 = new Marker([
 
 // Add marker to the map
 $map2->addOverlay($marker2);
+echo distance($model->location->lat, $model->location->lng, $model2->location->lat, $model2->location->lng);
 ?>
 
 <?= (Yii::$app->request->url=='/index') ? 'yes' : 'no' ?>

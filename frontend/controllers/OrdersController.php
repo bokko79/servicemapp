@@ -62,7 +62,7 @@ class OrdersController extends Controller
     public function actionAdd($title=null)
     {
         if (isset($title) && ($ser_tr = $this->findServiceByTitle($title))) {
-            $object_models = (Yii::$app->request->get('CsObjects')) ? Yii::$app->request->get('CsObjects')['id'] : null;
+            $object_models = (Yii::$app->request->post('CsObjects')) ? Yii::$app->request->post('CsObjects')['id'] : null;
             $service = $this->findService($ser_tr->service_id);
             $key = (isset(Yii::$app->session['cart']['industry'][$service->industry_id]['data']) && Yii::$app->session['cart']['industry'][$service->industry_id]['data']!=null) ? count(Yii::$app->session['cart']['industry'][$service->industry_id]['data'])+1 : 1;
             

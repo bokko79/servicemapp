@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
 ?>
     <?php $form = kartik\widgets\ActiveForm::begin([
         'id' => 'form-horizontal',
-        'type' => ActiveForm::TYPE_VERTICAL,        
+        'type' => ActiveForm::TYPE_VERTICAL,
     ]); ?>
         <fieldset class="settings new_object_atts" style="margin-bottom:10px !important;">
             <div class="wrapper headline" style="">

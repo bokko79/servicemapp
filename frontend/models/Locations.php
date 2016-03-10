@@ -138,6 +138,14 @@ class Locations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPresentationLocationss()
+    {
+        return $this->hasMany(PresentationLocations::className(), ['location_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getProviderLocations()
     {
         return $this->hasMany(ProviderLocations::className(), ['loc_id' => 'id']);

@@ -24,7 +24,8 @@ use Yii;
  * @property ProviderIndustries $providerIndustry
  */
 class ProviderServices extends \yii\db\ActiveRecord
-{
+{   
+    public $selection = [];
     /**
      * @inheritdoc
      */
@@ -41,7 +42,8 @@ class ProviderServices extends \yii\db\ActiveRecord
         return [
             [['provider_id', 'provider_industry_id', 'service_id', 'industry_id', 'update_time'], 'required'],
             [['provider_id', 'provider_industry_id', 'service_id', 'industry_id', 'is_set'], 'integer'],
-            [['update_time'], 'safe'],
+            [['update_time'], 'safe'], 
+            [['selection'], 'safe'],            
             [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Provider::className(), 'targetAttribute' => ['provider_id' => 'id']],
             [['service_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsServices::className(), 'targetAttribute' => ['service_id' => 'id']],
             [['industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsIndustries::className(), 'targetAttribute' => ['industry_id' => 'id']],

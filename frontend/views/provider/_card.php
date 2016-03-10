@@ -21,7 +21,7 @@ use yii\helpers\Url;
                                 <?= Html::a('<i class="fa fa-arrow-circle-right"></i>&nbsp;'.Yii::t('app', 'Profil'), Url::to(), ['class'=>'btn btn-info']); ?>
                             </div>
                         </div>
-                        <div class="subhead"><?= $model->user->userDetails->loc->city ?></div>
+                        <div class="subhead"><?= $model->user->location->city ?></div>
                         <span class="label label-default">arhitekta</span>
                         <span class="label label-default">dizajner</span>
                         <span class="label label-primary">izdavanje nekretnina</span>

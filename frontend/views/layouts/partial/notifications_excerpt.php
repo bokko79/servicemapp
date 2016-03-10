@@ -36,7 +36,7 @@ use yii\helpers\Url;
     </li> 
   <?php } // foreach ($notifications as $notify) ?>
 
-  <li class="notification_list" style="text-align: center;"><?= Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app','Notifications Settings'), Url::to('/'.Yii::$app->user->username.'/notifications-setup'), ['style'=>'']); ?></li>
+  <li class="notification_list" style="text-align: center;"><?= Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app','Notifications Settings'), Url::to('/'.Yii::$app->user->identity->username.'/notifications-setup'), ['style'=>'']); ?></li>
 
   <!--<li class="notifaction_list" style="text-align: center; border:none;"><?php /* echo CHtml::link('<i class="fa fa-bell-o"></i>&nbsp;'.Yii::t('main','See all notifications'), $this->createUrl(Yii::app()->user->getState('username').'/notifications'), array('style'=>'font-size:14px; font-weight:400;')); */ ?></li>-->
 <?php } // if (count($notify_count)!=0) ?> 

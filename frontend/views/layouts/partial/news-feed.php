@@ -6,7 +6,7 @@ use yii\helpers\Url;
 <?php 
 		// TICKER se podešava u javascript easy-ticker.js, a vidljivost u _javascript.php
 		// izvuci sve logove (poslednjih deset)
-		$logs = \frontend\models\UserLog::find()->limit(10)->all(); ?>		
+		$logs = \frontend\models\UserLog::find()->orderBy('id DESC')->limit(10)->all(); ?>		
 
 	    <div id="live_feed">
 
@@ -14,7 +14,7 @@ use yii\helpers\Url;
 			<?php 
 		    	foreach ($logs as $log) {
 		    		$user = \frontend\models\User::findOne($log->user_id);
-		    		$detail = $user->userDetails;					    									    		
+		    		$detail = $user->details;					    									    		
 
 		    		// ubaci _log.php
 

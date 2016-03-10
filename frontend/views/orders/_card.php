@@ -63,7 +63,7 @@ $additional = [
 $items = [ $industry, $action, $object, $issue, $additional ];
 
 /* maps */
-/*$coord = new LatLng(['lat' => $model->user->userDetails->loc->lat, 'lng' => $model->user->userDetails->loc->lng]);
+/*$coord = new LatLng(['lat' => $model->location->lat, 'lng' => $model->location->lng]);
 $map = new Map([
     'center' => $coord,
     'zoom' => 14,
@@ -96,7 +96,7 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
         </div>
         <div class="title">
             <div class="head second"><?= ($model->user->fullname) ? $model->user->fullname : $model->user->username ?></div>
-            <div class="subhead"><?= $model->user->userDetails->loc->city ?></div> 
+            <div class="subhead"><?= $model->location->city ?></div> 
         </div>
         <div class="subaction right">                        
             <i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->activity->time]); ?>

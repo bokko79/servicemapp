@@ -21,15 +21,11 @@ $session = Yii::$app->session;
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>        
-            <?php /* WIDGET: PAGETITLE */ if(Yii::$app->controller->id!='orders'): ?>
+            <?php /* WIDGET: PAGETITLE */ if(Yii::$app->controller->id!='orders' && Yii::$app->controller->id!='presentations'): ?>
                 <?= PageTitle::widget([
                     'titleData' => $this->pageTitle, // Card Picture
                 ]) ?>
             <?php endif; ?>
-            <?php /* WIDGET: PAGETITLE */ /* ?>
-                <?= Steps::widget([
-                    'steps' => $this->steps, // Card Picture
-                ]) */?>
             <?= $content ?>
         </div>
                 

@@ -19,6 +19,8 @@ use Yii;
  */
 class ProviderIndustries extends \yii\db\ActiveRecord
 {
+    public $selection = [];
+
     /**
      * @inheritdoc
      */
@@ -34,6 +36,7 @@ class ProviderIndustries extends \yii\db\ActiveRecord
     {
         return [
             [['provider_id', 'industry_id'], 'required'],
+            [['selection'] , 'safe'],
             [['provider_id', 'industry_id', 'main'], 'integer'],
             [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Provider::className(), 'targetAttribute' => ['provider_id' => 'id']],
             [['industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsIndustries::className(), 'targetAttribute' => ['industry_id' => 'id']],
@@ -72,7 +75,7 @@ class ProviderIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderIndustrySkills()
+    public function getSkills()
     {
         return $this->hasMany(ProviderIndustrySkills::className(), ['provider_industry_id' => 'id']);
     }
@@ -80,7 +83,7 @@ class ProviderIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServices()
+    public function getServices()
     {
         return $this->hasMany(ProviderServices::className(), ['provider_industry_id' => 'id']);
     }

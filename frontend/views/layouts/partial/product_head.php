@@ -54,7 +54,7 @@ $items = [
 
 
 $model = frontend\models\User::findOne(1);
-$coord = new LatLng(['lat' => $model->userDetails->loc->lat, 'lng' => $model->userDetails->loc->lng]);
+$coord = new LatLng(['lat' => $model->location->lat, 'lng' => $model->location->lng]);
 $map = new Map([
     'center' => $coord,
     'zoom' => 14,

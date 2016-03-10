@@ -14,35 +14,36 @@ use Yii;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
- * @property string $email_reset_hash
- * @property string $email_reset_time
+ * @property string $unconfirmed_email
  * @property string $fullname
  * @property integer $is_provider
- * @property string $ip_address
- * @property string $activation_hash
- * @property string $activation_time
- * @property string $invite_hash
- * @property string $registered_by
- * @property integer $type
- * @property string $last_login_time
- * @property string $login_count
- * @property string $login_hash
- * @property integer $online_status
- * @property string $last_activity
- * @property string $phone
- * @property string $phone_verification_hash
- * @property string $phone_verification_time
- * @property string $rememberme_token
- * @property string $role_code
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
+* @property string $invite_hash
+* @property string $registered_by
+* @property integer $registered_from 
+* @property string $registration_ip 
+* @property integer $type
+* @property integer $logged_in_at
+* @property integer $logged_in_from
+* @property string $login_count
+* @property string $last_activity
+* @property string $phone
+* @property string $phone_verification_hash
+* @property string $rememberme_token
+* @property string $role_code
+* @property integer $status
+* @property integer $flags
+* @property string $recovery_token
+* @property integer $recovery_sent_at
+* @property string $confirmation_token
+* @property integer $confirmation_sent_at
+* @property integer $confirmed_at
+* @property integer $blocked_at
+* @property string $updated_at
+* @property string $created_at
  *
  * @property Activities[] $activities
  * @property ActivityComments[] $activityComments
  * @property ActivityTracking[] $activityTrackings
- * @property CsActions[] $csActions
- * @property CsAttributeModels[] $csAttributeModels
  * @property CsIndustries[] $csIndustries
  * @property CsObjects[] $csObjects
  * @property CsServices[] $csServices
@@ -56,10 +57,13 @@ use Yii;
  * @property MsgThread[] $msgThreads0
  * @property Notifications[] $notifications
  * @property PostComment[] $postComments
+ * @property Profile $profile
  * @property Provider $provider
  * @property ProviderComments[] $providerComments
  * @property ProviderRecommendation[] $providerRecommendations
  * @property ServiceComments[] $serviceComments
+ * @property SocialAccount[] $socialAccounts 
+ * @property Token[] $tokens 
  * @property Transactions[] $transactions
  * @property UserDetails $userDetails
  * @property UserFilters $userFilters
@@ -90,7 +94,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            /*[['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
             [['email_reset_time', 'activation_time', 'last_login_time', 'phone_verification_time'], 'safe'],
             [['is_provider', 'registered_by', 'type', 'login_count', 'online_status', 'last_activity', 'status'], 'integer'],
             [['rememberme_token'], 'string'],
@@ -105,7 +109,21 @@ class User extends \yii\db\ActiveRecord
             [['password_reset_token'], 'unique'],
             [['created_at', 'updated_at'], 'default', 'value' => function ($model, $attribute) {
                 return date('Y-m-d H:i:s');
-            }],
+            }],*/
+            [['username', 'auth_key', 'password_hash', 'email', 'updated_at', 'created_at'], 'required'],
+            [['is_provider', 'registered_by', 'registered_from', 'type', 'logged_in_at', 'logged_in_from', 'login_count', 'last_activity', 'status', 'flags', 'recovery_sent_at', 'confirmation_sent_at', 'confirmed_at', 'blocked_at'], 'integer'],
+            [['phone_verification_time', 'updated_at', 'created_at'], 'safe'],
+            [['rememberme_token'], 'string'],
+            [['username', 'password_reset_token', 'email', 'unconfirmed_email'], 'string', 'max' => 255],
+            [['auth_key', 'fullname', 'invite_hash', 'recovery_token', 'confirmation_token'], 'string', 'max' => 32],
+            [['password_hash'], 'string', 'max' => 60],
+            [['registration_ip'], 'string', 'max' => 45],
+            [['phone'], 'string', 'max' => 24],
+            [['phone_verification_hash'], 'string', 'max' => 4],
+            [['role_code'], 'string', 'max' => 13],
+            [['email'], 'unique'], 
+            [['username'], 'unique'],
+            [['password_reset_token'], 'unique'],
         ];
     }
 
@@ -115,35 +133,39 @@ class User extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'username' => Yii::t('app', 'Username'),
-            'auth_key' => Yii::t('app', 'Auth Key'),
-            'password_hash' => Yii::t('app', 'Password Hash'),
-            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
-            'email' => Yii::t('app', 'Email'),
-            'email_reset_hash' => Yii::t('app', 'Email Reset Hash'),
-            'email_reset_time' => Yii::t('app', 'Email Reset Time'),
-            'fullname' => Yii::t('app', 'Fullname'),
-            'is_provider' => Yii::t('app', 'Is Provider'),
-            'ip_address' => Yii::t('app', 'Ip Address'),
-            'activation_hash' => Yii::t('app', 'Activation Hash'),
-            'activation_time' => Yii::t('app', 'Activation Time'),
-            'invite_hash' => Yii::t('app', 'Invite Hash'),
-            'registered_by' => Yii::t('app', 'Registered By'),
-            'type' => Yii::t('app', 'Type'),
-            'last_login_time' => Yii::t('app', 'Last Login Time'),
-            'login_count' => Yii::t('app', 'Login Count'),
-            'login_hash' => Yii::t('app', 'Login Hash'),
-            'online_status' => Yii::t('app', 'Online Status'),
-            'last_activity' => Yii::t('app', 'Last Activity'),
-            'phone' => Yii::t('app', 'Phone'),
-            'phone_verification_hash' => Yii::t('app', 'Phone Verification Hash'),
-            'phone_verification_time' => Yii::t('app', 'Phone Verification Time'),
-            'rememberme_token' => Yii::t('app', 'Rememberme Token'),
-            'role_code' => Yii::t('app', 'Role Code'),
-            'status' => Yii::t('app', 'Status'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'id' => 'ID',
+            'username' => 'Username',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => 'Email',
+            'unconfirmed_email' => 'Unconfirmed Email',
+            'fullname' => 'Fullname',
+            'is_provider' => 'Is Provider',
+            'invite_hash' => 'Invite Hash',
+            'registered_by' => 'Registered By',
+            'registered_from' => 'Registered From',
+            'registration_ip' => 'Registration Ip',
+            'type' => 'Type',
+            'logged_in_at' => 'Logged In At',
+            'logged_in_from' => 'Logged In From',
+            'login_count' => 'Login Count',
+            'last_activity' => 'Last Activity',
+            'phone' => 'Phone',
+            'phone_verification_hash' => 'Phone Verification Hash',
+            'phone_verification_time' => 'Phone Verification Time',
+            'rememberme_token' => 'Rememberme Token',
+            'role_code' => 'Role Code',
+            'status' => 'Status',
+            'flags' => 'Flags',
+            'recovery_token' => 'Recovery Token',
+            'recovery_sent_at' => 'Recovery Sent At',
+            'confirmation_token' => 'Confirmation Token',
+            'confirmation_sent_at' => 'Confirmation Sent At',
+            'confirmed_at' => 'Confirmed At',
+            'blocked_at' => 'Blocked At',
+            'updated_at' => 'Updated At',
+            'created_at' => 'Created At',
         ];
     }
 
@@ -292,6 +314,14 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+    * @return \yii\db\ActiveQuery
+    */
+    public function getProfile() 
+    { 
+       return $this->hasOne(Profile::className(), ['user_id' => 'id']); 
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getProvider()
@@ -324,6 +354,22 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+    * @return \yii\db\ActiveQuery
+    */
+    public function getSocialAccounts() 
+    { 
+       return $this->hasMany(SocialAccount::className(), ['user_id' => 'id']); 
+    } 
+
+    /** 
+    * @return \yii\db\ActiveQuery 
+    */ 
+    public function getTokens() 
+    { 
+       return $this->hasMany(Token::className(), ['user_id' => 'id']); 
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getTransactions()
@@ -334,7 +380,7 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserDetails()
+    public function getDetails()
     {
         return $this->hasOne(UserDetails::className(), ['user_id' => 'id']);
     }
@@ -342,7 +388,7 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserFilters()
+    public function getFilters()
     {
         return $this->hasOne(UserFilters::className(), ['user_id' => 'id']);
     }
@@ -350,7 +396,7 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserImages()
+    public function getImages()
     {
         return $this->hasMany(UserImages::className(), ['user_id' => 'id']);
     }
@@ -428,11 +474,59 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsConfirmed()
+    {
+        return $this->confirmed_at != null;
+    }
+
+    /**
+     * @return bool Whether the user is blocked or not.
+     */
+    public function getIsBlocked()
+    {
+        return $this->blocked_at != null;
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsVerifiedPayment()
+    {
+        return $this->userPayments != null;
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsVerifiedPhone()
+    {
+        return $this->phone_verification_hash == null;
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsCompletedSetup()
+    {
+        return $this->setupMeter() > 90;
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getHasCredit()
+    {
+        return $this->details->Mcoin > 0;
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getLocation()
     {
-        return $this->userDetails->loc;
+        return $this->details->loc;
     }
 
     /**
@@ -440,7 +534,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getAvatar()
     {
-        return $this->userDetails->image;
+        return $this->details->image;
     }
 
     /**
@@ -448,7 +542,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getRole()
     {
-        return $this->userDetails->role;
+        return $this->details->role;
     }
 
     /**
@@ -456,6 +550,14 @@ class User extends \yii\db\ActiveRecord
      */
     public function getCurrency()
     {
-        return $this->userDetails->currency;
+        return $this->details->currency;
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function setupMeter()
+    {
+        return 95;
     }
 }

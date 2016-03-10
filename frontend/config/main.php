@@ -14,10 +14,26 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-        'user' => [
+        /*'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'class' => 'frontend\components\User',
+        ],*/
+        'user' => [
+            'identityCookie' => [
+                'name'     => '_frontendIdentity',
+                'path'     => '/',
+                'httpOnly' => true,
+            ],
+            //'identityClass' => 'common\models\User',
+            //'class' => 'frontend\components\User',
+        ],
+        'session' => [
+            'name' => 'FRONTENDSESSID',
+            'cookieParams' => [
+                'httpOnly' => true,
+                'path'     => '/',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -36,6 +52,26 @@ return [
         ],
         'view' => [
             'class' => 'frontend\components\View',
+        ],
+        'authClientCollection' => [
+            'class' => yii\authclient\Collection::className(),
+            'clients' => [
+                'facebook' => [
+                    'class'        => 'dektrium\user\clients\Facebook',
+                    'clientId'     => '1565800557068729',
+                    'clientSecret' => 'f7f7a6e4c23678e9b134be9c3c1d7d89',
+                ],
+                'twitter' => [
+                    'class'          => 'dektrium\user\clients\Twitter',
+                    'consumerKey'    => 'CONSUMER_KEY',
+                    'consumerSecret' => 'CONSUMER_SECRET',
+                ],
+                'google' => [
+                    'class'        => 'dektrium\user\clients\Google',
+                    'clientId'     => 'CLIENT_ID',
+                    'clientSecret' => 'CLIENT_SECRET',
+                ],
+            ],
         ],
     ],
     'modules' => [
@@ -76,7 +112,11 @@ return [
                     ]
                 ]
             ]
-        ]
+        ],
+        'user' => [
+            // following line will restrict access to admin controller from frontend application
+            'as frontend' => 'dektrium\user\filters\FrontendFilter',
+        ],
     ],
     'params' => $params,
 ];

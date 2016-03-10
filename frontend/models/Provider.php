@@ -164,7 +164,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderComments()
+    public function getComments()
     {
         return $this->hasMany(ProviderComments::className(), ['provider_id' => 'id']);
     }
@@ -172,7 +172,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderIndustries()
+    public function getIndustries()
     {
         return $this->hasMany(ProviderIndustries::className(), ['provider_id' => 'id']);
     }
@@ -180,7 +180,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderLanguages()
+    public function getLanguages()
     {
         return $this->hasMany(ProviderLanguages::className(), ['provider_id' => 'id']);
     }
@@ -188,7 +188,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderLocations()
+    public function getLocations()
     {
         return $this->hasMany(ProviderLocations::className(), ['provider_id' => 'id']);
     }
@@ -196,7 +196,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderPortfolio()
+    public function getPortfolio()
     {
         return $this->hasOne(ProviderPortfolio::className(), ['provider_id' => 'id']);
     }
@@ -204,7 +204,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderRecommendations()
+    public function getRecommendations()
     {
         return $this->hasMany(ProviderRecommendation::className(), ['provider_id' => 'id']);
     }
@@ -212,7 +212,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServices()
+    public function getServices()
     {
         return $this->hasMany(ProviderServices::className(), ['provider_id' => 'id']);
     }
@@ -220,7 +220,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderTerms()
+    public function getTerms()
     {
         return $this->hasOne(ProviderTerms::className(), ['provider_id' => 'id']);
     }

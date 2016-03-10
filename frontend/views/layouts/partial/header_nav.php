@@ -36,22 +36,22 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
                     $menuItems[] = [
                         'label' => $user_avatar,    
                         'items' => [
-                              ['label' => '<i class="fa fa-home"></i>&nbsp'.Yii::t('app', 'Početna'), 'url' => ['/'.Yii::$app->user->username.'/home']],
-                              ['label' => '<i class="fa fa-file-text-o"></i>&nbsp'.Yii::t('app', 'Vaši poslovi'), 'url' => ['/'.Yii::$app->user->username.'/orders']],
-                              ['label' => '<i class="fa fa-save"></i>&nbsp'.Yii::t('app', 'Vaše spremne porudžbine'), 'url' => ['/'.Yii::$app->user->username.'/ready-orders']],                               
+                              ['label' => '<i class="fa fa-home"></i>&nbsp'.Yii::t('app', 'Početna'), 'url' => ['/'.$user->username.'/home']],
+                              ['label' => '<i class="fa fa-file-text-o"></i>&nbsp'.Yii::t('app', 'Vaši poslovi'), 'url' => ['/'.$user->username.'/orders']],
+                              ['label' => '<i class="fa fa-save"></i>&nbsp'.Yii::t('app', 'Vaše spremne porudžbine'), 'url' => ['/'.$user->username.'/ready-orders']],                               
                               (($user->is_provider==1) ? '<li class="divider"></li>' : ''),
-                              ['label' => '<i class="fa fa-user"></i>&nbsp'.Yii::t('app', 'Vaš profil'), 'url' => ['/'.Yii::$app->user->username.'/profile'], 'visible' => $user->is_provider==1],                              
+                              ['label' => '<i class="fa fa-user"></i>&nbsp'.Yii::t('app', 'Vaš profil'), 'url' => ['/'.$user->username.'/profile'], 'visible' => $user->is_provider==1],                              
                               (($user->is_provider==1) ? '<li class="divider"></li>' : ''),
-                              ['label' => '<i class="fa fa-line-chart"></i>&nbsp'.Yii::t('app', 'Finansije'), 'url' => ['/'.Yii::$app->user->username.'/finances']],
-                              ['label' => '<i class="fa fa-envelope-o"></i>&nbsp'.Yii::t('app', 'Inbox'), 'url' => ['/'.Yii::$app->user->username.'/inbox']],   
+                              ['label' => '<i class="fa fa-line-chart"></i>&nbsp'.Yii::t('app', 'Finansije'), 'url' => ['/'.$user->username.'/finances']],
+                              ['label' => '<i class="fa fa-envelope-o"></i>&nbsp'.Yii::t('app', 'Inbox'), 'url' => ['/'.$user->username.'/inbox']],   
                               
                               '<li class="divider"></li>',
                               '<li class="dropdown-header">'.Yii::t('app', 'Podešavanja').'</li>',
-                              ['label' => '<i class="fa fa-cogs"></i>&nbsp'.Yii::t('app', 'Podešavanja'), 'url' => ['/'.Yii::$app->user->username.'/setup']],
-                              ['label' => '<i class="fa fa-dot-circle-o"></i>&nbsp'.Yii::t('app', 'Vaše usluge'), 'url' => ['/'.Yii::$app->user->username.'/services'], 'visible' => $user->is_provider==1],
+                              ['label' => '<i class="fa fa-cogs"></i>&nbsp'.Yii::t('app', 'Podešavanja'), 'url' => ['/'.$user->username.'/setup']],
+                              ['label' => '<i class="fa fa-dot-circle-o"></i>&nbsp'.Yii::t('app', 'Vaše usluge'), 'url' => ['/'.$user->username.'/services'], 'visible' => $user->is_provider==1],
                               ['label' => '<i class="fa fa-users"></i>&nbsp'.Yii::t('app', 'Članstvo'), 'url' => ['/membership']],
                               '<li class="divider"></li>',
-                              ['label' => '<i class="fa fa-sign-out"></i>&nbspLogout (' . Yii::$app->user->username . ')', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+                              ['label' => '<i class="fa fa-sign-out"></i>&nbspLogout (' . $user->username . ')', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
                         ],
                         'linkOptions' => ['class'=>'btn btn-default']
                     ];

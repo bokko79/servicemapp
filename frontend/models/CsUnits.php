@@ -100,7 +100,7 @@ class CsUnits extends \yii\db\ActiveRecord
      */
     public function getPresentations()
     {
-        return $this->hasMany(Presentations::className(), ['period_unit' => 'id']);
+        return $this->hasMany(Presentations::className(), ['duration_unit' => 'id']);
     }
 
     /**

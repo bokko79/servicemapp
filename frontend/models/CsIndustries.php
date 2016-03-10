@@ -228,6 +228,17 @@ class CsIndustries extends \yii\db\ActiveRecord
         return false;   
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSCaseName()
+    {
+        if($this->tName) {
+            return c($this->tName);
+        }       
+        return false;   
+    }
+
     public static function getAllIndustriesByCategories() {
         $options = [];
          

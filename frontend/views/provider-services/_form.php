@@ -18,30 +18,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'industry_id')->textInput() ?>
 
-    <?= $form->field($model, 'loc_id')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'period')->textInput() ?>
-
-    <?= $form->field($model, 'period_unit')->textInput() ?>
-
-    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'price_max')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'currency_id')->textInput() ?>
-
-    <?= $form->field($model, 'fixed_price')->textInput() ?>
-
-    <?= $form->field($model, 'warranty')->textInput() ?>
-
-    <?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'on_sale')->textInput() ?>
-
     <?= $form->field($model, 'is_set')->textInput() ?>
 
     <?= $form->field($model, 'update_time')->textInput() ?>

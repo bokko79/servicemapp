@@ -18,6 +18,10 @@ use Yii;
  */
 class PresentationMethods extends \yii\db\ActiveRecord
 {
+    public $service;
+    public $serviceMethod;
+    public $property;
+    public $method_models = [];
     /**
      * @inheritdoc
      */

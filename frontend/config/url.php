@@ -6,6 +6,8 @@ return [
     'baseUrl' => 'http://servicemapp/',
     'scriptUrl' => 'http://servicemapp/',
     'rules' => [
+        '<module:user>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+        '<module:user>/<action:\w+>' => '<module>/<controller>/<action>',
         'intro' => 'intro/main',
         'index' => 'site/index',
         'about-us' => 'site/about', // :page
@@ -13,7 +15,7 @@ return [
         'invite-friends' => 'site/invite', // :page
         'membership' => 'site/membership', // :page
         'search' => 'site/search', // :page
-        'register' => 'site/signup',
+        //'register' => 'site/signup',
         'registerProvider' => 'site/signprovider',
 
         // 2. POSTS             
@@ -24,15 +26,15 @@ return [
         'blog' => 'posts/blog', // :page
 
         // 3. USER
-        'users' => 'user/index',
-        '<username:\w+>/home' => 'user/view',
-        '<username:\w+>/setup' => 'user/update',
-        '<username:\w+>/account-setup' => 'user/account',
-        '<username:\w+>/orders' => 'user/orders',
-        '<username:\w+>/ready-orders' => 'user/saved-orders',
-        '<username:\w+>/arrangements' => 'user/arrangements',
-        '<username:\w+>/profile' => 'user/profile',
-        '<username:\w+>/finances' => 'user/finances',
+        //'users' => 'user/index',
+        '<username:\w+>/home' => 'users/view',
+        '<username:\w+>/setup' => 'users/update',
+        '<username:\w+>/account-setup' => 'users/account',
+        '<username:\w+>/orders' => 'users/orders',
+        '<username:\w+>/ready-orders' => 'users/saved-orders',
+        '<username:\w+>/arrangements' => 'users/arrangements',
+        '<username:\w+>/profile' => 'users/profile',
+        '<username:\w+>/finances' => 'users/finances',        
 
         // 4 PROVIDER
         'providers' => 'provider/index', // :page
@@ -48,7 +50,7 @@ return [
         // 5 PRESENTATIONS
         'new-presentation' => 'presentations/create', // :page
         '<username:\w+>/my-services' => 'presentations/index', // :page
-        'my-service-setup/<id:\d+>' => 'presentations/update', // :page
+        'presentation-setup/<id:\d+>' => 'presentations/update', // :page
         '<username:\w+>/service/<id:\d+>' => 'presentations/view', // :page
         'comment-presentation/<id:\d+>' =>'presentations/comment',
 
@@ -82,6 +84,10 @@ return [
         // 12 PROVIDER SERVICES
         'new-service' => 'provider-services/create', // :page
         '<username:\w+>/services' => 'provider-services/index', // :page
+        'my-service-setup/<id:\d+>' => 'provider-services/update', // :page
+        'provider-industries' => 'provider-services/industries', // :page
+        'provider-industry-skills' => 'provider-services/skills', // :page
+        'provider-industry-services' => 'provider-services/services', // :page
 
         // 13 PROVIDER SKILLS
         'new-skill' => 'provider-industry-skills/create', // :page

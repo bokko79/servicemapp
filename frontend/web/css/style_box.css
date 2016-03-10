@@ -1,6 +1,6 @@
 /* containers */
 .list-container {border-bottom: 1px solid #ddd;}
-.card_container, #card_container {margin:0 0 26px 0; padding:0; border-radius: 2px; box-shadow: 0px 2px 4px #999; background: #fff; float: left; position: relative;}
+.card_container, #card_container {margin:0 0 26px 0; padding:0; border-radius: 2px; box-shadow: 0px 2px 4px #999; background: #fff; float: left; /*position: relative;*/}
 
 .card_container.record-full, .card_container.teaser-full {width:100%;}
 .card_container.record-xl, .card_container.teaser-xl {width:650px;}
@@ -18,6 +18,12 @@
 .card_container.bordered, .card_container .bordered {border: 1px solid #ddd !important;}
 .card_container.top-bordered, .card_container .top-bordered {border: none !important; border-top: 1px solid #ddd !important;}
 .card_container.transparent, .card_container .transparent {background: transparent !important;}
+.card_container.info {background: #d9edf7 !important; color: #2196F3 !important;}
+.card_container.danger {background: #d9edf7; color: #2196F3;}
+.card_container.success {background: #d9edf7; color: #2196F3;}
+.card_container.warning {background: #d9edf7; color: #2196F3;}
+.card_container.primary {background: #d9edf7; color: #2196F3;}
+
 /* general */
 .card_container .head {font-size: 24px; font-weight: 500; float:none; width:100%; line-height: 24px; padding-bottom: 4px;}
 .card_container .head.lower {font-size: 16px; line-height: 16px; padding-top: 4px; font-weight: 900;}

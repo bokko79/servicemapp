@@ -37,7 +37,7 @@ $message = 'Kada želite da pružalac usluge počne sa izvršavanjem usluge? '. 
                             'errorOptions' => ['class'=>'text-primary', 'style'=>'top: 6px;']
                         ],
                     ])->widget(DateControl::classname(), [
-                            'language' => 'sr-Ln',
+                            'language' => 'rs-latin',
                             'type' => 'datetime',
                             'options'=> [
                                 'type'=>2,
@@ -63,11 +63,11 @@ $message = 'Kada želite da pružalac usluge počne sa izvršavanjem usluge? '. 
                     'widgetClass' => DateControl::classname(),
                     //'separator'=>'&larr; '.\Yii::t('app', 'od...do').' &rarr;',
                     'widgetOptions1' => [
-                        'language' => 'sr-Ln', 
+                        'language' => 'rs-latin', 
                         'options' => ['type'=>2, 'size'=>'lg', 'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'startDate'=>'0d']],
                     ],
                     'widgetOptions2' => [
-                        'language' => 'sr-Ln',
+                        'language' => 'rs-latin',
                         'options' => ['type'=>2, 'size'=>'lg', 'pluginOptions'=>['autoclose'=>true, 'todayHighlight' => true, 'startDate'=>'0d']],
                     ]
                 ]) ?>  
@@ -89,7 +89,7 @@ $message = 'Kada želite da pružalac usluge počne sa izvršavanjem usluge? '. 
                             'errorOptions' => ['class'=>'text-primary', 'style'=>'top: 6px;']
                         ],
                     ])->widget(DateControl::classname(), [
-                            'language' => 'sr-Ln',
+                            'language' => 'rs-latin',
                             'type' => 'datetime',
                             'options'=> [
                                 'type'=>2,

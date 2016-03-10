@@ -32,7 +32,7 @@ use frontend\widgets\PageTitle;
                     'titleData'=>[
                         'background' => 'bg-blue-gray-900',
                         'icon' => 'cog',
-                        'title' => 'Podešavanja'.Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to('/'.Yii::$app->user->username.'/home'), ['class' => 'btn btn-default btn-sm float-right']),
+                        'title' => 'Podešavanja'.Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to('/'.Yii::$app->user->identity->username.'/home'), ['class' => 'btn btn-default btn-sm float-right']),
                         'description' => null,                        
                     ],
                     'invert' => true,

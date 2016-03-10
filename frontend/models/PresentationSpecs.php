@@ -11,7 +11,8 @@ use Yii;
  * @property string $presentation_id
  * @property string $spec_id
  * @property string $value
- * @property string $max
+ * @property string $value_max
+* @property string $value_operator
  *
  * @property CsSpecs $spec
  * @property Presentations $presentation
@@ -34,7 +35,8 @@ class PresentationSpecs extends \yii\db\ActiveRecord
         return [
             [['presentation_id', 'spec_id'], 'required'],
             [['presentation_id', 'spec_id'], 'integer'],
-            [['value', 'max'], 'string', 'max' => 32],
+            [['value_operator'], 'string'],
+            [['value', 'value_max'], 'string', 'max' => 32],
             [['spec_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsSpecs::className(), 'targetAttribute' => ['spec_id' => 'id']],
             [['presentation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Presentations::className(), 'targetAttribute' => ['presentation_id' => 'id']],
         ];
@@ -46,11 +48,12 @@ class PresentationSpecs extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'presentation_id' => 'Presentation ID',
-            'spec_id' => 'Spec ID',
-            'value' => 'Value',
-            'max' => 'Max',
+            'id' => Yii::t('app', 'ID'),
+           'presentation_id' => Yii::t('app', 'Presentation ID'),
+           'spec_id' => Yii::t('app', 'Spec ID'),
+           'value' => Yii::t('app', 'Value'),
+           'value_max' => Yii::t('app', 'Value Max'),
+           'value_operator' => Yii::t('app', 'Value Operator'),
         ];
     }
 
@@ -68,5 +71,13 @@ class PresentationSpecs extends \yii\db\ActiveRecord
     public function getPresentation()
     {
         return $this->hasOne(Presentations::className(), ['id' => 'presentation_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getModels()
+    {
+        return $this->hasMany(PresentationSpecModels::className(), ['presentation_id' => 'id']);
     }
 }

@@ -18,8 +18,8 @@ class ProviderServicesSearch extends ProviderServices
     public function rules()
     {
         return [
-            [['id', 'provider_id', 'provider_industry_id', 'service_id', 'industry_id', 'loc_id', 'period', 'period_unit', 'price', 'price_max', 'currency_id', 'fixed_price', 'warranty', 'on_sale', 'is_set'], 'integer'],
-            [['name', 'description', 'note', 'update_time'], 'safe'],
+            [['id', 'provider_id', 'provider_industry_id', 'service_id', 'industry_id', 'is_set'], 'integer'],
+            [['update_time'], 'safe'],
         ];
     }
 
@@ -63,23 +63,10 @@ class ProviderServicesSearch extends ProviderServices
             'provider_id' => $this->provider_id,
             'provider_industry_id' => $this->provider_industry_id,
             'service_id' => $this->service_id,
-            'industry_id' => $this->industry_id,
-            'loc_id' => $this->loc_id,
-            'period' => $this->period,
-            'period_unit' => $this->period_unit,
-            'price' => $this->price,
-            'price_max' => $this->price_max,
-            'currency_id' => $this->currency_id,
-            'fixed_price' => $this->fixed_price,
-            'warranty' => $this->warranty,
-            'on_sale' => $this->on_sale,
+            'industry_id' => $this->industry_id,            
             'is_set' => $this->is_set,
             'update_time' => $this->update_time,
         ]);
-
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;
     }

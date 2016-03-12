@@ -50,7 +50,7 @@ class ServicesController extends Controller
         if(isset($getService['industry_id'])){
             $industry = \frontend\models\CsIndustries::findOne($getService['industry_id']);
         }
-
+        
         $searchModel = new CsServicesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         

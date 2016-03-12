@@ -378,14 +378,6 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserNotificationsSms()
-    {
-        return $this->hasOne(UserNotificationsSms::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getUserObjects()
     {
         return $this->hasMany(UserObjects::className(), ['user_id' => 'id']);

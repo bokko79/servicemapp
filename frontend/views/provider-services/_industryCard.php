@@ -5,12 +5,12 @@ use yii\helpers\Url;
 use yii\bootstrap\Modal;
 ?>
 <div class="card_container record-full grid-item no-shadow bordered fadeInUp animated" id="card_container" style="margin: 20px 0">
-    <div class="header-context gray">                
+    <div class="header-context collapsing inverted">                
         <div class="avatar">
             <?= Html::img('@web/images/cards/info/info_docs'.rand(0,9).'.jpg') ?>          
         </div>
         <div class="title">
-            <div class="head"><?= c($model->industry->tName) ?></div>
+            <div class="head black"><?= c($model->industry->tName) ?></div>
             <div class="subhead"><?= $model->industry->category->tName ?> | <?= ($model->main==1) ? '<b>Pretežna delatnost</b>' : Html::a(Yii::t('app', 'Postavi kao pretežnu delatnost'), ['/provider-industries/main', 'id'=>$model->id], ['class'=>'btn btn-link btn-sm', 'data'=>['method'=>'post'], 'style'=>'padding:0']) ?> | <?= ($model->industry->skills) ? Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesi veštine'), Url::to(), ['class'=>'btn btn-link btn-sm', 'style'=>'padding:0', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#industry-skills'.$model->id]) : null ?></div> 
         </div>
         <div class="subaction">
@@ -34,16 +34,8 @@ use yii\bootstrap\Modal;
             echo '</div>';
         }
         endif; ?>
-    <div class="header-context avatar-padded"> 
-        <div class="title no-padding">
-            <div class="head major thin">Usluge</div> 
-            <div class="subhead"><?= count($model->services) ?></div>           
-        </div>
-        <div class="subaction">            
-            
-        </div>
-    </div>
-    <div class="secondary-context avatar-padded cont" style="overflow:hidden;">
+    
+    <div class="secondary-context avatar-padded" style="overflow:hidden;">
     <?php
         if($model->services){ 
             foreach($model->services as $proService) {

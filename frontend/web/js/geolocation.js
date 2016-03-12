@@ -4,6 +4,7 @@ $(document).ready(function(){
   var checkUserType = $('#checkUserType').val();
   if(checkUserType==0){
     initialize_add_loc();
+    initialize_pres_loc();
   }
 
   $(".new_loc").on('click', function(){                  
@@ -113,6 +114,89 @@ function initialize_add_loc(){
           var formatted_address = results[0].formatted_address;                    
           $("input[name='Locations[location_name]']").val(formatted_address);
           $("#locations-name").val(formatted_address);          
+        }
+      }
+    });
+  });
+}
+
+// presentations location start
+function initialize_pres_loc(){
+  var lat = $('#control_input_lat').val();
+  var lng = $('#control_input_lng').val();
+  $("#presentation-location").geocomplete({
+    map: "#my_map",
+    mapOptions: {
+      //zoom: 10,
+      scrollwheel: true,
+    },
+    markerOptions: {
+      draggable: true
+    },
+    details: "#form-horizontal-presentation",
+    detailsAttribute: "data-geo",
+    location: [lat,lng],  // initialize map with user home location
+  });
+
+  $("#presentation-location").bind("geocode:dragged", function(event, latLng){
+    $("input[name='Locations[lat]']").val(latLng.lat());
+    $("input[name='Locations[lng]']").val(latLng.lng());
+
+    var map = $("#presentation-location").geocomplete("map");
+    map.panTo(latLng);
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'latLng': latLng }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+
+          var res = results[0].address_components;
+
+          for (var i = 0; i < results.length; i++) {
+            /// država
+            if (results[i].types[0] === "country") {
+              var country = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[country]']").val(country);
+            }
+            /// region
+            if (results[i].types[0] === "administrative_area_level_2") {
+              var state = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[state]']").val(state);
+            }
+            /// region
+            if (results[i].types[0] === "sublocality") {
+              var sublocality = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[district]']").val(sublocality);
+            }
+            /// grad
+            if (results[i].types[0] === "locality") {
+              var city = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[city]']").val(city);
+            }
+            /// zip
+            if (results[i].types[0] === "postal_code") {
+              var postal_code = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[zip]']").val(postal_code);
+            }
+            /// mz
+            if (results[i].types[0] === "neighborhood") {
+              var neighborhood = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[mz]']").val(neighborhood);
+            }
+            /// ulica
+            if (results[i].types[0] === "route") {
+              var street = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[street]']").val(street);
+            }
+            /// no
+            if (results[i].types[0] === "street_number") {
+              var no = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[no]']").val(no);
+            }                 
+          }
+          /// formated adresa                  
+          var formatted_address = results[0].formatted_address;                    
+          $("input[name='Locations[location_name]']").val(formatted_address);
+          $("#presentation-location").val(formatted_address);          
         }
       }
     });

@@ -15,6 +15,7 @@ return [
         'invite-friends' => 'site/invite', // :page
         'membership' => 'site/membership', // :page
         'search' => 'site/search', // :page
+        'blank' => 'site/blank', // :page
         //'register' => 'site/signup',
         'registerProvider' => 'site/signprovider',
 
@@ -51,7 +52,7 @@ return [
         'new-presentation' => 'presentations/create', // :page
         '<username:\w+>/my-services' => 'presentations/index', // :page
         'presentation-setup/<id:\d+>' => 'presentations/update', // :page
-        '<username:\w+>/service/<id:\d+>' => 'presentations/view', // :page
+        'presentation/<id:\d+>' => 'presentations/view', // :page
         'comment-presentation/<id:\d+>' =>'presentations/comment',
 
         // 6 USERLOCATIONS

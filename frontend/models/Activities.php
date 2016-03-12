@@ -210,11 +210,11 @@ class Activities extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function loadActivity($action='order', $type='normal', $status='active')
+    public function loadActivity($user, $action='order', $type='normal', $status='active')
     {
         $activity = new Activities();
         $activity->activity = $action;
-        $activity->user_id = Yii::$app->user->id;
+        $activity->user_id = $user;
         $activity->type = $type;
         $activity->status = $status;
         $activity->time = date('Y-m-d H:i:s');

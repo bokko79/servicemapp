@@ -104,4 +104,21 @@ class Offers extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Promotions::className(), ['offer_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function loadOffer($activity, $type='presentation')
+    {
+        $offer = new Offers();
+        $offer->activity_id = $activity;
+        $offer->type = $type;
+        $offer->update_time = date('Y-m-d H:i:s');
+
+        if($offer){
+            return $offer;
+        } else {
+            return false; 
+        }
+    }
 }

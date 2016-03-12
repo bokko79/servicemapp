@@ -9,14 +9,13 @@ $session = Yii::$app->session;
 
 $o_models = $object->models;
 if($session['state']=='present'){
-	$new_presentation = new \frontend\models\Presentations;
-	$new_presentation->service = $model;	
+	$new_presentation = new \frontend\models\ProviderServices;
 }
 $model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
 ?>
 <?php $form = kartik\widgets\ActiveForm::begin([
     'id' => 'form-vertical',
-    //'method' => 'get',
+    'method' => 'get',
     'action' => $session['state']=='present' ? '/new-presentation' : '/add/'.slug($model->name),
     'type' => ActiveForm::TYPE_VERTICAL,
 ]); ?>
@@ -28,7 +27,7 @@ $model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
 		</div>
 	<?php else: ?>		
 		<?php if($session['state']=='present'){ ?>
-			<?= $form->field($new_presentation, 'object_models')->radioList($model_list, ['unselect'=>null])->label(false) ?>
+			<?= $form->field($new_presentation, 'object_model')->radioList($model_list, ['unselect'=>null])->label(false) ?>
 			<?= $form->field($new_presentation, 'service_id')->hiddenInput(['value'=>$model->id])->label(false) ?>
 		<?php } else { ?>
 			<?= $form->field(new \frontend\models\CsObjects, 'id[]')->radioList($model_list, ['unselect'=>null])->label(false) ?>

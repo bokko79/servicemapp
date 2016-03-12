@@ -95,6 +95,21 @@ class SiteController extends Controller
     }
 
     /**
+     * Logs out the current user.
+     *
+     * @return mixed
+     */
+    public function actionBlank()
+    {
+        $this->layout = '//blank';
+        $title = Yii::t('user', 'Your account has been created');
+
+        return $this->render('blank', [
+                'title' => $title,
+            ]);
+    }
+
+    /**
      * Logs in a user.
      *
      * @return mixed

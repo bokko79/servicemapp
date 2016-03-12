@@ -76,7 +76,6 @@ class Presentations extends \yii\db\ActiveRecord
         $pic = ($service->pic==1) ? [['imageFiles'], 'file', 'skipOnEmpty' => false, /*'extensions' => 'png, jpg, jpeg, gif', */'maxFiles' => 8, 'tooMany'=>'Možete prikačiti najviše 8 fotografija.'] : ['imageFiles', 'safe'];
 
         return [
-            ['service', 'required'],
             [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'provider_id'], 'required'],
             [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'object_model_id', 'provider_id', 'loc_id', 'amount', 'consumer', 'consumer_children', 'frequency', 'duration', 'duration_unit', 'price', 'currency_id', 'fixed_price', 'warranty', 'on_sale'], 'integer'],
             [['description', 'amount_operator', 'consumer_operator', 'frequency_unit', 'duration_operator', 'price_operator', 'note', 'status'], 'string'],
@@ -143,6 +142,26 @@ class Presentations extends \yii\db\ActiveRecord
             $this->_service = $this->service;
         }
         return $this->_service;
+    }
+
+    /**
+     * Service to be added to cart
+     *
+     * @return CsService|null
+     */
+    public function getPService()
+    {
+        return $this->hasOne(CsServices::className(), ['id' => 'service_id']);
+    }
+
+    /**
+     * Service to be added to cart
+     *
+     * @return CsService|null
+     */
+    public function getObject()
+    {
+        return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
     }
 
     /**

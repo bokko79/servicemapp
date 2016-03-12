@@ -33,6 +33,10 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use common\models\SignupForm;
 use yii\web\UploadedFile;
+use dektrium\user\models\User;
+use dektrium\user\models\LoginForm;
+use dektrium\user\models\RegistrationForm;
+use dektrium\user\models\RegistrationProviderForm;
 
 /**
  * OrdersController implements the CRUD actions for Orders model.
@@ -162,7 +166,7 @@ class OrdersController extends Controller
             $notification = new Notifications();
             $log = new Log();
             $user_log = new UserLog();
-            $new_user = new SignupForm();
+            $new_user = new RegistrationForm();
             $returning_user = new LoginForm();
 
             if ($model->load(Yii::$app->request->post())) {
@@ -183,7 +187,7 @@ class OrdersController extends Controller
                     }
                 }
                 // continue
-                $activity = Activities::loadActivity();
+                $activity = Activities::loadActivity(Yii::$app->user->id);
                 if($activity->save()){ // new activity saved 
                     $model->activity_id = $activity->id;
                     $this->saveOrderLocation($model, $location, $service);

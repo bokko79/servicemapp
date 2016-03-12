@@ -19,6 +19,18 @@ use Yii;
  */
 class PresentationSpecs extends \yii\db\ActiveRecord
 {
+    public $service;
+    public $specification;
+    public $property;
+    public $spec;
+    public $spec_models = [];
+    public $spec_operator;
+    public $checkUserObject;
+    public $checkIfRequired;
+
+    private $_specification;
+    private $_property;
+
     /**
      * @inheritdoc
      */
@@ -56,6 +68,33 @@ class PresentationSpecs extends \yii\db\ActiveRecord
            'value_operator' => Yii::t('app', 'Value Operator'),
         ];
     }
+
+    /**
+     * Specification of the object of the service to be added to the cart.
+     *
+     * @return CsSpecs|null
+     */
+    public function getObjectSpecification()
+    {
+        if ($this->_specification === null) {
+            $this->_specification = $this->specification;
+        }
+        return $this->_specification;
+    }
+
+    /**
+     * Property of the object.
+     *
+     * @return CsProperties|null
+     */
+    public function getProperty()
+    {
+        if ($this->_property === null) {
+            $this->_property = $this->property;
+        }
+        return $this->_property;
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery

@@ -14,13 +14,12 @@ $this->title = Yii::t('app', 'Napravi prezentaciju');
     <?= $this->render('_form', [
     	'service' => $service,
         'model' => $model,
-        'model_specs' => $model_specs,
-        'model_spec_models' => $model_spec_models,
         'model_methods' => $model_methods,
-        'model_images' => $model_images,
-        'model_issues' => $model_issues,
-        'model_locations' => $model_locations,
+        'model_specs' => $model_specs,
         'object_model' => $object_model,
+        'new_provider' => $new_provider,
+        'returning_user' => $returning_user,
+        'location'=> $location,
     ]) ?>
 
 </div>

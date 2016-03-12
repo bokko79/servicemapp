@@ -71,7 +71,6 @@ use Yii;
  * @property UserLocations[] $userLocations
  * @property UserLog[] $userLogs
  * @property UserNotifications $userNotifications
- * @property UserNotificationsSms $userNotificationsSms
  * @property UserObjects[] $userObjects
  * @property UserOrder[] $userOrders
  * @property UserPayment[] $userPayments
@@ -423,14 +422,6 @@ class User extends \yii\db\ActiveRecord
     public function getUserNotifications()
     {
         return $this->hasOne(UserNotifications::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserNotificationsSms()
-    {
-        return $this->hasOne(UserNotificationsSms::className(), ['user_id' => 'id']);
     }
 
     /**

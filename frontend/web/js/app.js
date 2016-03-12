@@ -164,4 +164,14 @@ $(document).ready(function(){
       $('#providerindustries-selection').select2();
     });
   });
+
+  $('.collapsing').on("click", function(e) {
+    $(this).toggleClass('inverted normal');
+    $(this).closest("#card_container").find('.secondary-context').each(function(){
+      $(this).toggle();
+    });
+    $('html,body').animate({
+              scrollTop: $(this).offset().top-70},
+              500);
+  });
 });

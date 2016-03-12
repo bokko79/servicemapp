@@ -78,24 +78,26 @@ $marker->attachInfoWindow(
 $map->addOverlay($marker);
 ?>
 <div class="card_container record-xl fadeIn animated" id="card_container" style="float:none;">
-    <div class="header-context">
+    <div class="header-context gray">
         <div class="head">Dobrodošli na Servicemapp!</div>
         <div class="subhead">Lorem ipsum</div>
     </div>
-    <div class="secondary-context cont">
+    <div class="secondary-context cont gray">
         <p>Usluge, delatnost, uslovi pružanja usluga.</p>
         <p>Usluge, delatnost, uslovi pružanja usluga.</p>
     </div>
-    <div class="secondary-context cont">
+    <hr style="margin:0">
+    <div class="secondary-context">
         <div class="head thin">Podešavanje usluga koje pružate</div>
         <div class="subhead">Lorem ipsum</div>
         <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                             ex ea commodo consequat.</p>
     </div>
     <div class="action-area right">
-        <?= Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesite usluge'), Url::to('/'.$model->username.'/my-services'), ['class'=>'btn btn-success']); ?>
+        <?= Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesite usluge'), Url::to('/'.$model->username.'/services'), ['class'=>'btn btn-primary']); ?>
     </div>
-    <div class="secondary-context cont">
+    <hr style="margin:0">
+    <div class="secondary-context">
         <div class="head thin">Vaš profil</div>
         <div class="subhead">Lorem ipsum</div>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
@@ -104,7 +106,7 @@ $map->addOverlay($marker);
                             fugiat nulla pariatur.</p>
     </div>
     <div class="action-area right">
-        <?= Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesite usluge'), Url::to('/'.$model->username.'/my-services'), ['class'=>'btn btn-success']); ?>
+        <?= Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesite profil'), Url::to('/'.$model->username.'/profile'), ['class'=>'btn btn-primary']); ?>
     </div>
 </div>
 

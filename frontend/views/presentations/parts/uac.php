@@ -6,16 +6,16 @@ use yii\helpers\ArrayHelper;
 
 $message = 'Što bolje i opširnije opišete šta Vam treba i šta zahtevate, bolje ćete ponude sakupiti i samim tim povećati sebi šanse za dobro obavljen posao. Ovde imate priliku da svojim rečima upotpunite svoju porudžbinu.';
 ?>
-<div class="wrapper headline" style="">
+<div class="wrapper headline" style="" id="uac">
     <label class="head">
-        <span class="badge"></span>&nbsp;
+        <span class="badge"><?= $model->noUac ?></span>&nbsp;
         <i class="fa fa-user fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Nemate nalog?') ?>
     </label>
     	<?= ' <span class="optional">(opciono)</span>' ?>
-    <i class="fa fa-chevron-right chevron"></i>
+    <i class="fa fa-chevron-down chevron"></i>
 </div>
-<div class="wrapper notshown body fadeIn animated" style="border-top:none;;">
+<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections14">
 	<?= $this->render('../_hint.php', ['message'=>$message]) ?>
 	<?= $form->field($new_provider, 'username', [
         'enableAjaxValidation' => true,

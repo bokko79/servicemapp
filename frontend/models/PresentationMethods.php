@@ -39,6 +39,7 @@ class PresentationMethods extends \yii\db\ActiveRecord
             [['presentation_id', 'method_id'], 'required'],
             [['presentation_id', 'method_id'], 'integer'],
             [['value', 'value_max'], 'string', 'max' => 64],
+            [['method_models'], 'safe'],
             [['method_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsMethods::className(), 'targetAttribute' => ['method_id' => 'id']],
             [['presentation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Presentations::className(), 'targetAttribute' => ['presentation_id' => 'id']],
         ];
@@ -59,6 +60,32 @@ class PresentationMethods extends \yii\db\ActiveRecord
     }
 
     /**
+     * Service to be added to cart
+     *
+     * @return CsServiceMethods|null
+     */
+    public function getActionMethod()
+    {
+        if ($this->_method === null) {
+            $this->_method = $this->serviceMethod;
+        }
+        return $this->_method;
+    }
+
+    /**
+     * Property of the object.
+     *
+     * @return CsProperties|null
+     */
+    public function getProperty()
+    {
+        if ($this->_property === null) {
+            $this->_property = $this->property;
+        }
+        return $this->_property;
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getMethod()
@@ -72,5 +99,13 @@ class PresentationMethods extends \yii\db\ActiveRecord
     public function getPresentation()
     {
         return $this->hasOne(Presentations::className(), ['id' => 'presentation_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getModels()
+    {
+        return $this->hasMany(PresentationMethodModels::className(), ['presentation_method_id' => 'id']);
     }
 }

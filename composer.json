@@ -25,7 +25,7 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-composer": "*",
-        "yiisoft/yii2-imagine": "*",
+        "yiisoft/yii2-imagine": "^2.0",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-jui": "*",
         "google/apiclient": "*",

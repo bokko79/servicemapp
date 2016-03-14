@@ -7,16 +7,16 @@ use yii\helpers\ArrayHelper;
 
 $message = 'Jedna slika vredi više od hiljadu reči. Pokažite pružaocima usluga o čemu se radi tako što ćete prikačiti fotografije '. $service->object->tNameGen;
 ?>
-<div class="wrapper headline" style="">
+<div class="wrapper headline" style="" id="pics">
     <label class="head">
-        <span class="badge">3</span>&nbsp;
+        <span class="badge"><?= $model->noPic ?></span>&nbsp;
         <i class="fa fa-image fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Slike {object}', ['object'=>$service->object->tNameGen]) ?>
     </label>
     <i class="fa fa-chevron-right chevron"></i>
 </div>
 
-<div class="wrapper body fadeIn animated" style="border-top:none;">
+<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections03">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
     <?= $form->field($model, 'imageFiles[]')->widget(FileInput::classname(), [
 					    'options' => ['multiple' => true, 'accept' => 'image/*'],

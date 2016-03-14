@@ -29,8 +29,8 @@ class PresentationLocations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'presentation_id', 'location_id'], 'required'],
-            [['id', 'presentation_id', 'location_id', 'location_within'], 'integer'],
+            [['presentation_id', 'location_id'], 'required'],
+            [['presentation_id', 'location_id', 'location_within'], 'integer'],
             [['description'], 'string'],
         ];
     }

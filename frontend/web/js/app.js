@@ -111,7 +111,7 @@ $(document).ready(function(){
   $( "[id^='ckbCheckAll']").on('click', function () {
     $(this).closest('.enclosedCheckboxes').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
   });
-
+  // new order time
   $("#orders-new_time").click(function(){
       var radioValue = $("input[name='Orders[new_time]']:checked").val();
       if(radioValue==0){
@@ -121,6 +121,21 @@ $(document).ready(function(){
           500);
       } else {
         $('.enter_time').hide();
+      }
+  });
+
+  //new presentation availability
+  $("#presentations-availability").click(function(){
+      var radioValue = $("input[name='Presentations[availability]']:checked").val();
+      if(radioValue==0){
+        $('.enter_dates').slideDown();    
+        $('html,body').animate({
+          scrollTop: $(this).offset().top-60},
+          500);
+      } else {
+        $('.enter_dates').hide();
+        $('input[name="available_from-presentations-available_from"]').val('');
+        $('input[name="available_until-presentations-available_until"]').val('');
       }
   });
 
@@ -173,5 +188,88 @@ $(document).ready(function(){
     $('html,body').animate({
               scrollTop: $(this).offset().top-70},
               500);
+  });
+
+  //highlight menu item on scroll
+  // Cache selectors
+  var lastId,
+      topMenu = $("ul.sidebar-menu"),
+      // All list items
+      menuItems = topMenu.find("a"),
+      // Anchors corresponding to menu items
+      scrollItems = menuItems.map(function(){
+        var item = $($(this).attr("href"));
+        if (item.length) { return item; }
+      });
+
+  // Bind click handler to menu items
+  // so we can get a fancy scroll animation
+  menuItems.click(function(e){
+    var href = $(this).attr("href"),
+        offsetTop = href === "#" ? 0 : $(href).offset().top-70;
+    $('html, body').stop().animate({ 
+        scrollTop: offsetTop
+    }, 300);
+    e.preventDefault();
+  });
+
+  // Bind to scroll
+  $(window).scroll(function(){
+     // Get container scroll position
+     var fromTop = $(this).scrollTop()+80;
+     
+     // Get id of current scroll item
+     var cur = scrollItems.map(function(){
+       if ($(this).offset().top < fromTop)
+         return this;
+     });
+     // Get the id of the current element
+     cur = cur[cur.length-1];
+     var id = cur && cur.length ? cur[0].id : "";
+     
+     if (lastId !== id) {
+         lastId = id;
+         // Set/remove active class
+         menuItems
+           .parent().removeClass("active")
+           .end().filter("[href='#"+id+"']").parent().addClass("active");
+     }                   
+  });
+    
+  $('[id^="sections"]').on("click", function(e) {
+    var string = $(this).attr('id');
+    var lastTwo = string.substr(string.length - 2);
+    var $menuItem = $('.check' + lastTwo + ' i.fa');
+    $(this).find('div.form-group').each(function() {
+      if ($(this).hasClass('has-error')) {
+          $($menuItem).addClass('fa-exclamation-circle');
+          //$($menuItem).removeClass('fa-plus');        
+          // do something
+      }
+      if ($(this).hasClass('has-success')) {
+          $($menuItem).addClass('fa-check');
+          //$($menuItem).removeClass('fa-plus');        
+          // do something
+      }
+    });
+  });  
+  $('.form-presentation').on("click", function(e) {
+    $('[id^="sections"]').each(function(e) {
+      var string = $(this).attr('id');
+      var lastTwo = string.substr(string.length - 2);
+      var $menuItem = $('.check' + lastTwo + ' i.fa');
+      $(this).find('div.form-group').each(function() {
+        if ($(this).hasClass('has-error')) {
+            $($menuItem).addClass('fa-exclamation-circle');
+            $($menuItem).removeClass('fa-plus');        
+            // do something
+        }
+        if ($(this).hasClass('has-success')) {
+            $($menuItem).addClass('fa-check');
+            $($menuItem).removeClass('fa-plus');        
+            // do something
+        }
+      });
+    }); 
   });
 });

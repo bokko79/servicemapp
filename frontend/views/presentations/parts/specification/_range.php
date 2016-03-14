@@ -6,13 +6,12 @@ use kartik\widgets\TouchSpin;
 use kartik\field\FieldRange;
 use yii\helpers\ArrayHelper;
 ?>
-<?php if($object_type!=1): ?>
 	<?= FieldRange::widget([
 	    'form' => $form,
 	    'model' => $model_spec,
 	    'label' => $property->label,
-	    'attribute1' => '['.$key.']spec',
-	    'attribute2' => '['.$key.']spec_to',
+	    'attribute1' => '['.$index.']value',
+	    'attribute2' => '['.$index.']value_max',
 	    'type' => FieldRange::INPUT_SPIN,
 	    'separator'=>'&larr; '.\Yii::t('app', 'do').' &rarr;',
 	    'widgetOptions1' => [
@@ -34,16 +33,3 @@ use yii\helpers\ArrayHelper;
 		    ]
 	    ],
 	]); ?>
-<?php else: ?>
-	<?= $form->field($model_spec, '['.$key.']spec', [
-	'addon' => ['append' => ['content'=>$service->unit->oznaka]],
-	'feedbackIcon' => [
-                        'success' => 'ok',
-                        'error' => 'exclamation-sign',
-                        'successOptions' => ['class'=>'text-primary', 'style'=>'right:18%;'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'right:18%; top: 6px;']
-                    ],
-	'hintType' => ActiveField::HINT_SPECIAL,
-	'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
-    ])->input('number', ['min'=>$specification->range_min, 'max'=>$specification->range_max, 'step'=>$specification->range_step, 'value'=>$specification->default_value])->label($property->label)->hint($property->tHint) ?>
-<?php endif; ?>

@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
-use kartik\widgets\DatePicker;
-use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
 
@@ -17,15 +15,17 @@ use yii\web\Session;
     'fullSpan' => 12,      
     'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
     'options' => ['enctype' => 'multipart/form-data'],
+    //'enableAjaxValidation' => true,
+    //'enableClientValidation' => true,
 ]); ?>
     <fieldset class="settings" style="margin:30px 0 !important;">
     <?php // 1 METHODS
         if($service->serviceMethods): ?>
             <?= $this->render('parts/methods.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'model_methods'=>$model_methods]) ?>
     <?php endif; ?>
-    <?php // 2 SPECIFICATIONS 
+    <?php // 2 SPECIFICATIONS
         if($service->serviceSpecs): ?>
-	       <?= $this->render('parts/specifications.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'model_specs' => $model_specs, 'object_model'=>$object_model]) ?>
+	       <?= $this->render('parts/specifications.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'model_specs' => $model_specs, 'object_model'=>$object_model, 'user' => $user,]) ?>
     <?php endif; ?>
     <?php // 3 PICS ?>
             <?= $this->render('parts/pics.php', ['form'=>$form, 'service' => $service, 'model'=>$model]) ?>
@@ -67,7 +67,7 @@ use yii\web\Session;
     <?php endif; ?>
         <hr>
         <div class="float-right col-md-5" style="margin:20px;">
-            <?= Html::submitButton(Yii::t('app', '<i class="fa fa-shopping-cart"></i> Napravi prezentaciju'), ['class' => 'btn btn-success btn-lg', 'style'=>'width:100%']) ?>
+            <?= Html::submitButton(Yii::t('app', '<i class="fa fa-shopping-cart"></i> Napravi prezentaciju'), ['class' => 'btn btn-success shadow btn-lg form-presentation', 'style'=>'width:100%']) ?>
         </div>
     </fieldset>
 <?php ActiveForm::end(); ?>

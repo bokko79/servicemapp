@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use yii\bootstrap\Modal;
 ?>
 <div class="card_container record-full grid-item no-shadow bordered fadeInUp animated" id="card_container" style="margin: 20px 0">
-    <div class="header-context collapsing inverted">                
+    <div class="header-context collapsing inverted" id="industry<?= $model->id ?>">                
         <div class="avatar">
             <?= Html::img('@web/images/cards/info/info_docs'.rand(0,9).'.jpg') ?>          
         </div>
@@ -27,7 +27,7 @@ use yii\bootstrap\Modal;
 
     <?php if($model->industry->skills):
         if($model->skills){
-            echo '<div class="secondary-context cont avatar-padded gray">';
+            echo '<div class="secondary-context avatar-padded gray">';
             foreach ($model->skills as $skill){
                 echo '<div class="label label-default fs_11 margin-right-10">'.$skill->model->tName.'</div>';
             }

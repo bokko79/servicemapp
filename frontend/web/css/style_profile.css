@@ -11,7 +11,7 @@
 .grid-profile-left {width: 400px; margin-left: 25px; float: left;}
 .grid-profile-center {width: 450px; float: left;}
 .grid-profile-right {width: 400px; float: left;}
-.grid-profile-rightacross {width: 745px; float: left;}
+.grid-profile-rightacross {width: 745px; float: left; margin-left: 25px;}
 .grid-profile-leftacross {width: 745px; float: left; margin-right: 25px;}
 
 .media-screen {margin-bottom: 25px;}
@@ -55,7 +55,7 @@
 .profile_right_controls {text-align:right; width: 100%; position: absolute; bottom: 20px; right: 0;}
 .profile_right_controls a {margin: 0 5px;}
 
-.product-head {background: #F6F7F8;  border-bottom:1px solid #ddd; height: auto; width: 100%; position:relative;}
+.product-head {/*background: #F6F7F8; */ border-bottom:1px solid #ddd; height: auto; width: 100%; position:relative;}
 .product-head .breadcrumb {padding: 20px 20px 10px; border: none;}
 .product-head .title_track {margin:0; background:#F6F7F8; border:none; position: absolute; bottom: 0;}
 

@@ -4,9 +4,8 @@ $(document).ready(function(){
   var checkUserType = $('#checkUserType').val();
   if(checkUserType==0){
     initialize_add_loc();
-    initialize_pres_loc();
   }
-
+  // new-order
   $(".new_loc").on('click', function(){                  
     $('.enter_location').slideDown({
       complete:function (){
@@ -23,6 +22,29 @@ $(document).ready(function(){
     $('.enter_location').hide();
     $("form").clearForm();
     $("#locations-name").val("");
+  });
+  // new-presentation
+  var checkLocationTypePres = $('#checkLocationPres').val();
+  var checkUserTypePres = $('#checkUserTypePres').val();
+  if(checkUserTypePres==0){
+    initialize_pres_loc();
+  }
+  $(".new_loc_pres").on('click', function(){                  
+    $('.enter_location').slideDown({
+      complete:function (){
+        initialize_pres_loc();
+      }
+    });
+    $("#presentations-loc_id").val("");
+    $('html,body').animate({
+      scrollTop: $(this).offset().top-60},
+      500);
+  });
+
+  $("#presentations-loc_id").on('change', function(){                  
+    $('.enter_location').hide();
+    $("form").clearForm();
+    $("#presentation-location").val("");
   });
 });
 
@@ -202,7 +224,7 @@ function initialize_pres_loc(){
     });
   });
 }
-// order location start
+// register user uac modal
 function initialize_reg_loc(){
   $("#signup-form-vertical #locations-name").geocomplete({
     map: "#my_map_register",
@@ -217,7 +239,7 @@ function initialize_reg_loc(){
     detailsAttribute: "data-geo",
   });  
 }
-// order location start
+// register provider uac modal
 function initialize_reg_pro_loc(){
   $("#signupprovider-form-vertical #locations-name").geocomplete({
     map: "#my_map_register_pro",

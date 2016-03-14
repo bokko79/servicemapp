@@ -178,20 +178,25 @@ class CsProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFormType()
+    public function formType($service_object=1)
     {
         switch ($this->type) {
             case 1:
                 $part = '_number';
                 break;
             case 2:
-                $part = '_radio';
+                $part = $service_object!=1 ? '_radio' : '_multiselect';
                 break;
             case 21:
+                $part = $service_object!=1 ? '_radioButton' : '_checkboxButton';
+                break;
+            case 22:
+                $part = '_radio';
+            case 22:
                 $part = '_radioButton';
                 break;
             case 3:
-                $part = '_select';
+                $part = $service_object!=1 ? '_select' : '_multiselect';
                 break;
             case 4:
                 $part = '_multiselect';
@@ -200,13 +205,16 @@ class CsProperties extends \yii\db\ActiveRecord
                 $part = '_checkbox';
                 break;
             case 51:
-                $part = '_checkboxButton';
+                $part = $service_object!=1 ? '_checkboxButton' : '_checkboxButton';
+                break;
+            case 52:
+                $part = $service_object!=1 ? '_checkboxButton' : '_radioButton';
                 break;
             case 6:
-                $part = '_text';
+                $part = $service_object!=1 ? '_text' : null;
                 break;
             case 7:
-                $part = '_textarea';
+                $part = $service_object!=1 ? '_textarea' : null;
                 break;
             case 8:
                 $part = '_color';
@@ -224,20 +232,25 @@ class CsProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFormTypePresentation()
+    public function formTypePresentation($service_object=1)
     {
         switch ($this->type) {
             case 1:
-                $part = '_range';
+                $part = '_number';
                 break;
             case 2:
-                $part = '_multiselect';
+                $part = $service_object==1 ? '_radio' : '_multiselect';
                 break;
             case 21:
-                $part = '_checkboxButton';
+                $part = $service_object==1 ? '_radioButton' : '_checkboxButton';
+                break;
+            case 22:
+                $part = '_radio';
+            case 22:
+                $part = '_radioButton';
                 break;
             case 3:
-                $part = '_multiselect';
+                $part = $service_object==1 ? '_select' : '_multiselect';
                 break;
             case 4:
                 $part = '_multiselect';
@@ -246,19 +259,22 @@ class CsProperties extends \yii\db\ActiveRecord
                 $part = '_checkbox';
                 break;
             case 51:
-                $part = '_checkboxButton';
+                $part = $service_object==1 ? '_checkboxButton' : '_checkboxButton';
+                break;
+            case 52:
+                $part = $service_object==1 ? '_checkboxButton' : '_radioButton';
                 break;
             case 6:
-                $part = '_text';
+                $part = $service_object==1 ? '_text' : null;
                 break;
             case 7:
-                $part = '_textarea';
+                $part = $service_object==1 ? '_textarea' : null;
                 break;
             case 8:
                 $part = '_color';
                 break;
             case 9:
-                $part = '_number';
+                $part = '_range';
                 break;
             default:
                 $part = '_text';

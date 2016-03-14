@@ -33,6 +33,8 @@
 .card_container .head.black {font-weight: 900;}
 .card_container .head.thin {font-weight: 300;}
 .card_container .head.regular {font-weight: 500;}
+.card_container .head.float {width: auto; float:left;}
+.card_container .head:after {clear: both;}
 .dim {opacity:.36;}
 .card_container .subhead {font-size: 13px; font-weight: 400; color:#999; float:none; width:100%; line-height: 14px;}
 .card_container .subhead.float-left {float: left !important; font-weight:700;}

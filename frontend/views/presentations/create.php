@@ -6,9 +6,18 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Presentations */
 
-$this->title = Yii::t('app', 'Napravi prezentaciju');
+$this->title = Yii::t('app', 'Nova prezentacija');
+$this->params['breadcrumbs'][] = $this->title;
+$this->params['service'] = $service;
+$this->params['presentation'] = $model;
+$this->profileSubNavData = [
+    'pic' => 'default_avatar',
+    'title' => 'Nova prezentacija usluge '.$service->tName,
+    'username' => '',
+    'loc' => '',        
+];
 ?>
-<?= $this->render('_steps.php', ['service'=>$service]) ?>
+<?php // $this->render('_steps.php', ['service'=>$service]) ?>
 <div class="presentations-create">
 
     <?= $this->render('_form', [
@@ -20,6 +29,7 @@ $this->title = Yii::t('app', 'Napravi prezentaciju');
         'new_provider' => $new_provider,
         'returning_user' => $returning_user,
         'location'=> $location,
+        'user' => $user,
     ]) ?>
 
 </div>

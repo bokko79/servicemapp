@@ -22,11 +22,8 @@ class PresentationSpecs extends \yii\db\ActiveRecord
     public $service;
     public $specification;
     public $property;
-    public $spec;
     public $spec_models = [];
-    public $spec_operator;
     public $checkUserObject;
-    public $checkIfRequired;
 
     private $_specification;
     private $_property;
@@ -48,6 +45,7 @@ class PresentationSpecs extends \yii\db\ActiveRecord
             [['presentation_id', 'spec_id'], 'required'],
             [['presentation_id', 'spec_id'], 'integer'],
             [['value_operator'], 'string'],
+            [['spec_models'], 'safe'],
             [['value', 'value_max'], 'string', 'max' => 32],
             [['spec_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsSpecs::className(), 'targetAttribute' => ['spec_id' => 'id']],
             [['presentation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Presentations::className(), 'targetAttribute' => ['presentation_id' => 'id']],

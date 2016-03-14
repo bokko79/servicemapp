@@ -8,7 +8,10 @@ use yii\widgets\DetailView;
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Presentations'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => c($model->pService->industry->tName), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => c($model->pService->tName), 'url' => ['/s/'.slug($model->pService->name)]];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['presentation'] = $model;
 ?>
 <div class="presentations-view">
 

@@ -16,6 +16,7 @@ use kartik\select2\Select2;
 $this->title = Yii::t('app', 'Portfolio usluga');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['user'] = $user;
+$this->params['industries'] = $user->provider->industries;
 $pageDescription = '<p style="font-size:12px; line-height:14px; margin:10px;">'.Yii::t('app', 'Lista uslužnih delatnosti kojima se bavite i usluga u okviru tih delatnosti koje pružate.').'</p>';
 $this->pageTitle = [
     'background' => 'bg-blue-gray-900',

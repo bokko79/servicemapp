@@ -68,4 +68,12 @@ class ProviderLocations extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Locations::className(), ['id' => 'loc_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocationName()
+    {
+        return $this->loc->location_name;
+    }
 }

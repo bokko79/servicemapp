@@ -12,18 +12,23 @@ use frontend\widgets\Stats;
 <?php /* PROFILE HEADING */ ?>
 <div class="product-head">
     <div class="grid-container">
-		<div class="grid-row">
+		<div class="grid-row overflow-hidden border-bottom">
 			<div class="grid-leftacross">
 				<?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    'options' => ['class'=>'breadcrumb transparent wide'],
                 ]) ?>
 			</div>
 			<div class="grid-right right" style="padding-top: 10px;">
 				<?= $this->render('partial/share.php') ?>				
 			</div>
 		</div>
+		<div class="grid-row margin-top-20 overflow-hidden">
+			<?= $this->render('partial/product_head.php', ['model'=>$this->params['presentation']]) ?>
+		</div>		
     </div>
 </div>
+
 <div class="grid-container">
     <div class="grid-row">
         <div class="grid-leftacross margin-top-20">

@@ -29,6 +29,7 @@ $model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
 		<?php if($session['state']=='present'){ ?>
 			<?= $form->field($new_presentation, 'object_model')->radioList($model_list, ['unselect'=>null])->label(false) ?>
 			<?= $form->field($new_presentation, 'service_id')->hiddenInput(['value'=>$model->id])->label(false) ?>
+			<?= $form->field($new_presentation, 'id')->hiddenInput(['value'=>null])->label(false) ?>
 		<?php } else { ?>
 			<?= $form->field(new \frontend\models\CsObjects, 'id[]')->radioList($model_list, ['unselect'=>null])->label(false) ?>
 		<?php } ?>

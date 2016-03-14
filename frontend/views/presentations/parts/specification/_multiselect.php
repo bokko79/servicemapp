@@ -6,12 +6,6 @@ use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 
 $model_list = ArrayHelper::map($property->models, 'id', 'tNameWithHint');
-
-foreach($property->models as $prop_model){
-	if($prop_model->selected_value==1){
-		$model_spec->spec_models[] = $prop_model->id;
-	}
-}
 ?>
 <div class="enclosedCheckboxes">    
     <?= Form::widget([
@@ -20,7 +14,7 @@ foreach($property->models as $prop_model){
         'options'=>['tag'=>'div', 'style'=>'margin:10px 0;'],
         'contentBefore'=>'',
         'attributes'=> [
-        	'['.$key.']spec_models' => [
+        	'['.$index.']spec_models' => [
         		'type'=>Form::INPUT_CHECKBOX_LIST,
         		'label' => $property->label .'<br><div class="checkbox col-sm-offset-3"><label><input type="checkbox" id="ckbCheckAll'. $property->id .'"> <i>Izaberite/Poništite sve</i></label></div>',
         		'hint'=> $property->tHint,

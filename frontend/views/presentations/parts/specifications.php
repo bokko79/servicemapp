@@ -23,18 +23,18 @@ switch ($object->t[0]->name_gender) {
 $message = ($service->service_object!=1) ? Yii::t('app', 'Opišite ukratko {your} {object}...', ['your'=>$your, 'object'=>$object->tName]) :
         Yii::t('app', 'Opišite ukratko {whatkind} {object} nudite...', ['whatkind'=>$whatkind, 'object'=>$object->tName]);
 ?>
-<div class="wrapper headline" style="">
+<div class="wrapper headline" style=""  id="specification">
     <label class="head">
-        <span class="badge"><?php // $model->noSpecs ?></span>&nbsp;
+        <span class="badge"><?= $model->noSpecs ?></span>&nbsp;
         <i class="fa fa-cube fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Reč-dve o {object}...', ['your'=>$your, 'object'=>$object->tNameDat]) ?>
     </label>
     <?= ' <span class="red">*</span>' ?>
     <i class="fa fa-chevron-down chevron"></i>
 </div>
-<div class="wrapper body fadeIn animated" style="border-top:none;">
+<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections02">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
-<?php /* if($userObjects && ($service->service_object==2 || $service->service_object==3)){ ?>    
+<?php /*if($user && $user->userObjects && $service->service_object==1){ ?>    
         <?= $form->field($model, 'user_object', [
                 'feedbackIcon' => [
                     'success' => 'ok',
@@ -54,13 +54,13 @@ $message = ($service->service_object!=1) ? Yii::t('app', 'Opišite ukratko {your
         </div>
         <div class="enter_objectSpec fadeIn animated" style="display:none">
                 
-<?php } */ ?>
-<?php foreach($model_specs as $model_spec) {
+<?php } */?>
+<?php foreach($model_specs as $index=>$model_spec) {
 		$specification = $model_spec->specification;
 		$property = $model_spec->property;
-		echo $this->render('specification/'.$property->formType.'.php', ['form'=>$form, 'key'=>$property->id, 'model_spec'=>$model_spec, 'specification'=>$specification, 'property'=>$property, 'service'=>$service, 'object_type'=>$service->service_object]);        
+		echo $this->render('specification/'.$property->formTypePresentation($service->service_object).'.php', ['form'=>$form, 'index'=>$index, 'model_spec'=>$model_spec, 'specification'=>$specification, 'property'=>$property, 'service'=>$service]);        
         echo Html::activeHiddenInput($model_spec, 'checkUserObject', ['id'=>'checkUserObject_model_spec'.$property->id]);
-        echo Html::activeHiddenInput($model_spec, '['.$property->id.']checkIfRequired', ['id'=>'checkIfRequired_model_spec'.$property->id]);       
+        echo Html::activeHiddenInput($model_spec, '['.$index.']spec_id', ['value'=>$specification->id]);        
     } ?>
 <?php /* if($userObjects && ($service->service_object==2 || $service->service_object==3)){ ?>
     </div>

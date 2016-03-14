@@ -80,7 +80,7 @@ class CsPropertyModels extends \yii\db\ActiveRecord
      */
     public function getOrderSpecModels()
     {
-        return $this->hasOne(OrderServiceSpecModels::className(), ['id' => 'spec_model']);
+        return $this->hasMany(OrderServiceSpecModels::className(), ['id' => 'spec_model']);
     }
 
     /**
@@ -88,7 +88,15 @@ class CsPropertyModels extends \yii\db\ActiveRecord
      */
     public function getPresentationSpecModels()
     {
-        return $this->hasOne(PresentationSpecModels::className(), ['id' => 'spec_model']);
+        return $this->hasMany(PresentationSpecModels::className(), ['id' => 'spec_model']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationMethodModels()
+    {
+        return $this->hasMany(PresentationMethodModels::className(), ['id' => 'method_model']);
     }
 
     /**
@@ -96,7 +104,7 @@ class CsPropertyModels extends \yii\db\ActiveRecord
      */
     public function getUserObjectSpecModels()
     {
-        return $this->hasOne(UserObjectSpecModels::className(), ['id' => 'spec_model']);
+        return $this->hasMany(UserObjectSpecModels::className(), ['id' => 'spec_model']);
     }
 
     /**

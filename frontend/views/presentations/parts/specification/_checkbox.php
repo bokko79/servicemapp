@@ -6,7 +6,7 @@ use kartik\switchinput\SwitchInput;
 use yii\helpers\ArrayHelper;
 
 ?>
-<?= $form->field($model_spec, '['.$key.']spec[]', [
+<?= $form->field($model_spec, '['.$index.']value', [
 	'hintType' => ActiveField::HINT_SPECIAL,
 	'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
     ])->widget(SwitchInput::classname(), [
@@ -17,4 +17,4 @@ use yii\helpers\ArrayHelper;
 	        'size' => 'large',
 	        'inlineLabel' => false,	        
 	    ]
-    ])->label(Yii::$app->operator->sentenceCase($property->label))->hint($property->tHint) ?>
+    ])->label(c($property->label))->hint($property->tHint) ?>

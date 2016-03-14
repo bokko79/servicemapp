@@ -79,15 +79,15 @@ return [
             'class' => '\kartik\datecontrol\Module',
             // format settings for displaying each date attribute (ICU format example)
             'displaySettings' => [
-                Module::FORMAT_DATE => 'dd. MMM yyyy',
+                Module::FORMAT_DATE => 'dd. MMM yyyy.',
                 Module::FORMAT_TIME => 'H:mm',
                 Module::FORMAT_DATETIME => 'dd. MMM yyyy. H:mm',
             ],
             
             // format settings for saving each date attribute (PHP format example)
             'saveSettings' => [
-                Module::FORMAT_DATE => 'php:Y-m-d H:i:s', // saves as unix timestamp
-                Module::FORMAT_TIME => 'php:Y-m-d H:i:s',
+                Module::FORMAT_DATE => 'php:Y-m-d', //
+                Module::FORMAT_TIME => 'php:H:i:s',
                 Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s',
             ],
             
@@ -107,7 +107,7 @@ return [
                 Module::FORMAT_DATE => [
                     'class' => 'yii\jui\DatePicker', // example
                     'options' => [
-                        'dateFormat' => 'php:d M Y',
+                        'dateFormat' => 'php:Y-m-d',
                         'options' => ['class'=>'form-control'],
                     ]
                 ]

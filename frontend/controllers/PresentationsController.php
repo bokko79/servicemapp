@@ -3,6 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\base\Model;
+use yii\web\UploadedFile;
 use frontend\models\ProviderServices;
 use frontend\models\ProviderIndustries;
 use frontend\models\Presentations;
@@ -10,6 +12,7 @@ use frontend\models\PresentationsSearch;
 use frontend\models\PresentationSpecs;
 use frontend\models\PresentationSpecModels;
 use frontend\models\PresentationMethods;
+use frontend\models\PresentationMethodModels;
 use frontend\models\PresentationLocations;
 use frontend\models\PresentationIssues;
 use frontend\models\PresentationImages;
@@ -76,7 +79,7 @@ class PresentationsController extends Controller
      */
     public function actionView($id)
     {
-        $this->layout = '/presentation';
+        $this->layout = '/product';
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -90,65 +93,46 @@ class PresentationsController extends Controller
      */
     public function actionCreate()
     { 
+        $this->layout = '/user_presentation';
+
         if($ps = Yii::$app->request->get('ProviderServices')){
-            $service = $this->findService($ps['service_id']);
-            if($service){
-                $object_model = !empty($ps['object_model']) ? $this->findObjectModel($ps['object_model']) : null;
-                $user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null;
-                $model = new Presentations();
-                $model->service = $service;
-                $model_methods = $this->loadPresentationMethods($service);
-                $model_specs = $this->loadPresentationSpecifications($service, $object_model);
-                $location = new Locations();
+            if($service = $this->findService($ps['service_id'])){ // service
+                //print_r($service); die();
+                $object_model = !empty($ps['object_model']) ? $this->findObjectModel($ps['object_model']) : null; // object_model
+                $user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // presenter
+                $model = new Presentations(); // new presentation
+                $model->service = $service;                
+                $model_methods = $this->loadPresentationMethods($service); // array of new presentationMethods
+                $model_specs = $this->loadPresentationSpecifications($service, $object_model); // array of new presentationSpecs
+                $location = new Locations(); // new location
                 $location->control = $service->location;
                 $location->userControl = (Yii::$app->user->isGuest) ? 0 : 1;
-                $notification = new Notifications();
-                $log = new Log();
-                $user_log = new UserLog();
-                $new_provider = Yii::createObject(RegistrationProviderForm::className());                
-                $this->performAjaxValidation($new_provider);
-                $returning_user = Yii::createObject(LoginForm::className());
-                $this->performAjaxValidation($returning_user);
-                
+                $notification = new Notifications(); // new notification
+                $log = new Log(); // new log
+                $user_log = new UserLog(); // new userLog
+                $new_provider = ($user==null) ? Yii::createObject(RegistrationProviderForm::className()) : null;  // register provider
+                $returning_user = ($user==null) ? Yii::createObject(LoginForm::className()) : null; // login existing user
+                if($user==null){
+                    $this->performAjaxValidation($new_provider);
+                    $this->performAjaxValidation($returning_user);
+                } 
                 if ($model->load(Yii::$app->request->post())) {
-                    // check if new user
-                    $checkPresenter = null;
-                    if($user==null){
-                        // save provider
-                        if ($new_provider->load(Yii::$app->request->post())) {                         
-                            if ($dektuser = $new_provider->register()) {
-                                $user = \frontend\models\User::findOne($dektuser->id);
-                                $checkPresenter = 1;
-                            }
-                        }
-                        if ($returning_user->load(Yii::$app->getRequest()->post()) && $returning_user->login()) {
-                            $user = \frontend\models\User::findOne(Yii::$app->user->id);
-                            $checkPresenter = 2;
-                        }
-                    }
-                    if($user){
+                    $checkPresenter = $user==null ? 1 : null; // check if new user
+                    if($user = $user==null ? $this->saveUser($new_provider, $returning_user) : $user){ // load user(presenter)
                         if($user->is_provider==0){
                             if(!$this->saveProvider($user, $service)){
                                 return $this->goBack();
                             }
                         }
-                        $proserv = ($ps['id']==null) ? $this->saveProviderService($user, $service) : $this->findProviderService($ps['id']);
-                        if($proserv){
-                            $activity = Activities::loadActivity($user->id, 'presentation');
-                            if($activity->save()){
-                                $offer = Offers::loadOffer($activity->id);
-                                if($offer->save()){
-                                    if($this->savePresentation($model, $activity, $offer, $service, $proserv, $checkPresenter)){
-                                        return $checkPresenter ? $this->redirect(['/blank']) : $this->redirect(['/presentation/'.$model->id]);
-                                    }                                                                                   
-                                }
-                            }
-                        }
-                         
+                        if($proserv = $ps['id']==null ? $this->saveProviderService($user, $service) : $this->findProviderService($ps['id'])){
+                            if($this->savePresentation($model, $user, $service, $object_model, $location, $proserv, $checkPresenter, $model_specs, $model_methods)){
+                                
+                                return $checkPresenter!=null ? $this->redirect(['/blank']) : $this->redirect(['/presentation/'.$model->id]);
+                            }   
+                        }                         
                     } else {
                         return $this->goBack();
-                    }
-                    
+                    }                    
                 } else {
                     return $this->render('create', [
                         'service' => $service,
@@ -159,9 +143,9 @@ class PresentationsController extends Controller
                         'new_provider' => $new_provider,
                         'returning_user' => $returning_user,
                         'location'=> $location,
+                        'user' => $user,
                     ]);
-                }
-                
+                }                
             } else {
                 return $this->goBack();
             }                
@@ -323,12 +307,11 @@ class PresentationsController extends Controller
             foreach($objectSpecs as $objectSpec) {
                 if($objectSpec->property) {
                     $property = $objectSpec->property;
-                    $model_spec[$property->id] = new \frontend\models\PresentationSpecs();
+                    $model_spec[$property->id] = new PresentationSpecs();
                     $model_spec[$property->id]->specification = $objectSpec;
                     $model_spec[$property->id]->property = $property;
                     $model_spec[$property->id]->service = $service;
                     $model_spec[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_model)) ? 0 : 1;
-                    $model_spec[$property->id]->checkIfRequired = ($objectSpec->required==1) ? 1 : 0;             
                 }                                   
             }
             return (isset($model_spec)) ? $model_spec : null;
@@ -341,8 +324,7 @@ class PresentationsController extends Controller
         if($service->serviceMethods!=null) {
             foreach($service->serviceMethods as $serviceMethod) {
                 if($serviceMethod->method) {
-                    if($serviceMethod->method->property) { 
-                        $property = $serviceMethod->method->property;
+                    if($property = $serviceMethod->method->property) { 
                         $model_methods[$property->id] = new \frontend\models\PresentationMethods();
                         $model_methods[$property->id]->serviceMethod = $serviceMethod->method;
                         $model_methods[$property->id]->property = $property;
@@ -350,7 +332,7 @@ class PresentationsController extends Controller
                     }
                 }           
             }
-            return $model_methods;
+            return (isset($model_methods)) ? $model_methods : null;
         }
         return null;
     }
@@ -415,25 +397,108 @@ class PresentationsController extends Controller
         return false;
     }
 
-    protected function savePresentation($model, $activity, $offer, $service, $proserv, $checkPresenter)
+    protected function saveUser($new_provider, $returning_user)
     {
-        if($user && $service) {
-            $model->activity_id = $activity->id;
-            $model->offer_id = $offer->id;
-            $model->provider_service_id = $proserv->id;
-            $model->provider_id = $proserv->provider_id;
-            $model->service_id = $service->id;
-            $model->object_id = $service->object->id;
-            $model->status = $checkPresenter ? 'pending' : 'active';
-            if($model->save()){
-                // redirect na info
-                $model_specs = new PresentationSpecs();
-                $model_spec_models = new PresentationSpecModels();
-                $model_methods = $this->loadPresentationMethods($service);
-                $model_images = new PresentationImages();
-                $model_issues = new PresentationIssues();
-                $model_locations = new PresentationLocations();
-               return true; 
+        if ($new_provider->load(Yii::$app->request->post())) {                         
+            if ($dektuser = $new_provider->register()) {
+                $user = \frontend\models\User::findOne($dektuser->id);
+            }
+        }
+        if ($returning_user->load(Yii::$app->getRequest()->post()) && $returning_user->login()) {
+            $user = \frontend\models\User::findOne(Yii::$app->user->id);
+        }
+
+        if($user != null){
+            return $user;
+        }
+        return false;
+    }
+
+    protected function savePresentation($model, $user, $service, $object_model, $location, $proserv, $checkPresenter, $model_specs, $model_methods)
+    {
+        if($model && $user && $service && $object_model && $proserv) {            
+            $activity = Activities::loadActivity($user->id, 'presentation');
+            if($activity->save()){
+                $offer = Offers::loadOffer($activity->id);
+                if($offer->save()){
+                    $model->activity_id = $activity->id;
+                    $model->offer_id = $offer->id;
+                    $model->provider_service_id = $proserv->id;
+                    $model->provider_id = $proserv->provider_id;
+                    $model->service_id = $service->id;
+                    $model->object_id = $service->object->id;
+                    $model->object_model_id = $object_model->id;     
+                    $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');               
+                    // location
+                    // 1 ako je register, onda nova lokacija, iz registracije $model->loc_id = $user->details->loc_id;
+                    // 2 ako je izabrao samo, onda loc_id $model->load(...)
+                    // 3 ako je nova lokacija onda location $model->loc_id = $location->id;
+                    if($checkPresenter==null){
+                        if($location->load(Yii::$app->request->post())){ // 3
+                            $location->user_id = $user->id;
+                            if($location->save()){
+                                $model->loc_id = $location->id;
+                            } else {
+                                return false;
+                            }
+                        }
+                    } else { // 1 ako je register
+                        $model->loc_id = $user->details->loc_id;
+                    }
+                    $model->status = $checkPresenter ? 'pending' : 'active';
+                    if($model->save()){
+                        // Presentation Specs
+                        if(Model::loadMultiple($model_specs, Yii::$app->request->post())) {
+                            foreach ($model_specs as $m_spec) {
+                                if($m_spec->value!=null || $m_spec['spec_models']!=null){
+                                    $m_spec->presentation_id = $model->id;
+                                    if($m_spec->save()){
+                                        if($m_spec['spec_models']!=null){                                            
+                                            foreach($m_spec['spec_models'] as $key=>$spec_model){
+                                                $new_spec_model[$key] = new PresentationSpecModels();
+                                                $new_spec_model[$key]->presentation_spec_id = $m_spec->id;
+                                                $new_spec_model[$key]->spec_model = $spec_model;
+                                                $new_spec_model[$key]->save();
+                                            }
+                                        }
+                                    }                                        
+                                }                                
+                            }
+                        }                        
+                        // Presentation Methods
+                        if(Model::loadMultiple($model_methods, Yii::$app->request->post())) {
+                            foreach ($model_methods as $m_method) {
+                                if($m_method->value!=null || $m_method['method_models']!=null){
+                                    $m_method->presentation_id = $model->id;
+                                    if($m_method->save()){
+                                        if($m_method['method_models']!=null){
+                                            foreach($m_method['method_models'] as $key=>$method_model){
+                                                $new_method_model[$key] = new PresentationMethodModels();
+                                                $new_method_model[$key]->presentation_method_id = $m_method->id;
+                                                $new_method_model[$key]->method_model = $method_model;
+                                                $new_method_model[$key]->save();
+                                            }
+                                        }
+                                    }                                        
+                                }                                
+                            }
+                        }                        
+                        // Presentation Images
+                        if ($model->imageFiles) {
+                            $model->upload();
+                        }                        
+                        // Presentation Issues
+                        /*$model_issues = new PresentationIssues(); */
+                        // Presentation Locations
+                        $model_locations = new PresentationLocations();
+                        $model_locations->presentation_id = $model->id;
+                        $model_locations->location_id = $model->loc_id;
+                        $model_locations->location_within = $model->loc_within;
+                        $model_locations->save();
+
+                        return true; 
+                    }
+                }
             }
         }
         return false;

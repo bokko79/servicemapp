@@ -19,7 +19,7 @@ use yii\helpers\Url;
 	</li>
 	<li class="<?= (Url::current()=='/market' || (Yii::$app->controller->id=='orders' && Yii::$app->controller->action->id=='view')) ? 'active' : null ?>">
 		<?= Html::a('Market', Url::to('/market'), ['class'=>'careted','style'=>'', 'data-toggle'=>'tooltip', 'title'=>Yii::t('app', 'Service Market: Index of Service Requests')]); ?>
-		<?= Html::a('<i class="fa fa-caret-down"></i>', null, ['id'=>'glob_hover_market', 'class'=>'button']) ?>
+		<?php // Html::a('<i class="fa fa-caret-down"></i>', null, ['id'=>'glob_hover_market', 'class'=>'button']) ?>
 
 		<div class="category fadeInDown animated quick market">
 			<?= $this->render('global-nav/services.php') ?>
@@ -30,7 +30,7 @@ use yii\helpers\Url;
 	</li>	
 	<li class="<?= (Url::current()=='/providers') ? 'active' : null ?>">
 		<?= Html::a(Yii::t('app', 'Provajderi'), Url::to('/providers'), ['class'=>'careted']); ?>
-		<?= Html::a('<i class="fa fa-caret-down"></i>', null, ['id'=>'glob_hover_provider', 'class'=>'button']) ?>
+		<?php // Html::a('<i class="fa fa-caret-down"></i>', null, ['id'=>'glob_hover_provider', 'class'=>'button']) ?>
 
 		<div class="category fadeInDown animated quick providers">
 			<?= $this->render('global-nav/services.php') ?>

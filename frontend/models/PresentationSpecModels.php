@@ -28,8 +28,8 @@ class PresentationSpecModels extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'presentation_spec_id', 'spec_model'], 'required'],
-            [['id', 'presentation_spec_id', 'spec_model'], 'integer'],
+            [['presentation_spec_id', 'spec_model'], 'required'],
+            [['presentation_spec_id', 'spec_model'], 'integer'],
             [['description'], 'string'],
         ];
     }

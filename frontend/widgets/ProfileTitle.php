@@ -43,8 +43,8 @@ class ProfileTitle extends Widget
     public function run()
     {
         echo '<div class="title_holder_home" style="margin-bottom:10px;">';
-        echo '<h2 style="margin-top:0;"><table><tr><td class="icon"><i class="fa '.$this->titleData['icon'].'"></i></td>';
-        echo '<td>'.$this->titleData['title'].'</td></tr></table></h2>';
+        echo '<h1 style="margin-top:0;"><table><tr><td class="icon"><i class="fa '.$this->titleData['icon'].'"></i></td>';
+        echo '<td>'.$this->titleData['title'].'</td></tr></table></h1>';
 
         echo '<p>'.$this->titleData['description'].'</p>';
         echo '</div>';

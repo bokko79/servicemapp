@@ -92,7 +92,7 @@ $valid = \russ666\widgets\Countdown::widget([
 	    					// object_model
 	    					echo '<a href="#service-details'.$key.'">';
 	    					echo $oService->customTitle;
-	    					echo ($oService->methods) ? '<div class="label label-success fs_13 center margin-left-10" style="background:#ddd; color:#777;">'.$oService->methods[0]->propertyModel->tName.'</div>' : null;
+	    					//echo ($oService->methods) ? '<div class="label label-success fs_13 center margin-left-10" style="background:#ddd; color:#777;">'.$oService->methods[0]->propertyModel->tName.'</div>' : null;
 	    					echo '</a>';
 	    					
 	    					echo ($oService->amount!=null) ? '<div class="title_details muted"><i class="fa fa-signal fa-rotate-270"></i> '.$oService->amount.' '.$service->unit->oznaka.'</div>' : null;

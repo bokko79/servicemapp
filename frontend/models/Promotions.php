@@ -144,4 +144,17 @@ class Promotions extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserOrder::className(), ['promo_id' => 'id']);
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        // user log
+        $userLog = new \frontend\models\UserLog();
+        $userLog->user_id = Yii::$app->user->id;
+        $userLog->action = $insert ? 'promotion_created' : 'promotion_updated';
+        $userLog->alias = $this->id;
+        $userLog->time = date('Y-m-d H:i:s');
+        $userLog->save();
+        
+        parent::afterSave($insert, $changedAttributes);     
+    }
 }

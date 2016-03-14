@@ -17,7 +17,7 @@ $this->cardData = [
 $this->profileTitle = [
     'icon'          => ($industry) ? $industry->icon : null,
     'title'         => ($industry) ? Yii::$app->operator->sentenceCase($industry->tName) : null, 
-    'description'   => ($industry) ? $industry->t[0]->description : null, 
+    'description'   => ($industry) ? $industry->t[0]->description : null,
 ];
 
 $this->stats = [

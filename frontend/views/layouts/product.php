@@ -11,6 +11,42 @@ use frontend\widgets\Stats;
 
 <?php /* PROFILE HEADING */ ?>
 <div class="product-head">
+	<?php if($this->params['presentation']->images): ?>
+    <div class="media-area">
+    	<?php foreach ($this->params['presentation']->images as $media):
+    		$media_items[] = [
+    			'img' => '../images/presentations/full/'.$media->image->ime,
+				'thumb' => '../images/presentations/thumbs/'.$media->image->ime,
+				'full' => '../images/presentations/full/'.$media->image->ime, // Separate image for the fullscreen mode.
+    			'fit' => 'cover',
+    		]; ?>
+        <?php endforeach; ?>
+    <?= \metalguardian\fotorama\Fotorama::widget(
+            [
+                'options' => [
+                    'loop' => true,
+                    'hash' => true,
+                    'allowfullscreen' => 'native',
+                    'width' => '100%',
+                    'height' => '360',
+                    'maxheight' => '100%',
+                    'minwidth'=> '1380',
+                    'ratio' => 1920/360,
+                    'nav' => false,
+                    'fit' => 'none',
+                ],
+                'items' => $media_items,
+                //'tagName' => 'span',
+                'useHtmlData' => false,
+                'htmlOptions' => [
+                    'style'=>'text-align:center; margin:0 auto;',
+                    'class'=>'full-width-cover'
+                ],
+            ]
+        ) ?>        
+    </div>
+
+    <?php endif; ?>
     <div class="grid-container">
 		<div class="grid-row overflow-hidden border-bottom">
 			<div class="grid-leftacross">

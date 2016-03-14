@@ -100,25 +100,25 @@ class Activities extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAgreements()
+    public function getAgreement()
     {
-        return $this->hasMany(Agreements::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Agreements::className(), ['id' => 'activity_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBids()
+    public function getBid()
     {
-        return $this->hasMany(Bids::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Bids::className(), ['id' => 'activity_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFeedbacks()
+    public function getFeedback()
     {
-        return $this->hasMany(Feedback::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Feedback::className(), ['id' => 'activity_id']);
     }
 
     /**
@@ -132,17 +132,17 @@ class Activities extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOffers()
+    public function getOffer()
     {
-        return $this->hasMany(Offers::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Offers::className(), ['id' => 'activity_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrders()
+    public function getOrder()
     {
-        return $this->hasMany(Orders::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Orders::className(), ['id' => 'activity_id']);
     }
 
 
@@ -151,23 +151,23 @@ class Activities extends \yii\db\ActiveRecord
      */
     public function getOrderServices()
     {
-        return $this->hasMany(OrderServices::className(), ['activity_id' => 'id']);
+        return $this->order->services;
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentations()
+    public function getPresentation()
     {
-        return $this->hasMany(Presentations::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Presentations::className(), ['activity_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPromotions()
+    public function getPromotion()
     {
-        return $this->hasMany(Promotions::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Promotions::className(), ['id' => 'activity_id']);
     }
     
 

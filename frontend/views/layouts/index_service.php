@@ -10,11 +10,9 @@ use yii\helpers\Url;
     <?= $this->render('partial/screen.php', ['getService'=>$this->params['getService']]) ?>
 </div>
     <?= $this->render('partial/six_boxes.php') ?>
-
 <?php if(isset($this->params['getService']['industry_id'])): ?>
     <?= $this->render('partial/service_head.php') ?>
 <?php endif; ?>
-
 <?php if($this->params['getService']): ?>
 <div class="grid-container" style="">
     <div class="grid-row">
@@ -24,7 +22,5 @@ use yii\helpers\Url;
     </div>
 </div>
 <?php endif; ?>
-
     <?= $this->render('//services/_commercial.php', ['services'=>$this->params['getService']]) ?>
-
 <?php $this->endContent(); // HTML ?>

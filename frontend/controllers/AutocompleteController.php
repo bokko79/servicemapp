@@ -40,9 +40,11 @@ class AutocompleteController extends \yii\web\Controller
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
             $query = new \yii\db\Query;
-            $query->select('id, name AS text')
-                ->from('cs_industries')
-                ->where(['like', 'name', $q])
+            $query->select('ser.id, ind.name AS industry, ser.name AS service')
+                ->from('cs_industries AS ind')
+                ->innerJoin('cs_services AS ser', 'ser.industry_id=ind.id')
+                ->where(['like', 'ind.name', $q])
+                ->where(['like', 'ser.name', $q])
                 ->limit(20);
             $command = $query->createCommand();
             $data = $command->queryAll();

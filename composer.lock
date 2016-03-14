@@ -13,16 +13,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/2amigos/yii2-google-maps-library.git",
-                "reference": "da10da7ffeb65e97008f683bc8949e6b346a5108"
+                "reference": "95ed41815e85bbb5ea7584dbbdb6c898431845bd"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/2amigos/yii2-google-maps-library/zipball/95ed41815e85bbb5ea7584dbbdb6c898431845bd",
-                "reference": "da10da7ffeb65e97008f683bc8949e6b346a5108",
+                "reference": "95ed41815e85bbb5ea7584dbbdb6c898431845bd",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "4.*",
+                "guzzlehttp/guzzle": "6.*",
                 "yiisoft/yii2": "*"
             },
             "type": "yii-extension",
@@ -55,7 +55,7 @@
                 "maps",
                 "yii"
             ],
-            "time": "2015-10-30 17:33:00"
+            "time": "2016-03-09 00:46:57"
         },
         {
             "name": "2amigos/yii2-google-places-library",
@@ -425,7 +425,8 @@
             "keywords": [
                 "infinitescroll",
                 "jquery"
-            ]
+            ],
+            "time": "2015-04-06 07:52:27"
         },
         {
             "name": "bower-asset/jquery-timeago",
@@ -534,7 +535,8 @@
                 "coupons",
                 "date",
                 "datetime"
-            ]
+            ],
+            "time": "2015-08-19 17:52:25"
         },
         {
             "name": "bower-asset/jquery.inputmask",
@@ -649,16 +651,16 @@
         },
         {
             "name": "bower-asset/yii2-pjax",
-            "version": "v2.0.5",
+            "version": "v2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/jquery-pjax.git",
-                "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67"
+                "reference": "60728da6ade5879e807a49ce59ef9a72039b8978"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/6818718408086db6bdcf33649cecb86b6b4f9b67",
-                "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67",
+                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/60728da6ade5879e807a49ce59ef9a72039b8978",
+                "reference": "60728da6ade5879e807a49ce59ef9a72039b8978",
                 "shasum": ""
             },
             "require": {
@@ -671,6 +673,7 @@
                     ".travis.yml",
                     "Gemfile",
                     "Gemfile.lock",
+                    "CONTRIBUTING.md",
                     "vendor/",
                     "script/",
                     "test/"
@@ -848,6 +851,49 @@
             "time": "2015-08-05 01:03:42"
         },
         {
+            "name": "firebase/php-jwt",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firebase/php-jwt.git",
+                "reference": "fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1",
+                "reference": "fa8a06e96526eb7c0eeaa47e4f39be59d21f16e1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Firebase\\JWT\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Neuman Vong",
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anant Narayanan",
+                    "email": "anant@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+            "homepage": "https://github.com/firebase/php-jwt",
+            "time": "2015-07-22 18:31:08"
+        },
+        {
             "name": "fxp/composer-asset-plugin",
             "version": "dev-master",
             "source": {
@@ -905,34 +951,46 @@
         },
         {
             "name": "google/apiclient",
-            "version": "1.1.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client.git",
-                "reference": "400f250a30ae1dd4c4a0a4f750fe973fc70e6311"
+                "reference": "87dff9908464b150334283cd092d7d96e0dcc5bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/400f250a30ae1dd4c4a0a4f750fe973fc70e6311",
-                "reference": "400f250a30ae1dd4c4a0a4f750fe973fc70e6311",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/87dff9908464b150334283cd092d7d96e0dcc5bf",
+                "reference": "87dff9908464b150334283cd092d7d96e0dcc5bf",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.1"
+                "firebase/php-jwt": "~2.0|~3.0",
+                "google/auth": "0.7",
+                "guzzlehttp/guzzle": "~5.2|~6.0",
+                "guzzlehttp/psr7": "1.2.*",
+                "monolog/monolog": "^1.17",
+                "php": ">=5.4",
+                "phpseclib/phpseclib": "~2.0",
+                "psr/http-message": "1.0.*"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*",
-                "squizlabs/php_codesniffer": "~2.3"
+                "phpunit/phpunit": "~4",
+                "squizlabs/php_codesniffer": "~2.3",
+                "symfony/css-selector": "~2.0",
+                "symfony/dom-crawler": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
+                "psr-0": {
+                    "Google_": "src/"
+                },
                 "classmap": [
-                    "src/"
+                    "src/Google/Service/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -944,48 +1002,92 @@
             "keywords": [
                 "google"
             ],
-            "time": "2016-02-02 18:50:42"
+            "time": "2016-03-05 02:40:17"
         },
         {
-            "name": "guzzlehttp/guzzle",
-            "version": "4.2.3",
+            "name": "google/auth",
+            "version": "v0.7",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "66fd916e9f9130bc22c51450476823391cb2f67c"
+                "url": "https://github.com/google/google-auth-library-php.git",
+                "reference": "f3288860ce7b3076a6768e4ff7b85e0f6100e221"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/66fd916e9f9130bc22c51450476823391cb2f67c",
-                "reference": "66fd916e9f9130bc22c51450476823391cb2f67c",
+                "url": "https://api.github.com/repos/google/google-auth-library-php/zipball/f3288860ce7b3076a6768e4ff7b85e0f6100e221",
+                "reference": "f3288860ce7b3076a6768e4ff7b85e0f6100e221",
                 "shasum": ""
             },
             "require": {
-                "ext-json": "*",
-                "guzzlehttp/streams": "~2.1",
-                "php": ">=5.4.0"
+                "firebase/php-jwt": "~2.0|~3.0",
+                "guzzlehttp/guzzle": "~5.2|~6.0",
+                "guzzlehttp/psr7": "1.2.*",
+                "php": ">=5.4",
+                "psr/http-message": "1.0.*"
+            },
+            "require-dev": {
+                "phplint/phplint": "0.0.1",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ],
+                "psr-4": {
+                    "Google\\Auth\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Google Auth Library for PHP",
+            "homepage": "http://github.com/google/google-auth-library-php",
+            "keywords": [
+                "Authentication",
+                "google",
+                "oauth2"
+            ],
+            "time": "2016-03-03 02:03:58"
+        },
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "6a173ddae1a8e58be871f6d010e88c029eaf5cae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/6a173ddae1a8e58be871f6d010e88c029eaf5cae",
+                "reference": "6a173ddae1a8e58be871f6d010e88c029eaf5cae",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/promises": "~1.0",
+                "guzzlehttp/psr7": "~1.1",
+                "php": ">=5.5.0"
             },
             "require-dev": {
                 "ext-curl": "*",
                 "phpunit/phpunit": "~4.0",
                 "psr/log": "~1.0"
             },
-            "suggest": {
-                "ext-curl": "Guzzle will use specific adapters if cURL is present"
-            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "6.2-dev"
                 }
             },
             "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
                 "psr-4": {
                     "GuzzleHttp\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -998,7 +1100,7 @@
                     "homepage": "https://github.com/mtdowling"
                 }
             ],
-            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "description": "Guzzle is a PHP HTTP client library",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
                 "client",
@@ -1009,24 +1111,24 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-10-05 19:29:14"
+            "time": "2016-03-11 16:36:56"
         },
         {
-            "name": "guzzlehttp/streams",
-            "version": "2.1.0",
+            "name": "guzzlehttp/promises",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/streams.git",
-                "reference": "f91b721d73f0e561410903b3b3c90a5d0e40b534"
+                "url": "https://github.com/guzzle/promises.git",
+                "reference": "bb9024c526b22f3fe6ae55a561fd70653d470aa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/streams/zipball/f91b721d73f0e561410903b3b3c90a5d0e40b534",
-                "reference": "f91b721d73f0e561410903b3b3c90a5d0e40b534",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/bb9024c526b22f3fe6ae55a561fd70653d470aa8",
+                "reference": "bb9024c526b22f3fe6ae55a561fd70653d470aa8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.5.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0"
@@ -1034,15 +1136,15 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "GuzzleHttp\\Stream\\": "src/"
+                    "GuzzleHttp\\Promise\\": "src/"
                 },
                 "files": [
-                    "src/functions.php"
+                    "src/functions_include.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1056,13 +1158,69 @@
                     "homepage": "https://github.com/mtdowling"
                 }
             ],
-            "description": "Provides a simple abstraction over streams of data (Guzzle 4+)",
-            "homepage": "http://guzzlephp.org/",
+            "description": "Guzzle promises library",
             "keywords": [
-                "Guzzle",
-                "stream"
+                "promise"
             ],
-            "time": "2014-08-17 21:15:53"
+            "time": "2016-03-08 01:15:46"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "version": "1.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/psr7.git",
+                "reference": "2e89629ff057ebb49492ba08e6995d3a6a80021b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/2e89629ff057ebb49492ba08e6995d3a6a80021b",
+                "reference": "2e89629ff057ebb49492ba08e6995d3a6a80021b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "PSR-7 message implementation",
+            "keywords": [
+                "http",
+                "message",
+                "stream",
+                "uri"
+            ],
+            "time": "2016-02-18 21:54:00"
         },
         {
             "name": "imagine/imagine",
@@ -1176,12 +1334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "32b0ccb2562b9c83f12222ddd1406986a45450d1"
+                "reference": "16e4c250f77837e98e0db7f8cfc8b199b147a274"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/32b0ccb2562b9c83f12222ddd1406986a45450d1",
-                "reference": "32b0ccb2562b9c83f12222ddd1406986a45450d1",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/16e4c250f77837e98e0db7f8cfc8b199b147a274",
+                "reference": "16e4c250f77837e98e0db7f8cfc8b199b147a274",
                 "shasum": ""
             },
             "type": "library",
@@ -1221,7 +1379,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-02-28 02:23:49"
+            "time": "2016-03-14 03:52:56"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -1655,12 +1813,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "574c0e310bda692253c1ba0eac9a94c699b299d5"
+                "reference": "aee1795980be62974a5c35a61fd596c61c0fae6b"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/aee1795980be62974a5c35a61fd596c61c0fae6b",
-                "reference": "574c0e310bda692253c1ba0eac9a94c699b299d5",
+                "reference": "aee1795980be62974a5c35a61fd596c61c0fae6b",
                 "shasum": ""
             },
             "require": {
@@ -1696,7 +1854,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-02-19 18:29:46"
+            "time": "2016-03-08 04:08:06"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -1746,22 +1904,27 @@
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "1.8.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "0c274e31e4392cbafc5fe158eae81738794e02ce"
+                "reference": "3e491e51ed742663b239cd6e0b7f76d403bed7e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/0c274e31e4392cbafc5fe158eae81738794e02ce",
-                "reference": "0c274e31e4392cbafc5fe158eae81738794e02ce",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/3e491e51ed742663b239cd6e0b7f76d403bed7e1",
+                "reference": "3e491e51ed742663b239cd6e0b7f76d403bed7e1",
                 "shasum": ""
             },
             "require": {
                 "yiisoft/yii2-bootstrap": "@dev"
             },
             "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "kartik\\base\\": ""
@@ -1788,7 +1951,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-10 12:26:29"
+            "time": "2016-03-03 12:24:13"
         },
         {
             "name": "kartik-v/yii2-sortable",
@@ -2198,12 +2361,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datetimepicker.git",
-                "reference": "cfd6d5669293927a5bad4e0517c6e0afcccdedeb"
+                "reference": "fcef55b65bd1168478a5f0fcc8414b8310dc6333"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/kartik-v/yii2-widget-datetimepicker/zipball/fcef55b65bd1168478a5f0fcc8414b8310dc6333",
-                "reference": "cfd6d5669293927a5bad4e0517c6e0afcccdedeb",
+                "reference": "fcef55b65bd1168478a5f0fcc8414b8310dc6333",
                 "shasum": ""
             },
             "require": {
@@ -2239,7 +2402,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-02-19 17:13:22"
+            "time": "2016-03-07 17:49:31"
         },
         {
             "name": "kartik-v/yii2-widget-depdrop",
@@ -2500,12 +2663,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "4d03239c1e28ef8d3b96ab7fe360f5cbda34fb69"
+                "reference": "cb2a5992cb96bd2939e30ec1c76eba418d6a30af"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/cb2a5992cb96bd2939e30ec1c76eba418d6a30af",
-                "reference": "4d03239c1e28ef8d3b96ab7fe360f5cbda34fb69",
+                "reference": "cb2a5992cb96bd2939e30ec1c76eba418d6a30af",
                 "shasum": ""
             },
             "require": {
@@ -2545,7 +2708,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-02-17 11:49:30"
+            "time": "2016-03-10 11:33:59"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -2953,6 +3116,84 @@
             "time": "2015-05-31 18:15:38"
         },
         {
+            "name": "monolog/monolog",
+            "version": "1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "a9ccae25cbb5c0af6f2a549e4cc3ee6628c253ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a9ccae25cbb5c0af6f2a549e4cc3ee6628c253ab",
+                "reference": "a9ccae25cbb5c0af6f2a549e4cc3ee6628c253ab",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/log": "~1.0"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0.0"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "^2.4.9",
+                "doctrine/couchdb": "~1.0@dev",
+                "graylog2/gelf-php": "~1.0",
+                "jakub-onderka/php-parallel-lint": "0.9",
+                "php-console/php-console": "^3.1.3",
+                "phpunit/phpunit": "~4.5",
+                "phpunit/phpunit-mock-objects": "2.3.0",
+                "raven/raven": "^0.13",
+                "ruflin/elastica": ">=0.90 <3.0",
+                "swiftmailer/swiftmailer": "~5.3",
+                "videlalvaro/php-amqplib": "~2.4"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+                "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-mongo": "Allow sending log messages to a MongoDB server",
+                "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
+                "php-console/php-console": "Allow sending log messages to Google Chrome",
+                "raven/raven": "Allow sending log messages to a Sentry server",
+                "rollbar/rollbar": "Allow sending log messages to Rollbar",
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+                "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Monolog\\": "src/Monolog"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+            "homepage": "http://github.com/Seldaek/monolog",
+            "keywords": [
+                "log",
+                "logging",
+                "psr-3"
+            ],
+            "time": "2016-03-13 16:20:24"
+        },
+        {
             "name": "nepstor/yii2-datetime-compare-validator",
             "version": "1.1.0",
             "source": {
@@ -3086,12 +3327,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/philippfrenzel/yii2fullcalendar.git",
-                "reference": "7b6d4f94e0a050ef3dcb013270207b49c27a9e56"
+                "reference": "3bf2ee0f84f8a2cbcf37e40917d360a4387fa101"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/philippfrenzel/yii2fullcalendar/zipball/3bf2ee0f84f8a2cbcf37e40917d360a4387fa101",
-                "reference": "7b6d4f94e0a050ef3dcb013270207b49c27a9e56",
+                "reference": "3bf2ee0f84f8a2cbcf37e40917d360a4387fa101",
                 "shasum": ""
             },
             "require": {
@@ -3127,7 +3368,192 @@
                 "fullcalendar",
                 "yii2"
             ],
-            "time": "2015-12-28 07:25:32"
+            "time": "2016-03-09 06:30:53"
+        },
+        {
+            "name": "phpseclib/phpseclib",
+            "version": "2.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpseclib/phpseclib.git",
+                "reference": "9e586e79f1fadced93cea6b8dfa09c1bde7904c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/9e586e79f1fadced93cea6b8dfa09c1bde7904c2",
+                "reference": "9e586e79f1fadced93cea6b8dfa09c1bde7904c2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phing/phing": "~2.7",
+                "phpunit/phpunit": "~4.0",
+                "sami/sami": "~2.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "suggest": {
+                "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
+                "ext-libsodium": "SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.",
+                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
+                "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phpseclib\\": "phpseclib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jim Wigginton",
+                    "email": "terrafrost@php.net",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Patrick Monnerat",
+                    "email": "pm@datasphere.ch",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Andreas Fischer",
+                    "email": "bantu@phpbb.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Hans-Jürgen Petrich",
+                    "email": "petrich@tronic-media.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
+            "homepage": "http://phpseclib.sourceforge.net",
+            "keywords": [
+                "BigInteger",
+                "aes",
+                "asn.1",
+                "asn1",
+                "blowfish",
+                "crypto",
+                "cryptography",
+                "encryption",
+                "rsa",
+                "security",
+                "sftp",
+                "signature",
+                "signing",
+                "ssh",
+                "twofish",
+                "x.509",
+                "x509"
+            ],
+            "time": "2016-03-08 22:57:16"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2015-05-04 20:22:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "d8e60a5619fff77f9669da8997697443ef1a1d7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/d8e60a5619fff77f9669da8997697443ef1a1d7e",
+                "reference": "d8e60a5619fff77f9669da8997697443ef1a1d7e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2016-01-06 21:40:42"
         },
         {
             "name": "russ666/yii2-countdown",
@@ -3359,12 +3785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "5daf281b63f7cc5c182bd27eb0dbcd499baf230d"
+                "reference": "88ceadba3fc19ec90f72b6ba895347b7fecd3dfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/1c42b9ab26dcf7f9bbc80e29ad2f0cab9329116c",
-                "reference": "5daf281b63f7cc5c182bd27eb0dbcd499baf230d",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/88ceadba3fc19ec90f72b6ba895347b7fecd3dfb",
+                "reference": "88ceadba3fc19ec90f72b6ba895347b7fecd3dfb",
                 "shasum": ""
             },
             "require": {
@@ -3445,7 +3871,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-02-29 08:40:58"
+            "time": "2016-03-14 12:11:50"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -3501,12 +3927,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-                "reference": "ef941bc83ea63326e44769b922476dc1035ea551"
+                "reference": "4133d6b26f48615de38ea1ec04eb00c4b7057bc9"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/4133d6b26f48615de38ea1ec04eb00c4b7057bc9",
-                "reference": "ef941bc83ea63326e44769b922476dc1035ea551",
+                "reference": "4133d6b26f48615de38ea1ec04eb00c4b7057bc9",
                 "shasum": ""
             },
             "require": {
@@ -3543,7 +3969,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2016-01-24 17:03:09"
+            "time": "2016-03-04 00:48:53"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -3598,12 +4024,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "e196aa3fe1717ceb8b0027b6a12d7de340a2b7d0"
+                "reference": "a29ed1039604a576329c8d33138d29065d9f98d5"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/a29ed1039604a576329c8d33138d29065d9f98d5",
-                "reference": "e196aa3fe1717ceb8b0027b6a12d7de340a2b7d0",
+                "reference": "a29ed1039604a576329c8d33138d29065d9f98d5",
                 "shasum": ""
             },
             "require": {
@@ -3637,7 +4063,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2016-02-25 14:59:15"
+            "time": "2016-03-06 21:22:38"
         },
         {
             "name": "yiisoft/yii2-imagine",
@@ -3822,12 +4248,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "416a132083aa6f19a6ac42ae0b31fdb26159e72f"
+                "reference": "588da2fff1b9da3acb9b6e1d7395e820102bde01"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/588da2fff1b9da3acb9b6e1d7395e820102bde01",
-                "reference": "416a132083aa6f19a6ac42ae0b31fdb26159e72f",
+                "reference": "588da2fff1b9da3acb9b6e1d7395e820102bde01",
                 "shasum": ""
             },
             "require": {
@@ -3864,7 +4290,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-02-29 14:07:32"
+            "time": "2016-03-10 07:12:46"
         },
         {
             "name": "phpspec/php-diff",

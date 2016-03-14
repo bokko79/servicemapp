@@ -25,11 +25,11 @@ use yii\helpers\Url;
 
 // profile_updated--+++
 
-// request_created--+++
-// request_updated--+++
-// request_deleted--+++
-// request_comment--+++
-// request_successful--+++
+// order_created--+++
+// order_updated--+++
+// order_deleted--+++
+// order_comment--+++
+// order_successful--+++
 
 // provider_selected (bidder awarded)--+++
 
@@ -38,13 +38,18 @@ use yii\helpers\Url;
 // bid_deleted--+++
 // bid_rejected--+++
 
-// deal_created--+++
-// deal_updated--
-// deal_deleted--
-// deal_subscription--
-// deal_comment--+++
+// promotion_created--+++
+// promotionl_updated--
+// promotion_deleted--
+// promotion_subscription--
+// promotion_comment--+++
 
-// user_rated (request sender - client)--+++
+// presentation_created--+++
+// presentation_updated--
+// presentation_deleted--
+// presentation_comment--+++
+
+// user_rated (order sender - client)--+++
 // provider_rated (bidder)--+++
 
 // provider_reviewed--+++
@@ -103,25 +108,25 @@ use yii\helpers\Url;
                 $log_text = Yii::t('app', 'updated').$suff.' '.Yii::t('app', 'the profile');
             } // if ($log->action=='profile_updated') 
         
-        // request_created
+        // order_created
         if ($log->action=='order_created') 
             {
                 $icon = '<i class="fa fa-check-square fa-lg"></i>'; 
                 $color = '#00aff0;'; 
                 $pre = ''; 
-                $log_text = Yii::t('app', 'sent').$suff.' <a href="'.Url::to('order/'.$log->alias.'').'">'.Yii::t('app', 'a request').' <i class="fa fa-file"></i> #'.$log->alias.'</a>';
+                $log_text = Yii::t('app', 'sent').$suff.' <a href="'.Url::to('order/'.$log->alias.'').'">'.Yii::t('app', 'an order').' <i class="fa fa-file"></i> #'.$log->alias.'</a>';
             } // if ($log->action=='order_created') 
 
-        // request_updated
+        // order_updated
         if ($log->action=='order_updated') 
             {
                 $icon = '<i class="fa fa-edit fa-lg"></i>'; 
                 $color = '#00aff0;'; 
                 $pre = ''; 
-                $log_text = Yii::t('app', 'updated').$suff.' <a href="'.Url::to('order/'.$log->alias.'').'">'.Yii::t('app', 'the request').' <i class="fa fa-file"></i> #'.$log->alias.'</a>';
+                $log_text = Yii::t('app', 'updated').$suff.' <a href="'.Url::to('order/'.$log->alias.'').'">'.Yii::t('app', 'the order').' <i class="fa fa-file"></i> #'.$log->alias.'</a>';
             } // if ($log->action=='order_updated') 
 
-        // request_deleted
+        // order_deleted
         if ($log->action=='order_deleted') 
             {
                 $icon = '<i class="fa fa-times fa-lg"></i>';
@@ -130,7 +135,7 @@ use yii\helpers\Url;
                 $log_text = Yii::t('app', 'deleted').$suff.' <a href="'.Url::to('order/'.$log->alias.'').'">'.Yii::t('app', 'the request').' <i class="fa fa-file"></i> #'.$log->alias.'</a>';
             } // if ($log->action=='order_deleted') 
 
-        // request_comment
+        // order_comment
         if ($log->action=='order_comment') 
             {
                 $icon = '<i class="fa fa-comment fa-lg"></i>'; 
@@ -139,7 +144,7 @@ use yii\helpers\Url;
                 $log_text = Yii::t('app', 'commented').$suff.' <a href="'.Url::to('order/'.$log->alias.'').'">'.Yii::t('app', 'on the request').' <i class="fa fa-file"></i> #'.$log->alias.'</a>';
             } // if ($log->action=='order_comment') 
 
-        // request_successful
+        // order_successful
         if ($log->action=='order_successful') 
             {
                 $icon = '<i class="fa fa-trophy fa-lg"></i>'; 
@@ -205,49 +210,85 @@ use yii\helpers\Url;
     } // if ($log->alias!=null)                
 
         
-        // deal_created
-        if ($log->action=='deal_created') 
+        // presentation_created
+        if ($log->action=='presentation_created') 
+            {
+                $icon = '<i class="fa fa-check-square fa-lg"></i>'; 
+                $color = '#a8518a;'; 
+                $pre = ''; 
+                $log_text = Yii::t('app', 'created').$suff.' <a href="'.Url::to('/presentation/'.$log->alias.'').'">'.Yii::t('app', 'a new presentation').' <i class="fa fa-flag"></i> #'.$log->alias.'</a>';
+            } // if ($log->action=='deal_created')
+        
+        // presentation_updated
+        if ($log->action=='presentation_updated') 
+            {
+                $icon = '<i class="fa fa-edit fa-lg"></i>'; 
+                $color = '#a8518a;'; 
+                $pre = ''; 
+                $log_text = Yii::t('app', 'updated').$suff.' <a href="'.Url::to('/presentation/'.$log->alias.'').'">'.Yii::t('app', 'the presentation').' <i class="fa fa-flag"></i> #'.$log->alias.'</a>';
+            } // if ($log->action=='deal_updated') 
+        
+        // presentation_deleted
+        if ($log->action=='presentation_deleted') 
+            {
+                $icon = '<i class="fa fa-times fa-lg"></i>'; 
+                $color = '#a8518a;'; 
+                $pre = ''; 
+                $log_text = Yii::t('app', 'deleted').$suff.' '.Yii::t('app', 'the presentation').' <i class="fa fa-flag"></i> #'.$log->alias;
+            } // if ($log->action=='deal_deleted')
+        
+        // presentation_comment
+        if ($log->action=='presentation_comment') 
+            {
+                $icon = '<i class="fa fa-comment fa-lg"></i>'; 
+                $color = '#a8518a;'; 
+                $pre = ''; 
+                $log_text = Yii::t('app', 'commented').$suff.' <a href="'.Url::to('/presentation/'.$log->alias.'').'">'.Yii::t('app', 'on the presentation').' <i class="fa fa-flag"></i> #'.$log->alias.'</a>';
+            } // if ($log->action=='deal_comment') 
+
+        // promotion_created
+        if ($log->action=='promotion_created') 
             {
                 $icon = '<i class="fa fa-check-square fa-lg"></i>'; 
                 $color = 'orange;'; 
                 $pre = ''; 
-                $log_text = Yii::t('app', 'created').$suff.' <a href="'.Url::to('promo/'.$log->alias.'').'">'.Yii::t('app', 'a new deal').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias.'</a>';
+                $log_text = Yii::t('app', 'created').$suff.' <a href="'.Url::to('/promotion/'.$log->alias.'').'">'.Yii::t('app', 'a new deal').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias.'</a>';
             } // if ($log->action=='deal_created')
         
-        // deal_updated
-        if ($log->action=='deal_updated') 
+        // promotion_updated
+        if ($log->action=='promotion_updated') 
             {
                 $icon = '<i class="fa fa-edit fa-lg"></i>'; 
                 $color = 'orange;'; 
                 $pre = ''; 
-                $log_text = Yii::t('app', 'updated').$suff.' <a href="'.Url::to('promo/'.$log->alias.'').'">'.Yii::t('app', 'the deal').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias.'</a>';
+                $log_text = Yii::t('app', 'updated').$suff.' <a href="'.Url::to('/promotion/'.$log->alias.'').'">'.Yii::t('app', 'the promotion').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias.'</a>';
             } // if ($log->action=='deal_updated') 
         
-        // deal_deleted
-        if ($log->action=='deal_deleted') 
+        // promotion_deleted
+        if ($log->action=='promotion_deleted') 
             {
                 $icon = '<i class="fa fa-times fa-lg"></i>'; 
                 $color = 'orange;'; 
                 $pre = ''; 
-                $log_text = Yii::t('app', 'deleted').$suff.' '.Yii::t('app', 'the deal').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias;
+                $log_text = Yii::t('app', 'deleted').$suff.' '.Yii::t('app', 'the promotion').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias;
             } // if ($log->action=='deal_deleted') 
        
-        // deal_subscription
-        if ($log->action=='deal_subscription') 
+        // promotion_subscription
+        if ($log->action=='promotion_subscription') 
             {
                 $icon = '<i class="fa fa-plus fa-lg"></i>'; 
                 $color = 'orange;'; 
                 $pre = ''; 
-                $log_text = Yii::t('app', 'subscribed').$suff.' <a href="'.Url::to('promo/'.$log->alias.'').'">'.Yii::t('app', 'on the deal').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias.'</a>';
+                $log_text = Yii::t('app', 'subscribed').$suff.' <a href="'.Url::to('/promotion/'.$log->alias.'').'">'.Yii::t('app', 'on the promotion').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias.'</a>';
             } // if ($log->action=='deal_subscription') 
         
-        // deal_comment
-        if ($log->action=='deal_comment') 
+        // promotion_comment
+        if ($log->action=='promotion_comment') 
             {
                 $icon = '<i class="fa fa-comment fa-lg"></i>'; 
                 $color = 'orange;'; 
                 $pre = ''; 
-                $log_text = Yii::t('app', 'commented').$suff.' <a href="'.Url::to('promo/'.$log->alias.'').'">'.Yii::t('app', 'on the deal').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias.'</a>';
+                $log_text = Yii::t('app', 'commented').$suff.' <a href="'.Url::to('/promotion/'.$log->alias.'').'">'.Yii::t('app', 'on the promotion').' <i class="fa fa-rss fa-rotate-270"></i> #'.$log->alias.'</a>';
             } // if ($log->action=='deal_comment')   
 
         

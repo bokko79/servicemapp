@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\CsServices;
 use frontend\models\CsServicesSearch;
+use frontend\models\CsAutoServicesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -53,6 +54,9 @@ class ServicesController extends Controller
         
         $searchModel = new CsServicesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        /*$searchModel = new CsServicesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);*/
         
         return $this->render('index', [
             'searchModel' => $searchModel,

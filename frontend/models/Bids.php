@@ -171,4 +171,17 @@ class Bids extends \yii\db\ActiveRecord
             return 'guest';
         }        
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        // user log
+        $userLog = new \frontend\models\UserLog();
+        $userLog->user_id = Yii::$app->user->id;
+        $userLog->action = $insert ? 'bid_created' : 'bid_updated';
+        $userLog->alias = $this->id;
+        $userLog->time = date('Y-m-d H:i:s');
+        $userLog->save();
+        
+        parent::afterSave($insert, $changedAttributes);     
+    }
 }

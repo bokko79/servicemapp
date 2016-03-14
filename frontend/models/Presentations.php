@@ -159,21 +159,22 @@ class Presentations extends \yii\db\ActiveRecord
         if ($this->validate()) { 
             foreach ($this->imageFiles as $key_f=>$file) {
                 $imageName = Yii::$app->security->generateRandomString();
-                $file->saveAs('images/presentations/' . $imageName . '.' . $file->extension);
+                $file->saveAs('images/presentations/' . $imageName . '1.' . $file->extension);
                 $image[$key_f] = new \frontend\models\Images();
                 $image[$key_f]->ime = $imageName . '.' . $file->extension;
                 $image[$key_f]->type = 'image';
                 $image[$key_f]->date = date('Y-m-d H:i:s');
-                //$thumb = Yii::$app->basePath.'/images/presentations/full/'.$imageName.'.'.$file->extension;
-                //Image::thumbnail($thumb, 400, 300)->save(Yii::$app->basePath.'/images/presentations/', ['quality' => 80]);
-                //Image::thumbnail($thumb, 1920, 1200)->save('images/presentations/full/', ['quality' => 80]);
-                //Image::thumbnail($thumb, 80, 64)->save(Yii::$app->basePath.'/images/presentations/thumbs/', ['quality' => 80]);
+                $thumb = '@webroot/images/presentations/'.$imageName.'1.'.$file->extension;
+                Image::thumbnail($thumb, 400, 300)->save(Yii::getAlias('@webroot/images/presentations/'.$imageName.'.'.$file->extension), ['quality' => 80]);
+                Image::thumbnail($thumb, 1920, 1200)->save(Yii::getAlias('@webroot/images/presentations/full/'.$imageName.'.'.$file->extension), ['quality' => 80]);
+                Image::thumbnail($thumb, 80, 64)->save(Yii::getAlias('@webroot/images/presentations/thumbs/'.$imageName.'.'.$file->extension), ['quality' => 80]);
                 if($image[$key_f]->save()){
                     $presentation_image[$key_f] = new \frontend\models\PresentationImages();
                     $presentation_image[$key_f]->presentation_id = $this->id;
                     $presentation_image[$key_f]->image_id = $image[$key_f]->id;
                     $presentation_image[$key_f]->save();
                 }
+                unlink(Yii::getAlias($thumb));
             }
             return true;
         } else {
@@ -316,6 +317,20 @@ class Presentations extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Promotions::className(), ['presentation_id' => 'id']);
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        // user log
+        $userLog = new \frontend\models\UserLog();
+        $userLog->user_id = Yii::$app->user->id;
+        $userLog->action = $insert ? 'presentation_created' : 'presentation_updated';
+        $userLog->alias = $this->id;
+        $userLog->time = date('Y-m-d H:i:s');
+        $userLog->save();
+        
+        parent::afterSave($insert, $changedAttributes);     
+    }
+
 
     public function checkIfMethods()
     {

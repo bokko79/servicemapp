@@ -58,7 +58,7 @@ $message = ($service->service_object!=1) ? Yii::t('app', 'Opišite ukratko {your
 <?php foreach($model_specs as $model_spec) {
 		$specification = $model_spec->specification;
 		$property = $model_spec->property;
-		echo $this->render('specification/'.$property->formType.'.php', ['form'=>$form, 'key'=>$property->id, 'model_spec'=>$model_spec, 'specification'=>$specification, 'property'=>$property, 'service'=>$service, 'object_type'=>$object_type]);        
+		echo $this->render('specification/'.$property->formType($service->service_object).'.php', ['form'=>$form, 'key'=>$property->id, 'model_spec'=>$model_spec, 'specification'=>$specification, 'property'=>$property, 'service'=>$service, 'object_type'=>$object_type]);        
         echo Html::activeHiddenInput($model_spec, 'checkUserObject', ['id'=>'checkUserObject_model_spec'.$property->id]);
         echo Html::activeHiddenInput($model_spec, '['.$property->id.']checkIfRequired', ['id'=>'checkIfRequired_model_spec'.$property->id]);       
     } ?>

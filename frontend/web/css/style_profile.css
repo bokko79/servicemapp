@@ -18,11 +18,12 @@
 .media-screen img {width: 400px; height:300px;}
 /* TITLES */
 .profile_head .pageTitle {display: block; color:#fff !important; text-shadow:1px 1px 3px #444; background: transparent; border-radius: 0px; padding: 0 10px; border: none;}
+.profile_head h1 {font-size: 36px; font-weight: 300; margin:0;}
 .profile_head .pageTitle h1, .profile_head_stick h1, .profile_head .title_holder_home h2 {font-size: 32px; font-weight: 900; margin:0;}
 .profile_head_stick h1 {font-size: 20px; color: #fff; line-height:28px;}
 .profile_head .title_holder_home {color:#fff !important; text-shadow:1px 1px 3px #444; border: none; background: transparent; position: absolute; bottom: 50px;}
 .profile_head .index_services .title_holder_home {top: 0px; width: 100%; color:#000 !important; text-shadow:1px 1px 1px #ddd;}
-.profile_head .index_services .title_holder_home p {margin:20px 0;}
+.profile_head .index_services .title_holder_home p {margin:10px 0; padding-left: 50px;}
 .profile_head .index_services #quick_form_makers { top: 174px; position: absolute; width: 100%; z-index:100;}
 
 .profile_head .pageTitle p {margin:10px 0 0 ; opacity: .6; font-size: 11px; line-height: 14px;}

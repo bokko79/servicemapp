@@ -6,11 +6,15 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use frontend\models\CsServices;
+use frontend\models\CsObjects;
+use frontend\models\CsIndustries;
+use frontend\models\CsActions;
+use frontend\models\CsTags;
 
 /**
  * CsServicesSearch represents the model behind the search form about `frontend\models\CsServices`.
  */
-class CsServicesSearch extends CsServices
+class CsAutoServicesSearch extends CsServices
 {
     /**
      * @inheritdoc

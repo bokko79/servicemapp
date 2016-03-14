@@ -35,6 +35,10 @@ $marker = new Marker([
 $circle = new Circle([
     'center' => $coord,
     'radius' => ($model->loc_within) ? $model->loc_within*1000 : 500,
+    'strokeColor' => '#2196F3',
+    'strokeWeight' => 1,
+    'fillOpacity' => 0.08,
+    //'editable' => true,
 ]);
 
 // Add marker to the map

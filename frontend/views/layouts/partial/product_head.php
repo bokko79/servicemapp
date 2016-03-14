@@ -15,7 +15,7 @@ use dosamigos\google\maps\overlays\Marker;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\Circle;
 
-$action = [];
+$action = ['label'=>''];
 if($model->methods!=null){
 	$content = '<table class="table table-striped" style="margin:20px 0">';
 
@@ -32,7 +32,7 @@ if($model->methods!=null){
         'content'=>$content,
     ];
 }
-$spec = [];
+$spec = ['label'=>''];
 if($model->specs!=null){
 	$content = '<table class="table table-striped" style="margin:20px 0">';
 	foreach($model->specs as $spec){
@@ -84,13 +84,13 @@ if($model->loc_within){
 	// Lets add a marker now
 	$circle = new Circle([
 	    'center' => $coord,
-	    'radius' => $model->loc_within*100,
+	    'radius' => $model->loc_within*1000,
 	    /*'strokeWeight' => '5px',
 	    'strokeOpacity' => .0,*/
 	    'strokeColor' => '#2196F3',
 	    'strokeWeight' => 1,
 	    'fillOpacity' => 0.08,
-	    'editable' => true,
+	    //'editable' => true,
 	]);
 	$map->addOverlay($circle);
 }
@@ -99,7 +99,11 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
         $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
         initialize();
 	});");
+
 ?>
+<div class="product-head" style="background:;">
+	
+</div>
 	<div class="media-area grid-profile-right">
 	<?php if($model->images): ?>
 		<div class="media">

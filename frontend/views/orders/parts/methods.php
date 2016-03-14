@@ -33,6 +33,6 @@ $message = Yii::t('app', '{whatkind} {action} Vam treba?', ['whatkind'=>$whatkin
 <?php foreach($model_methods as $model_method) {
 		$method = $model_method->serviceMethod;
 		$property = $model_method->property;
-		echo $this->render('method/'.$property->formType.'.php', ['form'=>$form, 'key'=>$property->id, 'model_method'=>$model_method, 'method'=>$method, 'property'=>$property, 'service'=>$service]);
+		echo $this->render('method/'.$property->formType($service->service_object).'.php', ['form'=>$form, 'key'=>$property->id, 'model_method'=>$model_method, 'method'=>$method, 'property'=>$property, 'service'=>$service]);
 	} ?>    
 </div>

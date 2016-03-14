@@ -37,12 +37,15 @@ use dektrium\user\models\User;
 use dektrium\user\models\LoginForm;
 use dektrium\user\models\RegistrationForm;
 use dektrium\user\models\RegistrationProviderForm;
+use dektrium\user\traits\AjaxValidationTrait;
 
 /**
  * OrdersController implements the CRUD actions for Orders model.
  */
 class OrdersController extends Controller
 {
+    use AjaxValidationTrait;
+
     public $layout='forms';
 
     public $param_model;
@@ -156,18 +159,15 @@ class OrdersController extends Controller
             }
             $service = \frontend\models\CsServices::findOne($cart[$industry]['data'][1]['service']);
             $objects = $this->getObjectModels($cart[$industry]['data'][1]['object_models']);
-
+            $user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // orderer
             $model = new Orders();
             $model->service = $service;            
             $location = new Locations();
             $location->control = $service->location;
             $location->userControl = (Yii::$app->user->isGuest) ? 0 : 1;
-            $location_end = new Locations();            
-            $notification = new Notifications();
-            $log = new Log();
-            $user_log = new UserLog();
-            $new_user = new RegistrationForm();
-            $returning_user = new LoginForm();
+            $location_end = new Locations();
+            $new_user = ($user==null) ? Yii::createObject(RegistrationProviderForm::className()) : null;  // register provider
+            $returning_user = ($user==null) ? Yii::createObject(LoginForm::className()) : null; // login existing user
 
             if ($model->load(Yii::$app->request->post())) {
                 if(Yii::$app->user->isGuest){

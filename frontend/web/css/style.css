@@ -822,6 +822,8 @@ img.card-image {width:200px; height:200px; box-shadow: 0px 0px 6px #444;}
 .breadcrumb.transparent {background-color:transparent !important;}
 .breadcrumb.wide {padding:25px 20px !important; }
 .breadcrumb.wide, .breadcrumb.wide a {color: #999}
+.in-media .breadcrumb {position: relative; z-index: 100;}
+.in-media .breadcrumb li, .in-media .breadcrumb a {color:#ddd !important; text-shadow:1px 1px 1px #000;}
 .breadcrumb .active {font-weight: 700;}
 .breadcrumb .fa-chevron-right {opacity: .4;  font-size:9px;}
 .breadcrumb .avatar {display: none;}

@@ -6,6 +6,12 @@ use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 
 $model_list = ArrayHelper::map($property->models, 'id', 'tNameWithHint');
+//print_r($model_spec->models); die();
+foreach($model_spec->models as $m_spec_model){
+    //if($m_spec->selected_value==1){
+        $model_spec->spec_models[] = $m_spec_model->spec_model;
+    //}
+}
 ?>
 <div class="enclosedCheckboxes">    
     <?= Form::widget([

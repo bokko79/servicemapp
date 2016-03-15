@@ -101,9 +101,6 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
 	});");
 
 ?>
-<div class="product-head" style="background:;">
-	
-</div>
 	<div class="media-area grid-profile-right">
 	<?php if($model->images): ?>
 		<div class="media">
@@ -145,11 +142,14 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
 	    	<?= $map->display() ?>
 	    </div>
 	</div>
-	<div class="grid-profile-rightacross">
+	<div class="grid-profile-rightacross" style="padding: 20px;
+    position: relative;
+    z-index: 101;
+    background: rgba(255,255,255,.3);">
 		<div class="card_container record-full transparent no-shadow fadeInUp animated" id="card_container" style="float:none;">				        
 	        <?php // title ?>
-	        <div class="primary-context">  
-	        	<div class="head black"><?= c($model->name) ?></div>
+	        <div class="primary-context" style="padding-top:0">  
+	        	<div class="head grand thin text-shadow white"><?= c($model->name) ?></div>
             	<div class="subhead"><div class="label" style="background:<?= $model->pService->industry->color ?>"><i class="fa <?= $model->pService->industry->icon ?>"></i> <?= c($model->pService->industry->tName) ?></div> | <?= $model->pService->tName ?></div> 
 	        </div> 
 	        <?php // provider ?>

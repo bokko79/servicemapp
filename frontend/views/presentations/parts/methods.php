@@ -32,7 +32,7 @@ $message = Yii::t('app', '{whatkind} {action} vršite?', ['whatkind'=>$whatkind,
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
 <?php foreach($model_methods as $index=>$model_method) {
 		$method = $model_method->serviceMethod;
-		$property = $model_method->property;		
+		$property = $model_method->property;	
 		echo $this->render('method/'.$property->formTypePresentation($service->service_object).'.php', ['form'=>$form, 'index'=>$index, 'model_method'=>$model_method, 'method'=>$method, 'property'=>$property, 'service'=>$service]);
 		echo Html::activeHiddenInput($model_method, '['.$index.']method_id', ['value'=>$method->id]);
 	} ?>    

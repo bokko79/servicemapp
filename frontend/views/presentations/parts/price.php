@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 use frontend\models\CsCurrencies;
 
 $message = 'Odredite cenu za uslugu koju pružate.';
-$model->fixed_price = 0;
+//$model->fixed_price = 0;
 ?>
 <div class="wrapper headline" style="" id="price">
     <label class="head">
@@ -57,20 +57,20 @@ $model->fixed_price = 0;
 	    </div>
 	</div>
 	<?php if(!$model->checkIfConsumer()): 
-		$model->consumer_price = 0; ?>
+		//$model->consumer_price = 0; ?>
 	<?= $form->field($model, 'consumer_price', [
 		'hintType' => ActiveField::HINT_SPECIAL,
 		'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 	    ])->radioButtonGroup([0=>'Ukupna cena', 1=>'Cena po osobi'], [
-							    'class' => 'btn-group btn-group-justified',
-							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default btn-sm']]
+							    //'class' => 'btn-group btn-group-justified',
+							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info btn-sm']]
 							]) ?>
 	<?php endif; ?>
 	<?= $form->field($model, 'fixed_price', [
 		'hintType' => ActiveField::HINT_SPECIAL,
 		'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 	    ])->radioButtonGroup([0=>'Fiksna cena', 1=>'Cena podložna promeni'], [
-							    'class' => 'btn-group btn-group-justified',
-							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default btn-sm']]
+							    //'class' => 'btn-group btn-group-justified',
+							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info btn-sm']]
 							]) ?>
 </div>

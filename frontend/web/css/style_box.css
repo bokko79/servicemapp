@@ -29,12 +29,13 @@
 .card_container .head.lower {font-size: 16px; line-height: 16px; padding-top: 4px; font-weight: 900;}
 .card_container .head.second {font-size: 14px; line-height: 14px; padding-top: 4px; font-weight: 700;}
 .card_container .head.major {font-size: 20px; line-height: 18px; padding-top: 4px; font-weight: 700;}
-.card_container .head.grand {font-size: 28px; line-height: 18px; padding-top: 4px; font-weight: 700;}
+.card_container .head.grand {font-size: 32px; line-height: 32px; padding-top: 4px; font-weight: 700;}
 .card_container .head.black {font-weight: 900;}
 .card_container .head.thin {font-weight: 300;}
 .card_container .head.regular {font-weight: 500;}
 .card_container .head.float {width: auto; float:left;}
 .card_container .head:after {clear: both;}
+.card_container .head.text-shadow {text-shadow: 2px 2px 1px #000;}
 .dim {opacity:.36;}
 .card_container .subhead {font-size: 13px; font-weight: 400; color:#999; float:none; width:100%; line-height: 14px;}
 .card_container .subhead.float-left {float: left !important; font-weight:700;}

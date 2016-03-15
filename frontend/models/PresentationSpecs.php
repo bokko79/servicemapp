@@ -115,6 +115,6 @@ class PresentationSpecs extends \yii\db\ActiveRecord
      */
     public function getModels()
     {
-        return $this->hasMany(PresentationSpecModels::className(), ['presentation_id' => 'id']);
+        return $this->hasMany(PresentationSpecModels::className(), ['presentation_spec_id' => 'id']);
     }
 }

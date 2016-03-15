@@ -1,23 +1,52 @@
 <?php
 
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Presentations */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Presentations',
-]) . ' ' . $model->id;
+$this->title = Yii::t('app', 'Podešavanje prezentacije ') . $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Presentations'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['service'] = $service;
+$this->params['presentation'] = $model;
 ?>
 <div class="presentations-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
+        'service' => $service,
         'model' => $model,
+        'model_methods' => $model_methods,
+        'model_specs' => $model_specs,
+        'object_model' => $object_model,
+        'new_provider' => $new_provider,
+        'returning_user' => $returning_user,
+        'location'=> $location,
+        'user' => $user,
     ]) ?>
 
 </div>
+<?php if($medias = $model->images){
+	foreach($medias as $media){
+		Modal::begin([
+	        'id'=>'image-delete'.$media->id,
+	        //'size'=>Modal::SIZE_SMALL,
+	        'options' => ['class'=>'overlay_modal fade'],
+	        'header'=> '<h4 class="thin center">Da li zaista želite da obrišete sliku iz prezentacije?</h4>',
+	    ]); ?>
+
+		    <div class="container-fluid">
+		        <div class="row">
+		            <div class="col-md-12 center">
+		                <?= Html::a(Yii::t('app', 'Potvrdi'), ['/presentations/deleteImage', 'id' => $media->id], ['class' => 'btn btn-danger margin-right-20', 'data'=>['method'=>'post']]) ?>
+		                <?= Html::button(Yii::t('app', 'Odustani'), ['class' => 'btn btn-default', 'data-dismiss'=>"modal"]) ?>
+		            </div>
+		        </div>
+		    </div>
+		<?php Modal::end();
+	}
+} ?>

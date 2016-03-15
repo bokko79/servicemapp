@@ -10,12 +10,6 @@ $this->title = Yii::t('app', 'Nova prezentacija');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['service'] = $service;
 $this->params['presentation'] = $model;
-$this->profileSubNavData = [
-    'pic' => 'default_avatar',
-    'title' => 'Nova prezentacija usluge '.$service->tName,
-    'username' => '',
-    'loc' => '',        
-];
 ?>
 <?php // $this->render('_steps.php', ['service'=>$service]) ?>
 <div class="presentations-create">

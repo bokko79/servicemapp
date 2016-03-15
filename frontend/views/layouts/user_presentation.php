@@ -31,7 +31,7 @@ $presentation = $this->params['presentation'];
                     'titleData'=>[
                         'background' => 'bg-blue-gray-900',
                         'icon' => 'cog',
-                        'title' => 'Nova prezentacija usluge '.$service->tName.Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to(''), ['class' => 'btn btn-default btn-sm float-right']),
+                        'title' => 'Prezentacija usluge '.$service->tName.Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to(''), ['class' => 'btn btn-default btn-sm float-right']),
                         'description' => null,
                         'h' => 2,
                     ],

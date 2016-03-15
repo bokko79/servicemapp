@@ -13,6 +13,7 @@ use Yii;
  * @property string $type
  * @property string $status
  * @property string $time
+ * @property string $update_time
  * @property string $description
  *
  * @property User $user
@@ -50,7 +51,7 @@ class Activities extends \yii\db\ActiveRecord
             [['user_id'], 'default', 'value'=>Yii::$app->user->id],
             [['type'], 'default', 'value'=>'normal'],
             [['status'], 'default', 'value'=>'active'],
-            [['time'], 'default', 'value' => function ($model, $attribute) {
+            [['time', 'update_time'], 'default', 'value' => function ($model, $attribute) {
                 return date('Y-m-d H:i:s');
             }],
             //[['time'], 'default', 'value'=>date('Y-m-d H:i:s')],
@@ -218,6 +219,7 @@ class Activities extends \yii\db\ActiveRecord
         $activity->type = $type;
         $activity->status = $status;
         $activity->time = date('Y-m-d H:i:s');
+        $activity->update_time = date('Y-m-d H:i:s');
 
         if($activity){
             return $activity;

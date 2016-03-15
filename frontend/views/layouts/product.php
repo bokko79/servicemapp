@@ -12,7 +12,7 @@ use frontend\widgets\Stats;
 <?php /* PROFILE HEADING */ ?>
 <div class="product-head">
 	<?php if($this->params['presentation']->images): ?>
-    <div class="media-area">
+    <div class="media-area" style="position:absolute; left: 0; right: 0;">
     	<?php foreach ($this->params['presentation']->images as $media):
     		$media_items[] = [
     			'img' => '../images/presentations/full/'.$media->image->ime,
@@ -49,7 +49,7 @@ use frontend\widgets\Stats;
     <?php endif; ?>
     <div class="grid-container">
 		<div class="grid-row overflow-hidden border-bottom">
-			<div class="grid-leftacross">
+			<div class="grid-leftacross in-media">
 				<?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                     'options' => ['class'=>'breadcrumb transparent wide'],
@@ -59,7 +59,7 @@ use frontend\widgets\Stats;
 				<?= $this->render('partial/share.php') ?>				
 			</div>
 		</div>
-		<div class="grid-row margin-top-20 overflow-hidden">
+		<div class="grid-row overflow-hidden"  style="margin-top:200px;">
 			<?= $this->render('partial/product_head.php', ['model'=>$this->params['presentation']]) ?>
 		</div>		
     </div>

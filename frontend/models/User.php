@@ -551,4 +551,12 @@ class User extends \yii\db\ActiveRecord
     {
         return 95;
     }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getName()
+    {
+        return $this->fullname ? $this->fullname : '@'.$this->username;
+    }
 }

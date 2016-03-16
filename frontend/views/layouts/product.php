@@ -11,44 +11,14 @@ use frontend\widgets\Stats;
 
 <?php /* PROFILE HEADING */ ?>
 <div class="product-head">
-	<?php if($this->params['presentation']->images): ?>
-    <div class="media-area" style="position:absolute; left: 0; right: 0;">
-    	<?php foreach ($this->params['presentation']->images as $media):
-    		$media_items[] = [
-    			'img' => '../images/presentations/full/'.$media->image->ime,
-				'thumb' => '../images/presentations/thumbs/'.$media->image->ime,
-				'full' => '../images/presentations/full/'.$media->image->ime, // Separate image for the fullscreen mode.
-    			'fit' => 'cover',
-    		]; ?>
-        <?php endforeach; ?>
-    <?= \metalguardian\fotorama\Fotorama::widget(
-            [
-                'options' => [
-                    'loop' => true,
-                    'hash' => true,
-                    'allowfullscreen' => 'native',
-                    'width' => '100%',
-                    'height' => '360',
-                    'maxheight' => '100%',
-                    'minwidth'=> '1380',
-                    'ratio' => 1920/360,
-                    'nav' => false,
-                    'fit' => 'none',
-                ],
-                'items' => $media_items,
-                //'tagName' => 'span',
-                'useHtmlData' => false,
-                'htmlOptions' => [
-                    'style'=>'text-align:center; margin:0 auto;',
-                    'class'=>'full-width-cover'
-                ],
-            ]
-        ) ?>        
+	<?php if($imgs = $this->params['presentation']->images): ?>
+    <div class="media-area cover-product" style="background: url('../images/presentations/full/<?= $imgs[0]->image->ime ?>') no-repeat center fixed; background-size: cover;">
+        <div class="backscreen"></div>
+        <?php // $this->params['presentation']->coverPhotos() ?>        
     </div>
-
     <?php endif; ?>
     <div class="grid-container">
-		<div class="grid-row overflow-hidden border-bottom">
+		<div class="grid-row overflow-hidden">
 			<div class="grid-leftacross in-media">
 				<?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -59,7 +29,7 @@ use frontend\widgets\Stats;
 				<?= $this->render('partial/share.php') ?>				
 			</div>
 		</div>
-		<div class="grid-row overflow-hidden"  style="margin-top:200px;">
+		<div class="grid-row overflow-hidden"  style="margin-top:<?= $imgs ? '201px' : '20px' ?>; position:relative; z-index:2">
 			<?= $this->render('partial/product_head.php', ['model'=>$this->params['presentation']]) ?>
 		</div>		
     </div>

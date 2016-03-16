@@ -421,4 +421,63 @@ class Presentations extends \yii\db\ActiveRecord
     {
         return 12-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability();
     }
+
+    public function fotorama($options, $full=null)
+    {
+        if($this->images){
+            foreach ($this->images as $media){
+                $media_items[] = [
+                    'img' => '../images/presentations/'.$full.$media->image->ime,
+                    'thumb' => '../images/presentations/thumbs/'.$media->image->ime,
+                    'full' => '../images/presentations/full/'.$media->image->ime, // Separate image for the fullscreen mode.
+                    'fit' => 'cover',
+                ]; 
+            }
+            return \metalguardian\fotorama\Fotorama::widget(
+                        [
+                            'options' => $options,
+                            'useHtmlData' => false,
+                            'htmlOptions' => [
+                                'style'=>'text-align:center; margin:0 auto;',
+                                'class'=>'full-width-cover'
+                            ],
+                            'items' => $media_items,
+                        ]);
+        }
+        return null;            
+    }
+
+    public function coverPhotos()
+    {
+        $options = [
+            'loop' => true,
+            'hash' => true,
+            'allowfullscreen' => 'native',
+            'width' => '100%',
+            'height' => '432',
+            'maxheight' => '100%',
+            'minwidth'=> '1380',
+            'ratio' => 1920/432,
+            'nav' => false,
+            //'fit' => 'none',
+        ];
+        return $this->fotorama($options, 'full/');
+    }
+
+    public function photos()
+    {
+        $options = [
+            'loop' => true,
+            'hash' => true,
+            'allowfullscreen' => true,
+            'width' => '400',
+            'height' => '300',
+            //'ratio' => 4/3,
+            'nav' => 'thumbs',
+            'thumbwidth' => 80,
+            'thumbheight' => 64,
+            //'fit' => 'cover',
+        ];
+        return $this->fotorama($options);
+    }
 }

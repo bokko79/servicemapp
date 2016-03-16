@@ -16,11 +16,11 @@ class AutocompleteController extends \yii\web\Controller
 
     public function actionListServices($q = null, $id = null)
     {        
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        /*\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
             $query = new \yii\db\Query;
-            $query->select('id, name AS text')
+            $query->select('id, name AS value')
                 ->from('cs_services')
                 ->where(['like', 'name', $q])
                 ->limit(20);
@@ -31,7 +31,20 @@ class AutocompleteController extends \yii\web\Controller
         elseif ($id > 0) {
             $out['results'] = ['id' => $id, 'text' => frontend\models\CsServices::find($id)->name];
         }
-        return $out;
+        return $out;*/
+        $query = new \yii\db\Query;
+    
+        $query->select('id, name')
+            ->from('cs_services')
+            ->where('name LIKE "%' . $q .'%"')
+            ->orderBy('name');
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $out = [];
+        foreach ($data as $d) {
+            $out[] = ['value' => $d['name'], 'id' => $d['id']];
+        }
+        echo \yii\helpers\Json::encode($out);
     }
 
     // THE CONTROLLER

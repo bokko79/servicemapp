@@ -3,7 +3,11 @@
 namespace frontend\models;
 
 use Yii;
-
+use dosamigos\google\maps\LatLng;
+use dosamigos\google\maps\overlays\InfoWindow;
+use dosamigos\google\maps\overlays\Marker;
+use dosamigos\google\maps\Map;
+use dosamigos\google\maps\overlays\Circle;
 /**
  * This is the model class for table "locations".
  *
@@ -173,5 +177,62 @@ class Locations extends \yii\db\ActiveRecord
     public function getUserObjects()
     {
         return $this->hasMany(UserObjects::className(), ['loc_id' => 'id']);
+    }
+
+    public function map($width = 400, $height = 420, $lw = null, $m = true)
+    {        
+        $coord = new LatLng(['lat' => $this->lat, 'lng' => $this->lng]);
+        $map = new Map([
+            'center' => $coord,
+            'zoom' => $this->mapZoom($lw),    
+        ]);
+
+        $map->width = $width;
+        $map->height = $height;
+
+        if($m){
+            // Lets add a marker now
+            $marker = new Marker([
+                'position' => $coord,
+                'title' => 'Mesto gde vršimo uslugu',
+            ]);
+
+            // Add marker to the map
+            $map->addOverlay($marker);
+        }            
+
+        if($lw){
+            // Lets add a marker now
+            $circle = new Circle([
+                'center' => $coord,
+                'radius' => $lw*1000,
+                /*'strokeWeight' => '5px',
+                'strokeOpacity' => .0,*/
+                'strokeColor' => '#2196F3',
+                'strokeWeight' => 1,
+                'fillOpacity' => 0.08,
+                //'editable' => true,
+            ]);
+            $map->addOverlay($circle);
+        }
+        return $map;        
+    }
+
+    public function mapZoom($lw)
+    {
+        if($w = $lw){
+            if($w<1){return 14;}
+            else if($w>=1 && $w<3){return 13;}
+            else if($w>=3 && $w<6){return 12;}
+            else if($w>=6 && $w<11){return 11;}
+            else if($w>=11 && $w<22){return 10;}
+            else if($w>=22 && $w<45){return 9;}  
+            else if($w>=45 && $w<90){return 8;}
+            else if($w>=90 && $w<180){return 7;}
+            else if($w>=180 && $w<300){return 6;}
+            else if($w>=300){return 5;}
+        } else {
+            return 14;
+        }
     }
 }

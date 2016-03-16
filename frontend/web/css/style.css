@@ -140,6 +140,7 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 
 .overflow-hidden {overflow: hidden;}
 .drop-shadow {box-shadow: 1px 1px 4px #ccc;}
+.drop-dark-shadow {box-shadow: 1px 1px 7px #444;}
 .no-border {border:none;}
 .no-bottom-border {border-bottom: none;}
 .border-top {border-top: 1px solid #ddd;}

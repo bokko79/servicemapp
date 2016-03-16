@@ -18,6 +18,7 @@
 .card_container.bordered, .card_container .bordered {border: 1px solid #ddd !important;}
 .card_container.top-bordered, .card_container .top-bordered {border: none !important; border-top: 1px solid #ddd !important;}
 .card_container.transparent, .card_container .transparent {background: transparent !important;}
+.card_container.opaque, .card_container .opaque {background: rgba(255,255,255,.2) !important;}
 .card_container.info {background: #d9edf7 !important; color: #2196F3 !important;}
 .card_container.danger {background: #d9edf7; color: #2196F3;}
 .card_container.success {background: #d9edf7; color: #2196F3;}
@@ -30,21 +31,24 @@
 .card_container .head.second {font-size: 14px; line-height: 14px; padding-top: 4px; font-weight: 700;}
 .card_container .head.major {font-size: 20px; line-height: 18px; padding-top: 4px; font-weight: 700;}
 .card_container .head.grand {font-size: 32px; line-height: 32px; padding-top: 4px; font-weight: 700;}
+.card_container .head.colos {font-size: 36px; line-height: 36px; padding-top: 4px; font-weight: 700;}
 .card_container .head.black {font-weight: 900;}
 .card_container .head.thin {font-weight: 300;}
 .card_container .head.regular {font-weight: 500;}
 .card_container .head.float {width: auto; float:left;}
 .card_container .head:after {clear: both;}
-.card_container .head.text-shadow {text-shadow: 2px 2px 1px #000;}
+.card_container .head.text-shadow {text-shadow: 0px 2px 1px #000;}
 .dim {opacity:.36;}
 .card_container .subhead {font-size: 13px; font-weight: 400; color:#999; float:none; width:100%; line-height: 14px;}
 .card_container .subhead.float-left {float: left !important; font-weight:700;}
+.card_container .subhead.grand {font-size: 14px; font-weight: 300; color:#999; float:none; width:100%; line-height: 14px;}
 .card_container p {font-size: 12px; margin:0; padding:0; line-height: 16px; color: #666;}
 .card_container > a {color:black;}
 .card_container a:hover {text-decoration: none;}
 .card_container .label {/*font-size: 24px;*/}
 .card_container .avatar {float:left;width: 40px;}
 .card_container .avatar img {width: 40px; height: 40px; border-radius: 3px;}
+.card_container .avatar.round img {width: 40px; height: 40px; border-radius: 20px;}
 .card_container .title {float:left; padding-left: 16px;}
 .card_container .subaction {float:right; font-size: 11px; color:#aaa; font-weight: 400;}
 .card_container .gray {background: #f6f7f8;}
@@ -89,6 +93,7 @@
 .record-sm .media-area.square .image, .record-sm .media-area.square .image img {width:270px; height:270px;}
 .record-xs .media-area .image, .record-xs .media-area .image img {padding:0; width:100% !important; height:113px;}
 .record-xs .media-area.square .image, .record-xs .media-area.square .image img {width:200px; height:200px;}
+
 
 .blueimp-gallery-carousel {box-shadow: none !important; margin:0 !important;}
 /* primary context */
@@ -161,3 +166,6 @@ tr.strikeout td.line.right:before { left: -5px; }
 }
 
 .wrapper:nth-of-type(2) {margin-left:0 !important;}
+
+.cover-product {position:absolute; left: 0; right: 0; max-height:432px; height:432px;}
+.backscreen {position: absolute; z-index: 1; background: rgba(0,0,0,.4); top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;}

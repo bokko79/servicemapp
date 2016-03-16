@@ -4,6 +4,8 @@ namespace frontend\models;
 
 use yii\db\ActiveRecord;
 use Yii;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "user".
@@ -558,5 +560,76 @@ class User extends \yii\db\ActiveRecord
     public function getName()
     {
         return $this->fullname ? $this->fullname : '@'.$this->username;
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function avatar()
+    {
+        return Html::img('@web/images/users/thumbs/'.$this->avatar->ime);
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function verificationPack()
+    { ?>
+
+        <div class="fs_11 label label-<?= $this->isConfirmed ? 'success' : 'warning' ?>"><i class="fa fa-user"></i></div>
+        <div class="fs_11 label label-<?= $this->isVerifiedPayment ? 'success' : 'warning' ?>"><i class="fa fa-euro"></i></div>
+        <div class="fs_11 label label-<?= $this->isVerifiedPhone ? 'success' : 'warning' ?>"><i class="fa fa-phone"></i></div>
+        <div class="fs_11 label label-<?= $this->isCompletedSetup ? 'success' : 'warning' ?>"><i class="fa fa-check"></i></div>
+        <div class="fs_11 label label-<?= $this->isBlocked ? 'success' : 'warning' ?>"><i class="fa fa-ban"></i></div>
+        <div class="fs_11 label label-<?= $this->hasCredit ? 'success' : 'warning' ?>"><i class="fa fa-credit-card"></i></div>
+
+        <?php
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function quickVerificationPack()
+    { ?>
+
+        <div class="margin-right-5 float-left"><i class="fa fa-euro" style="color:<?= $this->isVerifiedPayment ? 'green' : 'orange' ?>"></i></div>
+        <div class="margin-right-5 float-left"><i class="fa fa-phone" style="color:<?= $this->isVerifiedPhone ? 'green' : 'orange' ?>"></i></div>
+        <div class="margin-right-5 float-left"><i class="fa fa-check" style="color:<?= $this->isCompletedSetup ? 'green' : 'orange' ?>"></i></div>
+        <div class="margin-right-5 float-left"><i class="fa fa-ban" style="color:<?= $this->isBlocked ? 'green' : 'orange' ?>"></i></div>
+        
+        <?php
+    }
+
+    public function starRating($avg_rate)
+    {
+        $full = '<i class="fa fa-star" style=""></i>';
+        $half = '<i class="fa fa-star-half-o" style=""></i>';
+        $empty = '<i class="fa fa-star-o" style=""></i>';
+
+        if ($avg_rate<0.5) { // no
+            $star = $empty.$empty.$empty.$empty.$empty;
+        } else if (0.5<=$avg_rate && $avg_rate<1) { // 0,5 star
+            $star = $half.$empty.$empty.$empty.$empty;
+        } else if (1<=$avg_rate && $avg_rate<1.5) { // 1 star
+            $star = $full.$empty.$empty.$empty.$empty;
+        } else if (1.5<=$avg_rate && $avg_rate<2) { // 1,5 star
+            $star = $full.$half.$empty.$empty.$empty;
+        } else if (2<=$avg_rate && $avg_rate<2.5) { // 2 stars
+            $star = $full.$full.$empty.$empty.$empty;
+        } else if (2.5<=$avg_rate && $avg_rate<3) { // 2,5 star
+            $star = $full.$full.$half.$empty.$empty;
+        } else if (3<=$avg_rate && $avg_rate<3.5) { // 3 stars
+            $star = $full.$full.$full.$empty.$empty;
+        } else if ($avg_rate>=3.5 && $avg_rate<4) { // 3,5 star
+            $star = $full.$full.$full.$half.$empty;
+        } else if (4<=$avg_rate && $avg_rate<4.3) { // 4 stars
+            $star = $full.$full.$full.$full.$empty;
+        } else if (4.3<=$avg_rate && $avg_rate<4.7) { // 4,5 star
+            $star = $full.$full.$full.$full.$half;
+        } else { // 5 stars
+            $star = $full.$full.$full.$full.$full;
+        }
+
+        return $star;
     }
 }

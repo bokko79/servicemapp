@@ -58,7 +58,7 @@ class PresentationMethodModels extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentationSpec()
+    public function getPresentationMethod()
     {
         return $this->hasOne(PresentationMethods::className(), ['id' => 'presentation_method_id']);
     }

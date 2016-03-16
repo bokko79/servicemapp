@@ -95,8 +95,8 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
             <?= Html::img('@web/images/cards/default_avatar.jpg') ?>    
         </div>
         <div class="title">
-            <div class="head second"><?= ($model->user->fullname) ? $model->user->fullname : $model->user->username ?></div>
-            <div class="subhead"><?= $model->location->city ?></div> 
+            <div class="head second"><?= $model->user->name ?></div>
+            <div class="subhead"><?= $model->location->cityLocation ?></div> 
         </div>
         <div class="subaction right">                        
             <i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->activity->time]); ?>

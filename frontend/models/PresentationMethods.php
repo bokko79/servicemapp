@@ -108,4 +108,12 @@ class PresentationMethods extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PresentationMethodModels::className(), ['presentation_method_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function value()
+    {
+        return \frontend\models\CsPropertyModels::findOne($this->value);
+    }
 }

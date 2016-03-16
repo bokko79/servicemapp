@@ -19,7 +19,7 @@ use frontend\widgets\Stats;
     <?php endif; ?>
     <div class="grid-container">
 		<div class="grid-row overflow-hidden">
-			<div class="grid-leftacross in-media">
+			<div class="grid-leftacross <?= $imgs ? 'in-media' : null ?>">
 				<?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                     'options' => ['class'=>'breadcrumb transparent wide'],

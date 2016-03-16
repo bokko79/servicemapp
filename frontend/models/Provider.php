@@ -224,4 +224,13 @@ class Provider extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ProviderTerms::className(), ['provider_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuickCounts()
+    {
+        return '<i class="fa fa-thumbs-o-up"></i> '.count($this->recommendations). ' | 
+                <i class="fa fa-comment-o"></i> '.count($this->comments);
+    }
 }

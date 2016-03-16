@@ -132,8 +132,8 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 .extra_bold {font-weight: 900;}
 
 /* colors */
-.white {color:white;}
-.red {color:red;}
+.white {color:white !important;}
+.red {color:red !important;}
 .muted {color:#999}
 
 .hint, .disabled {opacity:.4;}

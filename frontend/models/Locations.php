@@ -235,4 +235,14 @@ class Locations extends \yii\db\ActiveRecord
             return 14;
         }
     }
+
+    public function getCityLocation()
+    {        
+        return ($this->city && $this->country) ? $this->city . ', ' .$this->country : null;
+    }
+
+    public function getStreetLocation()
+    {        
+        return $this->street . ', ' . $this->city . ', ' . $this->country;
+    }
 }

@@ -42,6 +42,7 @@
 .card_container .subhead {font-size: 13px; font-weight: 400; color:#999; float:none; width:100%; line-height: 14px;}
 .card_container .subhead.float-left {float: left !important; font-weight:700;}
 .card_container .subhead.grand {font-size: 14px; font-weight: 300; color:#999; float:none; width:100%; line-height: 14px;}
+.card_container .subhead.white {color:#bbb !important; text-shadow: 1px 2px 1px #000;}
 .card_container p {font-size: 12px; margin:0; padding:0; line-height: 16px; color: #666;}
 .card_container > a {color:black;}
 .card_container a:hover {text-decoration: none;}

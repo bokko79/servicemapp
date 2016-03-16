@@ -58,27 +58,27 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
         $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
         initialize();
 	});");
-$text_appear = $model->images ? 'text-shadow white' : null;
+$text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
 ?>
 	
 	<div class="grid-profile-leftacross" style="padding: 0;
     position: relative;
     z-index: 101;
     ">
-		<div class="card_container record-full opaque no-shadow no-margin fadeInUp animated" id="card_container" style="float:none;">				        
+		<div class="card_container record-full <?= $imgs ? 'opaque' : 'transparent' ?> no-shadow no-margin fadeInUp animated" id="card_container" style="float:none;">				        
 	        <?php // title ?>
 	        <div class="primary-context avatar-padded">  
-	        	<div class="head grand regular <?= $text_appear ?>"><?= c($model->name) ?></div>
-            	<div class="subhead <?= $text_appear ?>"><div class="label" style="background:<?= $model->pService->industry->color ?>"><i class="fa <?= $model->pService->industry->icon ?>"></i> <?= c($model->pService->industry->tName) ?></div> | <?= $model->pService->tName ?></div> 
+	        	<div class="head <?= $imgs ? 'grand regular' : 'colos thin' ?> <?= $text_appear ?>"><?= c($model->name) ?></div>
+            	<div class="subhead <?= $text_appear ?>"><div class="label" style="background:<?= $model->pService->industry->color ?>"><i class="fa <?= $model->pService->industry->icon ?>"></i> <?= c($model->pService->industry->tName) ?></div> | <?= $model->generatedServiceName() ?></div> 
 	        </div> 	    
 	        <?php // provider ?>
 	        <div class="header-context">	        	
             	<div class="avatar round">
-                    <?= Html::img('@web/images/cards/default_avatar.jpg') ?>          
+                    <?= $model->user->avatar() ?>          
                 </div>
                 <div class="title">
-                    <div class="head major <?= $text_appear ?>"><?= $model->user->name ?></div>
-                    <div class="subhead <?= $text_appear ?>"><?= \yii\timeago\TimeAgo::widget(['timestamp' => date('U')]); ?></div> 
+                    <div class="head major <?= $text_appear ?>"><?= $model->user->name ?><span class="fs_12 thin <?= $text_appear ?> margin-left-10"><?= $model->user->location->cityLocation ?></span></div>
+                    <div class="subhead <?= $text_appear ?>"><?= $model->user->quickVerificationPack() . ' | ' .  $model->user->starRating(3.7) . ' 3.7 | ' . $model->user->provider->quickCounts ?></div> 
                 </div>
                 <div class="subaction">
                     status/validity    

@@ -223,6 +223,16 @@ class Presentations extends \yii\db\ActiveRecord
     }
 
     /**
+     * Service to be added to cart
+     *
+     * @return CsService|null
+     */
+    public function getObjectModels()
+    {
+        return $this->hasMany(PresentationObjectModels::className(), ['object_model_id' => 'id']);
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getImages()
@@ -479,5 +489,30 @@ class Presentations extends \yii\db\ActiveRecord
             //'fit' => 'cover',
         ];
         return $this->fotorama($options);
+    }
+
+    public function generatedServiceName()
+    {
+        $objectM = null;
+        if($objectModels = $this->objectModels){
+            $objectM = count($objectModels)==1 ? $objectModels[0]->tNameGen : null;
+        }
+        $methodM = null;
+        if($methodModels = $this->methods){
+            $methodM = count($methodModels)==1 ? $methodModels[0]->value()->tName : null;
+        }
+        if($objectM == null && $methodM == null){            
+            return $this->service->tName;
+        } else {
+            $act = $this->pService->action->tName;
+            if($methodM != null){
+               $act .=  ' ['.$methodM.'] ';
+            }
+            $obj = $this->object->tNameGen;
+            if($objectM != null){
+               $obj .= ': '.$objectM;
+            }
+            return $act . $obj;
+        }
     }
 }

@@ -166,5 +166,10 @@ return [
         'auto/list-ind-actions' => 'autocomplete/list-ind-actions',
         'auto/list-services' => 'autocomplete/list-services',
         'auto/list-industries' => 'autocomplete/list-industries',
+        'auto/list-actions' => 'autocomplete/list-actions',
+        'auto/list-objects' => 'autocomplete/list-objects',
+        'auto/list-providers' => 'autocomplete/list-providers',
+        'auto/list-tags' => 'autocomplete/list-tags',
+        'auto/index' => 'autocomplete/index',
     ],
 ];

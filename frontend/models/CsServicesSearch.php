@@ -12,6 +12,8 @@ use frontend\models\CsServices;
  */
 class CsServicesSearch extends CsServices
 {
+    public $tag_id;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class CsServicesSearch extends CsServices
     {
         return [
             [['id', 'industry_id', 'action_id', 'object_id', 'unit_id', 'process', 'geospecific', 'added_by', 'hit_counter'], 'integer'],
-            [['name', 'action', 'object_name', 'service_type', 'amount', 'pic', 'service_object', 'consumer', 'support', 'location', 'time', 'duration', 'turn_key', 'tools', 'labour_type', 'frequency', 'coverage', 'dat', 'status', 'added_time'], 'safe'],
+            [['tag_id', 'name', 'action', 'object_name', 'service_type', 'amount', 'pic', 'service_object', 'consumer', 'support', 'location', 'time', 'duration', 'turn_key', 'tools', 'labour_type', 'frequency', 'coverage', 'dat', 'status', 'added_time'], 'safe'],
         ];
     }
 
@@ -60,16 +62,16 @@ class CsServicesSearch extends CsServices
             'industry_id' => $this->industry_id,
             'action_id' => $this->action_id,
             'object_id' => $this->object_id,
-            'unit_id' => $this->unit_id,            
+            /*'unit_id' => $this->unit_id,            
             'process' => $this->process,
             'geospecific' => $this->geospecific,
             'added_by' => $this->added_by,
             'added_time' => $this->added_time,
-            'hit_counter' => $this->hit_counter,
+            'hit_counter' => $this->hit_counter,*/
         ]);
 
-        /*$query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'action', $this->action])
+        $query->andFilterWhere(['like', 'name', $this->name])
+            /*->andFilterWhere(['like', 'action', $this->action])
             ->andFilterWhere(['like', 'object_name', $this->object_name])
             ->andFilterWhere(['like', 'service_type', $this->service_type])
             ->andFilterWhere(['like', 'amount', $this->amount])
@@ -86,7 +88,7 @@ class CsServicesSearch extends CsServices
             ->andFilterWhere(['like', 'frequency', $this->frequency])
             ->andFilterWhere(['like', 'coverage', $this->coverage])
             ->andFilterWhere(['like', 'dat', $this->dat])
-            ->andFilterWhere(['like', 'status', $this->status]);*/
+            ->andFilterWhere(['like', 'status', $this->status])*/;
 
         return $dataProvider;
     }

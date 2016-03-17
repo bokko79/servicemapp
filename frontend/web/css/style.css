@@ -511,6 +511,9 @@ header.main nav { min-height: 60px; width:100%; background: #fff; /*border-botto
 .autocomplete_box .button {}
 .autocomplete_box .button .ac_button {width:45px; height: 30px; border-radius: 2px; padding: 3px; font-size: 20px; font-family: FontAwesome; /*background-image: url('../images/general/logo3.png') !important;*/}
 
+.tt-dataset {overflow: hidden;}
+.tt-highlight {font-size: 115%;}
+
 /* http://docs.jquery.com/UI/Autocomplete#theming */
 /* autocomplete search */
 .ui-autocomplete{position:absolute;cursor:default; z-index:10004 !important;}

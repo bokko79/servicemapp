@@ -5,7 +5,6 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\CsServices;
 use frontend\models\CsServicesSearch;
-use frontend\models\CsAutoServicesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -42,15 +41,15 @@ class ServicesController extends Controller
 
         //$session->removeAll();
 
-        $getService = $request->get('CsServicesSearch');
-        if($state = $request->get('s')){
+        if($state = $request->get('st')){
             $session->set('state', $state);
         }
-        
-        $industry = null;
-        if(isset($getService['industry_id'])){
-            $industry = \frontend\models\CsIndustries::findOne($getService['industry_id']);
-        }
+
+        $object = ($request_O = $request->get('o')) ? \frontend\models\CsObjects::findOne($request_O) : null;
+        $industry = ($request_I = $request->get('i')) ? \frontend\models\CsIndustries::findOne($request_I) : null;
+        $action = ($request_A = $request->get('a')) ? \frontend\models\CsActions::findOne($request_A) : null;
+
+        $renderIndex = ($object || $industry || $action) ? false : true;
         
         $searchModel = new CsServicesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -61,8 +60,10 @@ class ServicesController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'getService' => $getService,
-            'industry' => $industry,            
+            'renderIndex' => $renderIndex,
+            'industry' => $industry,
+            'action' => $action,
+            'object' => $object,            
         ]);
     }
 
@@ -73,7 +74,7 @@ class ServicesController extends Controller
      */
     public function actionView($title=null)
     {
-        $this->layout = '//product';
+        $this->layout = '//profile';
 
         if (isset($title)) {
             $ser_tr = $this->findModelByTitle($title);

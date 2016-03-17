@@ -15,7 +15,7 @@ use yii\helpers\Url;
 			// sve delatnosti
 			foreach ($cat->industries as $del) {
 				echo '<li>';
-					echo '<a href="'.Url::to(['/services', 'CsServicesSearch[industry_id]'=>$del->id]).'">'.$del->tName.'</a>';
+					echo '<a href="'.Url::to(['/services', 'i'=>$del->id]).'">'.$del->tName.'</a>';
 				echo '</li>';			
 			} // foreach ($kat->delatnost as $del)
 

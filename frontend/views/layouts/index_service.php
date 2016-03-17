@@ -6,14 +6,14 @@ use yii\helpers\Url;
 ?>
 <?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
 
-<div class="screen <?= (!$this->params['getService']) ? '' : 'mini' ?>">
-    <?= $this->render('partial/screen.php', ['getService'=>$this->params['getService']]) ?>
+<div class="screen <?= ($renderIndex = $this->params['renderIndex']) ? '' : 'mini' ?>">
+    <?= $this->render('partial/screen.php', ['renderIndex'=>$renderIndex]) ?>
 </div>
     <?= $this->render('partial/six_boxes.php') ?>
-<?php if(isset($this->params['getService']['industry_id'])): ?>
+<?php if(isset($this->params['industry']) && $this->params['industry']!=null): ?>
     <?= $this->render('partial/service_head.php') ?>
 <?php endif; ?>
-<?php if($this->params['getService']): ?>
+<?php if(!$renderIndex): ?>
 <div class="grid-container" style="">
     <div class="grid-row">
         <div class="grid-full">
@@ -22,5 +22,5 @@ use yii\helpers\Url;
     </div>
 </div>
 <?php endif; ?>
-    <?= $this->render('//services/_commercial.php', ['services'=>$this->params['getService']]) ?>
+    <?= $this->render('//services/_commercial.php', ['services'=>$renderIndex]) ?>
 <?php $this->endContent(); // HTML ?>

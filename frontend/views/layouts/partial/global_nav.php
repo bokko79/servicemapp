@@ -8,7 +8,7 @@ use yii\helpers\Url;
 ?>
 <ul class="global_nav">
 	<li class="<?= (Yii::$app->controller->id=='services' && Yii::$app->controller->action->id=='index') ? 'active' : null ?>">
-		<?= Html::a(Yii::t('app', 'Usluge'), Url::to(['/services', 's'=>'global']), ['class'=>'careted', 'data-toggle'=>'tooltip', 'title'=>Yii::t('app', 'Index of Service industries')]) ?>
+		<?= Html::a(Yii::t('app', 'Usluge'), Url::to(['/services', 'st'=>'global']), ['class'=>'careted', 'data-toggle'=>'tooltip', 'title'=>Yii::t('app', 'Index of Service industries')]) ?>
 		<?= Html::a('<i class="fa fa-caret-down"></i>', null, ['id'=>'glob_hover_service', 'class'=>'button']) ?>		
 		<div class="category fadeInDown animated quick services">
 			<?= $this->render('global-nav/services.php') ?>

@@ -60,6 +60,9 @@
 .card_container .section-subtitle {font-size: 11px; color: #777; text-align: left; padding: 5px 0;}
 .card_container .hidden-content-container {position: relative;}
 .card_container .hovering:hover > .header-context {cursor: pointer; background: #f6f7f8;}
+.tt-menu .card_container.tt-suggestion {padding:0;}
+.card_container.tt-suggestion {cursor: pointer; background: transparent;}
+.card_container.tt-suggestion:hover {cursor: pointer; background: #f6f7f8;}
 .divider:before {content: " \00b7";}
 /* header */
 .preheader-context {padding:16px 16px 0 72px; height: auto;}
@@ -106,6 +109,7 @@
 .primary-context.right {text-align: right;}
 .primary-context.full {padding:24px 16px;}
 .primary-context.normal {padding:16px;}
+.primary-context.low-margin  {padding:8px 16px;}
 .card-tile .primary-context, .primary-context.small-margin {padding:12px 16px 0px;}
 .left-sidebar .primary-context {padding:12px 8px;}
 .main-context .body-area.avatar-padded .primary-context, .main-context .body-area.avatar-padded .secondary-context,

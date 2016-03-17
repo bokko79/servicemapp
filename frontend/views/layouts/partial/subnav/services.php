@@ -8,8 +8,8 @@ use yii\helpers\Url;
 ?>
 <ul class="">
 	<li class="header">Akcije</li>
-	<li><?= Html::a('Naručite uslugu', Url::to(['/services', 's'=>'order']), []) ?></li>
-	<li><?= Html::a('Ponudite uslugu', Url::to(['/services', 's'=>'present']), []) ?></li>
+	<li><?= Html::a('Naručite uslugu', Url::to(['/services', 'st'=>'order']), []) ?></li>
+	<li><?= Html::a('Ponudite uslugu', Url::to(['/services', 'st'=>'present']), []) ?></li>
 	<li class="divider"></li>
 	<li class="header">Filteri</li>
 	<li><?= Html::a('<i class="fa fa-bookmark"></i> Obeležene usluge', Url::to(['/services', 'filter'=>'bookmark']), []) ?></li>

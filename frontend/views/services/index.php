@@ -7,8 +7,10 @@ use yii\widgets\ListView;
 
 $this->title = Yii::t('app', 'Index usluga');
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['getService'] = $getService;
+$this->params['renderIndex'] = $renderIndex;
 $this->params['industry'] = $industry;
+$this->params['object'] = $object;
+$this->params['action'] = $action;
 
 $this->cardData = [
     'pic' => ($industry) ? 'industries/'.$industry->id : null, 

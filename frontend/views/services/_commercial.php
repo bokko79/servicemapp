@@ -6,7 +6,7 @@ use frontend\models\CsServices;
 ?>
 <?php if(!Yii::$app->user->isGuest): ?>
 <!-- VIEWED SERVICES -->
-<hr>
+<hr style="margin-top:0">
 <div class="featured">
 	<h1 style="text-align:left; margin:30px 0 10px 0;"><i class="fa fa-flag-o"></i> Pregledane usluge</h1>
 	<p class="paragraph fs_11 gray_color margin-bottom-20"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
@@ -49,9 +49,9 @@ use frontend\models\CsServices;
 <?php endif; */?>
 <?php endif; ?>
 <!-- POPULAR SERVICES -->
-<hr>
+<hr style="margin-top:0">
 <div class="featured">
-	<h1 style="text-align:left; margin:30px 0 10px 0;"><i class="fa fa-thumbs-o-up"></i> Preporučene usluge</h1>
+	<h2 style="text-align:left; margin:30px 0 10px 0;"><i class="fa fa-thumbs-o-up"></i> Preporučene usluge</h2>
 	<p class="paragraph fs_11 gray_color margin-bottom-20"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<?php foreach (CsServices::find()->where('industry_id=101 OR industry_id=681')->limit(4)->all() as $key=>$service) { ?>
 		<?= $this->render('_card_comm.php', ['model'=>$service]) ?>

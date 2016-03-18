@@ -17,8 +17,9 @@
 .card_container.no-border, .card_container .no-border {border: none !important;}
 .card_container.bordered, .card_container .bordered {border: 1px solid #ddd !important;}
 .card_container.top-bordered, .card_container .top-bordered {border: none !important; border-top: 1px solid #ddd !important;}
+.card_container.bottom-bordered, .card_container .bottom-bordered {border: none !important; border-bottom: 1px solid #ddd !important;}
 .card_container.transparent, .card_container .transparent {background: transparent !important;}
-.card_container.opaque, .card_container .opaque {background: rgba(255,255,255,.2) !important;}
+.card_container.opaque, .card_container .opaque {background: rgba(0,0,0,.5) !important;}
 .card_container.info {background: #d9edf7 !important; color: #2196F3 !important;}
 .card_container.danger {background: #d9edf7; color: #2196F3;}
 .card_container.success {background: #d9edf7; color: #2196F3;}
@@ -110,6 +111,7 @@
 .primary-context.full {padding:24px 16px;}
 .primary-context.normal {padding:16px;}
 .primary-context.low-margin  {padding:8px 16px;}
+.primary-context.inverted, .secondary-context.inverted  {color:white; background: #263238;}
 .card-tile .primary-context, .primary-context.small-margin {padding:12px 16px 0px;}
 .left-sidebar .primary-context {padding:12px 8px;}
 .main-context .body-area.avatar-padded .primary-context, .main-context .body-area.avatar-padded .secondary-context,

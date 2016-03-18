@@ -31,7 +31,7 @@
         "google/apiclient": "*",
         "2amigos/yii2-google-maps-library" : "*",
         "2amigos/yii2-google-places-library": "*",
-        "kartik-v/yii2-widgets": "*",
+        //"kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-field-range": "*",        
         "kartik-v/yii2-sortable": "*",
         "kartik-v/yii2-sortable-input": "*",

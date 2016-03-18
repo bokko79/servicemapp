@@ -5,11 +5,15 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\CsServices;
 use frontend\models\CsServicesSearch;
+use frontend\models\CsObjects;
+use frontend\models\CsIndustries;
+use frontend\models\CsActions;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Request;
 use yii\web\Session;
+use yii\data\ActiveDataProvider;
 
 /**
  * ServicesController implements the CRUD actions for CsServices model.
@@ -44,26 +48,30 @@ class ServicesController extends Controller
         if($state = $request->get('st')){
             $session->set('state', $state);
         }
+        $q = $request->get('q');
+        $queryObjects = ($q) ? CsObjects::find()->where(['like', 'name', $q])->all() : null;
+        $queryIndustries = ($q) ? CsIndustries::find()->where(['like', 'name', $q])->all() : null;
+        $queryActions = ($q) ? CsActions::find()->where(['like', 'name', $q])->all() : null;
+        $object = ($request_O = $request->get('o')) ? CsObjects::findOne($request_O) : null;
+        $industry = ($request_I = $request->get('i')) ? CsIndustries::findOne($request_I) : null;
+        $action = ($request_A = $request->get('a')) ? CsActions::findOne($request_A) : null;
 
-        $object = ($request_O = $request->get('o')) ? \frontend\models\CsObjects::findOne($request_O) : null;
-        $industry = ($request_I = $request->get('i')) ? \frontend\models\CsIndustries::findOne($request_I) : null;
-        $action = ($request_A = $request->get('a')) ? \frontend\models\CsActions::findOne($request_A) : null;
-
-        $renderIndex = ($object || $industry || $action) ? false : true;
+        $renderIndex = $object || $industry || $action || $q ? false : true;
         
         $searchModel = new CsServicesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        /*$searchModel = new CsServicesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);*/
+        $dataProvider = $searchModel->search(['CsServicesSearch'=>['name'=>$q]]);
         
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            //'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'renderIndex' => $renderIndex,
             'industry' => $industry,
             'action' => $action,
-            'object' => $object,            
+            'object' => $object, 
+            'searchString' => $request->get('q'),           
+            'queryObjects' => $queryObjects,
+            'queryIndustries' => $queryIndustries,
+            'queryActions' => $queryActions, 
         ]);
     }
 

@@ -22,5 +22,9 @@ use yii\helpers\Url;
     </div>
 </div>
 <?php endif; ?>
+<div style="background:#f8f8f8">
     <?= $this->render('//services/_commercial.php', ['services'=>$renderIndex]) ?>
+    <?= $this->render('partial/footer.php') ?>
+</div>
+
 <?php $this->endContent(); // HTML ?>

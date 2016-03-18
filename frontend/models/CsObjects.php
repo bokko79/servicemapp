@@ -125,6 +125,22 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getChild()
+    {
+        return $this->hasMany(CsObjects::className(), ['object_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSpecs()
     {
         return $this->hasMany(CsSpecs::className(), ['object_id' => 'id']);

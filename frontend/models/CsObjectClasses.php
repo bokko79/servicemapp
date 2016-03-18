@@ -71,4 +71,27 @@ class CsObjectClasses extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CsObjectTypes::className(), ['object_class_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $object_translation = \frontend\models\CsObjectClassesTranslation::find()->where('lang_code="SR" and object_class_id='.$this->id)->one();
+        if($object_translation) {
+            return $object_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
 }

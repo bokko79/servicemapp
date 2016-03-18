@@ -12,6 +12,7 @@ use yii\web\Session;
 class AutocompleteController extends \yii\web\Controller
 {
     public $lang_code = 'SR';
+
     public function actionListActServices()
     {
         return $this->render('list-act-services');
@@ -90,37 +91,100 @@ class AutocompleteController extends \yii\web\Controller
     // THE CONTROLLER
     public function actionListObjects($q = null, $id = null) {        
         $query = new \yii\db\Query;
-        $query->select('obj.id AS object_id, obj_trans.name AS object, obj_trans_m.name AS model')
+        $query->select('obj.id AS object_id, obj_trans.name AS object, obj_trans_p.name AS parent')
             ->from('cs_objects AS obj')
             ->innerJoin('cs_objects_translation AS obj_trans', 'obj_trans.object_id=obj.id')
-            ->innerJoin('cs_objects AS obj_m', 'obj_m.object_id=obj.id')
-            ->innerJoin('cs_objects_translation AS obj_trans_m', 'obj_trans_m.object_id=obj_m.id')
+            ->innerJoin('cs_objects AS obj_p', 'obj_p.id=obj.object_id')
+            ->innerJoin('cs_objects_translation AS obj_trans_p', 'obj_trans_p.object_id=obj_p.id')
             ->where(['like', 'obj_trans.name', $q])
             ->andWhere(['obj_trans.lang_code' => $this->lang_code])
             ->groupBy('obj.id')
-            ->orderBy(['obj_trans.name' => SORT_ASC]);
+            ->orderBy([ 'obj_trans.name' => SORT_ASC]);
         $command = $query->createCommand();
         $data = $command->queryAll();
         $out = [];
         foreach ($data as $d) {
-            $out[] = ['object_id' => $d['object_id'], 'parent' => $d['object'], 'name' => $d['model']];
+            $out[] = ['object_id' => $d['object_id'], 'name' => $d['object'], 'parent' => $d['parent']];
         }
         echo \yii\helpers\Json::encode($out);
     }
 
     // THE CONTROLLER
-    public function actionListTags($q = null, $id = null) {        
+    public function actionListActionsTags($q = null, $id = null) {        
         $query = new \yii\db\Query;
-        $query->select('tag.id AS tag_id, tag.tag AS tag')
+        $query->select('tag.id AS tag_id, tag.tag AS name, act_trans.name AS action')
             ->from('cs_tags AS tag')
+            ->innerJoin('cs_actions AS act', 'tag.entity_id=act.id')
+            ->innerJoin('cs_actions_translation AS act_trans', 'act_trans.action_id=act.id')
             ->where(['like', 'tag.tag', $q])
+            ->andWhere(['tag.entity'=>'action'])
             ->groupBy('tag.id')
             ->orderBy(['tag.tag' => SORT_ASC]);
         $command = $query->createCommand();
         $data = $command->queryAll();
         $out = [];
         foreach ($data as $d) {
-            $out[] = ['tag_id' => $d['tag_id'], 'name' => $d['tag']];
+            $out[] = ['tag_id' => $d['tag_id'], 'name' => $d['name'], 'action' => $d['action']];
+        }
+        echo \yii\helpers\Json::encode($out);
+    }
+
+    // THE CONTROLLER
+    public function actionListIndustriesTags($q = null, $id = null) {        
+        $query = new \yii\db\Query;
+        $query->select('tag.id AS tag_id, tag.tag AS name, ind_trans.name AS industry')
+            ->from('cs_tags AS tag')
+            ->innerJoin('cs_industries AS ind', 'tag.entity_id=ind.id')
+            ->innerJoin('cs_industries_translation AS ind_trans', 'ind_trans.industry_id=ind.id')
+            ->where(['like', 'tag.tag', $q])
+            ->andWhere(['tag.entity'=>'industry'])
+            ->groupBy('tag.id')
+            ->orderBy(['tag.tag' => SORT_ASC]);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $out = [];
+        foreach ($data as $d) {
+            $out[] = ['tag_id' => $d['tag_id'], 'name' => $d['name'], 'industry' => $d['industry']];
+        }
+        echo \yii\helpers\Json::encode($out);
+    }
+
+    // THE CONTROLLER
+    public function actionListObjectsTags($q = null, $id = null) {        
+        $query = new \yii\db\Query;
+        $query->select('tag.id AS tag_id, tag.tag AS name, obj_trans.name AS object')
+            ->from('cs_tags AS tag')
+            ->innerJoin('cs_objects AS obj', 'tag.entity_id=obj.id')
+            ->innerJoin('cs_objects_translation AS obj_trans', 'obj_trans.object_id=obj.id')
+            ->where(['like', 'tag.tag', $q])
+            ->andWhere(['tag.entity'=>'object'])
+            ->groupBy('tag.id')
+            ->orderBy(['tag.tag' => SORT_ASC]);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $out = [];
+        foreach ($data as $d) {
+            $out[] = ['tag_id' => $d['tag_id'], 'name' => $d['name'], 'object' => $d['object']];
+        }
+        echo \yii\helpers\Json::encode($out);
+    }
+
+    // THE CONTROLLER
+    public function actionListServicesTags($q = null, $id = null) {        
+        $query = new \yii\db\Query;
+        $query->select('tag.id AS tag_id, tag.tag AS name, ser_trans.name AS service')
+            ->from('cs_tags AS tag')
+            ->innerJoin('cs_services AS ser', 'tag.entity_id=ser.id')
+            ->innerJoin('cs_services_translation AS ser_trans', 'ser_trans.service_id=ser.id')
+            ->where(['like', 'tag.tag', $q])
+            ->andWhere(['tag.entity'=>'service'])
+            ->groupBy('tag.id')
+            ->orderBy(['tag.tag' => SORT_ASC]);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $out = [];
+        foreach ($data as $d) {
+            $out[] = ['tag_id' => $d['tag_id'], 'name' => $d['name'], 'serivce' => $d['service']];
         }
         echo \yii\helpers\Json::encode($out);
     }
@@ -133,9 +197,7 @@ class AutocompleteController extends \yii\web\Controller
     {
         $request = Yii::$app->request;
 
-        $post = $request->post('CsServicesSearch');
-        $searchModel = new CsServicesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $post = $request->post('CsServicesSearch');        
         // industry
         if(isset($post['industry_id']) && $post['industry_id']!=null && $post['industry_id']!=''){
             $industry = \frontend\models\CsIndustries::findOne($post['industry_id']);
@@ -157,9 +219,29 @@ class AutocompleteController extends \yii\web\Controller
             return $this->redirect(['/s/'.slug($service->tName)]);
         }
         // tags
-        if(isset($post['tag']) && $post['tag']!=null && $post['tag']!=''){
-            $tag = \frontend\models\CsTags::findOne($post['tag']);
-            return $this->redirect(['/services', 'a'=>$tag->entity_id]);
+        if(isset($post['tag_id']) && $post['tag_id']!=null && $post['tag_id']!=''){
+            $tag = \frontend\models\CsTags::findOne($post['tag_id']);
+            switch ($tag->entity) {
+                case 'action':
+                    return $this->redirect(['/services', 'a'=>$tag->entity_id]);
+                    break;
+                case 'object':
+                    return $this->redirect(['/services', 'o'=>$tag->entity_id]);
+                    break;
+                case 'industry':
+                    return $this->redirect(['/services', 'i'=>$tag->entity_id]);
+                    break;
+                case 'service':
+                    $service = \frontend\models\CsServices::findOne($tag->entity_id);
+                    return $this->redirect(['/s/'.slug($service->tName)]);
+                    break;                
+                default:
+                    return $this->redirect(['/services']);
+                    break;
+            }            
+        }
+        if(isset($post['name']) && $post['name']!=null && $post['name']!=''){
+            return $this->redirect(['/services', 'q'=>$post['name']]);
         }
     }
 

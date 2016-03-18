@@ -103,7 +103,7 @@ class Activities extends \yii\db\ActiveRecord
      */
     public function getAgreement()
     {
-        return $this->hasOne(Agreements::className(), ['id' => 'activity_id']);
+        return $this->hasOne(Agreements::className(), ['activity_id' => 'id']);
     }
 
     /**
@@ -111,7 +111,7 @@ class Activities extends \yii\db\ActiveRecord
      */
     public function getBid()
     {
-        return $this->hasOne(Bids::className(), ['id' => 'activity_id']);
+        return $this->hasOne(Bids::className(), ['activity_id' => 'id']);
     }
 
     /**
@@ -119,7 +119,7 @@ class Activities extends \yii\db\ActiveRecord
      */
     public function getFeedback()
     {
-        return $this->hasOne(Feedback::className(), ['id' => 'activity_id']);
+        return $this->hasOne(Feedback::className(), ['activity_id' => 'id']);
     }
 
     /**
@@ -135,7 +135,7 @@ class Activities extends \yii\db\ActiveRecord
      */
     public function getOffer()
     {
-        return $this->hasOne(Offers::className(), ['id' => 'activity_id']);
+        return $this->hasOne(Offers::className(), ['activity_id' => 'id']);
     }
 
     /**
@@ -143,7 +143,7 @@ class Activities extends \yii\db\ActiveRecord
      */
     public function getOrder()
     {
-        return $this->hasOne(Orders::className(), ['id' => 'activity_id']);
+        return $this->hasOne(Orders::className(), ['activity_id' => 'id']);
     }
 
 

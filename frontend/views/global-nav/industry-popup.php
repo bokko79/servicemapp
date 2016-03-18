@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <div class="featured">
-	<h2 style="text-align:center;margin:20px 0 0;"><i class="<?php echo $sek->icon; ?>"></i>&nbsp;<?= $sek->tName; ?></h2>	
+	<h2 style="text-align:center;margin:20px 0 0;"><i class="<?php echo $sek->icon; ?>"></i>&nbsp;<?= c($sek->tName); ?></h2>	
 	<hr>
 	<div class="popup">	                 
 		<ul class="column4" style="display:inline-flex;">
@@ -15,7 +15,7 @@ use yii\helpers\Url;
 			// sve delatnosti
 			foreach ($cat->industries as $del) {
 				echo '<li>';
-					echo '<a href="'.Url::to(['/services', 'i'=>$del->id]).'">'.$del->tName.'</a>';
+					echo '<a href="'.Url::to(['/services', 'i'=>$del->id]).'">'.c($del->tName).'</a>';
 				echo '</li>';			
 			} // foreach ($kat->delatnost as $del)
 

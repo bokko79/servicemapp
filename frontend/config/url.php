@@ -170,6 +170,10 @@ return [
         'auto/list-objects' => 'autocomplete/list-objects',
         'auto/list-providers' => 'autocomplete/list-providers',
         'auto/list-tags' => 'autocomplete/list-tags',
+        'auto/list-services-tags' => 'autocomplete/list-services-tags',
+        'auto/list-industries-tags' => 'autocomplete/list-industries-tags',
+        'auto/list-actions-tags' => 'autocomplete/list-actions-tags',
+        'auto/list-objects-tags' => 'autocomplete/list-objects-tags',
         'auto/index' => 'autocomplete/index',
     ],
 ];

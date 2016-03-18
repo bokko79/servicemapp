@@ -1,5 +1,5 @@
 /* --------------------------------------------------MAIN CONTENT------------------------------------------------------------*/
-.profile_head {background: #F6F7F8;  border-bottom:1px solid #ddd; height:240px; padding:20px 0; position:relative;}
+.profile_head {/*background: #F6F7F8;*/  border-bottom:1px solid #ddd; height:240px; padding:20px 0; position:relative;}
 .profile_head_stick {background-image: linear-gradient(to bottom,#455A64,#263238); height: 50px; color: #fff; box-shadow: 2px 2px 5px #aaa; display: none;}
 
 .cover_user_profile {position:absolute; left:0; right:0; top:0; height:185px; z-index:0; background-image: linear-gradient(to bottom,#455A64,#263238); background: url('../images/backgrounds/land_back_4.jpg') center center; border-bottom: 1px solid #2196F3;}
@@ -44,7 +44,7 @@
 .profile_head .title_track ul li {padding: 15px 0 11px;}
 .profile_head .title_track ul li:hover, .profile_head .title_track ul li.active {background:#F6F7F8; border-bottom:4px solid #2196F3; box-shadow:none;}
 .profile_head .title_track ul li:hover a, .profile_head .title_track ul li.active a {color: #000;}
-.navpro-tabs>li>a {text-transform: uppercase;font-size: 11px;font-weight: 900;color: #000;border:none;}
+.navpro-tabs>li>a {text-transform: uppercase;font-size: 11px;font-weight: 900;color: #000;border:none !important;}
 .product-nav-tabs .nav-tabs>li>a {text-transform: none;font-size: 11px;font-weight: 500;color: #2196F3;}
 
 /* UPPER STATS */

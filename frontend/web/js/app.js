@@ -82,30 +82,20 @@ $(document).ready(function(){
   // popovers
   $('[data-toggle="popover"]').popover();
 
-  $(".industries-six-boxes-link").click(function(){
-      /*$('.subindustry0').html('');
-      $('.subindustry1').hide();
-      $('.subindustry2').hide();
-      $('.subindustry3').hide();
-      $('.subindustry4').hide();
-      $('.subindustry5').hide();
-      $('.subindustry6').hide();*/
+  $(".industries-six-boxes-link").on('click', function(){
       $('.six_boxes_container_industries').show();      
       sektor();
       $('body').animate({scrollTop: 365}, 400);
   });
 
-  $(".industries-six-boxes-link-mini").click(function(){
-      /*$('.subindustry0').html('');
-      $('.subindustry1').hide();
-      $('.subindustry2').hide();
-      $('.subindustry3').hide();
-      $('.subindustry4').hide();
-      $('.subindustry5').hide();
-      $('.subindustry6').hide();*/
+  $(".industries-six-boxes-link-mini").on('click', function(){
       $('.six_boxes_container_industries').show();      
       sektor();
       $('body').animate({scrollTop: 78}, 400);
+  });
+  // autocomplete
+  $('.search_icon').on("click", function(e) {
+    $(this).find('.subnav-fixed.search').show();
   });
   // toggle select/deselect all checkboxes
   $( "[id^='ckbCheckAll']").on('click', function () {

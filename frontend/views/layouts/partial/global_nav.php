@@ -45,10 +45,16 @@ use yii\helpers\Url;
 			<?= $this->render('subnav/info.php') ?>
 		</div>
 	</li>
+	<?php if(Yii::$app->controller->id!='services' or Yii::$app->controller->action->id!='index'): ?>
 	<li class="search_icon" style="float:right;">
 		<a href="#" onclick="return false" class="careted"><i class="fa fa-search"></i></a>
-		<div class="subnav-fixed search">
-			<?= $this->render('subnav/search.php') ?>
+		<div class="subnav-fixed search fadeInDown animated">
+			<div class="container" style="">
+				<div class="content" style="">
+					<?= $this->render('autocomplete.php', ['renderIndex'=>false]) ?>
+				</div>
+			</div>
 		</div>
 	</li>
+	<?php endif; ?>
 </ul>

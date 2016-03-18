@@ -23,12 +23,12 @@ use yii\helpers\Url;
             //echo $this->render('/orders/_card_compact.php', ['model'=>\frontend\models\Orders::findOne('activity='.$model->id)]);
             break;
     } ?>
-<?php if($model->activity=='order' && $model->bids): ?>
+<?php if($model->activity=='order' && $model->bid): ?>
     <div class="action-area normal-case">
         <?= Html::a(Yii::t('app', 'Bids').'&nbsp;<i class="fa fa-caret-down"></i>', null, ['class'=>'btn btn-link bid-link']); ?>
     </div>
     <div class="bids-area animated fadeInDown">
-        <?php foreach($model->bids as $bid): ?>
+        <?php foreach($model->order->bids as $bid): ?>
             <?= $this->render('/bids/_card.php', ['model'=>$bid]) ?>
         <?php endforeach; ?>
     </div>

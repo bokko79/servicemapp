@@ -195,6 +195,7 @@ class CsServices extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CsServiceMethods::className(), ['service_id' => 'id']);
     }
+    
 
     /**
      * @return \yii\db\ActiveQuery
@@ -271,9 +272,17 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderServices()
+    public function getOrders()
     {
         return $this->hasMany(OrderServices::className(), ['service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentations()
+    {
+        return $this->hasMany(Presentations::className(), ['service_id' => 'id']);
     }
 
     /**

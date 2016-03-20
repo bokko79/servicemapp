@@ -58,7 +58,12 @@ class Presentations extends \yii\db\ActiveRecord
     public $service; // izabrana usluga
     public $object_models = [];
     public $imageFiles = [];
+    public $issues = [];
     public $availability;
+
+    public $provider_presentation_specs;
+    public $provider_presentation_pics;
+    public $provider_presentation_methods;
 
     private $_service;
 
@@ -75,17 +80,14 @@ class Presentations extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        $service = $this->service;
-        $pic = ($service->pic==1) ? [['imageFiles'], 'file', 'skipOnEmpty' => false, /*'extensions' => 'png, jpg, jpeg, gif', */'maxFiles' => 8, 'tooMany'=>'Možete prikačiti najviše 8 fotografija.'] : ['imageFiles', 'safe'];
-
         return [
             [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'provider_id', 'price'], 'required'],
             [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'object_model_id', 'provider_id', 'loc_id', 'loc_within', 'amount', 'consumer', 'consumer_children', 'frequency', 'duration', 'duration_unit', 'price', 'currency_id', 'fixed_price','consumer_price', 'warranty', 'availability', 'on_sale'], 'integer'],
             [['description', 'amount_operator', 'consumer_operator', 'frequency_unit', 'duration_operator', 'price_operator', 'price_per', 'note', 'status'], 'string'],
             [['available_from', 'available_until', 'availability'], 'safe'],
-            $pic,
+            //[['imageFiles'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg, gif', 'maxFiles' => 12, 'maxSize' => 1024*1024*20, 'tooMany'=>'Možete prikačiti najviše 8 fotografija.'],
             [['name'], 'string', 'max' => 64],
-            [['object_models', 'update_time'], 'safe'],
+            [['object_models', 'update_time', 'imageFiles', 'issues'], 'safe'],
             [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activities::className(), 'targetAttribute' => ['activity_id' => 'id']],
             [['offer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Offers::className(), 'targetAttribute' => ['offer_id' => 'id']],
             [['provider_service_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProviderServices::className(), 'targetAttribute' => ['provider_service_id' => 'id']],
@@ -95,6 +97,7 @@ class Presentations extends \yii\db\ActiveRecord
             [['update_time'], 'default', 'value' => function ($model, $attribute) {
                 return date('Y-m-d H:i:s');
             }],
+            [['provider_presentation_specs', 'provider_presentation_pics', 'provider_presentation_methods'], 'safe'],
         ];
     }
 
@@ -114,8 +117,8 @@ class Presentations extends \yii\db\ActiveRecord
            'provider_id' => Yii::t('app', 'Provider ID'),
            'loc_id' => Yii::t('app', 'Vaša sačuvana lokacija'),
            'loc_within' => Yii::t('app', 'U radijusu lokacije'),
-           'name' => Yii::t('app', 'Ime'),
-           'description' => Yii::t('app', 'Opis'),
+           'name' => Yii::t('app', 'Naslov ponude'),
+           'description' => Yii::t('app', 'Tesktualni opis ponude'),
            'amount' => Yii::t('app', 'Količina'),
            'amount_operator' => Yii::t('app', 'Amount Operator'),
            'consumer' => Yii::t('app', 'Broj korisnika'),
@@ -138,6 +141,9 @@ class Presentations extends \yii\db\ActiveRecord
            'available_from' => Yii::t('app', 'Dostupnost'),
            'available_until' => Yii::t('app', 'Dostupno do'),
            'status' => Yii::t('app', 'Status'),
+           'provider_presentation_specs' => Yii::t('app', 'Sačuvane ponude'),
+           'provider_presentation_pics' => Yii::t('app', 'Sačuvane ponude'),
+           'imageFiles' => Yii::t('app', 'Prikačite slike'),
         ];
     }
 
@@ -349,12 +355,12 @@ class Presentations extends \yii\db\ActiveRecord
 
     public function checkIfSpecs()
     {
-        return ($this->service->serviceSpecs!=null) ? 0 : 1;
+        return ($this->service->serviceSpecs!=null or ($this->service->object->isPart() && $this->service->object->parent->specs)) ? 0 : 1;
     }
 
      public function checkIfIssues()
     {
-        return ($this->service->service_type==3 && $this->service->object->issues!=null) ? 0 : 1;
+        return ($this->service->service_type==6 && ($this->service->object->issues!=null or (count($this->object_models)==1 and $this->object_models[0]->issues))) ? 0 : 1;
     }
 
     public function checkIfLocation()
@@ -364,7 +370,7 @@ class Presentations extends \yii\db\ActiveRecord
 
     public function checkIfAmount()
     {
-        return ($this->service->amount!=0) ? 0 : 1;
+        return ($this->service->amount!=0 && $this->service->service_object!=1) ? 0 : 1;
     }
 
     public function checkIfConsumer()
@@ -375,61 +381,71 @@ class Presentations extends \yii\db\ActiveRecord
     public function checkIfAvailability()
     {
         return ($this->service->availability!=0) ? 0 : 1;
-    }
-
-    public function getNoSpecs()
-    {
-        return 2-$this->checkIfMethods();
-    }
+    }    
 
     public function getNoPic()
     {
-        return 3-$this->checkIfMethods()-$this->checkIfSpecs();
+        return 2-$this->checkIfSpecs();
     }
 
     public function getNoIssues()
     {
-        return 4-$this->checkIfMethods()-$this->checkIfSpecs();
+        return 3-$this->checkIfSpecs();
+    }
+
+    public function getNoMethods()
+    {
+        return 4-$this->checkIfSpecs()-$this->checkIfIssues();
     }
 
     public function getNoTitle()
     {
-        return 5-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfIssues();
+        return 5-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods();
     }
 
     public function getNoLocation()
     {
-        return 6-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfIssues();
-    }
-
-    public function getNoAmount()
-    {
-        return 7-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfLocation();
-    }
-
-    public function getNoConsumer()
-    {
-        return 8-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfLocation()-$this->checkIfAmount();
+        return 6-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods();
     }
 
     public function getNoPrice()
     {
-        return 9-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer();
+        return 7-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation();
     }
+
+    public function getNoAmount()
+    {
+        return 8-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation();
+    }
+
+    public function getNoConsumer()
+    {
+        return 9-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation()-$this->checkIfAmount();
+    }    
 
     public function getNoAvailability()
     {
-        return 10-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer();
+        return 10-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer();
     }
 
     public function getNoOther()
     {
-        return 11-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability();
+        return 11-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability();
+    }
+
+    public function getNoNotifications()
+    {
+        return 12-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability();
+    }
+
+    public function getNoTerms()
+    {
+        return 13-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability();
     }
 
     public function getNoUac()
     {
-        return 12-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability();
+        return 14-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability();
     }
 
     public function fotorama($options, $full=null)
@@ -502,7 +518,7 @@ class Presentations extends \yii\db\ActiveRecord
             $methodM = count($methodModels)==1 ? $methodModels[0]->value()->tName : null;
         }
         if($objectM == null && $methodM == null){            
-            return $this->service->tName;
+            return $this->pService->tName;
         } else {
             $act = $this->pService->action->tName;
             if($methodM != null){

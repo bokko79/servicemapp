@@ -9,11 +9,11 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Nova prezentacija');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['service'] = $service;
+$this->params['object_model'] = $object_model;
 $this->params['presentation'] = $model;
 ?>
 <?php // $this->render('_steps.php', ['service'=>$service]) ?>
 <div class="presentations-create">
-
     <?= $this->render('_form', [
     	'service' => $service,
         'model' => $model,

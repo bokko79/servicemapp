@@ -125,19 +125,14 @@ if($model->services){
 <?php Modal::end(); ?>
 <?php if($proService->service->object->models){ ?>
     <?php Modal::begin([
-        'id'=>'object-models'.$proService->id,
+        'id'=>'object-models'.$proService->service->id,
         'size'=>Modal::SIZE_SMALL,
         //'options' => ['class'=>'overlay_modal fade'],
-        'header'=> '<h3>Izaberite vrstu '. $proService->service->object->tNameGen.' koju želite da ponudite</h3>',
+        'header'=> $proService->service->object->isPart() ? ($proService->service->service_object!=1 ? '<h3>Izaberite kakve vrste '.$proService->service->object->parent->tNameGen.' imate u ponudi:</h3>' :
+        '<h3>Izaberite vrstu '. $proService->service->object->parent->tNameGen.'</h3>') : ($proService->service->service_object!=1 ? '<h3>Izaberite kakve vrste '.$proService->service->object->tNameGen.' imate u ponudi:</h3>' :
+        '<h3>Izaberite vrstu '. $proService->service->object->tNameGen.'</h3>'),
     ]); ?>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <?= $this->render('_object_models.php', ['object'=>$proService->service->object, 'model'=>$proService->service, 'proService'=>$proService]) ?>
-            </div>
-        </div>
-    </div>
+    <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>
 <?php Modal::end(); ?>
 <?php } ?>
 <?php    

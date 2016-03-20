@@ -54,6 +54,9 @@ return [
         'presentation-setup/<id:\d+>' => 'presentations/update', // :page
         'presentation/<id:\d+>' => 'presentations/view', // :page
         'comment-presentation/<id:\d+>' =>'presentations/comment',
+        'showThemSpecs' =>'presentations/show-them-specs', // ajax
+        'showThemPics' =>'presentations/show-them-pics', // ajax
+        'showThemMethods' =>'presentations/show-them-methods', // ajax
 
         // 6 USERLOCATIONS
         'new-location' => 'user-locations/create', // S-16:page
@@ -89,6 +92,7 @@ return [
         'provider-industries' => 'provider-services/industries', // :page
         'provider-industry-skills' => 'provider-services/skills', // :page
         'provider-industry-services' => 'provider-services/services', // :page
+        'objectModelsPresentProSer' => 'services/object-models-present', // ajax
 
         // 13 PROVIDER SKILLS
         'new-skill' => 'provider-industry-skills/create', // :page
@@ -111,6 +115,9 @@ return [
         'add-services' => 'services/add', // :page
         'services' => 'services/index', // :page
         's/<title>' => 'services/view', // :page
+        'objectModelsPresent' => 'services/object-models-present', // ajax
+        'objectModelsOrder' => 'services/object-models-order', // ajax
+
 
         // 18 OBJECTS
         'add-objects' => 'objects/add', // :page

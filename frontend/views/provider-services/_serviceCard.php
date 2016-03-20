@@ -33,7 +33,7 @@ use yii\bootstrap\Modal;
                 ]
             ]) ?>
             <?php else: ?>
-            <?= Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Napravi novu prezentaciju'), Url::to(), ['class'=>'btn btn-link btn-sm', 'style'=>'padding:0;', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models'.$model->id]); ?>
+            <?= Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Napravi novu prezentaciju'), Url::to(), ['class'=>'btn btn-link btn-sm', 'style'=>'padding:0;', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models'.$model->service->id]); ?>
             <?php endif; ?>
         <?php endif; ?>
         </div>
@@ -57,7 +57,7 @@ use yii\bootstrap\Modal;
                 ]
             ]) ?>
             <?php else: ?>
-            <?= Html::a($text, Url::to(), ['class'=>'createProject fadeIn animated', 'style'=>'padding:20px;', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models'.$model->id]); ?>
+            <?= Html::a($text, Url::to(), ['class'=>'createProject fadeIn animated', 'style'=>'padding:20px;', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models'.$model->service->id]); ?>
             <?php endif; ?>
             <?php } ?>
     </div>

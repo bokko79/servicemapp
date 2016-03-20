@@ -83,4 +83,5 @@ $message = 'Lokacija za izvršenje usluga.';
         </div>
     </div>			
 <?php } ?>
+<?= $this->render('_submitButton.php') ?>
 </div>

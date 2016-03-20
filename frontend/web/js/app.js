@@ -20,7 +20,7 @@ $.fn.followToProfile = function (pos) {
     }
   });
 };
-
+// ordering
 // reset
 $.fn.validateSpecs = function() {
   return this.each(function() {
@@ -41,7 +41,12 @@ $.fn.stopValidateSpecs = function() {
       this.value = 0;
   });
 };
-
+// close autocomplete search
+function close_search() {
+  $('li.search_icon').removeClass('active');
+  $('li.search_icon .subnav-fixed.search').slideUp();
+  $('.close_search').hide();
+}
 $(document).ready(function(){
   $(".search-index").click(function(){
       $(this).closest('.title_holder_home').find('.user-objects-search').toggle();
@@ -95,8 +100,11 @@ $(document).ready(function(){
   });
   // autocomplete
   $('.search_icon').on("click", function(e) {
+    $(this).addClass('active');
     $(this).find('.subnav-fixed.search').show();
+    $('.close_search').show();
   });
+  
   // toggle select/deselect all checkboxes
   $( "[id^='ckbCheckAll']").on('click', function () {
     $(this).closest('.enclosedCheckboxes').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
@@ -164,10 +172,77 @@ $(document).ready(function(){
   $(window).on("hashchange", function () {
     window.scrollTo(window.scrollX, window.scrollY - 70);
   });
+
+  // presentations specs
+  $(".new_pres_spec").on('click', function(){  
+    $('.enter_presSpec').slideDown(); 
+    $("#presentations-provider_presentation_specs").val('');
+    $(".pres-specs-plaza").html('');
+    $('html,body').animate({
+      scrollTop: $(this).offset().top-70},
+      500);
+  });
+
+  $("#presentations-provider_presentation_specs").on('change', function(){                  
+    $('.enter_presSpec').hide();
+    $(".pres-specs-plaza").show().load('/showThemSpecs?id=' + $(this).val());
+  });
+  // presentations pics
+  $(".new_pres_pics").on('click', function(){  
+    $('.enter_presPics').slideDown(); 
+    $("#presentations-provider_presentation_pics").val('');
+    $(".pres-pics-plaza").html('');
+    $('html,body').animate({
+      scrollTop: $(this).offset().top-70},
+      500);
+  });
+
+  $("#presentations-provider_presentation_pics").on('change', function(){                  
+    $('.enter_presPics').hide();
+    $(".pres-pics-plaza").show().load('/showThemPics?id=' + $(this).val());
+  });
+
+  var max_fields      = 10; //maximum input boxes allowed
+  var wrapper         = $(".input_object_syn_wrap"); //Fields wrapper
+  var add_button      = $(".add_object_syn_button"); //Add button ID
+  
+  var x = 1; //initlal text box count
+  $(add_button).click(function(e){ //on add input button click
+      e.preventDefault();
+      if(x < max_fields){ //max input box allowed
+          x++; //text box increment
+          $(this).closest(wrapper).append('<div class=" margin-bottom-15"><input type="text" name="Presentations[issues][]" class="form-control float-left" style="width:70%;" /><a href="#" class="remove_field btn btn-link"> <i class="fa fa-minus-circle"></i> Izbaci</a></div>'); //add input box
+          
+      }
+  });
+  
+  $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+      e.preventDefault(); $(this).parent('div').remove(); x--;
+  })
+
+  // load modal contents
   $('#provider-industries').on("show.bs.modal", function(e) {
     $(this).find(".modal-body").load('/provider-industries', function() {
       $('#providerindustries-selection').select2();
     });
+  });
+
+  $("[id^='object-models-present-modal']").on("show.bs.modal", function(e) {
+    var id = $(this).attr('id');
+    var lastChar = id.substr(id.length - 1);
+    $(this).find(".modal-body").load('/objectModelsPresent?id=' + lastChar);
+  });
+
+  $("[id^='object-models']").on("show.bs.modal", function(e) {
+    var id = $(this).attr('id');
+    var lastChar = id.substr(id.length - 1);
+    $(this).find(".modal-body").load('/objectModelsPresentProSer?id=' + lastChar);
+  });
+
+  $("[id^='object-models-modal']").on("show.bs.modal", function(e) {
+    var id = $(this).attr('id');
+    var lastChar = id.substr(id.length - 1);
+    $(this).find(".modal-body").load('/objectModelsOrder?id=' + lastChar);
   });
 
   $('.collapsing').on("click", function(e) {

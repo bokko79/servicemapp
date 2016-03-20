@@ -36,7 +36,7 @@ $template = '<div class="card_container record-full no-shadow no-border no-margi
 $template_ind = '<div class="card_container record-full no-shadow no-border no-margin">'.
     '<div class="primary-context low-margin">'.
         '<div class="avatar center">'.
-            '<i class="fa {{icon}} fa-3x" style="color:{{color}}"></i>'.
+            '<i class="fa {{icon}} fa-2x" style="color:{{color}}"></i>'.
         '</div>'.
         '<div class="title">'.
             '<div class="head second regular capitalize">{{name}}</div>'.

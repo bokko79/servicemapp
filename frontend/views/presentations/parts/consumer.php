@@ -19,7 +19,7 @@ $message = Yii::t('app', 'Za koliko osoba Vam treba {service}?', ['service'=>$se
     <i class="fa fa-chevron-down chevron"></i>
 </div>
 
-<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections08">
+<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections09">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
     <div class="form-group kv-fieldset-inline">
         <?= Html::activeLabel($model, 'consumer', [
@@ -69,4 +69,5 @@ $message = Yii::t('app', 'Za koliko osoba Vam treba {service}?', ['service'=>$se
         </div>
         <?php endif; ?>
     </div>
+<?= $this->render('_submitButton.php') ?>
 </div>

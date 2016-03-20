@@ -17,4 +17,5 @@ $message = 'Podesite prezentaciju.';
 </div>
 <div class="wrapper body fadeIn animated" style="border-top:none;" id="sections11">
     <?= $this->render('../_hint.php', ['message'=>$message]) ?>
+<?= $this->render('_submitButton.php') ?>
 </div>

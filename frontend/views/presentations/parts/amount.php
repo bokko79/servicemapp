@@ -18,7 +18,7 @@ $message = Yii::t('app', 'Koliko {unit} Vam treba {service}?', ['unit'=>$service
     <?= ($service->amount==2) ? ' <span class="optional">(opciono)</span>' : '' ?>
     <i class="fa fa-chevron-down chevron"></i>
 </div>
-<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections07">
+<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections08">
     <?= $this->render('../_hint.php', ['message'=>$message]) ?>
     <div class="form-group kv-fieldset-inline">
         <?= Html::activeLabel($model, 'amount', [
@@ -47,4 +47,5 @@ $message = Yii::t('app', 'Koliko {unit} Vam treba {service}?', ['unit'=>$service
                 ])->input('number', ['min'=>$service->amount_range_min, 'max'=>$service->amount_range_max, 'step'=>$service->amount_range_step]); ?>
         </div>        
     </div>
+<?= $this->render('_submitButton.php') ?>
 </div>

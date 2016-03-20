@@ -12,7 +12,7 @@ use Yii;
  * @property string $spec_id
  * @property string $value
  * @property string $value_max
-* @property string $value_operator
+ * @property string $value_operator
  *
  * @property CsSpecs $spec
  * @property Presentations $presentation

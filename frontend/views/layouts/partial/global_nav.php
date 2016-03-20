@@ -48,13 +48,14 @@ use yii\helpers\Url;
 	<?php if(Yii::$app->controller->id!='services' or Yii::$app->controller->action->id!='index'): ?>
 	<li class="search_icon" style="float:right;">
 		<a href="#" onclick="return false" class="careted"><i class="fa fa-search"></i></a>
-		<div class="subnav-fixed search fadeInDown animated">
-			<div class="container" style="">
-				<div class="content" style="">
-					<?= $this->render('autocomplete.php', ['renderIndex'=>false]) ?>
-				</div>
+		<div class="subnav-fixed search">
+			<div class="container">
+				<div class="content">
+					<?= $this->render('autocomplete.php', ['renderIndex'=>false]) ?>					
+				</div>				
 			</div>
 		</div>
 	</li>
+	<a href="#" style="position:fixed; right:20px; top:70px; display:none;" class="close_search" onclick="close_search();"><i class="fa fa-times white"></i></a>
 	<?php endif; ?>
 </ul>

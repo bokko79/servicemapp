@@ -5,9 +5,6 @@ use yii\widgets\ListView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
-use kartik\widgets\ActiveForm;
-use kartik\widgets\ActiveField;
-use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\ProviderServicesSearch */

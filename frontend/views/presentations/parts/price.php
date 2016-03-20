@@ -16,7 +16,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
     </label>
     <i class="fa fa-chevron-down chevron"></i>
 </div>
-<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections09">
+<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections07">
     <?= $this->render('../_hint.php', ['message'=>$message]) ?>
     <div class="form-group kv-fieldset-inline">
 	    <?= Html::activeLabel($model, 'price', [
@@ -73,4 +73,5 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 							    //'class' => 'btn-group btn-group-justified',
 							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info btn-sm']]
 							]) ?>
+<?= $this->render('_submitButton.php') ?>
 </div>

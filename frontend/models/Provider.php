@@ -228,9 +228,33 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPresentations()
+    {
+        return $this->hasMany(Presentations::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getQuickCounts()
     {
         return '<i class="fa fa-thumbs-o-up"></i> '.count($this->recommendations). ' | 
                 <i class="fa fa-comment-o"></i> '.count($this->comments);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function presWithSameObject($object_id)
+    {
+        $objContainer = [];
+        if($presentations = $this->presentations){
+            foreach($presentations as $presentation){
+                if($presentation->object_id==$object_id){
+                    $objContainer[] = $presentation;
+                }
+            }            
+        }
+        return $objContainer;
     }
 }

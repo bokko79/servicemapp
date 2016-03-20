@@ -84,4 +84,5 @@ $message = 'Kada pružate ovu uslugu. Ukoliko imate određeno radno vreme u okvi
 	        </div>
 	    </div>
 	</div>
+<?= $this->render('_submitButton.php') ?>
 </div>

@@ -10,6 +10,7 @@ use frontend\widgets\PageTitle;
 use frontend\widgets\ProfileSubNav;
 
 $service = $this->params['service'];
+$object_model = $this->params['object_model'];
 $presentation = $this->params['presentation'];
 ?>
 
@@ -17,7 +18,7 @@ $presentation = $this->params['presentation'];
 <div class="grid-container">
     <div class="grid-row">
         <div class="grid-left margin-top-20">
-            <?= $this->render('partial/side-menus/presentation-menu.php', ['service'=>$service, 'model'=>$presentation]) ?>
+            <?= $this->render('partial/side-menus/presentation-menu.php', ['service'=>$service, 'model'=>$presentation, 'object_model'=>$object_model]) ?>
         </div>
         <div class="grid-rightacross">
             <div class="grid-row">
@@ -30,9 +31,9 @@ $presentation = $this->params['presentation'];
                 <?= PageTitle::widget([
                     'titleData'=>[
                         'background' => 'bg-blue-gray-900',
-                        'icon' => 'cog',
-                        'title' => 'Prezentacija usluge '.$service->tName.Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to(''), ['class' => 'btn btn-default btn-sm float-right']),
-                        'description' => null,
+                        'icon' => 'plus-square',
+                        'title' => 'Ponuda usluge<br><br><span class="fs_42 thin">' . c($service->action->tName) . (count($object_model)==1 ? ' '.$object_model[0]->tNameGen.' <span class="head regular gray-color fs_20">['.$service->object->tNameGen.']</span>' : ' '.$service->object->tNameGen). '</span>' .Html::a('<i class="fa fa-arrow-circle-left"></i>&nbsp;'.Yii::t('app', 'Nazad na profil'), Url::to(''), ['class' => 'btn btn-default btn-sm float-right']),
+                        'description' => '<p class="fs_12">Ponudite svojim klijentima uslugu tako što ćete opisati njene detalje i omogućite im da direktno naruče od Vas!</p>',
                         'h' => 2,
                     ],
                     'invert' => true,

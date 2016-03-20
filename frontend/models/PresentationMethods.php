@@ -12,6 +12,7 @@ use Yii;
  * @property integer $method_id
  * @property string $value
  * @property string $value_max
+ * @property string $value_operator
  *
  * @property CsMethods $method
  * @property Presentations $presentation
@@ -38,6 +39,7 @@ class PresentationMethods extends \yii\db\ActiveRecord
         return [
             [['presentation_id', 'method_id'], 'required'],
             [['presentation_id', 'method_id'], 'integer'],
+            [['value_operator'], 'string'],
             [['value', 'value_max'], 'string', 'max' => 64],
             [['method_models'], 'safe'],
             [['method_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsMethods::className(), 'targetAttribute' => ['method_id' => 'id']],
@@ -56,6 +58,7 @@ class PresentationMethods extends \yii\db\ActiveRecord
             'method_id' => 'Method ID',
             'value' => 'Value',
             'value_max' => 'Value Max',
+            'value_operator' => Yii::t('app', 'Value Operator'),
         ];
     }
 

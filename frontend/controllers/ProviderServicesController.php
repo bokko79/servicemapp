@@ -321,4 +321,21 @@ class ProviderServicesController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * Lists all ProviderServices models.
+     * @return mixed
+     */
+    public function actionObjectModelsPresent($id=null)
+    {
+        if($id){
+            if($service = $this->findService($id)) {
+                return $this->renderPartial('//services/_object_models-present', [
+                    'model' => $service,
+                    'object' => $service->object,
+                ]);
+            }
+        }
+        return;            
+    }
 }

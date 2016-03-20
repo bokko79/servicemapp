@@ -13,6 +13,7 @@ use frontend\models\PresentationSpecs;
 use frontend\models\PresentationSpecModels;
 use frontend\models\PresentationMethods;
 use frontend\models\PresentationMethodModels;
+use frontend\models\PresentationObjectModels;
 use frontend\models\PresentationLocations;
 use frontend\models\PresentationIssues;
 use frontend\models\PresentationImages;
@@ -98,10 +99,16 @@ class PresentationsController extends Controller
         if($ps = Yii::$app->request->get('ProviderServices')){
             if($service = $this->findService($ps['service_id'])){ // service
                 //print_r($service); die();
-                $object_model = !empty($ps['object_model']) ? $this->findObjectModel($ps['object_model']) : null; // object_model
+                $object_model = [];
+                if(!empty($ps['object_model'])){
+                    foreach ($ps['object_model'] as $pso){
+                        $object_model[] = $this->findObjectModel($pso);
+                    }
+                }                
                 $user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // presenter
                 $model = new Presentations(); // new presentation
-                $model->service = $service;                
+                $model->service = $service; 
+                $model->object_models = $object_model;               
                 $model_methods = $this->loadPresentationMethods($service); // array of new presentationMethods
                 $model_specs = $this->loadPresentationSpecifications($service, $object_model); // array of new presentationSpecs
                 $location = new Locations(); // new location
@@ -267,11 +274,11 @@ class PresentationsController extends Controller
 
     protected function checkUserObjectsExist($service, $object_model)
     {
-        if(!Yii::$app->user->isGuest && $object_model){
+        if(!Yii::$app->user->isGuest && $object_model && count($object_model)==1){
             $user = \frontend\models\User::findOne(Yii::$app->user->id);
             if($user->userObjects){
                 foreach ($user->userObjects as $userObject){
-                    if($userObject->object_id==$service->object_id || $userObject->object_id==$object_model->id){
+                    if($userObject->object_id==$service->object_id || $userObject->object_id==$object_model[0]->id){
                         $userObjects[] = $userObject;
                     }
                 }
@@ -297,8 +304,15 @@ class PresentationsController extends Controller
                     }           
                 } 
             }
-            if($object_model!=null){                
-                $object = \frontend\models\CsObjects::findOne($object_model->id);
+            if($service->object->isPart() && $service->object->parent->specs){
+               foreach($service->object->parent->specs as $parentSpec) {
+                    if($parentSpec) {
+                        $objectSpecification[] = $parentSpec;
+                    }           
+                } 
+            }
+            if($object_model!=null && count($object_model)==1){                
+                $object = \frontend\models\CsObjects::findOne($object_model[0]->id);
                 if ($object) {
                     if ($object->specs) {
                         foreach($object->specs as $objectSpec) {
@@ -387,17 +401,22 @@ class PresentationsController extends Controller
     protected function saveProviderService($user=null, $service=null)
     {
         if($user && $service) {
-            $proserv = new ProviderServices();
-            $proserv->provider_industry_id = $user->provider->industries[0]->id;
-            $proserv->provider_id = $user->provider->id;
-            $proserv->industry_id = $service->industry_id;
-            $proserv->service_id = $service->id;
-            $proserv->is_set = 1;
-            $proserv->update_time = date('Y-m-d H:i:s');
-            if($proserv->save(false)){
-                return $proserv;
-            }
-            return false;
+            $prs = ProviderServices::find()->where('provider_id='.$user->provider->id.' AND service_id='.$service->id)->all();
+            if($prs){
+                return $prs[0];
+            } else {
+                $proserv = new ProviderServices();
+                $proserv->provider_industry_id = $user->provider->industries[0]->id;
+                $proserv->provider_id = $user->provider->id;
+                $proserv->industry_id = $service->industry_id;
+                $proserv->service_id = $service->id;
+                $proserv->is_set = 1;
+                $proserv->update_time = date('Y-m-d H:i:s');
+                if($proserv->save(false)){
+                    return $proserv;
+                }
+                return false;
+            }           
         }
         return false;
     }
@@ -474,7 +493,7 @@ class PresentationsController extends Controller
                     $model->provider_id = $proserv->provider_id;
                     $model->service_id = $service->id;
                     $model->object_id = $service->object->id;
-                    $model->object_model_id = $object_model->id;     
+                    $model->object_model_id = ($object_model && count($object_model)==1) ? $object_model[0]->id : null;     
                     $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');               
                     // location
                     // 1 ako je register, onda nova lokacija, iz registracije $model->loc_id = $user->details->loc_id;
@@ -495,47 +514,126 @@ class PresentationsController extends Controller
                     $model->status = $checkPresenter ? 'pending' : 'active';
                     if($model->save()){
                         // Presentation Specs
-                        if(Model::loadMultiple($model_specs, Yii::$app->request->post())) {
-                            foreach ($model_specs as $m_spec) {
-                                //if($m_spec->value!=null || $m_spec['spec_models']!=null){
-                                $m_spec->presentation_id = $model->id;
-                                if($m_spec->save()){
-                                    if($m_spec['spec_models']!=null){                                            
-                                        foreach($m_spec['spec_models'] as $key=>$spec_model){
-                                            $new_spec_model[$key] = new PresentationSpecModels();
-                                            $new_spec_model[$key]->presentation_spec_id = $m_spec->id;
-                                            $new_spec_model[$key]->spec_model = $spec_model;
-                                            $new_spec_model[$key]->save();
-                                        }
+                        if($model_specs){
+                            if($model->provider_presentation_specs && $model->provider_presentation_specs!=null){
+                                $existPres = $this->findModel($model->provider_presentation_specs);
+                                if($existPresSpecs = $existPres->specs){
+                                    foreach ($existPresSpecs as $existPresSpec) {                                        
+                                        $mod_spec = new PresentationSpecs();
+                                        $mod_spec->presentation_id = $model->id;
+                                        $mod_spec->spec_id = $existPresSpec->spec_id;
+                                        $mod_spec->value = $existPresSpec->value;
+                                        $mod_spec->value_max = $existPresSpec->value_max;
+                                        $mod_spec->value_operator = $existPresSpec->value_operator;
+                                        $mod_spec->save();
+                                        
+                                        if($existPresSpecModels = $existPresSpec->models){                                        
+                                            foreach($existPresSpecModels as $key=>$existPresSpecModel){
+                                                $new_spec_model[$key] = new PresentationSpecModels();
+                                                $new_spec_model[$key]->presentation_spec_id = $mod_spec->id;
+                                                $new_spec_model[$key]->spec_model = $existPresSpecModel->spec_model;
+                                                $new_spec_model[$key]->save();
+                                            }
+                                        }                                 
                                     }
-                                }                                        
-                                //}                                
-                            }
-                        }                        
+                                }
+                            } else {
+                                if(Model::loadMultiple($model_specs, Yii::$app->request->post())) {
+                                    foreach ($model_specs as $m_spec) {
+                                        //if($m_spec->value!=null || $m_spec['spec_models']!=null){
+                                        $m_spec->presentation_id = $model->id;
+                                        if($m_spec->save()){
+                                            if($m_spec['spec_models']!=null){                                            
+                                                foreach($m_spec['spec_models'] as $key=>$spec_model){
+                                                    $new_spec_model[$key] = new PresentationSpecModels();
+                                                    $new_spec_model[$key]->presentation_spec_id = $m_spec->id;
+                                                    $new_spec_model[$key]->spec_model = $spec_model;
+                                                    $new_spec_model[$key]->save();
+                                                }
+                                            }
+                                        }                                        
+                                        //}                                
+                                    }
+                                } 
+                            } 
+                        }
                         // Presentation Methods
-                        if(Model::loadMultiple($model_methods, Yii::$app->request->post())) {
-                            foreach ($model_methods as $m_method) {
-                                //if($m_method->value!=null || $m_method['method_models']!=null){
-                                $m_method->presentation_id = $model->id;
-                                if($m_method->save()){
-                                    if($m_method['method_models']!=null){
-                                        foreach($m_method['method_models'] as $key=>$method_model){
-                                            $new_method_model[$key] = new PresentationMethodModels();
-                                            $new_method_model[$key]->presentation_method_id = $m_method->id;
-                                            $new_method_model[$key]->method_model = $method_model;
-                                            $new_method_model[$key]->save();
+                        if($model_methods){
+                            if($model->provider_presentation_methods && $model->provider_presentation_methods!=null){                            
+                                $existPres = $this->findModel($model->provider_presentation_methods);
+                                if($existPresMethods = $existPres->methods){
+                                    foreach ($existPresMethods as $existPresMethod) {                                        
+                                        $mod_meth = new PresentationMethods();
+                                        $mod_meth->presentation_id = $model->id;
+                                        $mod_meth->method_id = $existPresMethod->method_id;
+                                        $mod_meth->value = $existPresMethod->value;
+                                        $mod_meth->value_max = $existPresMethod->value_max;
+                                        $mod_meth->value_operator = $existPresMethod->value_operator;
+                                        $mod_meth->save();                                        
+                                        if($existPresMethodModels = $existPresMethod->models){                                        
+                                            foreach($existPresMethodModels as $key=>$existPresMethodModel){
+                                                $new_meth_model[$key] = new PresentationMethodModels();
+                                                $new_meth_model[$key]->presentation_method_id = $mod_meth->id;
+                                                $new_meth_model[$key]->method_model = $existPresMethodModel->method_model;
+                                                $new_meth_model[$key]->save();
+                                            }
+                                        }                                 
+                                    }
+                                } else {
+                                    if(Model::loadMultiple($model_methods, Yii::$app->request->post())) {
+                                        foreach ($model_methods as $m_method) {
+                                            $m_method->presentation_id = $model->id;
+                                            if($m_method->save()){
+                                                if($m_method['method_models']!=null){
+                                                    foreach($m_method['method_models'] as $key=>$method_model){
+                                                        $new_method_model[$key] = new PresentationMethodModels();
+                                                        $new_method_model[$key]->presentation_method_id = $m_method->id;
+                                                        $new_method_model[$key]->method_model = $method_model;
+                                                        $new_method_model[$key]->save();
+                                                    }
+                                                }
+                                            }                                  
                                         }
                                     }
-                                }                                        
-                                //}                                
+                                }
+                            } 
+                        }        
+                        // Presentation Images             
+                        if($model->provider_presentation_pics && $model->provider_presentation_pics!=null){                        
+                            $existPres = $this->findModel($model->provider_presentation_pics);
+                            if($existPresImages = $existPres->images){
+                                foreach($existPresImages as $existPresImage){
+                                    $new_image = new PresentationImages();
+                                    $new_image->presentation_id = $model->id;
+                                    $new_image->image_id = $existPresImage->image_id;
+                                    $new_image->save();
+                                }
                             }
-                        }                        
-                        // Presentation Images
-                        if ($model->imageFiles) {
-                            $model->upload();
-                        }                        
+                        } else {
+                            if ($model->imageFiles) {
+                                $model->upload();
+                            } 
+                        }
+                        // Presentation Object Models
+                        if($object_model){
+                            foreach($object_model as $ob_model){
+                                $model_object_models = new PresentationObjectModels();
+                                $model_object_models->presentation_id = $model->id;
+                                $model_object_models->object_model_id = $ob_model->id;
+                                $model_object_models->save();
+                            }
+                        }
+                        
                         // Presentation Issues
-                        /*$model_issues = new PresentationIssues(); */
+                        if($model->issues){
+                            foreach($model->issues as $issue){
+                                $model_issue = new PresentationIssues();
+                                $model_issue->presentation_id = $model->id;
+                                $model_issue->issue = $issue;
+                                $model_issue->save();
+                            }
+                        }
+
                         // Presentation Locations
                         $model_locations = new PresentationLocations();
                         $model_locations->presentation_id = $model->id;
@@ -632,5 +730,56 @@ class PresentationsController extends Controller
             }
         }
         return false;
+    }
+
+    /**
+     * Lists all ProviderServices models.
+     * @return mixed
+     */
+    public function actionShowThemSpecs($id=null)
+    {
+        if($id){
+            if($presentation = $this->findModel($id)) {
+                return $this->renderPartial('//presentations/_specs', [
+                    'model' => $presentation,
+                    'specs' => $presentation->specs,
+                ]);
+            }
+        }
+        return;            
+    }
+
+    /**
+     * Lists all ProviderServices models.
+     * @return mixed
+     */
+    public function actionShowThemPics($id=null)
+    {
+        if($id){
+            if($presentation = $this->findModel($id)) {
+                return $this->renderPartial('//presentations/_images', [
+                    'model' => $presentation,
+                    'medias' => $presentation->images,
+                ]);
+            }
+        }
+        return;            
+    }
+
+    /**
+     * Lists all ProviderServices models.
+     * @return mixed
+     */
+    public function actionShowThemMethods($id=null)
+    {
+        if($id){
+            if($presentation = $this->findModel($id)) {
+                return $this->renderPartial('//presentations/_methods', [
+                    'model' => $presentation,
+                    'medias' => $presentation->methods,
+                ]);
+            }
+        }
+        return;            
     }
 }

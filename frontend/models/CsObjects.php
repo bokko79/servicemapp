@@ -12,6 +12,7 @@ use Yii;
  * @property integer $object_type_id
  * @property integer $has_model 
  * @property string $object_id
+ * @property string $type
  * @property integer $favour
  * @property string $image_id
  * @property string $status
@@ -47,7 +48,7 @@ class CsObjects extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['object_type_id', 'has_model', 'object_id', 'favour', 'image_id', 'added_by'], 'integer'],
-            [['status', 'description'], 'string'],
+            [['status', 'description', 'type'], 'string'],
             [['added_time'], 'safe'],
             [['name'], 'string', 'max' => 50],
             [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
@@ -175,7 +176,19 @@ class CsObjects extends \yii\db\ActiveRecord
      */
     public function getModels()
     {
-        return $this->hasMany(CsObjects::className(), ['object_id' => 'id']);
+        if($this->isPart()){
+            return $this->parent->models;
+        } else {
+            return $this->hasMany(CsObjects::className(), ['object_id' => 'id'])->where('type="model"');
+        }        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParts()
+    {
+        return $this->hasMany(CsObjects::className(), ['object_id' => 'id'])->where('type="part"');
     }
 
     /**
@@ -251,5 +264,21 @@ class CsObjects extends \yii\db\ActiveRecord
             return $this->getTranslation()->name_inst;
         }       
         return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function isModel()
+    {
+        return $this->type=='model' ? true : false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function isPart()
+    {
+        return $this->type=='part' ? true : false;
     }
 }

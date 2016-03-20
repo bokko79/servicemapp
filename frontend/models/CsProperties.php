@@ -192,7 +192,7 @@ class CsProperties extends \yii\db\ActiveRecord
                 break;
             case 22:
                 $part = '_radio';
-            case 22:
+            case 23:
                 $part = '_radioButton';
                 break;
             case 3:
@@ -246,7 +246,7 @@ class CsProperties extends \yii\db\ActiveRecord
                 break;
             case 22:
                 $part = '_radio';
-            case 22:
+            case 23:
                 $part = '_radioButton';
                 break;
             case 3:

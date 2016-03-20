@@ -10,26 +10,21 @@ $this->title = Yii::t('app', 'Podešavanje prezentacije ') . $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Presentations'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['object_model'] = $object_model;
 $this->params['service'] = $service;
 $this->params['presentation'] = $model;
 ?>
-<div class="presentations-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'service' => $service,
-        'model' => $model,
-        'model_methods' => $model_methods,
-        'model_specs' => $model_specs,
-        'object_model' => $object_model,
-        'new_provider' => $new_provider,
-        'returning_user' => $returning_user,
-        'location'=> $location,
-        'user' => $user,
-    ]) ?>
-
-</div>
+<?= $this->render('_form', [
+    'service' => $service,
+    'model' => $model,
+    'model_methods' => $model_methods,
+    'model_specs' => $model_specs,
+    'object_model' => $object_model,
+    'new_provider' => $new_provider,
+    'returning_user' => $returning_user,
+    'location'=> $location,
+    'user' => $user,
+]) ?>
 <?php if($medias = $model->images){
 	foreach($medias as $media){
 		Modal::begin([

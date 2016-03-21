@@ -4,12 +4,13 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
+<?php $user = $this->params['user']; ?>
 <?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
 
 <?php /* PROFILE HEADING */ ?>
 
 <div class="subnav-fixed">
-    <?= $this->render('partial/subnav/user_profile.php') ?>
+    <?= $this->render('partial/subnav/user_profile.php', ['user'=>$user]) ?>
 </div>
 <div class="grid-container" style="margin-top:70px;">    
     <div class="grid-row">

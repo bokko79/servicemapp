@@ -45,6 +45,11 @@ class Locations extends \yii\db\ActiveRecord
     public $control;
     public $userControl;
 
+    const SCENARIO_DEFAULT = 'default';
+    const SCENARIO_REGISTER = 'register';
+    const SCENARIO_ORDER = 'order';
+    const SCENARIO_PRESENTATION = 'presentation'; 
+
     /**
      * @inheritdoc
      */
@@ -61,14 +66,26 @@ class Locations extends \yii\db\ActiveRecord
         return [
             [['is_fav', 'user_id', 'def', 'zip', 'floor', 'apt'], 'integer'],
             [['user_id'], 'required'],
-            [['name'], 'required', 'message'=>'Unesite lokaciju.'],
             [['lat', 'lng'], 'required', 'message'=>'Nepravilno uneta lokacija.'],
             [['lat', 'lng'], 'number'],
-            [['name'], 'string', 'max' => 100],
+            [['lat', 'lng', 'city'], 'required', 'whenClient' => "function (attribute, value) {
+                    return $('#presentations-loc_id').val() == '';
+            }", 'on'=>'presentation', 'message'=>'Nepravilno uneta lokacija.', ],
+            [['name'], 'safe'],
             [['country', 'state', 'district', 'city', 'mz', 'street'], 'string', 'max' => 64],
             [['no'], 'string', 'max' => 4],
             [['location_name'], 'string', 'max' => 128],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+        ];
+    }
+
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_PRESENTATION => ['location_name', 'zip', 'floor', 'apt', 'no', 'name', 'lat', 'lng', 'city', 'country', 'state', 'district', 'mz', 'street'],
+            self::SCENARIO_REGISTER => ['location_name', 'zip', 'floor', 'apt', 'no', 'name', 'lat', 'lng', 'city', 'country', 'state', 'district', 'mz', 'street'],
+            self::SCENARIO_DEFAULT => ['location_name', 'zip', 'floor', 'apt', 'no', 'name', 'lat', 'lng', 'city', 'country', 'state', 'district', 'mz', 'street'],
+
         ];
     }
 
@@ -82,7 +99,7 @@ class Locations extends \yii\db\ActiveRecord
             'is_fav' => 'Is Fav',
             'user_id' => 'User ID',
             'def' => 'Def',
-            'name' => 'Ime',
+            'name' => 'Lokacija',
             'country' => 'Country',
             'state' => 'State',
             'district' => 'District',
@@ -244,5 +261,10 @@ class Locations extends \yii\db\ActiveRecord
     public function getStreetLocation()
     {        
         return $this->street . ', ' . $this->city . ', ' . $this->country;
+    }
+
+    public function distanceTo(Locations $location_to)
+    {        
+        return round(distance($this->lat, $this->lng, $location_to->lat, $location_to->lng), 2);
     }
 }

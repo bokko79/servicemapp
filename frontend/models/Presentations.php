@@ -5,6 +5,8 @@ namespace frontend\models;
 use Yii;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
+use frontend\models\Activities;
+use frontend\models\Offers;
 
 /**
  * This is the model class for table "presentations".
@@ -14,22 +16,22 @@ use yii\imagine\Image;
  * @property string $offer_id
  * @property string $provider_service_id
  * @property integer $service_id 
-* @property integer $object_id 
-* @property integer $object_model_id 
-* @property string $provider_id
+ * @property integer $object_id 
+ * @property integer $object_model_id 
+ * @property string $provider_id
  * @property string $loc_id
  * @property string $name
  * @property string $description
  * @property string $amount
-* @property string $amount_operator
-* @property integer $consumer
-* @property string $consumer_operator
-* @property integer $consumer_children
-* @property integer $frequency
-* @property string $frequency_unit
-* @property integer $duration
-* @property string $duration_operator
-* @property integer $duration_unit
+ * @property string $amount_operator
+ * @property integer $consumer
+ * @property string $consumer_operator
+ * @property integer $consumer_children
+ * @property integer $frequency
+ * @property string $frequency_unit
+ * @property integer $duration
+ * @property string $duration_operator
+ * @property integer $duration_unit
  * @property string $price
  * @property string $price_operator
  * @property integer $currency_id
@@ -38,8 +40,8 @@ use yii\imagine\Image;
  * @property string $note
  * @property integer $on_sale
  * @property string $available_from 
-* @property string $available_until 
-* @property string $status
+ * @property string $available_until 
+ * @property string $status
  *
  * @property PresentationImages[] $presentationImages
  * @property PresentationIssues[] $presentationIssues
@@ -60,6 +62,7 @@ class Presentations extends \yii\db\ActiveRecord
     public $imageFiles = [];
     public $issues = [];
     public $availability;
+    public $location_input;
 
     public $provider_presentation_specs;
     public $provider_presentation_pics;
@@ -82,21 +85,30 @@ class Presentations extends \yii\db\ActiveRecord
     {
         return [
             [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'provider_id', 'price'], 'required'],
-            [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'object_model_id', 'provider_id', 'loc_id', 'loc_within', 'amount', 'consumer', 'consumer_children', 'frequency', 'duration', 'duration_unit', 'price', 'currency_id', 'fixed_price','consumer_price', 'warranty', 'availability', 'on_sale'], 'integer'],
+            [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'object_model_id', 'provider_id', 'loc_id', 'amount', 'consumer', 'consumer_children', 'frequency', 'duration', 'duration_unit', 'price', 'currency_id', 'fixed_price','consumer_price', 'warranty', 'availability', 'on_sale'], 'integer'],
             [['description', 'amount_operator', 'consumer_operator', 'frequency_unit', 'duration_operator', 'price_operator', 'price_per', 'note', 'status'], 'string'],
             [['available_from', 'available_until', 'availability'], 'safe'],
             //[['imageFiles'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg, gif', 'maxFiles' => 12, 'maxSize' => 1024*1024*20, 'tooMany'=>'Možete prikačiti najviše 8 fotografija.'],
+            ['loc_id', 'required', 'when' => function ($model) {
+                        return $model->location_input == '';
+                    }, 'whenClient' => "function (attribute, value) {
+                    return $('#presentation-location').val() == '';
+            }"],
+            [['location_operational'], 'string'],
+            [['loc_within'], 'number'],
             [['name'], 'string', 'max' => 64],
-            [['object_models', 'update_time', 'imageFiles', 'issues'], 'safe'],
+            [['object_models', 'update_time', 'imageFiles', 'issues', 'location_input'], 'safe'],
             [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activities::className(), 'targetAttribute' => ['activity_id' => 'id']],
             [['offer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Offers::className(), 'targetAttribute' => ['offer_id' => 'id']],
             [['provider_service_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProviderServices::className(), 'targetAttribute' => ['provider_service_id' => 'id']],
-            [['loc_id'], 'exist', 'skipOnError' => true, 'targetClass' => Locations::className(), 'targetAttribute' => ['loc_id' => 'id']],
+            //[['loc_id'], 'exist', 'skipOnError' => true, 'targetClass' => Locations::className(), 'targetAttribute' => ['loc_id' => 'id']],
             [['duration_unit'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['period_unit' => 'id']],
             [['currency_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsCurrencies::className(), 'targetAttribute' => ['currency_id' => 'id']],
             [['update_time'], 'default', 'value' => function ($model, $attribute) {
                 return date('Y-m-d H:i:s');
             }],
+            ['consumer_price', 'default', 'value'=>0],
+            ['fixed_price', 'default', 'value'=>1],
             [['provider_presentation_specs', 'provider_presentation_pics', 'provider_presentation_methods'], 'safe'],
         ];
     }
@@ -116,6 +128,7 @@ class Presentations extends \yii\db\ActiveRecord
            'object_model_id' => Yii::t('app', 'Object Model ID'),
            'provider_id' => Yii::t('app', 'Provider ID'),
            'loc_id' => Yii::t('app', 'Vaša sačuvana lokacija'),
+           'location_operational' => Yii::t('app', 'Područje delovanja'),
            'loc_within' => Yii::t('app', 'U radijusu lokacije'),
            'name' => Yii::t('app', 'Naslov ponude'),
            'description' => Yii::t('app', 'Tesktualni opis ponude'),
@@ -460,15 +473,15 @@ class Presentations extends \yii\db\ActiveRecord
                 ]; 
             }
             return \metalguardian\fotorama\Fotorama::widget(
-                        [
-                            'options' => $options,
-                            'useHtmlData' => false,
-                            'htmlOptions' => [
-                                'style'=>'text-align:center; margin:0 auto;',
-                                'class'=>'full-width-cover'
-                            ],
-                            'items' => $media_items,
-                        ]);
+                [
+                    'options' => $options,
+                    'useHtmlData' => false,
+                    'htmlOptions' => [
+                        'style'=>'text-align:center; margin:0 auto;',
+                        'class'=>'full-width-cover'
+                    ],
+                    'items' => $media_items,
+                ]);
         }
         return null;            
     }
@@ -530,5 +543,170 @@ class Presentations extends \yii\db\ActiveRecord
             }
             return $act . $obj;
         }
+    }
+
+    public function locationOperatingModels()
+    {
+        $service = $this->service;
+        $model_list = [];
+        if($service){
+            switch ($service->coverage) {
+            case 0:
+                $model_list = [];
+                break;
+            case 3:
+                $model_list = [
+                    'country'=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
+                    //'region'=>'Samo u okviru regiona <b><span class="loc_op_region"></span></b>', 
+                    'city'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    'exact'=>'Samo na navedenoj lokaciji: <b><span class="loc_op_exact"></span></b>',
+                    'within'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                ];
+                break;
+            case 4:
+                $model_list = [
+                    'no_limit'=>'Bez ograničenja', 
+                    'country'=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
+                    //'region'=>'Samo u okviru regiona <b><span class="loc_op_region"></span></b>', 
+                    'city'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    'exact'=>'Samo na navedenoj lokaciji: <b><span class="loc_op_exact"></span></b>',
+                    'within'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                ];
+                break;
+            default:
+                $model_list = [
+                    //'region'=>'Samo u okviru regiona <b><span class="loc_op_region"></span></b>', 
+                    'city'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    'exact'=>'Samo na navedenoj lokaciji: <b><span class="loc_op_exact"></span></b>',
+                    'within'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                ];
+            }
+        }
+        return $model_list;
+    }
+
+    /**
+     * Izlistava sve specifikacije izabranih predmeta usluga i modela predmeta.
+     */
+    public function allObjectSpecifications($service, $object_model)
+    {
+        //$object_model = $this->objectModels;
+        //$service = $this->pService;
+        if($object_model!=null || $service->serviceSpecs!=null) {
+            if($service->serviceSpecs!=null){
+               foreach($service->serviceSpecs as $serviceSpec) {
+                    if($serviceSpec->spec) {
+                        $objectSpecification[] = $serviceSpec->spec;
+                    }           
+                } 
+            }
+            if($service->object->isPart() && $service->object->parent->specs){
+               foreach($this->service->object->parent->specs as $parentSpec) {
+                    if($parentSpec) {
+                        $objectSpecification[] = $parentSpec;
+                    }           
+                } 
+            }
+            if($object_model!=null && count($object_model)==1){
+                if ($objectSpecs = $object_model[0]->specs) {
+                    foreach($objectSpecs as $objectSpec) {
+                        if(!in_array($objectSpec, $objectSpecification)){ 
+                            $objectSpecification[] = $objectSpec;                               
+                        }                                   
+                    }
+                }           
+            }          
+        } 
+        return (isset($objectSpecification)) ? $objectSpecification : null;
+    }
+
+    public function checkUserObjectsExist($service, $object_model)
+    {
+        if(!Yii::$app->user->isGuest && $object_model && count($object_model)==1){
+            $user = \frontend\models\User::findOne(Yii::$app->user->id);
+            if($user->userObjects){
+                foreach ($user->userObjects as $userObject){
+                    if($userObject->object_id==$service->object_id || $userObject->object_id==$object_model[0]->id){
+                        $userObjects[] = $userObject;
+                    }
+                }
+                return (isset($userObjects)) ? $userObjects : null;
+            } else {
+                return false;
+            }            
+        } else {
+            return false;
+        }        
+    }  
+
+    /**
+     * Kreira Modele PresentationSpecs za sve izabrane specifikacije.
+     */
+    public function loadPresentationSpecifications($service, $object_model)
+    {
+        if($objectSpecs = $this->allObjectSpecifications($service, $object_model)){
+            foreach($objectSpecs as $objectSpec) {
+                if($objectSpec->property) {
+                    $property = $objectSpec->property;
+                    $model_spec[$property->id] = new PresentationSpecs();
+                    $model_spec[$property->id]->specification = $objectSpec;
+                    $model_spec[$property->id]->property = $property;
+                    $model_spec[$property->id]->service = $service;
+                    $model_spec[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_model)) ? 0 : 1;
+                }                                   
+            }
+            return (isset($model_spec)) ? $model_spec : null;
+        }
+        return null;        
+    }
+
+    /**
+     * Kreira Modele PresentationSpecs za sve izabrane specifikacije.
+     */
+    public function loadPresentationSpecificationsUpdate($model_specs)
+    {
+        if($model_specs){
+            foreach($model_specs as $model_spec){
+                $property = $model_spec->spec->property;
+                $model_spec->specification = $model_spec->spec;
+                $model_spec->property = $property;
+                $model_spec->service = $this->pService;
+                $model_spec->checkUserObject = ($this->checkUserObjectsExist($this->pService, $this->objectModel)) ? 0 : 1;
+            }
+            return $model_specs;
+        }
+        return null;        
+    }
+
+    public function loadPresentationMethods($service)
+    {
+        if($service->serviceMethods!=null) {
+            foreach($service->serviceMethods as $serviceMethod) {
+                if($serviceMethod->method) {
+                    if($property = $serviceMethod->method->property) { 
+                        $model_methods[$property->id] = new \frontend\models\PresentationMethods();
+                        $model_methods[$property->id]->serviceMethod = $serviceMethod->method;
+                        $model_methods[$property->id]->property = $property;
+                        $model_methods[$property->id]->service = $service;
+                    }
+                }           
+            }
+            return (isset($model_methods)) ? $model_methods : null;
+        }
+        return null;
+    }
+
+    public function loadPresentationMethodsUpdate($model_methods)
+    {
+        if($model_methods) {
+            foreach($model_methods as $model_method){
+                $property = $model_method->method->property;
+                $model_method->serviceMethod = $model_method->method;
+                $model_method->property = $property;
+                $model_method->service = $this->pService;
+            }
+            return $model_methods;
+        }
+        return null;
     }
 }

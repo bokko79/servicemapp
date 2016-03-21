@@ -31,6 +31,7 @@
         "google/apiclient": "*",
         "2amigos/yii2-google-maps-library" : "*",
         "2amigos/yii2-google-places-library": "*",
+        //"kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-field-range": "*",        
         "kartik-v/yii2-sortable": "*",
         "kartik-v/yii2-sortable-input": "*",
@@ -39,6 +40,7 @@
         "kartik-v/yii2-checkbox-x": "*",
         "fxp/composer-asset-plugin": "~1.1",
         "yiidoc/yii2-timeago": "dev-master",
+        //"petrabarus/yii2-googleplacesautocomplete": "*",
         "shiyang/yii2-masonry": "*",
         "bower-asset/angular": "*",
         "bower-asset/angular-route": "*",
@@ -50,7 +52,7 @@
         "nepstor/yii2-datetime-compare-validator": "1.1.0",
         "kartik-v/yii2-datecontrol": "dev-master",
         "philippfrenzel/yii2fullcalendar":"*",
-        "2amigos/yii2-tinymce-widget": "~1.1"
+        //"dektrium/yii2-user": "0.9.*@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

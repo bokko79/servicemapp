@@ -33,7 +33,7 @@ $message = ($service->service_object==1) ? Yii::t('app', 'Opišite ukratko {your
 </div>
 <div class="wrapper body fadeIn animated" style="border-top:none;" id="sections01">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
-<?php if($user && $user->provider->presWithSameObject($object->id)!=null && $service->service_object==1){ ?>    
+<?php if($user && $user->provider->presWithSameObject($object->id)!=null && $service->service_object!=1){ ?>    
     <?= $form->field($model, 'provider_presentation_specs', [
             'feedbackIcon' => [
                 'success' => 'ok',
@@ -54,7 +54,7 @@ $message = ($service->service_object==1) ? Yii::t('app', 'Opišite ukratko {your
         <div class="col-md-offset-3 col-md-9">                 
             <h4 class="divider horizontal"><i class="fa fa-sort"></i> ILI</h4>
             <div class="center" style="margin:30px 0 20px">
-                <?= Html::a('<i class="fa fa-plus-circle"></i> Opišite novi '.$object->tName, null, ['class'=>'btn btn-default new_pres_spec']) ?>
+                <?= Html::a('<i class="fa fa-plus-circle"></i> Opišite novi '.$object->tName, null, ['class'=>'btn btn-warning shadow new_pres_spec']) ?>
             </div>
         </div>
     </div>
@@ -103,7 +103,7 @@ $message = ($service->service_object==1) ? Yii::t('app', 'Opišite ukratko {your
             }      
         }
     }
-if($user && $user->provider->presWithSameObject($object->id)!=null && $service->service_object==1){ ?>
+if($user && $user->provider->presWithSameObject($object->id)!=null && $service->service_object!=1){ ?>
     </div>
 <?php } ?>
 <?= $this->render('_submitButton.php') ?>

@@ -201,11 +201,10 @@ class ProviderController extends Controller
 
             if($model) {               
                 
-                $details = $model->userDetails;
-                $filters = ($model->userFilters) ? $model->userFilters : new \frontend\models\UserFilters;
-                $images = $model->userImages;
+                $details = $model->details;
+                $filters = ($model->filters) ? $model->filters : new \frontend\models\UserFilters;
+                $images = $model->images;
                 $notifications = $model->userNotifications;
-                $notificationsSms = $model->userNotificationsSms;
 
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);

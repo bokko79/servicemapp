@@ -63,7 +63,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 		'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 	    ])->radioButtonGroup([0=>'Ukupna cena', 1=>'Cena po osobi'], [
 							    //'class' => 'btn-group btn-group-justified',
-							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info btn-sm']]
+							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info']]
 							]) ?>
 	<?php endif; ?>
 	<?= $form->field($model, 'fixed_price', [
@@ -71,7 +71,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 		'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 	    ])->radioButtonGroup([0=>'Fiksna cena', 1=>'Cena podložna promeni'], [
 							    //'class' => 'btn-group btn-group-justified',
-							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info btn-sm']]
+							    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info']]
 							]) ?>
 <?= $this->render('_submitButton.php') ?>
 </div>

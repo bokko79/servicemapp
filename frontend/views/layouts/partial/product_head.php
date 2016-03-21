@@ -28,12 +28,27 @@ if($model->methods!=null){
 }
 $spec = ['label'=>''];
 if($model->specs!=null){
-	$content = '<table class="table table-striped" style="margin:20px 0">';
-	foreach($model->specs as $spec){
-		$content .= '<tr>
-					<td>'.c($spec->spec->property->tName).'</td>
-					<td>'.$spec->value.($spec->spec->property->unit ? ' '.$spec->spec->property->unit->oznaka : null).'</td>
-				</tr>';
+	$content = '<table class="table table-condensed table-striped" style="margin:20px 0">';
+	foreach($model->specs as $presenation_spec){
+		if($spcf_models = $presenation_spec->models or $presenation_spec->value){
+			$content .= '<tr>';
+			$content .= '<td style="width:30%; vertical-align:top; color:#999">'.c($presenation_spec->spec->property->tName).'</td><td>';
+			if($spcf_models){	
+				$content .= '<ul class="column2">';	
+								
+					foreach($spcf_models as $spcf_model){
+						$content .= '<li><b><i class="fa fa-check"></i> '.c($spcf_model->model->tName).'</b></li>';										
+					}				
+													
+				$content .= '</ul>';			
+			} else {
+				if($presenation_spec->value){
+					$content .= '<b>'.($presenation_spec->value_operator=='exact' ? null : $presenation_spec->value_operator).' ' .$presenation_spec->value . ($presenation_spec->spec->property->unit ? ' '.$presenation_spec->spec->property->unit->oznaka : null). '</b>';
+				}			
+			}
+			$content .= '</td>';			
+			$content .= '</tr>';
+		}			
 	}
 	$content .= '</table>';
 	$spec = [
@@ -42,12 +57,13 @@ if($model->specs!=null){
     ];
 }
 $issues = [
-        'label'=>'<i class="fa fa-question"></i> Apartman: Problemi',
+        'label'=>'<i class="fa fa-stethoscope"></i> Apartman: Problemi',
         'content'=>'ddd',
     ];
 $items = [
-    $action,
+    
     $spec,
+    $action,
     $issues
 ];
 
@@ -85,7 +101,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
                 </div>	           
 			</div>
 		</div>
-		<div class="card_container record-full no-shadow fadeInUp animated" id="card_container" style="float:none;">				        
+		<div class="card_container record-full no-shadow bordered fadeInUp animated" id="card_container" style="float:none;border-top:none !important;">				        
 	        <?php // price ?>
 	        <div class="primary-context overflow-hidden">	        	
             	<div class="avatar gray-color">
@@ -119,7 +135,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
 				    'items'=>$items,
 				    'position'=>TabsX::POS_ABOVE,
 				    'encodeLabels'=>false,
-				    'containerOptions' => ['class'=>'product-nav-tabs']
+				    'containerOptions' => ['class'=>'tab_track']
 				]); ?>			                
             </div>
 		</div>
@@ -167,6 +183,9 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
 	<div class="media-area grid-profile-right">
 		<div class="maps margin-bottom-20 drop-dark-shadow">
 	    	<?= $map->display() ?>
+	    	<?php  $user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
+	    	<?php //print_r($user); die(); ?>
+	    	Rastojanje od vas <?= $model->loc->distanceTo($user->location) ?>km
 	    </div>
 	<?php if($model->images): ?>
 		<div class="media">

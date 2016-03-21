@@ -50,7 +50,7 @@ class PresentationObjectModels extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getObjectModel()
+    public function getObject()
     {
         return $this->hasOne(CsObjects::className(), ['id' => 'object_model_id']);
     }

@@ -211,7 +211,7 @@ $(document).ready(function(){
       e.preventDefault();
       if(x < max_fields){ //max input box allowed
           x++; //text box increment
-          $(this).closest(wrapper).append('<div class=" margin-bottom-15"><input type="text" name="Presentations[issues][]" class="form-control float-left" style="width:70%;" /><a href="#" class="remove_field btn btn-link"> <i class="fa fa-minus-circle"></i> Izbaci</a></div>'); //add input box
+          $(this).closest(wrapper).append('<div class=" margin-bottom-15 animated fadeInDown"><input type="text" name="Presentations[issues][]" class="form-control float-left" style="width:70%;" /><a href="#" class="remove_field btn btn-link"> <i class="fa fa-minus-circle"></i> Izbaci</a></div>'); //add input box
           
       }
   });

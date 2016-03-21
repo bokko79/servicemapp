@@ -38,14 +38,12 @@ class UserNotificationsController extends Controller
         if($user) {
 
             $model = UserNotifications::find()->where('user_id=:user_id', [':user_id'=>$user->id])->one();
-            $modelSms = UserNotificationsSMs::find()->where('user_id=:user_id', [':user_id'=>$user->id])->one();
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->user_id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'modelSms' => $modelSms,
                 ]);
             }
         } else {

@@ -125,6 +125,7 @@ class UsersController extends Controller
                     'model' => $user,
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'user' => $user,
                 ]);
             } else {
                 throw new NotFoundHttpException('The requested page does not exist.');
@@ -155,6 +156,7 @@ class UsersController extends Controller
                     'model' => $user,
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'user' => $user,
                 ]);
             } else {
                 throw new NotFoundHttpException('The requested page does not exist.');
@@ -184,6 +186,7 @@ class UsersController extends Controller
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
                     'model' => $user,
+                    'user' => $user,
                 ]);
             } else {
                 throw new NotFoundHttpException('The requested page does not exist.');
@@ -240,7 +243,6 @@ class UsersController extends Controller
                 $filters = ($model->filters) ? $model->filters : new \frontend\models\UserFilters;
                 $images = ($model->images) ? $model->images : new \frontend\models\UserImages;
                 $notifications = $model->userNotifications;
-                $notificationsSms = $model->userNotificationsSms;
 
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -275,11 +277,10 @@ class UsersController extends Controller
 
             if($model) {               
                 
-                $details = $model->userDetails;
-                $filters = ($model->userFilters) ? $model->userFilters : new \frontend\models\UserFilters;
-                $images = $model->userImages;
+                $details = $model->details;
+                $filters = ($model->filters) ? $model->filters : new \frontend\models\UserFilters;
+                $images = $model->images;
                 $notifications = $model->userNotifications;
-                $notificationsSms = $model->userNotificationsSms;
 
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);

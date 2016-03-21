@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 
-
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Presentations */
 
@@ -12,7 +11,7 @@ $this->params['service'] = $service;
 $this->params['object_model'] = $object_model;
 $this->params['presentation'] = $model;
 ?>
-<?php // $this->render('_steps.php', ['service'=>$service]) ?>
+<?= $this->render('_steps.php', ['service'=>$service]) ?>
 <div class="presentations-create">
     <?= $this->render('_form', [
     	'service' => $service,
@@ -25,5 +24,4 @@ $this->params['presentation'] = $model;
         'location'=> $location,
         'user' => $user,
     ]) ?>
-
 </div>

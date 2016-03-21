@@ -11,6 +11,7 @@ $this->title = 'Porudžbine';
 $this->params['breadcrumbs'][] = ['label' => $model->username, 'url' => [$model->username.'/home']];
 $this->params['breadcrumbs'][] = ['label' => 'Vaše poslovanje', 'url' => [$model->username.'/orders']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['user'] = $user;
 
 ?>
 <div class="title_holder_home">

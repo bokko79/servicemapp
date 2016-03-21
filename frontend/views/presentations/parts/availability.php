@@ -23,7 +23,7 @@ $message = 'Kada pružate ovu uslugu. Ukoliko imate određeno radno vreme u okvi
 <div class="wrapper body fadeIn animated" style="border-top:none;" id="sections10">
     <?= $this->render('../_hint.php', ['message'=>$message]) ?>
     <div class="form-group">
-		<?= $form->field($model, 'availability')->radioButtonGroup($data, ['class'=>'btn-group btn-group-justified']) ?>
+		<?= $form->field($model, 'availability')->radioButtonGroup($data, ['class'=>'btn-group', 'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info']]]) ?>
     </div>
     <div class="enter_dates fadeIn animated" style="margin-top:30px; display:none;">
 	    <div class="form-group kv-fieldset-inline">

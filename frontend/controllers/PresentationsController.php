@@ -109,9 +109,10 @@ class PresentationsController extends Controller
                 $model = new Presentations(); // new presentation
                 $model->service = $service; 
                 $model->object_models = $object_model;               
-                $model_methods = $this->loadPresentationMethods($service); // array of new presentationMethods
-                $model_specs = $this->loadPresentationSpecifications($service, $object_model); // array of new presentationSpecs
+                $model_methods = $model->loadPresentationMethods($service); // array of new presentationMethods
+                $model_specs = $model->loadPresentationSpecifications($service, $object_model); // array of new presentationSpecs
                 $location = new Locations(); // new location
+                $location->scenario = Locations::SCENARIO_PRESENTATION;
                 $location->control = $service->location;
                 $location->userControl = (Yii::$app->user->isGuest) ? 0 : 1;
                 $new_provider = ($user==null) ? Yii::createObject(RegistrationProviderForm::className()) : null;  // register provider
@@ -129,10 +130,9 @@ class PresentationsController extends Controller
                             }
                         }
                         if($proserv = $ps['id']==null ? $this->saveProviderService($user, $service) : $this->findProviderService($ps['id'])){
-                            if($this->savePresentation($model, $user, $service, $object_model, $location, $proserv, $checkPresenter, $model_specs, $model_methods)){
-                                
+                            if($this->savePresentation($model, $user, $service, $object_model, $location, $proserv, $checkPresenter, $model_specs, $model_methods)){                                
                                 return $checkPresenter!=null ? $this->redirect(['/blank']) : $this->redirect(['/presentation/'.$model->id]);
-                            }   
+                            }
                         }                         
                     } else {
                         return $this->goBack();
@@ -173,10 +173,10 @@ class PresentationsController extends Controller
         $user = $model->user;
         $location = $model->locations[0]->location;
         if($model_methods = $model->methods){
-            $this->loadPresentationMethodsUpdate($model_methods, $model);
+            $model->loadPresentationMethodsUpdate($model_methods);
         }            
         if($model_specs = $model->specs){
-            $this->loadPresentationSpecificationsUpdate($model_specs, $model);
+            $model->loadPresentationSpecificationsUpdate($model_specs);
         }
         if ($model->load(Yii::$app->request->post()) && $this->updatePresentation($model, $user, $location, $model_specs, $model_methods)) {
             return $this->redirect(['/presentation/'.$model->id]);
@@ -272,131 +272,7 @@ class PresentationsController extends Controller
         }
     }
 
-    protected function checkUserObjectsExist($service, $object_model)
-    {
-        if(!Yii::$app->user->isGuest && $object_model && count($object_model)==1){
-            $user = \frontend\models\User::findOne(Yii::$app->user->id);
-            if($user->userObjects){
-                foreach ($user->userObjects as $userObject){
-                    if($userObject->object_id==$service->object_id || $userObject->object_id==$object_model[0]->id){
-                        $userObjects[] = $userObject;
-                    }
-                }
-                return (isset($userObjects)) ? $userObjects : null;
-            } else {
-                return false;
-            }            
-        } else {
-            return false;
-        }        
-    }
-
-    /**
-     * Izlistava sve specifikacije izabranih predmeta usluga i modela predmeta.
-     */
-    protected function objectSpecifications($service, $object_model)
-    {
-        if($object_model!=null || $service->serviceSpecs!=null) {
-            if($service->serviceSpecs!=null){
-               foreach($service->serviceSpecs as $serviceSpec) {
-                    if($serviceSpec->spec) {
-                        $objectSpecification[] = $serviceSpec->spec;
-                    }           
-                } 
-            }
-            if($service->object->isPart() && $service->object->parent->specs){
-               foreach($service->object->parent->specs as $parentSpec) {
-                    if($parentSpec) {
-                        $objectSpecification[] = $parentSpec;
-                    }           
-                } 
-            }
-            if($object_model!=null && count($object_model)==1){                
-                $object = \frontend\models\CsObjects::findOne($object_model[0]->id);
-                if ($object) {
-                    if ($object->specs) {
-                        foreach($object->specs as $objectSpec) {
-                            if(!in_array($objectSpec, $objectSpecification)){ 
-                                $objectSpecification[] = $objectSpec;                               
-                            }                                   
-                        }
-                    }           
-                }               
-            }          
-        } 
-        return (isset($objectSpecification)) ? $objectSpecification : null;
-    }
-
-    /**
-     * Kreira Modele PresentationSpecs za sve izabrane specifikacije.
-     */
-    protected function loadPresentationSpecifications($service, $object_model)
-    {
-        if($objectSpecs = $this->objectSpecifications($service, $object_model)){
-            foreach($objectSpecs as $objectSpec) {
-                if($objectSpec->property) {
-                    $property = $objectSpec->property;
-                    $model_spec[$property->id] = new PresentationSpecs();
-                    $model_spec[$property->id]->specification = $objectSpec;
-                    $model_spec[$property->id]->property = $property;
-                    $model_spec[$property->id]->service = $service;
-                    $model_spec[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_model)) ? 0 : 1;
-                }                                   
-            }
-            return (isset($model_spec)) ? $model_spec : null;
-        }
-        return null;        
-    }
-
-    /**
-     * Kreira Modele PresentationSpecs za sve izabrane specifikacije.
-     */
-    protected function loadPresentationSpecificationsUpdate($model_specs, $model)
-    {
-        if($model_specs && $model){
-            foreach($model_specs as $model_spec){
-                $property = $model_spec->spec->property;
-                $model_spec->specification = $model_spec->spec;
-                $model_spec->property = $property;
-                $model_spec->service = $model->pService;
-                $model_spec->checkUserObject = ($this->checkUserObjectsExist($model->pService, $model->objectModel)) ? 0 : 1;
-            }
-            return $model_specs;
-        }
-        return null;        
-    }
-
-    protected function loadPresentationMethods($service)
-    {
-        if($service->serviceMethods!=null) {
-            foreach($service->serviceMethods as $serviceMethod) {
-                if($serviceMethod->method) {
-                    if($property = $serviceMethod->method->property) { 
-                        $model_methods[$property->id] = new \frontend\models\PresentationMethods();
-                        $model_methods[$property->id]->serviceMethod = $serviceMethod->method;
-                        $model_methods[$property->id]->property = $property;
-                        $model_methods[$property->id]->service = $service;
-                    }
-                }           
-            }
-            return (isset($model_methods)) ? $model_methods : null;
-        }
-        return null;
-    }
-
-    protected function loadPresentationMethodsUpdate($model_methods, $model)
-    {
-        if($model_methods && $model) {
-            foreach($model_methods as $model_method){
-                $property = $model_method->method->property;
-                $model_method->serviceMethod = $model_method->method;
-                $model_method->property = $property;
-                $model_method->service = $model->pService;
-            }
-            return $model_methods;
-        }
-        return null;
-    }
+          
 
     protected function saveProviderService($user=null, $service=null)
     {
@@ -494,24 +370,35 @@ class PresentationsController extends Controller
                     $model->service_id = $service->id;
                     $model->object_id = $service->object->id;
                     $model->object_model_id = ($object_model && count($object_model)==1) ? $object_model[0]->id : null;     
-                    $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');               
+                    $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+                    $model->status = $checkPresenter ? 'pending' : 'active';               
                     // location
                     // 1 ako je register, onda nova lokacija, iz registracije $model->loc_id = $user->details->loc_id;
                     // 2 ako je izabrao samo, onda loc_id $model->load(...)
                     // 3 ako je nova lokacija onda location $model->loc_id = $location->id;
                     if($checkPresenter==null){
-                        if($location->load(Yii::$app->request->post())){ // 3
-                            $location->user_id = $user->id;
+                        if($location->load(Yii::$app->request->post()) && $location->validate()){ // 3
+                            $location->user_id = $user->id;                           
                             if($location->save()){
                                 $model->loc_id = $location->id;
-                            } else {
-                                return false;
+                                // Presentation Locations
+                                $model_locations = new PresentationLocations();
+                                $model_locations->presentation_id = $model->id;
+                                $model_locations->location_id = $location->id;
+                                $model_locations->location_within = $model->loc_within;
+                                $model_locations->save();
+                            }else {
+                                echo '<pre>';
+                                print_r($model->loc_id); die();
                             }
+                        } else {
+                            echo '<pre>';
+                            print_r($location); die();
                         }
                     } else { // 1 ako je register
                         $model->loc_id = $user->details->loc_id;
                     }
-                    $model->status = $checkPresenter ? 'pending' : 'active';
+                    
                     if($model->save()){
                         // Presentation Specs
                         if($model_specs){
@@ -632,14 +519,7 @@ class PresentationsController extends Controller
                                 $model_issue->issue = $issue;
                                 $model_issue->save();
                             }
-                        }
-
-                        // Presentation Locations
-                        $model_locations = new PresentationLocations();
-                        $model_locations->presentation_id = $model->id;
-                        $model_locations->location_id = $model->loc_id;
-                        $model_locations->location_within = $model->loc_within;
-                        $model_locations->save();
+                        }                       
 
                         return true; 
                     }

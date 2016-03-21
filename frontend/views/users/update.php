@@ -10,6 +10,7 @@ $this->title = 'Podešavanje profila';
 $this->params['breadcrumbs'][] = ['label' => $model->username, 'url' => [$model->username.'/home']];
 $this->params['breadcrumbs'][] = ['label' => 'Podešavanja', 'url' => [$model->username.'/home']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['user'] = $user;
 
 $pageDescription = '<p style="font-size:12px; line-height:14px; margin:10px;">'.Yii::t('app', 'Lista mojih sačuvanih predmeta usluga i njihove karakteristike. Klikom na dugme desno "dodaj/izbaci predmet" pređite na stranicu za izbor i izaberite predmet.').'</p>';
 $this->pageTitle = [

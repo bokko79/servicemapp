@@ -117,4 +117,42 @@ class PresentationSpecs extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PresentationSpecModels::className(), ['presentation_spec_id' => 'id']);
     }
+
+    /**
+     * Izlistava sve specifikacije izabranih predmeta usluga i modela predmeta.
+     */
+    public function objectSpecifications()
+    {
+        $content = '';
+        if($spcf_models = $this->models or $this->value){
+            $content .= '<tr><td style="width:30%; vertical-align:top; color:#999">'.c($this->spec->property->tName).'</td><td>';
+            if($spcf_models){   
+                $content .= '<ul class="column2">'; 
+                foreach($model->object->specs as $ob_spec){
+                    $chk = [];                  
+                    foreach($spcf_models as $spcf_model){
+                        if($spcf_model->id==$ob_spec->id){
+                            $chk[] = $spec_model->id;
+                            break;
+                        }                                       
+                    }               
+                }
+                foreach($model->object->specs as $ob_spec){
+                    if(in_array($ob_spec->id, $chk)){
+                        $content .= '<li><b><i class="fa fa-check"></i> '.c($ob_spec->property->model->tName).'</b></li>';  
+                    } else {
+                        $content .= '<li><b><i class="fa fa-times"></i> '.c($ob_spec->property->model->tName).'</b></li>';  
+                    }                                       
+                }                                   
+                $content .= '</ul>';
+            } else {
+                if($this->value){
+                    $content .= '<b>'.($this->value_operator=='exact' ? null : $this->value_operator).' ' .$this->value . ($presenation_spec->spec->property->unit ? ' '.$this->spec->property->unit->oznaka : null). '</b>';
+                }           
+            }
+
+            $content .= '</td></tr>';
+        }
+        return $content;
+    }
 }

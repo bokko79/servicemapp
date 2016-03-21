@@ -86,7 +86,7 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getType()
+    public function getOType()
     {
         return $this->hasOne(CsObjectTypes::className(), ['id' => 'object_type_id']);
     }

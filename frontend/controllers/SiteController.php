@@ -87,7 +87,7 @@ class SiteController extends Controller
         $this->layout = '//settings';
 
         $user = \frontend\models\User::findOne(Yii::$app->user->id);
-        $role = $user->userDetails->role;
+        $role = $user->details->role;
 
         return $this->render('membership', [
                 'role' => $role,
@@ -224,7 +224,7 @@ class SiteController extends Controller
      */
     public function actionDeposit()
     {
-        $this->layout = '//finances';
+        $this->layout = '//blank';
 
         return $this->render('deposit');
     }
@@ -236,7 +236,7 @@ class SiteController extends Controller
      */
     public function actionWithdraw()
     {
-        $this->layout = '//finances';
+        $this->layout = '//blank';
 
         return $this->render('withdraw');
     }

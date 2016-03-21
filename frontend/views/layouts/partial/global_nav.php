@@ -47,8 +47,8 @@ use yii\helpers\Url;
 	</li>
 	<?php if(Yii::$app->controller->id!='services' or Yii::$app->controller->action->id!='index'): ?>
 	<li class="search_icon" style="float:right;">
-		<a href="#" onclick="return false" class="careted"><i class="fa fa-search"></i></a>
-		<div class="subnav-fixed search">
+		<a href="#" onclick="return false" class="careted animated slideInDown"><i class="fa fa-search"></i></a>
+		<div class="subnav-fixed search animated fadeIn">
 			<div class="container">
 				<div class="content">
 					<?= $this->render('autocomplete.php', ['renderIndex'=>false]) ?>					

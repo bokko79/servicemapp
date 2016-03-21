@@ -15,7 +15,7 @@ $session = Yii::$app->session;
     	</div>
     	<div class="title">
     		<div class="head grand"><?= c($object->tName) ?> <?= ($object->parent) ? '<span class="head major thin">['.c($object->parent->tName).']</span>' : null ?></div>
-	        <div class="subhead"><?= c($object->type->tName) ?> <i class="fa fa-caret-right"></i> <?= c($object->type->class->tName) ?></div>
+	        <div class="subhead"><?= c($object->oType->tName) ?> <i class="fa fa-caret-right"></i> <?= c($object->oType->class->tName) ?></div>
     	</div>	        
     </div>
     <div class="secondary-context overflow-hidden avatar-padded">
@@ -49,7 +49,7 @@ $session = Yii::$app->session;
 				                'style'=>'', 
 				                'data'=>[
 				                    'method' => 'get',
-				                    'params'=>['ProviderServices[object_model]'=>$object->id, 'ProviderServices[service_id]'=>$model->id, 'ProviderServices[id]'=>null],
+				                    'params'=>['ProviderServices[object_model][]'=>$object->id, 'ProviderServices[service_id]'=>$model->id, 'ProviderServices[id]'=>null],
 				                ]
 				            ]) ?>
 				        <?php endif; ?>

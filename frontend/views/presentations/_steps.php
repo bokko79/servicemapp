@@ -5,17 +5,10 @@ use yii\helpers\Url;
 
 $link_2 = null;
 $link_3 = null;
+$activity2 = 'active';
+$activity3 = 'next';
 
 
-
-if (Yii::$app->controller->action->id=='add') {
-	$activity2 = 'active';
-	$activity3 = 'next';
-
-} elseif (Yii::$app->controller->action->id=='create') {
-	$activity2 = 'passed';
-	$activity3 = 'active';		
-}	
 ?>
 
 <table class="shopping_steps">
@@ -38,7 +31,7 @@ if (Yii::$app->controller->action->id=='add') {
 								</tr>
 								<tr>
 									<td class="sub">
-										<?= Yii::t('app', 'Choose a service you need done within an industry.') ?>
+										<?= Yii::t('app', 'Choose a service within an industry you are in.') ?>
 									</td>
 								</tr>
 							</table>									
@@ -56,15 +49,13 @@ if (Yii::$app->controller->action->id=='add') {
 				<table>
 					<tr>
 						<td class="icon">
-							<span class="icon_now">2</span>
-							<span class="icon_check"><i class="fa fa-check animated fadeIn"></i></span>	
-							<span class="icon_back"><i class="fa fa-arrow-circle-left animated fadeIn"></i></span>
+							<span class="icon_now"><i class="fa fa-flag-o animated fadeIn"></i></span>
 						</td>
 						<td class="content">
 							<table>
 								<tr>
 									<td class="main">										
-										<?= Yii::t('app', 'Opišite') ?>									
+										<?= Yii::t('app', 'Predstavite') ?>									
 									</td>
 								</tr>
 								<tr>
@@ -82,15 +73,15 @@ if (Yii::$app->controller->action->id=='add') {
 			<table>
 				<tr>
 					<td class="icon">
-						<span class="icon_now">3</span>
-						<span class="icon_later">3</span>
-						<span class="icon_end">3</span>
+						<span class="icon_now"><i class="fa fa-usd animated fadeIn"></i></span>
+						<span class="icon_later"><i class="fa fa-usd animated fadeIn"></i></span>
+						<span class="icon_end"><i class="fa fa-usd animated fadeIn"></i></span>
 					</td>
 					<td class="content">
 						<table>
 							<tr>
 								<td class="main">										
-									<?= Yii::t('app', 'Poručite') ?>									
+									<?= Yii::t('app', 'Zaradite') ?>									
 								</td>
 							</tr>
 							<tr>

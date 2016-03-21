@@ -32,7 +32,7 @@ $message = 'Jedna slika vredi više od hiljadu reči. Pokažite pružaocima uslu
 		}
 		echo '</div>';
 	} ?>
-<?php if($user && $user->provider->presWithSameObject($object->id)!=null){ ?>    
+<?php if($user && $user->provider->presWithSameObject($object->id)!=null && $service->service_object!=1){ ?>    
     <?= $form->field($model, 'provider_presentation_pics', [
             'feedbackIcon' => [
                 'success' => 'ok',
@@ -53,7 +53,7 @@ $message = 'Jedna slika vredi više od hiljadu reči. Pokažite pružaocima uslu
         <div class="col-md-offset-3 col-md-9">                 
             <h4 class="divider horizontal"><i class="fa fa-sort"></i> ILI</h4>
             <div class="center" style="margin:30px 0 20px">
-                <?= Html::a('<i class="fa fa-plus-circle"></i> Opišite novi '.$object->tName, null, ['class'=>'btn btn-default new_pres_pics']) ?>
+                <?= Html::a('<i class="fa fa-plus-circle"></i> Prikačite nove slike '.$object->tNameGen, null, ['class'=>'btn btn-warning shadow new_pres_pics']) ?>
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@ $message = 'Jedna slika vredi više od hiljadu reči. Pokažite pružaocima uslu
 					    	'showCaption' => false,
 					        //'showRemove' => false,
 					        'showUpload' => false,
-					        'browseClass' => 'btn btn-primary',
+					        'browseClass' => 'btn btn-info shadow',
 					        'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
 					        'browseLabel' =>  Yii::t('app', 'Izaberite slike'),
 					        'removeLabel' =>  Yii::t('app', 'Izbaci'),
@@ -77,7 +77,7 @@ $message = 'Jedna slika vredi više od hiljadu reči. Pokažite pružaocima uslu
 					    ]
 					]) ?>
 <?php
-if($user && $user->provider->presWithSameObject($object->id)!=null){ ?>
+if($user && $user->provider->presWithSameObject($object->id)!=null && $service->service_object!=1){ ?>
     </div>
 <?php } ?>
 <?= $this->render('_submitButton.php') ?>

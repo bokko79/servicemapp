@@ -50,7 +50,7 @@ $model_list = ArrayHelper::map($rel_obj->issues, 'issue', 'issue');
     	<label class="control-label col-md-3" for="presentations-name">Ostali problemi</label>
 	    <div class="col-sm-9">
 		    <div class="input_object_syn_wrap" style="margin-bottom:10px;">
-				<span class="add_object_syn_button  overflow-hidden"><?= Html::a('<i class="fa fa-plus-circle"></i> Dodaj novi problem', null, ['class'=>'btn btn-default', 'style'=>'margin:10px 0']) ?></span>
+				<span class="add_object_syn_button center overflow-hidden"><?= Html::a('<i class="fa fa-plus-circle"></i> Dodaj novi problem', null, ['class'=>'btn btn-info shadow', 'style'=>'margin:10px 0']) ?></span>
 			</div>
 		</div>
     </div>

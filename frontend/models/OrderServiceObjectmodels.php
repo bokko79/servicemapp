@@ -5,21 +5,21 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "order_service_objectmodels".
+ * This is the model class for table "order_service_object_models".
  *
  * @property string $id
  * @property string $order_service_id
  * @property integer $object_id
  * @property string $description
  */
-class OrderServiceObjectmodels extends \yii\db\ActiveRecord
+class OrderServiceObjectModels extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'order_service_objectmodels';
+        return 'order_service_object_models';
     }
 
     /**

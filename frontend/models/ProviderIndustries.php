@@ -37,6 +37,8 @@ class ProviderIndustries extends \yii\db\ActiveRecord
         return [
             [['provider_id', 'industry_id'], 'required'],
             [['selection'] , 'safe'],
+            [['coverage'] , 'string'],
+            [['coverage_within'] , 'number'],
             [['provider_id', 'industry_id', 'main'], 'integer'],
             [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Provider::className(), 'targetAttribute' => ['provider_id' => 'id']],
             [['industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsIndustries::className(), 'targetAttribute' => ['industry_id' => 'id']],
@@ -53,6 +55,8 @@ class ProviderIndustries extends \yii\db\ActiveRecord
             'provider_id' => 'Provider ID',
             'industry_id' => 'Industry ID',
             'main' => 'Main',
+            'coverage' => 'Pokrivenost',
+            'coverage_within' => 'Radijus pokriventosti',
         ];
     }
 
@@ -86,5 +90,13 @@ class ProviderIndustries extends \yii\db\ActiveRecord
     public function getServices()
     {
         return $this->hasMany(ProviderServices::className(), ['provider_industry_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTerms()
+    {
+        return $this->hasOne(ProviderIndustryTerms::className(), ['provider_industry_id' => 'id']);
     }
 }

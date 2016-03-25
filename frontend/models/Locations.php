@@ -74,6 +74,7 @@ class Locations extends \yii\db\ActiveRecord
             [['name'], 'safe'],
             [['country', 'state', 'district', 'city', 'mz', 'street'], 'string', 'max' => 64],
             [['no'], 'string', 'max' => 4],
+            [['buzzer'], 'string', 'max' => 32],
             [['location_name'], 'string', 'max' => 128],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -110,6 +111,7 @@ class Locations extends \yii\db\ActiveRecord
             'no' => 'Broj',
             'floor' => 'Sprat',
             'apt' => 'Stan',
+            'buzzer' => 'Interfon',
             'lat' => 'Lat',
             'lng' => 'Lng',
             'location_name' => 'Ime Lokacije',
@@ -154,22 +156,6 @@ class Locations extends \yii\db\ActiveRecord
     public function getPresentations()
     {
         return $this->hasMany(Presentations::className(), ['loc_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPresentationLocationss()
-    {
-        return $this->hasMany(PresentationLocations::className(), ['location_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderLocations()
-    {
-        return $this->hasMany(ProviderLocations::className(), ['loc_id' => 'id']);
     }
 
     /**

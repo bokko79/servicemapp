@@ -45,6 +45,7 @@ class PresentationSpecs extends \yii\db\ActiveRecord
             [['presentation_id', 'spec_id'], 'required'],
             [['presentation_id', 'spec_id'], 'integer'],
             [['value_operator'], 'string'],
+            [['multiple_values', 'read_only'], 'boolean'],
             [['spec_models'], 'safe'],
             [['value', 'value_max'], 'string', 'max' => 32],
             [['spec_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsSpecs::className(), 'targetAttribute' => ['spec_id' => 'id']],

@@ -104,7 +104,7 @@ class PresentationsController extends Controller
                     foreach ($ps['object_model'] as $pso){
                         $object_model[] = $this->findObjectModel($pso);
                     }
-                }                
+                }
                 $user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // presenter
                 $model = new Presentations(); // new presentation
                 $model->service = $service; 
@@ -115,6 +115,10 @@ class PresentationsController extends Controller
                 $location->scenario = Locations::SCENARIO_PRESENTATION;
                 $location->control = $service->location;
                 $location->userControl = (Yii::$app->user->isGuest) ? 0 : 1;
+                $location2 = new Locations(); // new location
+                $location2->scenario = Locations::SCENARIO_PRESENTATION;
+                $location2->control = $service->location;
+                $location2->userControl = (Yii::$app->user->isGuest) ? 0 : 1;
                 $new_provider = ($user==null) ? Yii::createObject(RegistrationProviderForm::className()) : null;  // register provider
                 $returning_user = ($user==null) ? Yii::createObject(LoginForm::className()) : null; // login existing user
                 if($user==null){
@@ -147,6 +151,7 @@ class PresentationsController extends Controller
                         'new_provider' => $new_provider,
                         'returning_user' => $returning_user,
                         'location'=> $location,
+                        'location2'=> $location2,
                         'user' => $user,
                     ]);
                 }                
@@ -350,7 +355,7 @@ class PresentationsController extends Controller
             $user = \frontend\models\User::findOne(Yii::$app->user->id);
         }
 
-        if($user != null){
+        if($user!=null){
             return $user;
         }
         return false;

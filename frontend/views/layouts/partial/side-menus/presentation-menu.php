@@ -45,10 +45,12 @@ if($service->availability!=0):
 endif;
 // 11 OTHER
 	$menuItems[] = ['label' => $model->noOther.'. '. 'Ostala podešavanja <span class="check11 float-right"><i class="fa"></i></span>', 'url' => '#other', 'options'=>[]];
+if(Yii::$app->controller->action=='update'):
 // 12 NOTIFICATIONS
 	$menuItems[] = ['label' => $model->noNotifications.'. '. 'Notifikacije <span class="check12 float-right"><i class="fa"></i></span>', 'url' => '#notifications', 'options'=>[]];
 // 13 TERMS
 	$menuItems[] = ['label' => $model->noTerms.'. '. 'Uslovi izvršenja <span class="check13 float-right"><i class="fa"></i></span>', 'url' => '#terms', 'options'=>[]];
+endif;
 // 14 LOGIN/REGISTER
 if(Yii::$app->user->isGuest):
 	$menuItems[] = ['label' => $model->noUac.'. '. 'Vaši podaci <span class="check14 float-right"><i class="fa"></i></span>', 'url' => '#uac', 'options'=>[]];

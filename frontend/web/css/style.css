@@ -136,7 +136,7 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 .red {color:red !important;}
 .muted {color:#999}
 
-.hint, .disabled {opacity:.4;}
+.hint, .disabled {color: #888;}
 
 .overflow-hidden {overflow: hidden;}
 .drop-shadow {box-shadow: 1px 1px 4px #ccc;}
@@ -251,6 +251,7 @@ strong {font-weight:700}
 /* lists */
 li ol, li ul {margin:0}
 ul {list-style-type:none}
+ul.disc {list-style-type:disc}
 
 .navpro-tabs:after,.navpro-tabs:before{display:table;line-height:0;content:""}
 .navpro-tabs:after{clear:both}

@@ -1,1 +1,1 @@
-<p class="hint-text"><i class="fa fa-info-circle"></i> <?= $message ?></p>
+<p class="hint-text col-sm-offset-1"><i class="fa fa-info-circle"></i> <?= $message ?></p>

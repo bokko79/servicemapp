@@ -5,7 +5,7 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "provider_term_milestones".
+ * This is the model class for table "presentation_term_milestones".
  *
  * @property string $id
  * @property string $provider_term_id
@@ -14,14 +14,14 @@ use Yii;
  * @property string $amount
  * @property string $date
  */
-class ProviderTermMilestones extends \yii\db\ActiveRecord
+class PresentationTermMilestones extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'provider_term_milestones';
+        return 'presentation_term_milestones';
     }
 
     /**
@@ -30,8 +30,8 @@ class ProviderTermMilestones extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['provider_term_id', 'name'], 'required'],
-            [['provider_term_id', 'percentage'], 'integer'],
+            [['presentation_term_id', 'name'], 'required'],
+            [['presentation_term_id', 'percentage'], 'integer'],
             [['amount'], 'number'],
             [['date'], 'safe'],
             [['name'], 'string', 'max' => 40],
@@ -45,11 +45,19 @@ class ProviderTermMilestones extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'provider_term_id' => 'Provider Term ID',
+            'presentation_term_id' => 'Presentation Term ID',
             'name' => 'Name',
             'percentage' => 'Percentage',
             'amount' => 'Amount',
             'date' => 'Date',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationTerm()
+    {
+        return $this->hasOne(PresentationTerms::className(), ['presentation_id' => 'presentation_term_id']);
     }
 }

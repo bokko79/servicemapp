@@ -32,6 +32,7 @@ class PresentationImages extends \yii\db\ActiveRecord
         return [
             [['presentation_id', 'image_id'], 'required'],
             [['presentation_id', 'image_id'], 'integer'],
+            [['type'], 'string'],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],
             [['presentation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Presentations::className(), 'targetAttribute' => ['presentation_id' => 'id']],
         ];

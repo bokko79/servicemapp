@@ -47,6 +47,7 @@ function close_search() {
   $('li.search_icon .subnav-fixed.search').slideUp();
   $('.close_search').hide();
 }
+
 $(document).ready(function(){
   $(".search-index").click(function(){
       $(this).closest('.title_holder_home').find('.user-objects-search').toggle();
@@ -202,6 +203,7 @@ $(document).ready(function(){
     $(".pres-pics-plaza").show().load('/showThemPics?id=' + $(this).val());
   });
 
+  // presentation issues
   var max_fields      = 10; //maximum input boxes allowed
   var wrapper         = $(".input_object_syn_wrap"); //Fields wrapper
   var add_button      = $(".add_object_syn_button"); //Add button ID
@@ -214,11 +216,46 @@ $(document).ready(function(){
           $(this).closest(wrapper).append('<div class=" margin-bottom-15 animated fadeInDown"><input type="text" name="Presentations[issues][]" class="form-control float-left" style="width:70%;" /><a href="#" class="remove_field btn btn-link"> <i class="fa fa-minus-circle"></i> Izbaci</a></div>'); //add input box
           
       }
-  });
-  
+  });  
   $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
       e.preventDefault(); $(this).parent('div').remove(); x--;
-  })
+  });
+
+  // presentation price
+  
+  $("#presentations-price, #presentations-currency_id, #presentations-price_per").on('change', function(){
+    var price = $("#presentations-price").val(),
+      currency = $("#presentations-currency_id").children("option:selected").text(),
+      price_per = $("#presentations-price_per").children("option:selected").text(),
+      provision = $("#user_provision_value").val();
+    if(price && currency && price_per){
+      $('.calculated_provision_price').show();
+      $('.provision').html((price*provision/100).toFixed(2) + ' ' + currency + ' ' + price_per);
+      $('.currperunit').html(currency + (price_per=='ukupno' ? '' : price_per));
+    }
+  });
+
+  $('input#presentations-qtypriceconst').on('switchChange.bootstrapSwitch', function(event, state) {
+    if(state){
+      $('.quantity_constraints').show();
+    } else {
+      $('.quantity_constraints').hide();
+      $('.quantity_constraints').find('input').each(function(){
+        $(this).val('');
+      });
+    }
+  });
+
+  $('input#presentations-consumerpriceconst').on('switchChange.bootstrapSwitch', function(event, state) {
+    if(state){
+      $('.consumer_constraints').show();
+    } else {
+      $('.consumer_constraints').hide();
+      $('.consumer_constraints').find('input').each(function(){
+        $(this).val('');
+      });
+    }
+  });
 
   // load modal contents
   $('#provider-industries').on("show.bs.modal", function(e) {

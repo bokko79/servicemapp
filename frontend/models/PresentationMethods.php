@@ -40,6 +40,7 @@ class PresentationMethods extends \yii\db\ActiveRecord
             [['presentation_id', 'method_id'], 'required'],
             [['presentation_id', 'method_id'], 'integer'],
             [['value_operator'], 'string'],
+            [['multiple_values', 'read_only'], 'boolean'],
             [['value', 'value_max'], 'string', 'max' => 64],
             [['method_models'], 'safe'],
             [['method_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsMethods::className(), 'targetAttribute' => ['method_id' => 'id']],

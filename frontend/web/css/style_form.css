@@ -16,7 +16,7 @@
 .settings .wrapper.notshown {display: none;}
 .settings .wrapper.plaza {border-top: none; padding-bottom: 0;}
 
-.settings .wrapper p.hint-text {font-size:13px !important;color:#888 !important; padding: 0 0 20px 80px;}
+.settings .wrapper p.hint-text {font-size:13px !important;color:#888 !important; /*padding: 0 0 20px 80px;*/}
 .settings .wrapper p.hint-text:before  {}
 
 .settings textarea:focus, .settings input[type="text"]:focus, .settings input[type="datetime"]:focus, .settings input[type="number"]:focus { border: 1px solid #2196F3; box-shadow: 0 0 5px #82B1FF; -moz-box-shadow: 0 0 5px #82B1FF;}

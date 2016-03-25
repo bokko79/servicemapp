@@ -5,23 +5,23 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "provider_term_expenses".
+ * This is the model class for table "presentation_term_expenses".
  *
  * @property string $id
- * @property string $provider_term_id
+ * @property string $presentation_term_id
  * @property string $expense
  * @property string $expense_name
  * @property string $payable_by
  * @property string $amount
  */
-class ProviderTermExpenses extends \yii\db\ActiveRecord
+class PresentationTermExpenses extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'provider_term_expenses';
+        return 'presentation_term_expenses';
     }
 
     /**
@@ -30,8 +30,8 @@ class ProviderTermExpenses extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['provider_term_id', 'expense_name'], 'required'],
-            [['provider_term_id'], 'integer'],
+            [['presentation_term_id', 'expense_name'], 'required'],
+            [['presentation_term_id'], 'integer'],
             [['expense', 'payable_by'], 'string'],
             [['amount'], 'number'],
             [['expense_name'], 'string', 'max' => 40],
@@ -45,11 +45,19 @@ class ProviderTermExpenses extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'provider_term_id' => 'Provider Term ID',
+            'presentation_term_id' => 'Presentation Term ID',
             'expense' => 'Expense',
             'expense_name' => 'Expense Name',
             'payable_by' => 'Payable By',
             'amount' => 'Amount',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationTerm()
+    {
+        return $this->hasOne(PresentationTerms::className(), ['presentation_id' => 'presentation_term_id']);
     }
 }

@@ -22,6 +22,7 @@ $this->params['presentation'] = $model;
         'new_provider' => $new_provider,
         'returning_user' => $returning_user,
         'location'=> $location,
+        'location2'=> $location2,
         'user' => $user,
     ]) ?>
 </div>

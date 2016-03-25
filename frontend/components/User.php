@@ -67,4 +67,20 @@ class User extends \yii\web\User
 
         return null;
     }
+
+    /**
+     * Returns a value that uniquely represents the user.
+     * @return string|integer the unique identifier for the user. If null, it means the user is a guest.
+     * @see getIdentity()
+     */
+    public function getRole()
+    {
+        $identity = $this->getIdentity();
+        if($identity !== null) {
+            $user = \frontend\models\User::findOne($identity->getId());
+            return ($user->details) ? $user->details->role : null;
+        }
+
+        return null;
+    }
 }

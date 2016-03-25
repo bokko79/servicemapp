@@ -188,14 +188,6 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getLocations()
-    {
-        return $this->hasMany(ProviderLocations::className(), ['provider_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPortfolio()
     {
         return $this->hasOne(ProviderPortfolio::className(), ['provider_id' => 'id']);

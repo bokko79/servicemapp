@@ -113,7 +113,7 @@ class OrderServices extends \yii\db\ActiveRecord
      */
     public function getObjectModels()
     {
-        return $this->hasMany(OrderServiceObjectmodels::className(), ['order_service_id' => 'id']);
+        return $this->hasMany(OrderServiceObjectModels::className(), ['order_service_id' => 'id']);
     }
 
     /**

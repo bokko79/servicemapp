@@ -17,31 +17,55 @@ use frontend\models\Offers;
  * @property string $provider_service_id
  * @property integer $service_id 
  * @property integer $object_id 
- * @property integer $object_model_id 
  * @property string $provider_id
- * @property string $loc_id
- * @property string $name
+ * @property string $youtube_link
+ * @property string $title
  * @property string $description
- * @property string $amount
- * @property string $amount_operator
- * @property integer $consumer
- * @property string $consumer_operator
- * @property integer $consumer_children
- * @property integer $frequency
- * @property string $frequency_unit
- * @property integer $duration
- * @property string $duration_operator
- * @property integer $duration_unit
+ * @property string $loc_id
+ * @property integer $loc_to_id
+ * @property string $coverage
+ * @property string $coverage_within
  * @property string $price
+ * @property string $price_per
+ * @property integer $price_unit
  * @property string $price_operator
  * @property integer $currency_id
  * @property integer $fixed_price
+ * @property integer $consumer_price
+ * @property integer $qtyPriceConst 
+ * @property integer $qtyMin 
+ * @property string $qtyMin_price 
+ * @property string $qtyMax 
+ * @property integer $qtyMax_percent 
+ * @property integer $consumerPriceConst 
+ * @property integer $consumerMin 
+ * @property string $consumerMin_price 
+ * @property string $consumerMax 
+ * @property integer $consumerMax_percent 
+ * @property integer $quantity_constraint
+ * @property string $quantity_min
+ * @property string $quantity_max
+ * @property integer $consumer_constraint
+ * @property integer $consumer_min
+ * @property integer $consumer_max
+ * @property string $valid_for_consumers
+ * @property string $time_availability
+ * @property integer $item_availability
+ * @property integer $item_count
+ * @property string $validity
+ * @property string $valid_from
+ * @property string $valid_through
+ * @property integer $duration
+ * @property string $duration_operator
+ * @property integer $duration_unit
  * @property integer $warranty
+ * @property string $request_type 
+ * @property integer $delivery_delay 
+ * @property string $delivery_delay_unit 
  * @property string $note
- * @property integer $on_sale
- * @property string $available_from 
- * @property string $available_until 
+ * @property integer $on_sale 
  * @property string $status
+ * @property string $update_time 
  *
  * @property PresentationImages[] $presentationImages
  * @property PresentationIssues[] $presentationIssues
@@ -63,6 +87,14 @@ class Presentations extends \yii\db\ActiveRecord
     public $issues = [];
     public $availability;
     public $location_input;
+    public $location_from;
+    public $location_to;
+    public $location_hq;
+
+    public $qtyConstMin;
+    public $qtyConstMax;
+    public $conumerConstMin;
+    public $conumerConstMax;
 
     public $provider_presentation_specs;
     public $provider_presentation_pics;
@@ -84,23 +116,23 @@ class Presentations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'provider_id', 'price'], 'required'],
-            [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'object_model_id', 'provider_id', 'loc_id', 'amount', 'consumer', 'consumer_children', 'frequency', 'duration', 'duration_unit', 'price', 'currency_id', 'fixed_price','consumer_price', 'warranty', 'availability', 'on_sale'], 'integer'],
-            [['description', 'amount_operator', 'consumer_operator', 'frequency_unit', 'duration_operator', 'price_operator', 'price_per', 'note', 'status'], 'string'],
-            [['available_from', 'available_until', 'availability'], 'safe'],
+            [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'provider_id'], 'required'],
+           [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'provider_id', 'loc_id', 'loc_to_id', 'price_unit', 'currency_id', 'fixed_price', 'consumer_price', 'qtyPriceConst', 'qtyMin', 'qtyMax', 'qtyMax_percent', 'consumerPriceConst', 'consumerMin', 'consumerMax', 'consumerMax_percent', 'quantity_constraint', 'quantity_min', 'quantity_max', 'consumer_constraint', 'consumer_min', 'consumer_max', 'item_availability', 'item_count', 'duration', 'duration_unit', 'warranty', 'delivery_delay', 'on_sale'], 'integer'],
+           [['description', 'coverage', 'price_per', 'price_operator', 'time_availability', 'validity', 'duration_operator', 'request_type', 'delivery_delay_unit', 'note', 'status'], 'string'],
+           [['coverage_within', 'price', 'qtyMin_price', 'consumerMin_price'], 'number'],
+           [['valid_from', 'valid_through', 'update_time'], 'safe'],
+           [['youtube_link'], 'string', 'max' => 128],
+           [['title', 'valid_for_consumers'], 'string', 'max' => 64],
+           [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activities::className(), 'targetAttribute' => ['activity_id' => 'id']],
+           [['offer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Offers::className(), 'targetAttribute' => ['offer_id' => 'id']],
+           [['provider_service_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProviderServices::className(), 'targetAttribute' => ['provider_service_id' => 'id']],
             //[['imageFiles'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg, gif', 'maxFiles' => 12, 'maxSize' => 1024*1024*20, 'tooMany'=>'Možete prikačiti najviše 8 fotografija.'],
             ['loc_id', 'required', 'when' => function ($model) {
                         return $model->location_input == '';
                     }, 'whenClient' => "function (attribute, value) {
                     return $('#presentation-location').val() == '';
             }"],
-            [['location_operational'], 'string'],
-            [['loc_within'], 'number'],
-            [['name'], 'string', 'max' => 64],
-            [['object_models', 'update_time', 'imageFiles', 'issues', 'location_input'], 'safe'],
-            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activities::className(), 'targetAttribute' => ['activity_id' => 'id']],
-            [['offer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Offers::className(), 'targetAttribute' => ['offer_id' => 'id']],
-            [['provider_service_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProviderServices::className(), 'targetAttribute' => ['provider_service_id' => 'id']],
+            [['imageFiles', 'issues', 'location_input'], 'safe'],
             //[['loc_id'], 'exist', 'skipOnError' => true, 'targetClass' => Locations::className(), 'targetAttribute' => ['loc_id' => 'id']],
             [['duration_unit'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['period_unit' => 'id']],
             [['currency_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsCurrencies::className(), 'targetAttribute' => ['currency_id' => 'id']],
@@ -127,36 +159,56 @@ class Presentations extends \yii\db\ActiveRecord
            'object_id' => Yii::t('app', 'Object ID'),
            'object_model_id' => Yii::t('app', 'Object Model ID'),
            'provider_id' => Yii::t('app', 'Provider ID'),
-           'loc_id' => Yii::t('app', 'Vaša sačuvana lokacija'),
-           'location_operational' => Yii::t('app', 'Područje delovanja'),
-           'loc_within' => Yii::t('app', 'U radijusu lokacije'),
-           'name' => Yii::t('app', 'Naslov ponude'),
-           'description' => Yii::t('app', 'Tesktualni opis ponude'),
-           'amount' => Yii::t('app', 'Količina'),
-           'amount_operator' => Yii::t('app', 'Amount Operator'),
-           'consumer' => Yii::t('app', 'Broj korisnika'),
-           'consumer_operator' => Yii::t('app', 'Consumer Operator'),
-           'consumer_children' => Yii::t('app', 'Broj dece'),
-           'frequency' => Yii::t('app', 'Učestalost'),
-           'frequency_unit' => Yii::t('app', 'Jedinica mere'),
+           'youtube_link' => Yii::t('app', 'Youtube Link'),
+           'loc_id' => Yii::t('app', 'Vaša sačuvana lokacija'),   
+           'loc_to_id' => Yii::t('app', 'Loc To ID'),           
+           'coverage' => Yii::t('app', 'Područje pokrivenosti'),
+           'coverage_within' => Yii::t('app', 'U radijusu lokacije'),
+           'title' => Yii::t('app', 'Naslov ponude'),
+           'description' => Yii::t('app', 'Tesktualni opis ponude'),           
            'duration' => Yii::t('app', 'Trajanje'),
            'duration_operator' => Yii::t('app', 'Duration Operator'),
            'duration_unit' => Yii::t('app', 'Duration Unit'),
            'price' => Yii::t('app', 'Cena'),
            'price_operator' => Yii::t('app', 'Price Operator'),
+           'price_unit' => Yii::t('app', 'Price Unit'),
            'currency_id' => Yii::t('app', 'Valuta'),
            'consumer_price' => Yii::t('app', 'Cena po osobi?'),
            'fixed_price' => Yii::t('app', 'Fiksna cena?'),
-           'warranty' => Yii::t('app', 'Garancije'),
+           'qtyPriceConst' => Yii::t('app', 'Korekcije cene za naručene količine?'),
+           'qtyMin' => Yii::t('app', 'Qty Min'),
+           'qtyMin_price' => Yii::t('app', 'Qty Min Price'),
+           'qtyMax' => Yii::t('app', 'Qty Max'),
+           'qtyMax_percent' => Yii::t('app', 'Qty Max Percent'),
+           'consumerPriceConst' => Yii::t('app', 'Korekcije cene za broj korisnika?'),
+           'consumerMin' => Yii::t('app', 'Consumer Min'),
+           'consumerMin_price' => Yii::t('app', 'Consumer Min Price'),
+           'consumerMax' => Yii::t('app', 'Consumer Max'),
+           'consumerMax_percent' => Yii::t('app', 'Consumer Max Percent'),
+           'quantity_constraint' => Yii::t('app', 'Korekcije cene za naručene količine?'),
+           'quantity_min' => Yii::t('app', 'Quantity Min'),
+           'quantity_max' => Yii::t('app', 'Quantity Max'),
+           'consumer_constraint' => Yii::t('app', 'Korekcije cene za broj korisnika?'),
+           'consumer_min' => Yii::t('app', 'Consumer Min'),
+           'consumer_max' => Yii::t('app', 'Consumer Max'),
+           'valid_for_consumers' => Yii::t('app', 'Valid For Consumers'),
+           'time_availability' => Yii::t('app', 'Time Availability'),
+           'item_availability' => Yii::t('app', 'Item Availability'),
+           'item_count' => Yii::t('app', 'Item Count'),
+           'validity' => Yii::t('app', 'Validity'),
+           'valid_from' => Yii::t('app', 'Valid From'),
+           'valid_through' => Yii::t('app', 'Valid Through'),
+           'warranty' => Yii::t('app', 'Warranty'),
+           'request_type' => Yii::t('app', 'Request Type'),
+           'delivery_delay' => Yii::t('app', 'Delivery Delay'),
+           'delivery_delay_unit' => Yii::t('app', 'Delivery Delay Unit'),           
+           'update_time' => Yii::t('app', 'Update Time'),
            'note' => Yii::t('app', 'Napomena'),
            'on_sale' => Yii::t('app', 'Na prodaju'),
-           'availability' => Yii::t('app', 'Dostupnost'),
-           'available_from' => Yii::t('app', 'Dostupnost'),
-           'available_until' => Yii::t('app', 'Dostupno do'),
            'status' => Yii::t('app', 'Status'),
            'provider_presentation_specs' => Yii::t('app', 'Sačuvane ponude'),
            'provider_presentation_pics' => Yii::t('app', 'Sačuvane ponude'),
-           'imageFiles' => Yii::t('app', 'Prikačite slike'),
+           'imageFiles' => Yii::t('app', 'Prikačite slike'),  
         ];
     }
 
@@ -270,18 +322,34 @@ class Presentations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getLocations()
+    public function getMethods()
     {
-        return $this->hasMany(PresentationLocations::className(), ['presentation_id' => 'id']);
+        return $this->hasMany(PresentationMethods::className(), ['presentation_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMethods()
+    public function getNotifications()
     {
-        return $this->hasMany(PresentationMethods::className(), ['presentation_id' => 'id']);
+        return $this->hasOne(PresentationNotifications::className(), ['presentation_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPricings()
+    {
+        return $this->hasMany(PresentationPricings::className(), ['presentation_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTimetables()
+    {
+        return $this->hasMany(PresentationTimetables::className(), ['presentation_id' => 'id']);
+    }    
 
     /**
      * @return \yii\db\ActiveQuery
@@ -342,6 +410,14 @@ class Presentations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTerms()
+    {
+        return $this->hasOne(PresentationTerms::className(), ['presentation_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPromotions()
     {
         return $this->hasMany(Promotions::className(), ['presentation_id' => 'id']);
@@ -394,7 +470,12 @@ class Presentations extends \yii\db\ActiveRecord
     public function checkIfAvailability()
     {
         return ($this->service->availability!=0) ? 0 : 1;
-    }    
+    } 
+
+    public function checkIfNotif()
+    {
+        return (Yii::$app->controller->action=='update') ? 0 : 2;
+    }   
 
     public function getNoPic()
     {
@@ -458,7 +539,7 @@ class Presentations extends \yii\db\ActiveRecord
 
     public function getNoUac()
     {
-        return 14-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability();
+        return 14-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability()-$this->checkIfNotif();
     }
 
     public function fotorama($options, $full=null)
@@ -547,6 +628,13 @@ class Presentations extends \yii\db\ActiveRecord
 
     public function locationOperatingModels()
     {
+        // 0-within
+        // 1-HQ
+        // 2-City (up to 20km)
+        // 3-Region (up to 200)
+        // 4-Country (up to 500 km)
+        // 5-Wide (up to 1000km)
+        // 6-Worldwide
         $service = $this->service;
         $model_list = [];
         if($service){
@@ -556,29 +644,31 @@ class Presentations extends \yii\db\ActiveRecord
                 break;
             case 3:
                 $model_list = [
-                    'country'=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
+                    '5'=>'<b><span class="loc_op_country"></span></b> i šire', 
+                    '4'=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
                     //'region'=>'Samo u okviru regiona <b><span class="loc_op_region"></span></b>', 
-                    'city'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
-                    'exact'=>'Samo na navedenoj lokaciji: <b><span class="loc_op_exact"></span></b>',
-                    'within'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                    '2'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    '1'=>'Samo u sedištu <b><span class="loc_op_exact"></span></b>',
+                    '0'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
                 ];
                 break;
             case 4:
                 $model_list = [
-                    'no_limit'=>'Bez ograničenja', 
-                    'country'=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
+                    '6'=>'Bez ograničenja (ceo svet/nebitno)', 
+                    '5'=>'<b><span class="loc_op_country"></span></b> i šire',
+                    '4'=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
                     //'region'=>'Samo u okviru regiona <b><span class="loc_op_region"></span></b>', 
-                    'city'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
-                    'exact'=>'Samo na navedenoj lokaciji: <b><span class="loc_op_exact"></span></b>',
-                    'within'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                    '2'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    '1'=>'Samo u sedištu <b><span class="loc_op_exact"></span></b>',
+                    '0'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
                 ];
                 break;
             default:
                 $model_list = [
                     //'region'=>'Samo u okviru regiona <b><span class="loc_op_region"></span></b>', 
-                    'city'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
-                    'exact'=>'Samo na navedenoj lokaciji: <b><span class="loc_op_exact"></span></b>',
-                    'within'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                    '2'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    '1'=>'Samo u sedištu <b><span class="loc_op_exact"></span></b>',
+                    '0'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
                 ];
             }
         }
@@ -706,6 +796,14 @@ class Presentations extends \yii\db\ActiveRecord
                 $model_method->service = $this->pService;
             }
             return $model_methods;
+        }
+        return null;
+    }
+
+    public function hasProviderLocations()
+    {
+        if(!Yii::$app->user->isGuest and $user = \frontend\models\User::findOne(Yii::$app->user->id) and $user->provider and $proLocations = $user->provider->locations) {            
+            return $proLocations;
         }
         return null;
     }

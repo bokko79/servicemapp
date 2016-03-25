@@ -28,6 +28,7 @@ var myCity = new google.maps.Circle({
     strokeOpacity:0.8,
     strokeWeight:1,
     editable: true,
+    draggable: true,
   });
 
 // reset
@@ -132,7 +133,8 @@ function initialize_pres_loc(){
       zoom: 12,
       scrollwheel: true,
       fullscreenControl: true,
-      streetViewControl: false,
+      //streetViewControl: false,
+      //scaleControl: true,
     },
     markerOptions: {
       draggable: true,
@@ -142,30 +144,30 @@ function initialize_pres_loc(){
     location: [lat,lng],  // initialize map with user home location
     types: ['geocode'],
   })
-  .bind("geocode:result", function(event, result){
+  .bind("geocode:result", function(event, result){   
     var isCity = false;
     for (var i = 0; i < result.address_components.length; i++) {
       if(result.address_components[i].types[0] === "country"){
         if(result.address_components[i].long_name!=''){
-          $('.loc_op_country').html(result.address_components[i].long_name)
+          $('.loc_op_country').html(result.address_components[i].long_name);
         }else{
-          $('.loc_op_country').html('')
+          $('.loc_op_country').html('');
         };
       }
       if(result.address_components[i].types[0] === "administrative_area_level_2"){
         if(result.address_components[i].long_name!=''){
-          $('.loc_op_region').html(result.address_components[i].long_name)
+          $('.loc_op_region').html(result.address_components[i].long_name);
         }else{
-          $('.loc_op_region').html('')
+          $('.loc_op_region').html('');
         };
       }
       if(result.address_components[i].types[0] === "locality"){
         if(result.address_components[i].long_name){
-          $('.loc_op_city').html(result.address_components[i].long_name)          
+          $('.loc_op_city').html(result.address_components[i].long_name);                
         }else{
-          $('.loc_op_city').html('')          
-        };
-        isCity = true;
+          $('.loc_op_city').html('');
+        } 
+        isCity = true;      
       }
     }
     if(isCity){
@@ -239,7 +241,7 @@ function initialize_pres_loc(){
             if (results[i].types[0] === "street_number") {
               var no = results[i].address_components[0].long_name;                    
               $("input[name='Locations[no]']").val(no);
-            }                 
+            }               
           }
           /// formated adresa                  
           var formatted_address = results[0].formatted_address;                    
@@ -252,9 +254,9 @@ function initialize_pres_loc(){
     });
   });
 
- var map = $("#presentation-location").geocomplete("map"),
+  var map = $("#presentation-location").geocomplete("map"),
     marker = $("#presentation-location").geocomplete("marker");
-  
+
   $("input[name='Presentations[location_operational]']").on('change', function(){    
     if($(this).val()=='within'){  
         myCity.bindTo('center', marker, 'position');    
@@ -270,7 +272,154 @@ function initialize_pres_loc(){
         myCity.setMap(null);
     }
   });
+}
+
+function initialize_pres_loc2(){
+ var map = $("#presentation-location").geocomplete("map"),
+    marker = $("#presentation-location").geocomplete("marker");
+  $("#presentation-location2").geocomplete({
+    map: map,
+   /* mapOptions: {
+      zoom: 12,
+      scrollwheel: true,
+      fullscreenControl: true,
+      streetViewControl: false,
+      scaleControl: true,
+    },*/
+    markerOptions: {
+      draggable: true,
+      label: 'B',
+    },    
+    details: "#form-horizontal-presentation",
+    detailsAttribute: "data-geo2",
+    types: ['geocode'],
+  })
+  .bind("geocode:dragged", function(event, latLng){
+    $("input[name='Locations[1][lat]']").val(latLng.lat());
+    $("input[name='Locations[1][lng]']").val(latLng.lng());
+    
+    var map2 = $("#presentation-location2").geocomplete("map");
+    map2.panTo(latLng);   
+
+    var geocoder2 = new google.maps.Geocoder();
+    geocoder2.geocode({
+        'latLng': latLng,        
+      }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+
+          var res = results[0].address_components;
+
+          for (var i = 0; i < results.length; i++) {
+            /// država
+            if (results[i].types[0] === "country") {
+              var country = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[1][country]']").val(country);
+            }
+            /// region
+            if (results[i].types[0] === "administrative_area_level_2") {
+              var state = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[1][state]']").val(state);
+            }
+            /// region
+            if (results[i].types[0] === "sublocality") {
+              var sublocality = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[1][district]']").val(sublocality);
+            }
+            /// grad
+            if (results[i].types[0] === "locality") {
+              var city = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[1][city]']").val(city);
+            }
+            /// zip
+            if (results[i].types[0] === "postal_code") {
+              var postal_code = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[1][zip]']").val(postal_code);
+            }
+            /// mz
+            if (results[i].types[0] === "neighborhood") {
+              var neighborhood = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[1][mz]']").val(neighborhood);
+            }
+            /// ulica
+            if (results[i].types[0] === "route") {
+              var street = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[1][street]']").val(street);
+            }
+            /// no
+            if (results[i].types[0] === "street_number") {
+              var no = results[i].address_components[0].long_name;                    
+              $("input[name='Locations[1][no]']").val(no);
+            }               
+          }
+          /// formated adresa                  
+          var formatted_address = results[0].formatted_address;                    
+          $("input[name='Presentations[location_input]']").val(formatted_address);
+          $("#presentation-location2").val(formatted_address);
+        }
+      }
+    });
+  });  
+     
+
+  var marker2 = $("#presentation-location2").geocomplete("marker") ? $("#presentation-location2").geocomplete("marker") : null;
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  directionsDisplay.setMap(map);
+
+  var onChangeHandler = function() {
+    calculateAndDisplayRoute(directionsService, directionsDisplay);
+    calculateDistance(service);
+  };  
+  marker.addListener('position_changed', onChangeHandler);
+  marker2.addListener('position_changed', onChangeHandler);
+
+  function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+    directionsService.route({
+      origin: marker.getPosition() ? marker.getPosition() : new google.maps.LatLng(latRes,lngRes),
+      destination: marker2.getPosition() ? marker2.getPosition() : new google.maps.LatLng(latRes,lngRes),
+      travelMode: google.maps.TravelMode.DRIVING
+    }, function(response, status) {
+      if (status === google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
+
+  var service = new google.maps.DistanceMatrixService;
+  function calculateDistance(service) {
+    service.getDistanceMatrix({
+      origins: marker.getPosition() ? [marker.getPosition()] : [new google.maps.LatLng(latRes,lngRes)],
+      destinations: marker2.getPosition() ? [marker2.getPosition()] : [new google.maps.LatLng(latRes,lngRes)],
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.METRIC,
+      avoidHighways: false,
+      avoidTolls: false
+    }, function(response, status) {
+      if (status !== google.maps.DistanceMatrixStatus.OK) {
+        alert('Error was: ' + status);
+      } else {
+        var originList = response.originAddresses;
+        var destinationList = response.destinationAddresses;
+        var outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = '';
+
+        for (var i = 0; i < originList.length; i++) {
+          var results = response.rows[i].elements;        
+          for (var j = 0; j < results.length; j++) {         
+            outputDiv.innerHTML += '<i class="fa fa-lightbulb-o"></i> Rastojanje od <b>' + originList[i] + '</b> do <b>' + destinationList[j] +
+                '</b> je ' + results[j].distance.text + ' i može se preći autom za oko ' +
+                results[j].duration.text + '<br>';
+          }
+        }
+      }
+    });
+  }
+
 } 
+/*
 // register user uac modal
 function initialize_reg_loc(){
   $("#signup-form-vertical #locations-name").geocomplete({
@@ -321,7 +470,7 @@ function initialize_reg_pro_loc(){
     types: ['(cities)'],
   });  
 }
-
+*/ 
 $(document).ready(function(){ 
   $('.loc_op_country').html(locCtry);
   $('.loc_op_region').html(locDis);
@@ -352,10 +501,13 @@ $(document).ready(function(){
     $("#locations-name").val("");
   });
   // new-presentation
-  var checkLocationTypePres = $('#checkLocationPres').val();
+  var checkLocationTypePres = $('#checkLocationTypePres').val();
   var checkUserTypePres = $('#checkUserTypePres').val();
   if(checkUserTypePres==0){
     initialize_pres_loc();
+  }
+  if(checkLocationTypePres==2){
+    initialize_pres_loc2();
   }
   $("#presentations-loc_id").on('change', function(){                  
     $('.enter_location').hide();
@@ -374,5 +526,26 @@ $(document).ready(function(){
     $('html,body').animate({
       scrollTop: $(this).offset().top-70},
       500);
-  });  
+  }); 
+
+
+
+/*var map = $("#presentation-location").geocomplete("map"),
+    marker = $("#presentation-location").geocomplete("marker");  
+
+  $(".save-location-marker").on('click', function(){
+      var image = 'http://maps.google.com/mapfiles/arrow.png';
+     var myMarker = new google.maps.Marker({
+      position: marker.getPosition(),
+      //label: 'Glavno',
+      clickable: true,
+      icon: image
+    });
+
+    myMarker.setMap(map);
+    myMarker.addListener('click', function() {
+      myMarker.setMap(null);
+      map.setCenter(myMarker.getPosition());
+    });
+  });*/
 });

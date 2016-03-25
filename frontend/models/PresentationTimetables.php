@@ -5,22 +5,24 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "presentation_locations".
+ * This is the model class for table "presentation_timetables".
  *
  * @property string $id
  * @property string $presentation_id
- * @property string $location_id
- * @property integer $location_within
+ * @property integer $day_of_week
+ * @property string $time_start
+ * @property string $time_end
+ * @property integer $duration
  * @property string $description
  */
-class PresentationLocations extends \yii\db\ActiveRecord
+class PresentationTimetables extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'presentation_locations';
+        return 'presentation_timetables';
     }
 
     /**
@@ -29,8 +31,9 @@ class PresentationLocations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_id', 'location_id'], 'required'],
-            [['presentation_id', 'location_id', 'location_within'], 'integer'],
+            [['presentation_id', 'day_of_week', 'time_start'], 'required'],
+            [['presentation_id', 'day_of_week', 'duration'], 'integer'],
+            [['time_start', 'time_end'], 'safe'],
             [['description'], 'string'],
         ];
     }
@@ -43,18 +46,12 @@ class PresentationLocations extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'presentation_id' => Yii::t('app', 'Presentation ID'),
-            'location_id' => Yii::t('app', 'Location ID'),
-            'location_within' => Yii::t('app', 'Location Within'),
+            'day_of_week' => Yii::t('app', 'Day Of Week'),
+            'time_start' => Yii::t('app', 'Time Start'),
+            'time_end' => Yii::t('app', 'Time End'),
+            'duration' => Yii::t('app', 'Duration'),
             'description' => Yii::t('app', 'Description'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLocation()
-    {
-        return $this->hasOne(Locations::className(), ['id' => 'location_id']);
     }
 
     /**

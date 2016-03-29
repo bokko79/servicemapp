@@ -78,7 +78,7 @@ class User extends \yii\web\User
         $identity = $this->getIdentity();
         if($identity !== null) {
             $user = \frontend\models\User::findOne($identity->getId());
-            return ($user->details) ? $user->details->role : null;
+            return ($user->details) ? $user->details->role->name : null;
         }
 
         return null;

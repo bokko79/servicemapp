@@ -21,8 +21,16 @@ $this->params['presentation'] = $model;
         'object_model' => $object_model,
         'new_provider' => $new_provider,
         'returning_user' => $returning_user,
-        'location'=> $location,
-        'location2'=> $location2,
+        'locationHQ'=> $locationHQ,
+        'locationPresentation'=> $locationPresentation,
+        'locationPresentationTo'=> $locationPresentationTo,
         'user' => $user,
+        'model_timetable' => $model_timetable,
+        'provider_openingHours' => $provider_openingHours,
+        'model_notifications' => $model_notifications,
+        'model_terms' => $model_terms,
+        'model_termexpenses' => $model_termexpenses,
+        'model_termmilestones' => $model_termmilestones,
+        'model_termclauses' => $model_termclauses,
     ]) ?>
 </div>

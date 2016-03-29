@@ -28,10 +28,10 @@ $session = Yii::$app->session;
         </div>
         <div class="action-area right">
             <?php if($model->object->models): ?>
-            <?= $session['state']!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-modal'.$model->id]) : null ?>
-            <?= $session['state']!='order' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Present'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-modal'.$model->id]) : null ?>
+            <?= $session['state']!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-order-modal'.$model->id]) : null ?>
+            <?= $session['state']!='order' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-present-modal'.$model->id]) : null ?>
         <?php else: ?>
-            <?= $session['state']!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Order'), Url::to('/add/'.slug($model->name)), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']) : Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Present'), ['/new-presentation'], [
+            <?= $session['state']!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to('/add/'.slug($model->name)), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']) : Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), ['/new-presentation'], [
                 'class'=>'btn btn-warning', 
                 'style'=>'', 
                 'data'=>[
@@ -43,20 +43,23 @@ $session = Yii::$app->session;
         </div>
     </a>
 </div>
-
 <?php Modal::begin([
-        'id'=>'object-models-modal'.$model->id,
+        'id'=>'object-models-order-modal'.$model->id,
         'size'=>Modal::SIZE_SMALL,
         'class'=>'overlay_modal',
-        'header'=> ($model->service_object==1) ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' Vas interesuju:</h3>' :
-        '<h3>Izaberite vrstu '. $model->object->tNameGen.'</h3>',
+        'header'=> $model->object->isPart() ? ($model->service_object==1 ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' Vas interesuju:</h3>' :
+        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->service_object==1 ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' Vas interesuju:</h3>' :
+        '<h3>Izaberite vrstu '. $model->object->tNameGen.'</h3>'),
     ]); ?>
-
-   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <?= $this->render('_object_models.php', ['object'=>$model->object, 'model'=>$model]) ?>
-      </div>
-    </div>
-  </div>
+   <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>
+<?php Modal::end(); ?>
+<?php Modal::begin([
+        'id'=>'object-models-present-modal'.$model->id,
+        'size'=>Modal::SIZE_SMALL,
+        'class'=>'overlay_modal',
+        'header'=> $model->object->isPart() ? ($model->service_object!=1 ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' imate u ponudi:</h3>' :
+        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->service_object!=1 ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' imate u ponudi:</h3>' :
+        '<h3>Izaberite vrstu '. $model->object->tNameGen.'</h3>'),
+    ]); ?>
+   <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>
 <?php Modal::end(); ?>

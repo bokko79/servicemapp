@@ -18,7 +18,7 @@ $message = 'Što bolje i opširnije opišete šta Vam treba i šta zahtevate, bo
 </div>
 <div class="wrapper body fadeIn animated" style="border-top:none;" id="sections05">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
-	<?= $form->field($model, 'name', [])->input('text', ['value'=>$service->sCaseName.(count($object_model)==1 ? ': '.$object_model[0]->tName : null)]) ?>    
+	<?= $form->field($model, 'title', [])->input('text', ['value'=>$service->sCaseName.(count($object_model)==1 ? ': '.$object_model[0]->tName : null)]) ?>    
 	<?= $form->field($model, 'description')->widget(TinyMce::className(), [
 		    'options' => ['rows' => 6],
 		    'language' => 'sr',

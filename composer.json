@@ -50,7 +50,8 @@
         "nepstor/yii2-datetime-compare-validator": "1.1.0",
         "kartik-v/yii2-datecontrol": "dev-master",
         "philippfrenzel/yii2fullcalendar":"*",
-        "2amigos/yii2-tinymce-widget": "~1.1"
+        "2amigos/yii2-tinymce-widget": "~1.1",
+        "cics/yii2-video-embed-widget": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

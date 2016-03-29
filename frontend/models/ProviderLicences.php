@@ -51,4 +51,12 @@ class ProviderLicences extends \yii\db\ActiveRecord
             'verified' => Yii::t('app', 'Verified'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProvider()
+    {
+        return $this->hasOne(Provider::className(), ['id' => 'provider_id']);
+    }
 }

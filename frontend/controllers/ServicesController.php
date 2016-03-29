@@ -45,8 +45,11 @@ class ServicesController extends Controller
 
         //$session->removeAll();
 
-        if($state = $request->get('st')){
+        if($state = $request->get('st')){            
             $session->set('state', $state);
+            if($state=='gl'){
+                $session->remove('state');
+            }
         }
         $q = $request->get('q');
         $queryObjects = ($q) ? CsObjects::find()->where(['like', 'name', $q])->all() : null;
@@ -155,7 +158,7 @@ class ServicesController extends Controller
     {
         if($id){
             if($service = $this->findModel($id)) {
-                return $this->renderPartial('//services/_object_models-present', [
+                return $this->renderAjax('//services/_object_models-present', [
                     'model' => $service,
                     'object' => $service->object,
                 ]);
@@ -172,7 +175,7 @@ class ServicesController extends Controller
     {
         if($id){
             if($service = $this->findModel($id)) {
-                return $this->renderPartial('//services/_object_models', [
+                return $this->renderAjax('//services/_object_models', [
                     'model' => $service,
                     'object' => $service->object,
                 ]);

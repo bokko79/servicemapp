@@ -30,7 +30,7 @@ class PresentationTermExpenses extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_term_id', 'expense_name'], 'required'],
+            [['presentation_term_id'], 'required'],
             [['presentation_term_id'], 'integer'],
             [['expense', 'payable_by'], 'string'],
             [['amount'], 'number'],

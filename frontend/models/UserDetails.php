@@ -15,10 +15,8 @@ use Yii;
  * @property integer $role_id
  * @property string $time_role_set
  * @property string $time_role_exp
- * @property string $Mcoin
  * @property integer $units
  * @property string $timezone
- * @property integer $ticker_status
  * @property string $DOB
  * @property string $gender
  * @property integer $score
@@ -50,7 +48,7 @@ class UserDetails extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'loc_id', 'time_role_set'], 'required'],
-            [['user_id', 'loc_id', 'image_id', 'currency_id', 'role_id', 'Mcoin', 'units', 'ticker_status', 'score', 'rate', 'rating'], 'integer'],
+            [['user_id', 'loc_id', 'image_id', 'currency_id', 'role_id', 'units', 'score', 'rate', 'rating'], 'integer'],
             [['time_role_set', 'time_role_exp', 'DOB', 'update_time'], 'safe'],
             [['timezone', 'gender'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
@@ -74,7 +72,6 @@ class UserDetails extends \yii\db\ActiveRecord
             'role_id' => Yii::t('app', 'Role ID'),
             'time_role_set' => Yii::t('app', 'Time Role Set'),
             'time_role_exp' => Yii::t('app', 'Time Role Exp'),
-            'Mcoin' => Yii::t('app', 'Mcoin'),
             'units' => Yii::t('app', 'Units'),
             'timezone' => Yii::t('app', 'Timezone'),
             'ticker_status' => Yii::t('app', 'Ticker Status'),

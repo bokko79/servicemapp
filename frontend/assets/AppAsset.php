@@ -31,6 +31,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/masonry.pkgd.min.js',
         'js/app.js',
+        'js/service_index.js',
         'js/cards.js',
         'js/easy-ticker.min.js',
     ];

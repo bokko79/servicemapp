@@ -40,7 +40,7 @@ class PresentationTerms extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_id', 'update_time'], 'required'],
+            //[['presentation_id', 'update_time'], 'required'],
             [['presentation_id', 'payment_advance_percentage', 'payment_installment_no_rates', 'payment_installment_rate', 'payment_installment_frequency'], 'integer'],
             [['ip_warranty', 'performance_warranty', 'invoicing', 'payment_methods', 'payment', 'payment_at_once_time', 'payment_installment_frequency_unit', 'liability', 'agreement_effective_until', 'cancellation_policy'], 'string'],
             [['update_time'], 'safe'],
@@ -55,19 +55,19 @@ class PresentationTerms extends \yii\db\ActiveRecord
         return [
             'presentation_id' => Yii::t('app', 'Presentation ID'),
             'ip_warranty' => Yii::t('app', 'Ip Warranty'),
-            'performance_warranty' => Yii::t('app', 'Performance Warranty'),
-            'invoicing' => Yii::t('app', 'Invoicing'),
-            'payment_methods' => Yii::t('app', 'Payment Methods'),
+            'performance_warranty' => Yii::t('app', 'Garancije da će ova usluga biti izvršena sa uloženim razumnim trudom i veštinom'),
+            'invoicing' => Yii::t('app', 'Način fakturisanja za ugovorene troškove izvršenja usluge'),
+            'payment_methods' => Yii::t('app', 'Način na koji ćete naplatiti izvršenje usluge'),
             'payment' => Yii::t('app', 'Payment'),
             'payment_advance_percentage' => Yii::t('app', 'Payment Advance Percentage'),
-            'payment_at_once_time' => Yii::t('app', 'Payment At Once Time'),
-            'payment_installment_no_rates' => Yii::t('app', 'Payment Installment No Rates'),
+            'payment_at_once_time' => Yii::t('app', 'Kada se vrši naplata za ugovorenu cenu usluge?'),
+            'payment_installment_no_rates' => Yii::t('app', 'Broj rata u koliko će ugovorena cena usluge biti naplaćena'),
             'payment_installment_rate' => Yii::t('app', 'Payment Installment Rate'),
-            'payment_installment_frequency' => Yii::t('app', 'Payment Installment Frequency'),
+            'payment_installment_frequency' => Yii::t('app', 'Učestalost naplate rata za ugovorenu cenu izvršenja usluge'),
             'payment_installment_frequency_unit' => Yii::t('app', 'Payment Installment Frequency Unit'),
-            'liability' => Yii::t('app', 'Liability'),
-            'agreement_effective_until' => Yii::t('app', 'Agreement Effective Until'),
-            'cancellation_policy' => Yii::t('app', 'Cancellation Policy'),
+            'liability' => Yii::t('app', 'Odgovornost za izvršenje usluge'),
+            'agreement_effective_until' => Yii::t('app', 'Rok važenja sporazuma o izvršenju usluge'),
+            'cancellation_policy' => Yii::t('app', 'Politika otkazivanja naručene usluge'),
             'update_time' => Yii::t('app', 'Update Time'),
         ];
     }
@@ -75,7 +75,7 @@ class PresentationTerms extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentationTermClauses()
+    public function getClauses()
     {
         return $this->hasMany(PresentationTermClauses::className(), ['presentation_term_id' => 'presentation_id']);
     }
@@ -83,7 +83,7 @@ class PresentationTerms extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentationTermExpenses()
+    public function getExpenses()
     {
         return $this->hasMany(PresentationTermExpenses::className(), ['presentation_term_id' => 'presentation_id']);
     }
@@ -91,7 +91,7 @@ class PresentationTerms extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentationTermMilestones()
+    public function getMilestones()
     {
         return $this->hasMany(PresentationTermMilestones::className(), ['presentation_term_id' => 'presentation_id']);
     }

@@ -47,4 +47,12 @@ class ProviderNotifications extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProvider()
+    {
+        return $this->hasOne(Provider::className(), ['id' => 'provider_id']);
+    }
 }

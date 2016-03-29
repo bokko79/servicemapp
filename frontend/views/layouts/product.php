@@ -12,7 +12,7 @@ use frontend\widgets\Stats;
 <?php /* PROFILE HEADING */ ?>
 <div class="product-head">
 	<?php if($imgs = $this->params['presentation']->images): ?>
-    <div class="media-area cover-product" style="background: url('../images/presentations/full/<?= $imgs[0]->image->ime ?>') no-repeat center fixed; background-size: cover;">
+    <div class="media-area cover-product" style="background: url('../images/presentations/full/<?= $imgs[0]->ime ?>') no-repeat center fixed; background-size: cover;">
         <div class="backscreen"></div>
         <?php // $this->params['presentation']->coverPhotos() ?>        
     </div>
@@ -25,7 +25,7 @@ use frontend\widgets\Stats;
                     'options' => ['class'=>'breadcrumb transparent wide'],
                 ]) ?>
 			</div>
-			<div class="grid-right right" style="padding-top: 10px;">
+			<div class="grid-right right <?= $imgs ? 'in-media' : null ?>">
 				<?= $this->render('partial/share.php') ?>				
 			</div>
 		</div>

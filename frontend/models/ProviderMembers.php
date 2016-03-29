@@ -57,4 +57,20 @@ class ProviderMembers extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProvider()
+    {
+        return $this->hasOne(Provider::className(), ['id' => 'provider_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
 }

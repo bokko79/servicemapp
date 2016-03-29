@@ -25,8 +25,8 @@ return [
                 'path'     => '/',
                 'httpOnly' => true,
             ],
-            //'identityClass' => 'common\models\User',
-            //'class' => 'frontend\components\User',
+            'identityClass' => 'common\models\User',
+            'class' => 'frontend\components\User',
         ],
         'session' => [
             'name' => 'FRONTENDSESSID',

@@ -43,7 +43,7 @@ $message = ($service->service_object==1) ? Yii::t('app', 'Opišite ukratko {your
             ],
             'hintType' => ActiveField::HINT_SPECIAL,
             'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
-    ])->dropDownList(ArrayHelper::map($user->provider->presWithSameObject($object->id), 'id', 'name'), ['prompt'=>'Izaberite opis '.$object->tNameGen.' iz Vaših postojećih ponuda', 'class'=>'input-lg'])->hint('Već ste sačuvali ponudu usluge sa istim predmetom usluge. Ukoliko se radi o istom predmetu, ne morate ga ponovo opisivati, već izaberite tu ponudu iz padajućeg menija, radi uštede vremena.') ?>
+    ])->dropDownList(ArrayHelper::map($user->provider->presWithSameObject($object->id), 'id', 'title'), ['prompt'=>'Izaberite opis '.$object->tNameGen.' iz Vaših postojećih ponuda', 'class'=>'input-lg'])->hint('Već ste sačuvali ponudu usluge sa istim predmetom usluge. Ukoliko se radi o istom predmetu, ne morate ga ponovo opisivati, već izaberite tu ponudu iz padajućeg menija, radi uštede vremena.') ?>
     <?php // Html::activeHiddenInput($model, 'checkUserObject', ['id'=>'checkUserObject_model']) ?>
     <div class="form-group pres-specs-plaza" style="display:none;">
         <div class="col-md-offset-3 col-md-9">                 

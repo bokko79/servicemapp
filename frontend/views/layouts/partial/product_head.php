@@ -52,7 +52,7 @@ if($model->specs!=null){
 	}
 	$content .= '</table>';
 	$spec = [
-        'label'=>'<i class="fa fa-cube"></i> Karakteristike '.($model->objectModel!=null ? $model->objectModel->tNameGen : $model->object->tNameGen),
+        'label'=>'<i class="fa fa-cube"></i> Karakteristike '.$model->object->tNameGen,
         'content'=>$content,
     ];
 }
@@ -67,7 +67,7 @@ $items = [
     $issues
 ];
 
-$map = $model->loc->map(400, 420, $model->loc_within);
+$map = $model->loc->map(400, 420, $model->coverage_within);
 
 // Add marker to the map
 $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', function() {
@@ -84,7 +84,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
 		<div class="card_container record-full <?= $imgs ? 'opaque' : 'transparent' ?> no-shadow no-margin fadeInUp animated" id="card_container" style="float:none;">				        
 	        <?php // title ?>
 	        <div class="primary-context avatar-padded">  
-	        	<div class="head <?= $imgs ? 'grand regular' : 'colos thin' ?> <?= $text_appear ?>"><?= c($model->name) ?></div>
+	        	<div class="head <?= $imgs ? 'grand regular' : 'colos thin' ?> <?= $text_appear ?>"><?= c($model->title) ?></div>
             	<div class="subhead <?= $text_appear ?>"><div class="label" style="background:<?= $model->pService->industry->color ?>"><i class="fa <?= $model->pService->industry->icon ?>"></i> <?= c($model->pService->industry->tName) ?></div> | <?= $model->generatedServiceName() ?></div> 
 	        </div> 	    
 	        <?php // provider ?>
@@ -93,7 +93,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
                     <?= $model->user->avatar() ?>          
                 </div>
                 <div class="title">
-                    <div class="head major <?= $text_appear ?>"><?= $model->user->name ?><span class="fs_12 thin <?= $text_appear ?> margin-left-10"><?= $model->user->location->cityLocation ?></span></div>
+                    <div class="head major <?= $text_appear ?>"><?= $model->user->name ?><span class="fs_12 thin <?= $text_appear ?> margin-left-10"><?= $model->user->provider->location->cityLocation ?></span></div>
                     <div class="subhead <?= $text_appear ?>"><?= $model->user->quickVerificationPack() . ' | ' .  $model->user->starRating(3.7) . ' 3.7 | ' . $model->user->provider->quickCounts ?></div> 
                 </div>
                 <div class="subaction">
@@ -115,7 +115,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
                     	<?= $model->fixed_price ? 'Fiksna cena' : 'Cena podložna promeni na upit' ?></div> 
                 </div>
                 <div class="subaction">
-                    Dostupno: <b>od <?= Yii::$app->formatter->asDate($model->available_from) ?> - <?= Yii::$app->formatter->asDate($model->available_until) ?></b>
+                    Dostupno: <b>od <?= Yii::$app->formatter->asDate($model->valid_from) ?> - <?= Yii::$app->formatter->asDate($model->valid_through) ?></b>
                 </div>	           
 			</div>				        
 	        <?php // action ?>
@@ -180,18 +180,28 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
 		</div>
 
 	</div>
-	<div class="media-area grid-profile-right">
-		<div class="maps margin-bottom-20 drop-dark-shadow">
-	    	<?= $map->display() ?>
-	    	<?php  $user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
-	    	<?php //print_r($user); die(); ?>
-	    	Rastojanje od vas <?= $model->loc->distanceTo($user->location) ?>km
-	    </div>
+	<div class="media-area grid-profile-right">		
+	<?php if($model->youtube_link): ?>
+		<div class="margin-bottom-20">
+	  		<?= \cics\widgets\VideoEmbed::widget(['url' => $model->youtube_link, 'show_errors' => true]); ?>
+	  	</div>
+	<?php endif; ?>
+	<?php if($model->pdfs): ?>
+		<div class="margin-bottom-20">
+	  		<embed src="../images/presentations/docs/<?= $model->pdfs[0]->ime ?>" width="100%" height="420px">
+	  	</div>
+	<?php endif; ?>
 	<?php if($model->images): ?>
 		<div class="media">
 		<?= $model->photos() ?>	    	
 	    </div>
-	  <?php endif; ?>	    
+	<?php endif; ?>
+		<div class="maps margin-top-20 margin-bottom-20">
+	    	<?= $map->display() ?>
+	    	<?php  $user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
+	    	<?php //print_r($user); die();  ?>
+	    	<?php /* Rastojanje od vas <?= $model->loc->distanceTo($user->location) ?>km */ ?>
+	    </div>
 	</div>
 	
         

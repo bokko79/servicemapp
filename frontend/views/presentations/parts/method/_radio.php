@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 
 $model_list = ArrayHelper::map($property->models, 'id', 'tName');
 ?>
-<?= $form->field($model_method, '['.$index.']value', [
+<?= $form->field($model_method, '['.$index.']method_models[]', [
 	'hintType' => ActiveField::HINT_SPECIAL,
 	'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
     ])->radioList($model_list)->label($property->label)->hint($property->tHint) ?>

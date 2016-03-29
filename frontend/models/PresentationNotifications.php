@@ -37,7 +37,7 @@ class PresentationNotifications extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_id', 'time'], 'required'],
+            //[['presentation_id', 'time'], 'required'],
             [['presentation_id', 'coverage', 'specs', 'methods', 'qty', 'consumer', 'price', 'issues', 'availability', 'validity'], 'integer'],
             [['notification_type', 'description'], 'string'],
             [['time'], 'safe'],
@@ -51,18 +51,18 @@ class PresentationNotifications extends \yii\db\ActiveRecord
     {
         return [
             'presentation_id' => Yii::t('app', 'Presentation ID'),
-            'notification_type' => Yii::t('app', 'Notification Type'),
-            'coverage' => Yii::t('app', 'Coverage'),
-            'specs' => Yii::t('app', 'Specs'),
-            'methods' => Yii::t('app', 'Methods'),
-            'qty' => Yii::t('app', 'Qty'),
-            'consumer' => Yii::t('app', 'Consumer'),
-            'price' => Yii::t('app', 'Price'),
-            'issues' => Yii::t('app', 'Issues'),
-            'availability' => Yii::t('app', 'Availability'),
-            'validity' => Yii::t('app', 'Validity'),
-            'time' => Yii::t('app', 'Time'),
-            'description' => Yii::t('app', 'Description'),
+            'notification_type' => Yii::t('app', 'Vrsta notifikacija'),
+            'coverage' => Yii::t('app', 'Pokrivenost'),
+            'specs' => Yii::t('app', 'Karakteristike predmeta'),
+            'methods' => Yii::t('app', 'Načini vršenja usluge'),
+            'qty' => Yii::t('app', 'Količina'),
+            'consumer' => Yii::t('app', 'Broj korisnika'),
+            'price' => Yii::t('app', 'Cena'),
+            'issues' => Yii::t('app', 'Problemi'),
+            'availability' => Yii::t('app', 'Dostupnost'),
+            'validity' => Yii::t('app', 'Važenje'),
+            'time' => Yii::t('app', 'Vreme'),
+            'description' => Yii::t('app', 'Opis'),
         ];
     }
 

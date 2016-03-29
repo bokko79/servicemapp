@@ -7,23 +7,23 @@ use kartik\widgets\DateTimePicker;
 use kartik\widgets\DatePicker;
 use kartik\datecontrol\DateControl;
 
-$data = [0=>'Usluga je trajno dostupna', 1=>'<i class="fa fa-calendar-check-o"></i> Odredite datume'];
-$model->availability = 0;
+$data = ['yes'=>'<i class="fa fa-calendar-check-o"></i> Trajno', 'limited'=>'<i class="fa fa-calendar"></i> Određeni datumi', 'no'=>'<i class="fa fa-calendar-times-o"></i> Ne važi'];
+$model->validity = 'yes';
 $message = 'Kada pružate ovu uslugu. Ukoliko imate određeno radno vreme u okviru kojeg pružate ovu uslugu, podesite ga naknadno na svom profilu: Početna > Profil > Podešavanja.';
 ?>
-<div class="wrapper headline" style="" id="availability">
+<div class="wrapper headline" style="" id="validity">
     <label class="head">
-        <span class="badge"><?= $model->noAvailability ?></span>&nbsp;
+        <span class="badge"><?= $model->noValidity ?></span>&nbsp;
         <i class="fa fa-calendar fa-lg"></i>&nbsp;
-        <?= Yii::t('app', 'Dostupnost...') ?>
+        <?= Yii::t('app', 'Kada važi ova ponuda') ?>
     </label>
     	<?= ' <span class="optional">(opciono)</span>' ?>
     <i class="fa fa-chevron-down chevron"></i>
 </div>
-<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections10">
+<div class="wrapper body fadeIn animated" style="border-top:none;" id="sections11">
     <?= $this->render('../_hint.php', ['message'=>$message]) ?>
     <div class="form-group">
-		<?= $form->field($model, 'availability')->radioButtonGroup($data, ['class'=>'btn-group', 'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info']]]) ?>
+		<?= $form->field($model, 'validity')->radioButtonGroup($data, ['class'=>'btn-group', 'itemOptions' => ['labelOptions' => ['class' => 'btn btn-info']]]) ?>
     </div>
     <div class="enter_dates fadeIn animated" style="margin-top:30px; display:none;">
 	    <div class="form-group kv-fieldset-inline">

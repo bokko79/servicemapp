@@ -8,12 +8,11 @@ use frontend\models\CsCurrencies;
 use kartik\switchinput\SwitchInput;
 
 $message = 'Odredite cenu za uslugu koju pružate.';
-//$model->fixed_price = 0;
 ?>
 <div class="wrapper headline" style="" id="price">
     <label class="head">
         <span class="badge"><?= $model->noPrice ?></span>&nbsp;
-        <i class="fa fa-dollar fa-lg"></i>&nbsp;
+        <i class="fa fa-tag fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Cena...') ?>
     </label>
     <i class="fa fa-chevron-down chevron"></i>
@@ -39,7 +38,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 					'hintType' => ActiveField::HINT_SPECIAL,
 					'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 		            'showLabels'=>false
-		        ])->input('number', ['placeholder'=>'Iznos', 'class'=>'input-lg']); ?>
+		        ])->input('number', ['step'=>0.01, 'min'=>0, 'placeholder'=>'Iznos', 'class'=>'input-lg']); ?>
 	    </div>	    
 	    <div class="col-sm-2" style="padding-right:0">
 	        <?= $form->field($model, 'currency_id',[
@@ -52,9 +51,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 	        	])->dropDownList(['total'=>'ukupno', 'per_unit'=>'/'.$service->unit->oznaka], ['class'=>'input-lg']) ?>
 	    </div>
 	</div>
-	<input type="hidden" id="user_provision_value" value="<?= Yii::$app->user->isGuest ? 19 : Yii::$app->user->role ?>">
-	<p class="hint col-sm-offset-3 margin-bottom-0 calculated_provision_price" style="display:none"><b><i class="fa fa-exclamation-triangle"></i> Važna napomena:</b> Na osnovu Vašeg članstva na servicemapp.com, provizija na naše usluge su <span class="provision"></span>.
-	Saznajte više <?= Html::a('ovde', Url::to(), []) ?>.</p>
+	<?= $this->render('_priceCalc.php', ['service'=>$service,]) ?>
 	<?php if(!$model->checkIfConsumer()): 
 		//$model->consumer_price = 0; ?>
 	<?= $form->field($model, 'consumer_price', [
@@ -94,7 +91,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
                     'containerOptions'=>['style'=>'margin-left:0;'],
                     'pluginOptions' => [
                         'onText' => 'Da',
-                        'onColor' => 'info',
+                        'onColor' => 'info',		
                         'offText' => 'Ne',
                         'size' => 'large',
                         'inlineLabel' => false,         
@@ -115,7 +112,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 			            'showLabels'=>false
-			        ])->input('number', ['class'=>'']); ?>
+			        ])->input('number', ['class'=>'', 'min'=>0]); ?>
 		    </div>
 		    <div class="col-sm-5" style="padding:0">
 		        <?= $form->field($model, 'qtyMin_price',[
@@ -142,7 +139,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 			            'showLabels'=>false
-			        ])->input('number', ['class'=>'']); ?>
+			        ])->input('number', ['class'=>'', 'min'=>0]); ?>
 		    </div>
 		    <div class="col-sm-5" style="padding:0">
 		        <?= $form->field($model, 'qtyMax_percent',[
@@ -185,7 +182,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 			            'showLabels'=>false
-			        ])->input('number', ['class'=>'']); ?>
+			        ])->input('number', ['class'=>'', 'min'=>0, 'step'=>1]); ?>
 		    </div>
 		    <div class="col-sm-5" style="padding:0">
 		        <?= $form->field($model, 'consumerMin_price',[
@@ -212,7 +209,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 			            'showLabels'=>false
-			        ])->input('number', ['class'=>'']); ?>
+			        ])->input('number', ['class'=>'', 'min'=>0, 'step'=>1]); ?>
 		    </div>
 		    <div class="col-sm-5" style="padding:0">
 		        <?= $form->field($model, 'consumerMax_percent',[

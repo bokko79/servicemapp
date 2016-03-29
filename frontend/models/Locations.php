@@ -45,10 +45,10 @@ class Locations extends \yii\db\ActiveRecord
     public $control;
     public $userControl;
 
-    const SCENARIO_DEFAULT = 'default';
+    /*const SCENARIO_DEFAULT = 'default';
     const SCENARIO_REGISTER = 'register';
     const SCENARIO_ORDER = 'order';
-    const SCENARIO_PRESENTATION = 'presentation'; 
+    const SCENARIO_PRESENTATION = 'presentation'; */
 
     /**
      * @inheritdoc
@@ -65,12 +65,9 @@ class Locations extends \yii\db\ActiveRecord
     {
         return [
             [['is_fav', 'user_id', 'def', 'zip', 'floor', 'apt'], 'integer'],
-            [['user_id'], 'required'],
-            [['lat', 'lng'], 'required', 'message'=>'Nepravilno uneta lokacija.'],
+            //[['user_id'], 'required'],
+            //[['lat', 'lng'], 'required', 'message'=>'Nepravilno uneta lokacija.'],
             [['lat', 'lng'], 'number'],
-            [['lat', 'lng', 'city'], 'required', 'whenClient' => "function (attribute, value) {
-                    return $('#presentations-loc_id').val() == '';
-            }", 'on'=>'presentation', 'message'=>'Nepravilno uneta lokacija.', ],
             [['name'], 'safe'],
             [['country', 'state', 'district', 'city', 'mz', 'street'], 'string', 'max' => 64],
             [['no'], 'string', 'max' => 4],
@@ -80,7 +77,7 @@ class Locations extends \yii\db\ActiveRecord
         ];
     }
 
-    public function scenarios()
+    /*public function scenarios()
     {
         return [
             self::SCENARIO_PRESENTATION => ['location_name', 'zip', 'floor', 'apt', 'no', 'name', 'lat', 'lng', 'city', 'country', 'state', 'district', 'mz', 'street'],
@@ -88,7 +85,7 @@ class Locations extends \yii\db\ActiveRecord
             self::SCENARIO_DEFAULT => ['location_name', 'zip', 'floor', 'apt', 'no', 'name', 'lat', 'lng', 'city', 'country', 'state', 'district', 'mz', 'street'],
 
         ];
-    }
+    }*/
 
     /**
      * @inheritdoc

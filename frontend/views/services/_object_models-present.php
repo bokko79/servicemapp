@@ -23,7 +23,7 @@ $model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
 			<?php if($model->service_object!=1): ?>
 					<p class="hint">Možete izabrati više vrsta.</p>
 					<div class="enclosedCheckboxes">
-						<div class="checkbox"><label><input type="checkbox" id="ckbCheckAll"> <i>Izaberite/Poništite sve</i></label></div>
+						<div class="checkbox"><label><input type="checkbox" id="ckbCheckAll<?= $model->id ?>"> <i>Izaberite/Poništite sve</i></label></div>
 						<?= $form->field($new_presentation,  'object_model[]')->checkboxList($model_list, ['unselect'=>null])->label(false) ?>
 					</div>
 			<?php else: ?>		

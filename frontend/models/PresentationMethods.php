@@ -20,9 +20,12 @@ use Yii;
 class PresentationMethods extends \yii\db\ActiveRecord
 {
     public $service;
-    public $serviceMethod;
+    public $csMethod;
     public $property;
     public $method_models = [];
+
+    private $_method;
+    
     /**
      * @inheritdoc
      */
@@ -71,7 +74,7 @@ class PresentationMethods extends \yii\db\ActiveRecord
     public function getActionMethod()
     {
         if ($this->_method === null) {
-            $this->_method = $this->serviceMethod;
+            $this->_method = $this->csMethod;
         }
         return $this->_method;
     }

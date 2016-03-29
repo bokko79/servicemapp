@@ -17,6 +17,8 @@ use Yii;
  */
 class PresentationTimetables extends \yii\db\ActiveRecord
 {
+    public $term;
+
     /**
      * @inheritdoc
      */
@@ -31,7 +33,7 @@ class PresentationTimetables extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_id', 'day_of_week', 'time_start'], 'required'],
+            //[['presentation_id', 'day_of_week', 'time_start'], 'required'],
             [['presentation_id', 'day_of_week', 'duration'], 'integer'],
             [['time_start', 'time_end'], 'safe'],
             [['description'], 'string'],
@@ -46,11 +48,12 @@ class PresentationTimetables extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'presentation_id' => Yii::t('app', 'Presentation ID'),
-            'day_of_week' => Yii::t('app', 'Day Of Week'),
-            'time_start' => Yii::t('app', 'Time Start'),
-            'time_end' => Yii::t('app', 'Time End'),
-            'duration' => Yii::t('app', 'Duration'),
-            'description' => Yii::t('app', 'Description'),
+            'day_of_week' => Yii::t('app', 'Dani'),
+            'time_start' => Yii::t('app', 'Start'),
+            'time_end' => Yii::t('app', 'Kraj'),
+            'duration' => Yii::t('app', 'Trajanje'),
+            'description' => Yii::t('app', 'Opis'),
+            'term' => Yii::t('app', 'Termin'),
         ];
     }
 

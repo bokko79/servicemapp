@@ -125,7 +125,7 @@ if($model->services){
 <?php Modal::end(); ?>
 <?php if($proService->service->object->models){ ?>
     <?php Modal::begin([
-        'id'=>'object-models'.$proService->service->id,
+        'id'=>'object-models-proservice-modal'.$proService->service->id,
         'size'=>Modal::SIZE_SMALL,
         //'options' => ['class'=>'overlay_modal fade'],
         'header'=> $proService->service->object->isPart() ? ($proService->service->service_object!=1 ? '<h3>Izaberite kakve vrste '.$proService->service->object->parent->tNameGen.' imate u ponudi:</h3>' :

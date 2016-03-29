@@ -92,7 +92,7 @@ $acts = [
     ];
 $acts_i = [
         'label'=>'<i class="fa fa-tag"></i> '.$action->tName.' info',
-        'content'=> 'Vrste/modeli premdeta:',
+        'content'=> 'Vrste/modeli predmeta:',
     ];
 $items_act = [ $acts, $acts_i ];
 ?>

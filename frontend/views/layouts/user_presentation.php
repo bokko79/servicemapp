@@ -18,7 +18,7 @@ $presentation = $this->params['presentation'];
 <div class="grid-container">
     <div class="grid-row">
         <div class="grid-left margin-top-20">
-            <?= $this->render('partial/side-menus/presentation-menu.php', ['service'=>$service, 'model'=>$presentation, 'object_model'=>$object_model]) ?>
+            <?= $this->render('partial/side-menus/presentation-menu.php', ['service'=>$service, 'model'=>$presentation, 'object_model'=>$object_model, 'data'=>$presentation]) ?>
         </div>
         <div class="grid-rightacross">
             <div class="grid-row">

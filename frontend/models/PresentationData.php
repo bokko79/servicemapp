@@ -47,7 +47,7 @@ class PresentationData extends Presentations
 
     public function checkIfUpdate()
     {
-        return (Yii::$app->controller->action=='update') ? 0 : 1;
+        return (Yii::$app->controller->action!='update') ? 0 : 1;
     }
 
     public function getNoPic()
@@ -292,5 +292,22 @@ class PresentationData extends Presentations
             return $model_methods;
         }
         return null;
+    }
+
+    public function generatePricePerUnit()
+    {
+        $unit = $this->pService->unit;
+        $pricePer = ['total'=>'ukupno', 'per_unit'=>'/'.$unit->oznaka];
+        if($unit->type=='package'){
+            switch($unit->name){
+                case 'time_pack':
+                    $pricePer = ['total'=>'ukupno', 'per_unit'=>'/'.$unit->oznaka, 'per_unit'=>'/'.$unit->oznaka,];
+                    break;
+                default:
+                    $pricePer = ['total'=>'ukupno', 'per_unit'=>'/'.$unit->oznaka];
+                    break;
+            }
+        }
+        return $pricePer;
     }
 }

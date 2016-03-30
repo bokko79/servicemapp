@@ -51,7 +51,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 	        	])->dropDownList(['total'=>'ukupno', 'per_unit'=>'/'.$service->unit->oznaka], ['class'=>'input-lg']) ?>
 	    </div>
 	</div>
-	<?= $this->render('_priceCalc.php', ['service'=>$service,]) ?>
+	<?= $this->render('price/_calculation.php', ['model'=>$model, 'service'=>$service,]) ?>
 	<?php if(!$model->checkIfConsumer()): 
 		//$model->consumer_price = 0; ?>
 	<?= $form->field($model, 'consumer_price', [
@@ -98,7 +98,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
                     ],
                 ])->hint('Da li vaša cena zavisi od naručene količine za izvršenje usluge?') ?>
 
-    <div class="quantity_constraints animated fadeIn" style="display:none;">
+    <div class="quantity_constraints animated fadeIn" style="<?= $model->qtyPriceConst==1 ? '' : 'display:none;' ?>">
     	<div class="form-group kv-fieldset-inline">
 		    <?= Html::activeLabel($model, 'qtyConstMin', [
 		        'label'=>'Za porudžbine MANJE od', 
@@ -112,18 +112,18 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 			            'showLabels'=>false
-			        ])->input('number', ['class'=>'', 'min'=>0]); ?>
+			        ])->input('number', ['class'=>'', 'min'=>1]); ?>
 		    </div>
 		    <div class="col-sm-5" style="padding:0">
 		        <?= $form->field($model, 'qtyMin_price',[
 		        		'addon' => [
 		        			'prepend' => ['content'=>'<i class="fa fa-money"></i>'],
-		        			'append' => ['content'=>'<span class="currperunit"></span>'],
+		        			'append' => ['content'=>'<span class="currperunit">'.(!empty($model->price) ? ($model->currency->code.($model->price_per=='total' ? '' : '/'.$service->unit->oznaka)) : null).'</span>'],
 		        			'groupOptions' => ['class'=>'input-group']],
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 			            
-			        ])->label('cena je')->input('number', ['min'=>0, 'placeholder'=>'Iznos', 'class'=>'']); ?>
+			        ])->label('Cena')->input('number', ['min'=>0, 'placeholder'=>'Iznos', 'class'=>'']); ?>
 		    </div>
 		</div>
 		<div class="form-group kv-fieldset-inline">
@@ -139,7 +139,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 			            'showLabels'=>false
-			        ])->input('number', ['class'=>'', 'min'=>0]); ?>
+			        ])->input('number', ['class'=>'', 'min'=>1]); ?>
 		    </div>
 		    <div class="col-sm-5" style="padding:0">
 		        <?= $form->field($model, 'qtyMax_percent',[
@@ -148,7 +148,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 		        			'groupOptions' => ['class'=>'input-group']],
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],			            
-			        ])->label('popust je')->input('number', ['min'=>0, 'max'=>100, 'placeholder'=>'Popust']); ?>
+			        ])->label('Popust')->input('number', ['min'=>0, 'max'=>100, 'placeholder'=>'Popust']); ?>
 		    </div>
 		</div>
     </div>
@@ -168,7 +168,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
                     ]
                 ])->hint('Da li vaša cena zavisi od broja korisnika?') ?>
 
-    <div class="consumer_constraints animated fadeIn" style="display:none">
+    <div class="consumer_constraints animated fadeIn" style="<?= $model->consumerPriceConst==1 ? '' : 'display:none;' ?>">
     	<div class="form-group kv-fieldset-inline">
 		    <?= Html::activeLabel($model, 'consumerConstMin', [
 		        'label'=>'Za manje od', 
@@ -188,12 +188,12 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 		        <?= $form->field($model, 'consumerMin_price',[
 		        		'addon' => [
 		        			'prepend' => ['content'=>'<i class="fa fa-money"></i>'],
-		        			'append' => ['content'=>'<span class="currperunit"></span>'],
+		        			'append' => ['content'=>'<span class="currperunit">'.(!empty($model->price) ? ($model->currency->code.($model->price_per=='total' ? '' : '/'.$service->unit->oznaka)) : null).'</span>'],
 		        			'groupOptions' => ['class'=>'input-group']],
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 			            
-			        ])->label('cena je')->input('number', ['min'=>0, 'placeholder'=>'Iznos', 'class'=>'']); ?>
+			        ])->label('Cena')->input('number', ['min'=>0, 'placeholder'=>'Iznos', 'class'=>'']); ?>
 		    </div>
 		</div>
 		<div class="form-group kv-fieldset-inline">
@@ -218,7 +218,7 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 		        			'groupOptions' => ['class'=>'input-group']],
 						'hintType' => ActiveField::HINT_SPECIAL,
 						'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],			            
-			        ])->label('popust je')->input('number', ['min'=>0, 'max'=>100, 'placeholder'=>'Popust']); ?>
+			        ])->label('Popust')->input('number', ['min'=>0, 'max'=>100, 'placeholder'=>'Popust']); ?>
 		    </div>
 		</div>
     </div>

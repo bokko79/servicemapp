@@ -5,6 +5,9 @@ var latRes  = $("input[name='Locations[lat]']").val(),
     locCity = $("input[name='Locations[city]']").val(),
     locExct = $("input[name='Locations[location_name]']").val();
 
+var latResPres  = $("input[name='LocationPresentation[lat]']").val(),
+    lngResPres  = $("input[name='LocationPresentation[lng]']").val();
+
 var lat = $('#control_input_lat').val(),
   lng   = $('#control_input_lng').val(),
   ctr   = $('#control_input_country').val(),
@@ -365,7 +368,7 @@ function initialize_pres_loc(){
     },    
     details: "#form-horizontal-presentation",
     detailsAttribute: "data-geo",
-    location: [lat,lng],  // initialize map with user home location
+    location: latResPres!='' ? [latResPres,lngResPres] : [lat,lng],  // initialize map with user home location
     types: ['geocode'],
   })
   .bind("geocode:dragged", function(event, latLng){
@@ -668,12 +671,6 @@ $(document).ready(function(){
   if(checkLocationTypePres==2){
     initialize_pres_loc2();
   }
-  /*$("#presentations-loc_id").on('change', function(){                  
-    $('.enter_location').hide();
-    $("form").clearForm();
-    $("#presentation-location").val("");
-    $(".location_operational_plaza").hide();
-  });*/
 
   $(".new_loc_pres").on('click', function(){                  
     $('.enter_location').slideDown({

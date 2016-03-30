@@ -194,49 +194,62 @@ class PresentationsController extends Controller
      */
     public function actionUpdate($id)
     {
-        $this->layout = '/user_presentation';
-
         $model = $this->findModel($id);
-        $model->service = $model->pService;
         $user = $model->user;
-        $object_model = $model->objectModels;
-        $locationHQ = $user->provider->location;
-        $locationPresentation = $model->location;
-        $locationPresentationTo = $model->locationTo;
-        $model_timetable = $model->timetables;
-        $provider_openingHours = $user->provider->openingHours;
-        $model_notifications = $model->notifications;
-        $model_terms = $model->terms;
-        if($model_methods = $model->methods){
-            $model->loadPresentationMethodsUpdate($model_methods);
-        }            
-        if($model_specs = $model->specs){
-            $model->loadPresentationSpecificationsUpdate($model_specs);
-        }
-        if ($model->load(Yii::$app->request->post()) && $this->updatePresentation($model, $user, $location, $model_specs, $model_methods)) {
-            return $this->redirect(['/presentation/'.$model->id]);
+        if(!Yii::$app->user->isGuest and Yii::$app->user->id==$user->id){
+
+            $this->layout = '/user_presentation';
+
+            $model->service = $model->pService;
+            $service = $model->pService;
+            $model->location_control = $service->location;
+            $model->location_userControl = 1;
+            
+            $object_model = $model->objectModels;
+            $locationHQ = $user->provider->location;
+            $locationPresentation = $model->location;
+            $model->location_from = ($locationPresentation) ? $locationPresentation->location_name : null;
+            $locationPresentationTo = $model->locationTo;
+            $model->location_to = ($locationPresentationTo) ? $locationPresentationTo->location_name : null;
+            $model_timetable = $model->timetables;
+            $provider_openingHours = $user->provider->openingHours;
+            $model_notifications = $model->notifications;
+            $model_terms = $model->terms;
+            if($model_methods = $model->methods){
+                $model->loadPresentationMethodsUpdate($model_methods);
+            }            
+            if($model_specs = $model->specs){
+                $model->loadPresentationSpecificationsUpdate($model_specs);
+            }
+            if ($model->load(Yii::$app->request->post()) && $this->updatePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours)) {
+                //return $this->redirect(['/presentation/'.$model->id]);
+                return $this->redirect(Yii::$app->request->referrer);
+            } else {
+                return $this->render('update', [
+                    'service' => $service,
+                    'model' => $model,
+                    'model_methods' => $model_methods,
+                    'model_specs' => $model_specs,
+                    'object_model' => $object_model,
+                    'locationHQ'=> $locationHQ,
+                    'locationPresentation'=> $locationPresentation,
+                    'locationPresentationTo'=> $locationPresentationTo,
+                    'user' => $user,
+                    'model_timetable' => $model_timetable,
+                    'provider_openingHours' => $provider_openingHours,
+                    'model_notifications' => $model_notifications,
+                    'model_terms' => $model_terms,
+                    'new_provider' => null,
+                    'returning_user' => null,
+                    'model_termexpenses' => null,
+                    'model_termmilestones' => null,
+                    'model_termclauses' => null,
+                ]);
+            }
         } else {
-            return $this->render('update', [
-                'service' => $model->pService,
-                'model' => $model,
-                'model_methods' => $model_methods,
-                'model_specs' => $model_specs,
-                'object_model' => $object_model,
-                'locationHQ'=> $locationHQ,
-                'locationPresentation'=> $locationPresentation,
-                'locationPresentationTo'=> $locationPresentationTo,
-                'user' => $user,
-                'model_timetable' => $model_timetable,
-                'provider_openingHours' => $provider_openingHours,
-                'model_notifications' => $model_notifications,
-                'model_terms' => $model_terms,
-                'new_provider' => null,
-                'returning_user' => null,
-                'model_termexpenses' => null,
-                'model_termmilestones' => null,
-                'model_termclauses' => null,
-            ]);
+            return $this->redirect('/market');
         }
+            
     }
 
     /**
@@ -316,7 +329,21 @@ class PresentationsController extends Controller
         }
     }
 
-          
+    /**
+     * Finds the Presentations model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string $id
+     * @return Presentations the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findPresentationImages($id)
+    {
+        if (($model = \frontend\models\PresentationImages::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }       
 
     protected function saveProviderService($user=null, $service=null)
     {
@@ -429,6 +456,7 @@ class PresentationsController extends Controller
                     $model->provider_id = $proserv->provider_id;
                     $model->service_id = $service->id;
                     $model->object_id = $service->object->id;
+                    $model->price_unit = $service->unit_id;
                     //$model->object_model_id = ($object_model && count($object_model)==1) ? $object_model[0]->id : null;     
                     $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
                     //$model->files = UploadedFile::getInstances($model, 'files');
@@ -499,8 +527,8 @@ class PresentationsController extends Controller
                             } else {
                                 if(Model::loadMultiple($model_specs, Yii::$app->request->post())) {
                                     foreach ($model_specs as $m_spec) {
-                                        //if($m_spec->value!=null || $m_spec['spec_models']!=null){
                                         $m_spec->presentation_id = $model->id;
+                                        $m_spec->multiple_values = ($m_spec['spec_models']!=null) ? 1 : 0;
                                         if($m_spec->save()){
                                             if($m_spec['spec_models']!=null){                                            
                                                 foreach($m_spec['spec_models'] as $key=>$spec_model){
@@ -510,8 +538,7 @@ class PresentationsController extends Controller
                                                     $new_spec_model[$key]->save();
                                                 }
                                             }
-                                        }                                        
-                                        //}                                
+                                        }                               
                                     }
                                 } 
                             } 
@@ -570,6 +597,7 @@ class PresentationsController extends Controller
                                 if(Model::loadMultiple($model_methods, Yii::$app->request->post())) {
                                     foreach ($model_methods as $m_method) {
                                         $m_method->presentation_id = $model->id;
+                                        $m_method->multiple_values = ($m_method['method_models']!=null) ? 1 : 0;
                                         if($m_method->save()){
                                             if($m_method['method_models']!=null){
                                                 foreach($m_method['method_models'] as $key=>$method_model){
@@ -585,33 +613,10 @@ class PresentationsController extends Controller
                             } 
                         }
                         // Presentation Notifications
-                        /*if($model_notifications->load(Yii::$app->request->post()) && $model_notifications->validate()){
-                            $model_notifications->presentation_id = $model->id;
-                            $model_notifications->time = date('Y-m-d H:i:s');
-                            $model_notifications->save();
-                        }*/
                         $model_notifications->presentation_id = $model->id;
                         $model_notifications->time = date('Y-m-d H:i:s');
                         $model_notifications->save();
-                        // Presentation Terms                        
-                        /*if($model_terms->load(Yii::$app->request->post()) && $model_terms->validate()){
-                            $model_terms->presentation_id = $model->id;
-                            $model_terms->update_time = date('Y-m-d H:i:s');
-                            if($model_terms->save()){
-                                if($model_termexpenses->load(Yii::$app->request->post()) && $model_termexpenses->validate()){
-                                    $model_termexpenses->presentation_term_id = $model_terms->presentation_id;
-                                    $model_termexpenses->save();
-                                }
-                                if($model_termmilestones->load(Yii::$app->request->post()) && $model_termmilestones->validate()){
-                                    $model_termmilestones->presentation_term_id = $model_terms->presentation_id;
-                                    $model_termmilestones->save();
-                                }
-                                if($model_termclauses->load(Yii::$app->request->post()) && $model_termclauses->validate()){
-                                    $model_termclauses->presentation_term_id = $model_terms->presentation_id;
-                                    $model_termclauses->save();
-                                }
-                            }                                
-                        }*/
+                        // Presentation Terms
                         $model_terms->presentation_id = $model->id;
                         $model_terms->update_time = date('Y-m-d H:i:s');
                         $model_terms->save();                                
@@ -646,7 +651,7 @@ class PresentationsController extends Controller
     }
 
 
-    protected function updatePresentation($model, $user, $location, $model_specs, $model_methods)
+    protected function updatePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours)
     {
         if($model && $user) {            
             $activity = $model->activity;
@@ -655,70 +660,144 @@ class PresentationsController extends Controller
                 $offer = $model->offer;
                 $offer->update_time = date('Y-m-d H:i:s');
                 if($offer->save()){
-                    $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');               
-                    // location
-                    // 1 ako je register, onda nova lokacija, iz registracije $model->loc_id = $user->details->loc_id;
-                    // 2 ako je izabrao samo, onda loc_id $model->load(...)
-                    // 3 ako je nova lokacija onda location $model->loc_id = $location->id;
-                    /*if($checkPresenter==null){
-                        if($location->load(Yii::$app->request->post())){ // 3
-                            $location->user_id = $user->id;
-                            if($location->save()){
-                                $model->loc_id = $location->id;
-                            } else {
-                                return false;
-                            }
-                        }
-                    } else { // 1 ako je register
-                        $model->loc_id = $user->details->loc_id;
-                    }*/
+                    $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+                    // location HQ
+                    if($locationHQ and $locationHQ->load(Yii::$app->request->post())){
+                        if($locationHQ && !$locationHQ->save()){
+                            echo '<pre>';
+                            print_r($locationHQ); die();
+                        }           
+                    }
+                    // location FROM
+                    if($locationPresentation and $locationPresentation->load(Yii::$app->request->post())){
+                        if(!$locationPresentation->save()){
+                            echo '<pre>';
+                            print_r($locationPresentation); die();
+                        }                               
+                    }
+                    // location TO
+                    if($locationPresentationTo and $locationPresentationTo->load(Yii::$app->request->post())){
+                        if(!$locationPresentationTo->save()){
+                            echo '<pre>';
+                            print_r($locationPresentationTo); die();
+                        }                              
+                    } 
                     if($model->save()){
                         // Presentation Specs
                         if(Model::loadMultiple($model_specs, Yii::$app->request->post())) {
-                            foreach ($model_specs as $m_spec) {
+                            foreach ($model_specs as $m_spec) {                                
                                 if($m_spec->save()){
-                                    /*if($m_spec['spec_models']!=null){                                            
-                                        foreach($m_spec['spec_models'] as $key=>$spec_model){
-                                            $new_spec_model[$key] = new PresentationSpecModels();
-                                            $new_spec_model[$key]->presentation_spec_id = $m_spec->id;
-                                            $new_spec_model[$key]->spec_model = $spec_model;
-                                            $new_spec_model[$key]->save();
+                                    if($m_spec['spec_models']!=null){
+                                        if(is_array($m_spec['spec_models'])){
+                                            // get all existing models
+                                            $mspec_models = []; // contains all the ids
+                                            foreach($m_spec->models as $pres_spec_model){
+                                                $mspec_models[] = $pres_spec_model->spec_model;
+                                                if(!in_array($pres_spec_model->spec_model, $m_spec['spec_models'])){
+                                                    $pres_spec_model->delete();
+                                                }
+                                            }                                            
+                                            foreach($m_spec['spec_models'] as $key=>$spec_model){
+                                                if(!in_array($spec_model, $mspec_models)){
+                                                    $new_spec_model[$key] = new PresentationSpecModels();
+                                                    $new_spec_model[$key]->presentation_spec_id = $m_spec->id;
+                                                    $new_spec_model[$key]->spec_model = $spec_model;
+                                                    $new_spec_model[$key]->save();
+                                                }                                            
+                                            }
+                                        } else {
+                                            $mode = $m_spec->models[0];
+                                            $mode->spec_model = $m_spec['spec_models'];
+                                            $mode->save();
                                         }
-                                    }*/
-                                }                                        
-                                //}                                
-                            }
-                        }                        
-                        // Presentation Methods
-                        if(Model::loadMultiple($model_methods, Yii::$app->request->post())) {
-                            foreach ($model_methods as $m_method) {
-                                //if($m_method->value!=null || $m_method['method_models']!=null){
-                                $m_method->presentation_id = $model->id;
-                                if($m_method->save()){
-                                    /*if($m_method['method_models']!=null){
-                                        foreach($m_method['method_models'] as $key=>$method_model){
-                                            $new_method_model[$key] = new PresentationMethodModels();
-                                            $new_method_model[$key]->presentation_method_id = $m_method->id;
-                                            $new_method_model[$key]->method_model = $method_model;
-                                            $new_method_model[$key]->save();
+                                    } else {
+                                        $part = $m_spec->property->formTypePresentation($service->service_object);
+                                        if($part=='_multiselect' or $part=='_checkboxButton'){
+                                            foreach($m_spec->models as $pres_spec_model){
+                                                $pres_spec_model->delete();
+                                            }
                                         }
-                                    }*/
-                                }                                        
-                                //}                                
+                                    }
+                                }                                 
                             }
-                        }                        
+                        }                                                
                         // Presentation Images
                         if ($model->imageFiles) {
                             $model->upload();
                         }                        
                         // Presentation Issues
-                        /*$model_issues = new PresentationIssues(); */
-                        // Presentation Locations
-                        /*$model_locations = new PresentationLocations();
-                        $model_locations->presentation_id = $model->id;
-                        $model_locations->location_id = $model->loc_id;
-                        $model_locations->location_within = $model->loc_within;
-                        $model_locations->save();*/
+                        // Presentation Issues
+                        if($model->issues){
+                            foreach($model->issues as $issue){
+                                $model_issue = new PresentationIssues();
+                                $model_issue->presentation_id = $model->id;
+                                $model_issue->issue = $issue;
+                                $model_issue->save();
+                            }
+                        }
+                        // Presentation Methods
+                        if(Model::loadMultiple($model_methods, Yii::$app->request->post())) {
+                            foreach ($model_methods as $m_method) {
+                                //$m_method->presentation_id = $model->id;
+                                if($m_method->save()){
+                                    if($m_method['method_models']!=null){
+                                        if(is_array($m_method['method_models'])){
+                                            // get all existing models
+                                            $mmethod_models = []; // contains all the ids
+                                            foreach($m_method->models as $pres_method_model){
+                                                $mmethod_models[] = $pres_method_model->method_model;
+                                                if(!in_array($pres_method_model->method_model, $m_method['method_models'])){
+                                                    $pres_method_model->delete();
+                                                }
+                                            } 
+                                            foreach($m_method['method_models'] as $key=>$method_model){
+                                                if(!in_array($method_model, $mmethod_models)){
+                                                    $new_method_model[$key] = new PresentationMethodModels();
+                                                    $new_method_model[$key]->presentation_method_id = $m_method->id;
+                                                    $new_method_model[$key]->method_model = $method_model;
+                                                    $new_method_model[$key]->save();
+                                                }
+                                            }
+                                        } else {
+                                            $mode = $m_method->models[0];
+                                            $mode->method_model = $m_method['method_models'];
+                                            $mode->save();
+                                        }                                            
+                                    } else {
+                                        $part = $m_spec->property->formTypePresentation($service->service_object);
+                                        if($part=='_multiselect' or $part=='_checkboxButton'){
+                                            foreach($m_method->models as $pres_method_model){
+                                                $pres_method_model->delete();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // Presentation Notifications
+                        if($model_notifications->load(Yii::$app->request->post()) && $model_notifications->validate()){
+                            $model_notifications->time = date('Y-m-d H:i:s');
+                            $model_notifications->save();
+                        }
+                        // Presentation Terms                        
+                        if($model_terms->load(Yii::$app->request->post()) && $model_terms->validate()){
+                            $model_terms->update_time = date('Y-m-d H:i:s');
+                            if(!$model_terms->save()){
+                                /*if($model_termexpenses->load(Yii::$app->request->post()) && $model_termexpenses->validate()){
+                                    $model_termexpenses->presentation_term_id = $model_terms->presentation_id;
+                                    $model_termexpenses->save();
+                                }
+                                if($model_termmilestones->load(Yii::$app->request->post()) && $model_termmilestones->validate()){
+                                    $model_termmilestones->presentation_term_id = $model_terms->presentation_id;
+                                    $model_termmilestones->save();
+                                }
+                                if($model_termclauses->load(Yii::$app->request->post()) && $model_termclauses->validate()){
+                                    $model_termclauses->presentation_term_id = $model_terms->presentation_id;
+                                    $model_termclauses->save();
+                                }*/
+                                return false;
+                            }                                
+                        }
 
                         return true; 
                     }
@@ -777,5 +856,33 @@ class PresentationsController extends Controller
             }
         }
         return;            
+    }
+
+    /**
+     * Deletes a photo/pdf.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionDeleteFile($id)
+    {
+        $pimage = $this->findPresentationImages($id);
+        $red = $pimage->presentation->id;
+        if($pimage){
+            $file = $pimage->image;
+            $pimage->delete();
+            if($file->type=='pdf'){
+                $file->delete();
+                unlink(Yii::getAlias('@webroot/images/presentations/docs/'.$pimage->image->ime));
+            } else { // slika
+                $file->delete();
+                unlink(Yii::getAlias('@webroot/images/presentations/thumbs/'.$pimage->image->ime));
+                unlink(Yii::getAlias('@webroot/images/presentations/full/'.$pimage->image->ime));
+                unlink(Yii::getAlias('@webroot/images/presentations/'.$pimage->image->ime));
+            } 
+
+            return $this->redirect('/presentation-setup/'.$red);
+        }            
+        return false;        
     }
 }

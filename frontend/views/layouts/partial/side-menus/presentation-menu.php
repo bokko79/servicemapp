@@ -57,6 +57,8 @@ if(Yii::$app->user->isGuest):
 	$menuItems[] = ['label' => $data->noUac.'. '. 'Vaši podaci <span class="check15 float-right"><i class="fa"></i></span>', 'url' => '#uac', 'options'=>[]];
 endif;
 
+echo $data->generatedServiceName();
+
 echo Menu::widget([
         'options' => ['class' => 'sidebar-menu', 'style'=>'position:fixed; width:200px;'],
         'encodeLabels' => false,

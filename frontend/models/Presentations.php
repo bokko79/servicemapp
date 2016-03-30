@@ -130,7 +130,7 @@ class Presentations extends \yii\db\ActiveRecord
            [['price'], 'number', 'min'=>0],
            [['price'], 'required'],
            [['valid_from', 'valid_through', 'update_time'], 'safe'],
-           [['youtube_link'], 'string', 'max' => 128],
+           [['youtube_link'], 'string', 'max' => 256],
            [['youtube_link'], 'url', 'pattern'=>'/^https:\/\/(?:www\.)?(?:youtube.com|youtu.be)\/(?:watch\?(?=.*v=([\w\-]+))(?:\S+)?|([\w\-]+))$/'],
            [['title', 'valid_for_consumers'], 'string', 'max' => 64],
            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activities::className(), 'targetAttribute' => ['activity_id' => 'id']],
@@ -221,7 +221,7 @@ class Presentations extends \yii\db\ActiveRecord
            'provider_presentation_pics' => Yii::t('app', 'Sačuvane slike'),
            'provider_presentation_docs' => Yii::t('app', 'Sačuvani dokumenti'),
            'provider_presentation_methods' => Yii::t('app', 'Sačuvane ponude'),
-           'imageFiles' => Yii::t('app', 'Prikačite slike'),
+           'imageFiles' => Yii::t('app', 'Prikačite slike i/ili PDF'),
            'files' => Yii::t('app', 'Prikačite PDF dokumente'),
            'location_input' => Yii::t('app', 'Adresa Vašeg sedišta'),
            'quantityConstCheck' => Yii::t('app', 'Ograničenja na naručene količine?'),
@@ -267,6 +267,7 @@ class Presentations extends \yii\db\ActiveRecord
                     $presentation_image[$key_f] = new \frontend\models\PresentationImages();
                     $presentation_image[$key_f]->presentation_id = $this->id;
                     $presentation_image[$key_f]->image_id = $image[$key_f]->id;
+                    $presentation_image[$key_f]->type = $image[$key_f]->type;
                     $presentation_image[$key_f]->save();
                 }
                 if($file->extension!='pdf'){
@@ -384,6 +385,15 @@ class Presentations extends \yii\db\ActiveRecord
         }
         return $pdf;
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFiles()
+    {
+        return $this->hasMany(PresentationImages::className(), ['presentation_id' => 'id']);
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery
@@ -596,9 +606,9 @@ class Presentations extends \yii\db\ActiveRecord
             }
         }
         if($objectM == null && $methodM == null){            
-            return $this->pService->tName;
+            return ($this->pService) ? $this->pService->tName : $this->service->tName;
         } else {
-            $act = $this->pService->action->tName;
+            $act = ($this->pService) ? $this->pService->action->tName : $this->service->action->tName;
             if($methodM != null){
                $act .=  ' ['.$methodM.'] ';
             }

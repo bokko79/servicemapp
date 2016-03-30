@@ -34,19 +34,18 @@ $this->params['presentation'] = $model;
     'model_termmilestones' => $model_termmilestones,
     'model_termclauses' => $model_termclauses,
 ]) ?>
-<?php if($medias = $model->images){
-	foreach($medias as $media){
+<?php if($files = $model->files){
+	foreach($files as $file){
 		Modal::begin([
-	        'id'=>'image-delete'.$media->id,
-	        //'size'=>Modal::SIZE_SMALL,
+	        'id'=>'file-delete'.$file->id,
 	        'options' => ['class'=>'overlay_modal fade'],
-	        'header'=> '<h4 class="thin center">Da li zaista želite da obrišete sliku iz prezentacije?</h4>',
+	        'header'=> '<h4 class="thin center">Da li zaista želite da obrišete datoteku iz prezentacije?</h4>',
 	    ]); ?>
 
 		    <div class="container-fluid">
 		        <div class="row">
 		            <div class="col-md-12 center">
-		                <?= Html::a(Yii::t('app', 'Potvrdi'), ['/presentations/deleteImage', 'id' => $media->id], ['class' => 'btn btn-danger margin-right-20', 'data'=>['method'=>'post']]) ?>
+		                <?= Html::a(Yii::t('app', 'Potvrdi'), ['/presentations/delete-file', 'id' => $file->id], ['class' => 'btn btn-danger margin-right-20', 'data'=>['method'=>'post']]) ?>
 		                <?= Html::button(Yii::t('app', 'Odustani'), ['class' => 'btn btn-default', 'data-dismiss'=>"modal"]) ?>
 		            </div>
 		        </div>

@@ -17,7 +17,7 @@ foreach($model_method->models as $m_meth_model){
         'options'=>['tag'=>'div', 'style'=>'margin:10px 0;'],
         'contentBefore'=>'',
         'attributes'=> [
-        	'['.$index.']method_models[]' => [
+        	'['.$index.']method_models' => [
         		'type'=>Form::INPUT_CHECKBOX_LIST,
         		'label' => $property->label .'<br><div class="checkbox col-sm-offset-3"><label><input type="checkbox" id="ckbCheckAll'. $property->id .'"> <i>Izaberite/Poništite sve</i></label></div>',
         		'hint'=> $property->tHint,

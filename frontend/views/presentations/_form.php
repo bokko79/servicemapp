@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Presentations */
@@ -73,3 +74,4 @@ use yii\web\Session;
     <?php endif; ?>
     </fieldset>
 <?php ActiveForm::end(); ?>
+

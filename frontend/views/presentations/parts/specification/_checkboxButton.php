@@ -5,6 +5,9 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 
 $model_list = ArrayHelper::map($property->models, 'id', 'tNameWithHint');
+foreach($model_spec->models as $m_spec_model){
+    $model_spec->spec_models[] = $m_spec_model->spec_model;
+}
 ?>
 	<?= $form->field($model_spec, '['.$index.']spec_models', [
 		'hintType' => ActiveField::HINT_SPECIAL,

@@ -187,6 +187,9 @@ $template_tag = '<div class="capitalize">{{name}} <i class="fa fa-caret-right"><
 			        
 			    ],
 			    'pluginEvents' => [
+			    	"typeahead:render" => "function(event, data) { 
+			    			$('html,body').animate({scrollTop: $(this).offset().top-80});
+						}",
 				    "typeahead:select" => "function(event, data) {
 				    		if(data.id){
 				    			$('#csservicessearch-id').val(data.id); 

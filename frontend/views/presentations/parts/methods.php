@@ -36,7 +36,7 @@ $message = Yii::t('app', '{whatkind} {action} vršite?', ['whatkind'=>$whatkind,
 		echo $this->render('method/'.$property->formTypePresentation($service->service_object).'.php', ['form'=>$form, 'index'=>$index, 'model_method'=>$model_method, 'method'=>$method, 'property'=>$property, 'service'=>$service]);
 		echo Html::activeHiddenInput($model_method, '['.$index.']method_id', ['value'=>$method->id]);
 	} ?>
-<?php if($user && $user->provider->presWithSameAction($service->action_id)!=null and Yii::$app->controller->action->id=='create'){ ?>
+<?php if($user and $user->provider && $user->provider->presWithSameAction($service->action_id)!=null and Yii::$app->controller->action->id=='create'){ ?>
     </div>
 <?php } ?>
 <?= $this->render('method/_duration.php', ['form'=>$form, 'model'=>$model, 'service'=>$service]) ?>

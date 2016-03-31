@@ -236,6 +236,9 @@ class Presentations extends \yii\db\ActiveRecord
      */
     public function getService()
     {
+        if($this->pService){
+            $this->_service = $this->pService;
+        }
         if ($this->_service === null) {
             $this->_service = $this->service;
         }
@@ -496,6 +499,14 @@ class Presentations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUnit()
+    {
+        return $this->hasOne(CsUnits::className(), ['id' => 'price_unit']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCurrency()
     {
         return $this->hasOne(CsCurrencies::className(), ['id' => 'currency_id']);
@@ -600,7 +611,7 @@ class Presentations extends \yii\db\ActiveRecord
             $methodM = null;
             foreach($methodModels as $methodModel){
                 if($methodModel->method->type=='types'){
-                   $methodM = $methodModel->models[0]->model->tname; 
+                   $methodM = ($methodModel->models) ? $methodModel->models[0]->model->tname : null; 
                    break;
                 }
             }
@@ -618,9 +629,7 @@ class Presentations extends \yii\db\ActiveRecord
             }
             return $act . $obj;
         }
-    }
-
-   
+    }   
 
     public function hasProviderLocation()
     {
@@ -628,5 +637,22 @@ class Presentations extends \yii\db\ActiveRecord
             return $proLocation;
         }
         return null;
+    }
+
+    public function validityStatus()
+    {
+        if($this->validity){
+            switch ($this->validity) {
+                case 'yes':
+                    echo '<i class="fa fa-check"></i> Dostupno';
+                    break;
+                case 'limited':
+                    echo '<b>Dostupno od '.Yii::$app->formatter->asDate($this->valid_from).' do '.Yii::$app->formatter->asDate($this->valid_through).'</b>';
+                    break;
+                default:
+                    echo '<i class="fa fa-ban"></i> Ova usluga trenutno nije dostupna';
+                    break;
+            } 
+        }                    
     }
 }

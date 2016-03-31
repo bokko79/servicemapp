@@ -77,7 +77,7 @@ $message = ($service->service_object==1) ? Yii::t('app', 'Opišite ukratko {your
             }      
         }
     }
-if($user && $user->provider->presWithSameObject($object->id)!=null && $service->service_object!=1 and Yii::$app->controller->action->id=='create'){ ?>
+if($user and $user->provider && $user->provider->presWithSameObject($object->id)!=null && $service->service_object!=1 and Yii::$app->controller->action->id=='create'){ ?>
     </div>
 <?php } ?>
 <?= $this->render('_submitButton.php') ?>

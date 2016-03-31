@@ -69,7 +69,9 @@ class OrdersController extends Controller
     public function actionAdd($title=null)
     {
         if (isset($title) && ($ser_tr = $this->findServiceByTitle($title))) {
-            $object_models = (Yii::$app->request->post('CsObjects')) ? Yii::$app->request->post('CsObjects')['id'] : null;
+            $object_models = (Yii::$app->request->get('CsObjects')) ? Yii::$app->request->get('CsObjects')['id'] : null;
+            $presentation = (Yii::$app->request->get('Presentations')) ? $this->findPresentation(Yii::$app->request->get('Presentations')['id']) : null;
+
             $service = $this->findService($ser_tr->service_id);
             $key = (isset(Yii::$app->session['cart']['industry'][$service->industry_id]['data']) && Yii::$app->session['cart']['industry'][$service->industry_id]['data']!=null) ? count(Yii::$app->session['cart']['industry'][$service->industry_id]['data'])+1 : 1;
             
@@ -77,6 +79,8 @@ class OrdersController extends Controller
             $model->service = $service;
             $model->object_models = $object_models;
             $model->key = $key;
+            $model->type = $presentation ? 'direct' : 'global';
+            $model->presentation = $presentation ? $presentation : null;
             $model->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 1 : 0;
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
             // method model
@@ -296,7 +300,23 @@ class OrdersController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }    
+    } 
+
+    /**
+     * Finds the CsServicesTranslation model based on its translated title.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return CsServices the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findPresentation($id)
+    {
+        if (($model = \frontend\models\Presentations::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }   
 
     /**
      * Izlistava sve modele izabranih predmeta usluga.

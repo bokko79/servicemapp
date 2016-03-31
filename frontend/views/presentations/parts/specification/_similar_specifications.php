@@ -4,7 +4,7 @@ use yii\helpers\Url;
 use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 ?>
-<?php if($user && $user->provider->presWithSameObject($object->id)!=null && $service->service_object!=1 and Yii::$app->controller->action->id=='create'){ ?>    
+<?php if($user and $user->provider and $user->provider->presWithSameObject($object->id)!=null && $service->service_object!=1 and Yii::$app->controller->action->id=='create'){ ?>    
     <?= $form->field($model, 'provider_presentation_specs', [
             'feedbackIcon' => [
                 'success' => 'ok',

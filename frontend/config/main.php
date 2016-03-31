@@ -19,6 +19,10 @@ return [
             'enableAutoLogin' => true,
             'class' => 'frontend\components\User',
         ],*/
+        'formatter' => [
+           'class' => 'yii\i18n\Formatter',
+           'locale' => 'sr-RS',
+        ],
         'user' => [
             'identityCookie' => [
                 'name'     => '_frontendIdentity',

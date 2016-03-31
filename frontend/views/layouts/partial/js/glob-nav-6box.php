@@ -10,7 +10,7 @@ use yii\helpers\Url;
 <script type="text/javascript">
 // MARKET
 $(document).ready(function(){
-  $("#category_filter_display").click(function(){
+  /*$("#category_filter_display").click(function(){
     $('header.main').removeClass('full');
     $('header.main').addClass('full');
 
@@ -65,7 +65,7 @@ $(document).ready(function(){
     $('.shopping_steps .first .arrow').show();
 
     $('html,body').animate({
-              scrollTop: $(this).offset().top-60},
+              scrollTop: $(this).offset().top-70},
               500);
 
     $('.industry_6box_slider').removeClass('white');
@@ -96,10 +96,10 @@ $(document).ready(function(){
       $.get( url, function(data) {
           $('.subindustry0').html(data);
       });
-  });
+  });*/
 
 // GLOBAL NAV GENERAL
-  $("#glob_hover_service, #glob_hover_market, #glob_hover_provider").click(function(){
+  $("#glob_hover_service").click(function(){
     $('header.main').removeClass('full');
     $('header.main').addClass('full');
     $('.category').hide();
@@ -119,15 +119,6 @@ $(document).ready(function(){
     $('.subindustry5').hide();
     $('.subindustry6').hide();
 
-    var url_glob = '<?= Url::to("/glob-ind-ser") ?>';
-    $.get( url_glob, function(data) {
-        $('.industry_6box').html(data);
-        sektor();
-    });
-  });
-
-// SERVICES
-  $("#glob_hover_service").click(function(){
     var url_globHead = '<?= Url::to("/glob-nav-services-head") ?>';
     $.get( url_globHead, function(data) {
         $('.industry_6box_head').html(data);
@@ -138,11 +129,17 @@ $(document).ready(function(){
         $('.subindustry0').html(data);
     });
 
-
+    var url_glob = '<?= Url::to("/glob-ind-ser") ?>';
+    $.get( url_glob, function(data) {
+        $('.industry_6box').html(data);
+        sektor();
+    });
   });
 
+// SERVICES
+
 // MARKET
-  $("#glob_hover_market").click(function(){
+  /*$("#glob_hover_market").click(function(){
     var url_globHead = '<?= Url::to("/glob-nav-market-head") ?>';
     $.get( url_globHead, function(data) {
         $('.industry_6box_head').html(data);
@@ -164,7 +161,7 @@ $(document).ready(function(){
     $.get( url, function(data) {
         $('.subindustry0').html(data);
     });
-  });                  
+  }); */                 
 });
 
 /*$(document).ready(function(){

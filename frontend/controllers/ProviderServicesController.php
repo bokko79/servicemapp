@@ -49,7 +49,7 @@ class ProviderServicesController extends Controller
             $user = User::find()->where(['username'=>$username])->one();
         }
 
-        if($user && $user->id==Yii::$app->user->id) {
+        if($user and $user->provider && $user->id==Yii::$app->user->id) {
             $searchModel = new ProviderIndustriesSearch();
             $searchModel->provider_id = $user->provider->id;
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

@@ -577,7 +577,7 @@ function initialize_pres_loc2(){
   }
 
 }
-/*
+
 // register user uac modal
 function initialize_reg_loc(){
   $("#signup-form-vertical #locations-name").geocomplete({
@@ -628,7 +628,7 @@ function initialize_reg_pro_loc(){
     types: ['(cities)'],
   });  
 }
-*/ 
+
 $(document).ready(function(){ 
   $('.loc_op_country').html(locCtry);
   $('.loc_op_region').html(locDis);

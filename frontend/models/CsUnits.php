@@ -90,6 +90,14 @@ class CsUnits extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getServiceUnits()
+    {
+        return $this->hasMany(CsServiceUnits::className(), ['unit_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getT()
     {
         return $this->hasMany(CsUnitsTranslation::className(), ['unit_id' => 'id']);

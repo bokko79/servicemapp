@@ -224,6 +224,14 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUnits()
+    {
+        return $this->hasMany(CsServiceUnits::className(), ['service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getAction()
     {
         return $this->hasOne(CsActions::className(), ['id' => 'action_id']);

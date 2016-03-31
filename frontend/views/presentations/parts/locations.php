@@ -139,5 +139,5 @@ $message = 'Vaše sedište i područje na kojem vršite '.$service->tName.'.';
 	</div>		
 <?php endif; ?>
 <?= $this->render('_submitButton.php') ?>
-<?= $this->render('_hiddenLocation.php', ['form'=>$form, 'locationHQ'=> $locationHQ, 'locationPresentation'=> $locationPresentation, 'locationPresentationTo'=> $locationPresentationTo, 'model' => $model, 'service' => $service]) ?>
+<?= $this->render('location/_hidden.php', ['form'=>$form, 'locationHQ'=> $locationHQ, 'locationPresentation'=> $locationPresentation, 'locationPresentationTo'=> $locationPresentationTo, 'model' => $model, 'service' => $service]) ?>
 </div>

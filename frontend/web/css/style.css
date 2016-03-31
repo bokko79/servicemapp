@@ -131,6 +131,8 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 .bold {font-weight: 700;}
 .extra_bold {font-weight: 900;}
 
+.uppercase {text-transform: uppercase;}
+
 /* colors */
 .white {color:white !important;}
 .red {color:red !important;}
@@ -618,7 +620,7 @@ div.subnav > ul > li.header {    display: block;
     white-space: nowrap}
 
 div.subnav-fixed {position: absolute; z-index: 1; top:60px; padding: 0; background: #263238; border: none; height: 50px; left:0; right:0; display: block; box-shadow: 0px 2px 4px #444;}
-div.subnav-fixed.search {height: 60px; display: none; box-shadow: none; z-index: 0;}
+div.subnav-fixed.search {height: 60px; display: none; box-shadow: 0px 1px 4px #eee; z-index: -1; background: #ddd;}
 div.subnav-fixed > ul {margin: 0 auto; width: 1170px; padding: 0 15px;}
 div.subnav-fixed > ul > li {display: inline-block; padding:18px 15px 10px; color: #fff;}
 div.subnav-fixed > ul > li.button {padding: 10px 0 6px;}
@@ -647,7 +649,7 @@ div.subnav-fixed.search .service_autocomplete_search button {height:34px;}
 
 /* category */
 div.category {
-		display: none; position:absolute; top:50px; left:0; right:0px; bottom: 0; background:#eee; 
+		display: none; position:absolute; top:60px; left:0; right:0px; bottom: 0; background:#eee; 
 		z-index: 1002;  border-bottom:1px solid #ddd; border-top:4px solid #2196F3;
 		box-shadow: 0 1px 5px #aaa; padding: 0; /*min-height: 720px;*/overflow: auto; height: 100%;
 	}
@@ -1111,3 +1113,5 @@ a.butn {width: 100%; /*font-weight: 700;*/ font-size: 13px; text-transform: uppe
     width: 100%;
     height: 100%;
 }
+
+/*.js-masonry .list-view > div {min-height: 200px;}*/

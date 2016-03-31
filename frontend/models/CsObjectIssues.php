@@ -73,6 +73,29 @@ class CsObjectIssues extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTranslation()
+    {
+        $object_translation = \frontend\models\CsObjectIssuesTranslation::find()->where('lang_code="SR" and object_issue_id='.$this->id)->one();
+        if($object_translation) {
+            return $object_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getOrderServiceIssues()
     {
         return $this->hasMany(OrderServiceIssues::className(), ['object_issue_id' => 'id']);

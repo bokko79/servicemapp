@@ -47,7 +47,7 @@ class PresentationData extends Presentations
 
     public function checkIfUpdate()
     {
-        return (Yii::$app->controller->action!='update') ? 0 : 1;
+        return (Yii::$app->controller->action->id=='update') ? 0 : 1;
     }
 
     public function getNoPic()
@@ -138,31 +138,31 @@ class PresentationData extends Presentations
                 break;
             case 3:
                 $model_list = [
-                    '5'=>'<b><span class="loc_op_country"></span></b> i šire', 
-                    '4'=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
+                    5=>'<b><span class="loc_op_country"></span></b> i šire', 
+                    4=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
                     //'region'=>'Samo u okviru regiona <b><span class="loc_op_region"></span></b>', 
-                    '2'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
-                    '1'=>'Samo u sedištu <b><span class="loc_op_exact"></span></b>',
-                    '0'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                    3=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    1=>'Samo u sedištu <b><span class="loc_op_exact"></span></b>',
+                    0=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
                 ];
                 break;
             case 4:
                 $model_list = [
-                    '6'=>'Bez ograničenja (ceo svet/nebitno)', 
-                    '5'=>'<b><span class="loc_op_country"></span></b> i šire',
-                    '4'=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
+                    6=>'Bez ograničenja (ceo svet/nebitno)', 
+                    5=>'<b><span class="loc_op_country"></span></b> i šire',
+                    4=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
                     //'region'=>'Samo u okviru regiona <b><span class="loc_op_region"></span></b>', 
-                    '2'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
-                    '1'=>'Samo u sedištu <b><span class="loc_op_exact"></span></b>',
-                    '0'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                    2=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    1=>'Samo u sedištu <b><span class="loc_op_exact"></span></b>',
+                    0=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
                 ];
                 break;
             default:
                 $model_list = [
                     //'region'=>'Samo u okviru regiona <b><span class="loc_op_region"></span></b>', 
-                    '2'=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
-                    '1'=>'Samo u sedištu <b><span class="loc_op_exact"></span></b>',
-                    '0'=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                    2=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    1=>'Samo u sedištu <b><span class="loc_op_exact"></span></b>',
+                    0=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
                 ];
             }
         }
@@ -296,16 +296,10 @@ class PresentationData extends Presentations
 
     public function generatePricePerUnit()
     {
-        $unit = $this->pService->unit;
-        $pricePer = ['total'=>'ukupno', 'per_unit'=>'/'.$unit->oznaka];
-        if($unit->type=='package'){
-            switch($unit->name){
-                case 'time_pack':
-                    $pricePer = ['total'=>'ukupno', 'per_unit'=>'/'.$unit->oznaka, 'per_unit'=>'/'.$unit->oznaka,];
-                    break;
-                default:
-                    $pricePer = ['total'=>'ukupno', 'per_unit'=>'/'.$unit->oznaka];
-                    break;
+        $pricePer['total'] = 'ukupno';
+        if($units = $this->service->units){
+            foreach ($units as $key => $unit) {
+                $pricePer[$unit->unit->id] = '/'.$unit->unit->oznaka;
             }
         }
         return $pricePer;

@@ -48,8 +48,9 @@ $message = 'Odredite cenu za uslugu koju pružate.';
 	    <div class="col-sm-2" style="padding-right:0">
 	        <?= $form->field($model, 'price_per',[
 	            	'showLabels'=>false
-	        	])->dropDownList(['total'=>'ukupno', 'per_unit'=>'/'.$service->unit->oznaka], ['class'=>'input-lg']) ?>
+	        	])->dropDownList($model->generatePricePerUnit(), ['class'=>'input-lg']) ?>
 	    </div>
+	    <input type="hidden" name="PresentationData[price_unit]" value="<?= $service->unit_id ?>">
 	</div>
 	<?= $this->render('price/_calculation.php', ['model'=>$model, 'service'=>$service,]) ?>
 	<?php if(!$model->checkIfConsumer()): 

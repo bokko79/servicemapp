@@ -254,8 +254,13 @@ $(document).ready(function(){
     if(price && currency && price_per){
       $('.calculated_provision_price').show();
       $('.earnings').html((price*provision/100).toFixed(2) + ' ' + currency + ' ' + price_per);
+    }
+    if(currency && price_per){
       $('.currperunit').html(currency + (price_per=='ukupno' ? '' : price_per));
     }
+    if(price_per){
+      $('input[name="PresentationData[price_unit]"]').val($("#presentationdata-price_per").val());
+    }    
   });
 
   $('input#presentationdata-qtypriceconst').on('switchChange.bootstrapSwitch', function(event, state) {
@@ -413,11 +418,29 @@ $(document).ready(function(){
   $('.toggle-register-login').on("click", function(e) {
     $('.new_user_register').toggle();
     $('.returning_user_login').toggle();
+
     $(this).find('.reg').toggle();
     $(this).find('.log').toggle();
     $('html,body').animate({
               scrollTop: $(this).offset().top-70},
               500);
+    var checkReg = $('input[name="registerProvider-form[checker]"]').val(),
+        checkLog = $('input[name="login-form[checker]"]').val();
+    if(checkReg==1){
+      $('input[name="registerProvider-form[checker]"]').val(0);
+    } else {
+      $('input[name="registerProvider-form[checker]"]').val(1);
+    }
+    if(checkLog==1){
+      $('input[name="login-form[checker]"]').val(0);
+    } else {
+      $('input[name="login-form[checker]"]').val(1);
+    }
+  });
+
+  // reset animate !important
+  $(window).bind('mousewheel', function() {
+      $('html, body').stop();
   });
 
   //highlight menu item on scroll

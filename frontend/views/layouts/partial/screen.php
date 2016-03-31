@@ -12,7 +12,7 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo3.png', ['alt'=>'Servi
 
 <div class="container" style="">
 	<div class="content" style="">
-		<div class="center"><?= Html::a($logo_url, '/', ['class' => '']) ?></div>
+	<?= $renderIndex ? '<div class="center">'.Html::a($logo_url, '/', ['class' => '']).'</div>' : null ?>
 	<?php if($state!='' && $renderIndex): ?>
 		<h3 style="margin:15px 0 0; text-align:center"><?= ($state=='order') ? 'Izaberite uslugu koju želite da poručite' : 'Izaberite uslugu koju želite da ponudite' ?></h3>
 		<hr>

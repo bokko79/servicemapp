@@ -21,59 +21,8 @@ $message = 'Vaši login podaci su neophodni kako bi sačuvali Vaša podešavanja
         <?= Html::a('<span>Registrujte se</span>', null, ['class'=>'btn btn-warning toggle-register-login', 'style'=>'display:none;']); ?>
         <?= Html::a('<span class="reg">Već imate nalog? Prijavite se</span><span class="log" style="display:none;">Registrujte se</span>', null, ['class'=>'btn btn-warning toggle-register-login']); ?>
     </div> 
-    <div class="new_user_register">
-        <h6 class="col-sm-offset-3 margin-top-20 gray-color"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Registracija</h6>
-        <p class="col-sm-offset-3 hint-text margin-bottom-20"></p>
-        <?= $form->field($new_provider, 'username', [
-            'enableAjaxValidation' => true,
-            'feedbackIcon' => [
-                'default' => 'user',
-                'success' => 'ok',
-                'error' => 'exclamation-sign',
-                'defaultOptions' => ['class'=>'text-primary']
-            ]])->input('text') ?>
-        <?= $form->field($new_provider, 'password', [
-            'feedbackIcon' => [
-                'default' => 'lock',
-                'success' => 'ok',
-                'error' => 'exclamation-sign',
-                'defaultOptions' => ['class'=>'text-primary']
-            ]])->passwordInput() ?>
-        <?php /* $form->field($new_provider, 'password_repeat', [
-            'feedbackIcon' => [
-                'default' => 'lock',
-                'success' => 'ok',
-                'error' => 'exclamation-sign',
-                'defaultOptions' => ['class'=>'text-primary']
-            ]])->passwordInput() */ ?>
-        <?= $form->field($new_provider, 'email', [
-            'enableAjaxValidation' => true,
-            'feedbackIcon' => [
-                'default' => 'envelope',
-                'success' => 'ok',
-                'error' => 'exclamation-sign',
-                'defaultOptions' => ['class'=>'text-primary']
-            ]])->input('email') ?>
-        <?= $form->field($new_provider, 'industry')->hiddenInput(['value'=>$service->industry_id])->label(false) ?>
-        <?= $form->field($new_provider, 'registration_type')->hiddenInput(['value'=>4])->label(false) ?>
-    </div>        
-    <div class="returning_user_login" style="display:none;">
-        <h6 class="col-sm-offset-3 margin-top-20 gray-color"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</h6>
-        <p class="col-sm-offset-3 hint-text margin-bottom-20"></p>
-        <?php /* $form->field($returning_user, 'login', [
-            'feedbackIcon' => [
-                'default' => 'user',
-                'success' => 'ok',
-                'error' => 'exclamation-sign',
-                'defaultOptions' => ['class'=>'text-primary']
-            ]]) ?>
-        <?= $form->field($returning_user, 'password', [
-            'feedbackIcon' => [
-                'default' => 'lock',
-                'success' => 'ok',
-                'error' => 'exclamation-sign',
-                'defaultOptions' => ['class'=>'text-primary']
-            ]])->passwordInput() ?>
-        <?= $form->field($returning_user, 'rememberMe')->checkbox() */ ?>
-    </div>
+    <?= $this->render('uac/_register.php', ['form'=>$form, 'new_provider'=>$new_provider, 'service'=>$service]) ?>
+    <?php // $this->render('uac/_login.php', ['form'=>$form, 'returning_user'=>$returning_user, 'service'=>$service]) ?> 
+    <?= yii\helpers\Html::activeHiddenInput($new_provider, 'checker', ['value'=>1]) ?>
+    <?= yii\helpers\Html::activeHiddenInput($returning_user, 'checker', ['value'=>0]) ?>
 </div>

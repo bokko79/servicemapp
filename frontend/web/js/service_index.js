@@ -3,7 +3,7 @@ $(document).ready(function(){
   $(".industries-six-boxes-link").on('click', function(){
       $('.six_boxes_container_industries').show();      
       sektor();
-      $('body').animate({scrollTop: 365}, 400);
+      $('body').animate({scrollTop: 425}, 400);
   });
 
   $(".industries-six-boxes-link-mini").on('click', function(){

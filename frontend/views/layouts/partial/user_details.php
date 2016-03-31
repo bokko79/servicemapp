@@ -17,7 +17,7 @@ use yii\helpers\Url;
 <div class="card_container record-200 card-tile" id="card_container" style="float:none; clear:both;"> 
     <div class="secondary-context cont">                    
         <p>Lokacija: <b><?= $user->location->location_name ?></b></p>
-        <p>Kredit: <b><?= $user->details->Mcoin ?> <?= $user->currency->code ?></b></p>
+        <p>Kredit: <b><?= $user->credit->balance ?> <?= $user->currency->code ?></b></p>
         <p>Registrovan od: <b><?= Yii::$app->formatter->asDate($user->created_at, 'MMMM yy') ?></b></p>
     </div>               
 </div> 

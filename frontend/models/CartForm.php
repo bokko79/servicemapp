@@ -15,6 +15,8 @@ class CartForm extends Model
     public $key;
     public $industry;
     public $service; // izabrana usluga
+    public $type;
+    public $presentation;
     public $object_models;
     public $skills = [];
     public $imageFiles = [];
@@ -60,7 +62,7 @@ class CartForm extends Model
             [['note', 'issue_text'], 'string'],            
             [['title', 'note'], 'filter', 'filter' => 'trim'],
             //$pic,
-            [['skills'], 'safe'],
+            [['skills', 'type', 'presentation'], 'safe'],
             ['user_object', 'required', 'when' => function ($model) {
                 return false;
             }, 'whenClient' => "function (attribute, value) {
@@ -221,6 +223,8 @@ class CartForm extends Model
         
         $_SESSION['cart']['industry'][$this->service->industry_id]['data'][$this->key] = [
             'service' => $this->getService()->id,
+            'type' => $this->type,
+            'presentation' => $this->presentation,
             'object_models' => $this->object_models,
             'amount' => $this->amount,
             'amount_to' => $this->amount_to,

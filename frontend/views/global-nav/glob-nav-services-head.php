@@ -15,8 +15,7 @@ use yii\helpers\ArrayHelper;
 					<td class="control zoomInLeft animated">
 						<h1><?= Html::a('<i class="fa fa-shopping-basket"></i>&nbsp;Naručite.', '#', array()); ?></h1>
 						<p>Naručivanje usluga od registrovanih, profesionalnih pružalaca usluga. <a href="<?= Url::to('/info') ?>">Saznaj više.</a></p>
-					</td>
-					
+					</td>					
 					<td class="control zoomInDown animated">
 						<h1><?= Html::a('<i class="fa fa-hand-spock-o"></i>&nbsp;Pružajte.', '#', array()); ?></h1>
 						<p>Opišite usluge koje pružate, osvojite nove klijente i zaradite. <a href="<?= Url::to('/info') ?>">Saznaj više.</a></p>
@@ -30,7 +29,7 @@ use yii\helpers\ArrayHelper;
 		</div>
 	</div>
 </div><!-- <div class="row-fluid industry"> -->	
-
+<?php /*
 <div class="featured" style="margin: 0 auto; text-align:center;">
 	<h2 style="margin: 20px 0 0; ">Izaberite usluge</h2>
 	<hr>
@@ -53,4 +52,12 @@ use yii\helpers\ArrayHelper;
 			])->label(false) ?>
 		<?php ActiveForm::end(); ?>
 	</div>
+</div>
+
+ */ ?>
+
+<div class="container">
+	<div class="content">
+		<?= $this->render('autocomplete.php', ['renderIndex'=>false]) ?>					
+	</div>				
 </div>

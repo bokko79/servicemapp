@@ -72,7 +72,7 @@ class PresentationsController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = '/provider_services';
+        $this->layout = '/index_presentation';
 
         $searchModel = new PresentationsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -134,7 +134,9 @@ class PresentationsController extends Controller
                 $model_termmilestones = new PresentationTermMilestones();
                 $model_termclauses = new PresentationTermClauses();
                 $new_provider = ($user==null) ? Yii::createObject(RegistrationProviderForm::className()) : null;  // register provider
+                $new_provider->scenario = 'presentation';
                 $returning_user = ($user==null) ? Yii::createObject(LoginForm::className()) : null; // login existing user
+                $returning_user->scenario = 'presentation';
                 if($user==null){
                     $this->performAjaxValidation($new_provider);
                     $this->performAjaxValidation($returning_user);
@@ -142,20 +144,19 @@ class PresentationsController extends Controller
                 if ($model->load(Yii::$app->request->post())) {
                     $newUser = $user==null ? true : false; // check if new user                    
                     if($user = $user==null ? $this->saveUser($new_provider, $returning_user) : $user){ // load user(presenter)
-                        $newProvider = $user->is_provider==0 ? true : false; // check if new provider
-                        if($user->is_provider==0){
-                            if(!$this->saveProvider($user, $service)){
-                                return $this->goBack();
+                        if($newProvider = $user->is_provider==0 ? true : false){
+                            if($proserv = $this->saveProvider($user, $service)){
+                                if($this->savePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $proserv, $newUser, $newProvider, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours, $model_termexpenses, $model_termmilestones, $model_termclauses)){                                
+                                    return $this->redirect(['/presentation/'.$model->id]);
+                                }
                             }
                         }
-                        if($proserv = $ps['id']==null ? $this->saveProviderService($user, $service) : $this->findProviderService($ps['id'])){
+                        if($proserv = $ps['id']==null ? $this->saveProviderService($user, $service, $newProvider) : $this->findProviderService($ps['id'])){
                             if($this->savePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $proserv, $newUser, $newProvider, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours, $model_termexpenses, $model_termmilestones, $model_termclauses)){                                
                                 return $newUser ? $this->redirect(['/blank']) : $this->redirect(['/presentation/'.$model->id]);
                             }
-                        }                         
-                    } else {
-                        return $this->goBack();
-                    }                    
+                        }                     
+                    }                  
                 } else {
                     return $this->render('create', [
                         'service' => $service,
@@ -222,8 +223,8 @@ class PresentationsController extends Controller
                 $model->loadPresentationSpecificationsUpdate($model_specs);
             }
             if ($model->load(Yii::$app->request->post()) && $this->updatePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours)) {
-                //return $this->redirect(['/presentation/'.$model->id]);
-                return $this->redirect(Yii::$app->request->referrer);
+                return $this->redirect(['/presentation/'.$model->id]);
+                //return $this->redirect(Yii::$app->request->referrer);
             } else {
                 return $this->render('update', [
                     'service' => $service,
@@ -345,21 +346,20 @@ class PresentationsController extends Controller
         }
     }       
 
-    protected function saveProviderService($user=null, $service=null)
-    {
-        if($user && $service) {
-            $prs = ProviderServices::find()->where('provider_id='.$user->provider->id.' AND service_id='.$service->id)->all();
-            if($prs){
+    protected function saveProviderService($user=null, $service=null, $newProvider)
+    {        
+        if($user and $service) {            
+            if(!$newProvider and $user->provider and $prs = ProviderServices::find()->where('provider_id='.$user->provider->id.' AND service_id='.$service->id)->all()){
                 return $prs[0];
             } else {
-                $proserv = new ProviderServices();
+                $proserv = new \frontend\models\ProviderServices();
                 $proserv->provider_industry_id = $user->provider->industries[0]->id;
                 $proserv->provider_id = $user->provider->id;
                 $proserv->industry_id = $service->industry_id;
                 $proserv->service_id = $service->id;
                 $proserv->is_set = 1;
                 $proserv->update_time = date('Y-m-d H:i:s');
-                if($proserv->save(false)){
+                if($proserv->save()){
                     return $proserv;
                 }
                 return false;
@@ -370,17 +370,19 @@ class PresentationsController extends Controller
 
     protected function saveProvider($user=null, $service=null)
     {
-        if($user && $service) {
+        if($user and $service) {
             $provider = new \frontend\models\Provider();
             $provider->user_id = $user->id;
-            $provider->industry_id = $service->industry;
+            $provider->industry_id = $service->industry_id;
             $provider->loc_id = $user->details->loc_id;
             $provider->legal_form = 'freelancer';
             $provider->type = 'service_provider';
             $provider->department_type = 'hq';
             $provider->status = 'active';
             $provider->registration_time = date('Y-m-d H:i:s');
-            if($provider->save()){
+            if($provider->save()){ 
+                $user->is_provider = 1;
+                $user->save();               
                 // provider Contact
                 $providerContact = new \frontend\models\ProviderContact();
                 $providerContact->provider_id = $provider->id;
@@ -392,7 +394,16 @@ class PresentationsController extends Controller
                 $providerIndustry->provider_id = $provider->id;
                 $providerIndustry->industry_id = $service->industry_id;
                 $providerIndustry->main = 1;
-                $providerIndustry->save();
+                if($providerIndustry->save()){
+                    $proserv = new \frontend\models\ProviderServices();
+                    $proserv->provider_industry_id = $providerIndustry->id;
+                    $proserv->provider_id = $provider->id;
+                    $proserv->industry_id = $service->industry_id;
+                    $proserv->service_id = $service->id;
+                    $proserv->is_set = 1;
+                    $proserv->update_time = date('Y-m-d H:i:s');
+                    $proserv->save();
+                }
                 // provider Industry Terms
                 $providerIndustryTerm = new \frontend\models\ProviderIndustryTerms();
                 $providerIndustryTerm->provider_industry_id = $providerIndustry->id;
@@ -420,7 +431,7 @@ class PresentationsController extends Controller
                 $providerNotifications->time = date('Y-m-d H:i:s');
                 $providerNotifications->save();
 
-                return true;
+                return $proserv;
             }
         }
         return false;
@@ -456,7 +467,7 @@ class PresentationsController extends Controller
                     $model->provider_id = $proserv->provider_id;
                     $model->service_id = $service->id;
                     $model->object_id = $service->object->id;
-                    $model->price_unit = $service->unit_id;
+                    $model->price_unit = ($model->price_unit=='total') ? $service->unit_id : $model->price_unit;
                     //$model->object_model_id = ($object_model && count($object_model)==1) ? $object_model[0]->id : null;     
                     $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
                     //$model->files = UploadedFile::getInstances($model, 'files');
@@ -530,12 +541,19 @@ class PresentationsController extends Controller
                                         $m_spec->presentation_id = $model->id;
                                         $m_spec->multiple_values = ($m_spec['spec_models']!=null) ? 1 : 0;
                                         if($m_spec->save()){
-                                            if($m_spec['spec_models']!=null){                                            
-                                                foreach($m_spec['spec_models'] as $key=>$spec_model){
-                                                    $new_spec_model[$key] = new PresentationSpecModels();
-                                                    $new_spec_model[$key]->presentation_spec_id = $m_spec->id;
-                                                    $new_spec_model[$key]->spec_model = $spec_model;
-                                                    $new_spec_model[$key]->save();
+                                            if($m_spec['spec_models']!=null){                                                    
+                                                if(is_array($m_spec['spec_models'])){                                            
+                                                    foreach($m_spec['spec_models'] as $key=>$spec_model){
+                                                        $new_spec_model[$key] = new PresentationSpecModels();
+                                                        $new_spec_model[$key]->presentation_spec_id = $m_spec->id;
+                                                        $new_spec_model[$key]->spec_model = $spec_model;
+                                                        $new_spec_model[$key]->save();
+                                                    }
+                                                } else {
+                                                    $new_spec_model = new PresentationSpecModels();
+                                                    $new_spec_model->presentation_spec_id = $m_spec->id;
+                                                    $new_spec_model->spec_model = $m_spec['spec_models'];
+                                                    $new_spec_model->save();
                                                 }
                                             }
                                         }                               
@@ -599,12 +617,19 @@ class PresentationsController extends Controller
                                         $m_method->presentation_id = $model->id;
                                         $m_method->multiple_values = ($m_method['method_models']!=null) ? 1 : 0;
                                         if($m_method->save()){
-                                            if($m_method['method_models']!=null){
-                                                foreach($m_method['method_models'] as $key=>$method_model){
-                                                    $new_method_model[$key] = new PresentationMethodModels();
-                                                    $new_method_model[$key]->presentation_method_id = $m_method->id;
-                                                    $new_method_model[$key]->method_model = $method_model;
-                                                    $new_method_model[$key]->save();
+                                            if($m_method['method_models']!=null){                                                    
+                                                if(is_array($m_method['method_models'])){
+                                                    foreach($m_method['method_models'] as $key=>$method_model){
+                                                        $new_method_model[$key] = new PresentationMethodModels();
+                                                        $new_method_model[$key]->presentation_method_id = $m_method->id;
+                                                        $new_method_model[$key]->method_model = $method_model;
+                                                        $new_method_model[$key]->save();
+                                                    }
+                                                } else {
+                                                    $new_method_model = new PresentationMethodModels();
+                                                    $new_method_model->presentation_method_id = $m_method->id;
+                                                    $new_method_model->method_model = $m_method['method_models'];
+                                                    $new_method_model->save();
                                                 }
                                             }
                                         }                                  
@@ -661,6 +686,7 @@ class PresentationsController extends Controller
                 $offer->update_time = date('Y-m-d H:i:s');
                 if($offer->save()){
                     $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+                    $model->price_unit = ($model->price_per=='total') ? $service->unit_id : $model->price_unit;
                     // location HQ
                     if($locationHQ and $locationHQ->load(Yii::$app->request->post())){
                         if($locationHQ && !$locationHQ->save()){

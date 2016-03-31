@@ -9,7 +9,7 @@ use yii\helpers\Url;
 <ul class="global_nav">
 	<li class="<?= (Yii::$app->controller->id=='services' && Yii::$app->controller->action->id=='index') ? 'active' : null ?>">
 		<?= Html::a(Yii::t('app', 'Usluge'), Url::to(['/services', 'st'=>'gl']), ['class'=>'careted', 'data-toggle'=>'tooltip', 'title'=>Yii::t('app', 'Index of Service industries')]) ?>
-		<?= Html::a('<i class="fa fa-caret-down"></i>', null, ['id'=>'glob_hover_service', 'class'=>'button']) ?>		
+		<?= Html::a('<i class="fa fa-caret-down"></i>', null, ['id'=>'', 'class'=>'button']) ?>		
 		<div class="category fadeInDown animated quick services">
 			<?= $this->render('global-nav/services.php') ?>
 		</div>
@@ -47,7 +47,7 @@ use yii\helpers\Url;
 	</li>
 	<?php if(Yii::$app->controller->id!='services' or Yii::$app->controller->action->id!='index'): ?>
 	<li class="search_icon" style="float:right;">
-		<a href="#" onclick="return false" class="careted animated slideInDown"><i class="fa fa-search"></i></a>
+		<a href="#" id="glob_hover_service111" class="careted animated slideInDown center" style="width:60px;"><i class="fa fa-search fa-lg"></i></a>
 		<div class="subnav-fixed search animated fadeIn">
 			<div class="container">
 				<div class="content">
@@ -55,6 +55,9 @@ use yii\helpers\Url;
 				</div>				
 			</div>
 		</div>
+		<?php /*<div class="category fadeInDown animated quick services">
+			<?= $this->render('global-nav/services.php') ?>
+		</div> */ ?>
 	</li>
 	<a href="#" style="position:fixed; right:20px; top:70px; display:none;" class="close_search" onclick="close_search();"><i class="fa fa-times white"></i></a>
 	<?php endif; ?>

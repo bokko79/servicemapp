@@ -389,6 +389,14 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getCredit()
+    {
+        return $this->hasOne(UserCredit::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getFilters()
     {
         return $this->hasOne(UserFilters::className(), ['user_id' => 'id']);
@@ -511,7 +519,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getHasCredit()
     {
-        return $this->details->Mcoin > 0;
+        return $this->credit->balance > 0;
     }
 
     /**

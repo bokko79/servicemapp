@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use yii\bootstrap\Modal;
 ?>
 <div class="card_container record-full grid-item no-shadow top-bordered fadeIn animated" id="card_container" style="margin:0">
-    <div class="header-context inverted collapsing" id="service<?= $model->id ?>">                
+    <div class="header-context collapsing" id="service<?= $model->id ?>">                
         <div class="avatar">
             <?= Html::img('@web/images/cards/info/info_docs'.rand(0,9).'.jpg') ?>         
         </div>
@@ -57,7 +57,7 @@ use yii\bootstrap\Modal;
                 ]
             ]) ?>
             <?php else: ?>
-            <?= Html::a($text, Url::to(), ['class'=>'createProject fadeIn animated', 'style'=>'padding:20px;', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models'.$model->service->id]); ?>
+            <?= Html::a($text, Url::to(), ['class'=>'createProject fadeIn animated', 'style'=>'padding:20px;', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-proservice-modal'.$model->service->id]); ?>
             <?php endif; ?>
             <?php } ?>
     </div>

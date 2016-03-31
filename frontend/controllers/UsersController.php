@@ -57,7 +57,7 @@ class UsersController extends Controller
         if(isset($username)) {
             $model = $this->findModelByUsername($username);
 
-            if($model) {
+            if($model and !Yii::$app->user->isGuest and $model->id==Yii::$app->user->id) {
                 $csSectors = \frontend\models\CsSectors::find()->all();
 
                 return $this->render('view', [
@@ -65,7 +65,7 @@ class UsersController extends Controller
                     'csSectors' => $csSectors,
                 ]);
             } else {
-                throw new NotFoundHttpException('The requested page does not exist.');
+                return $this->redirect('/market');
             } 
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

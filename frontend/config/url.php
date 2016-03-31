@@ -50,7 +50,7 @@ return [
 
         // 5 PRESENTATIONS
         'new-presentation' => 'presentations/create', // :page
-        '<username:\w+>/my-services' => 'presentations/index', // :page
+        'presentations' => 'presentations/index', // :page
         'presentation-setup/<id:\d+>' => 'presentations/update', // :page
         'presentation/<id:\d+>' => 'presentations/view', // :page
         'comment-presentation/<id:\d+>' =>'presentations/comment',

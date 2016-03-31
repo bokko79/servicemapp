@@ -30,10 +30,10 @@ class PresentationIssues extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_id', 'issue'], 'required'],
+            [['presentation_id', 'object_issue_id'], 'required'],
             [['presentation_id'], 'integer'],
-            [['des'], 'string'],
-            [['issue'], 'string', 'max' => 64],
+            [['description'], 'string'],
+            [['object_issue_id'], 'string', 'max' => 64],
             [['presentation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Presentations::className(), 'targetAttribute' => ['presentation_id' => 'id']],
         ];
     }
@@ -46,8 +46,8 @@ class PresentationIssues extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'presentation_id' => 'Presentation ID',
-            'issue' => 'Issue',
-            'des' => 'Des',
+            'object_issue_id' => 'Issue',
+            'description' => 'Description',
         ];
     }
 
@@ -57,5 +57,13 @@ class PresentationIssues extends \yii\db\ActiveRecord
     public function getPresentation()
     {
         return $this->hasOne(Presentations::className(), ['id' => 'presentation_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIssue()
+    {
+        return $this->hasOne(CsObjectIssues::className(), ['id' => 'object_issue_id']);
     }
 }

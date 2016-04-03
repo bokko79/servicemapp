@@ -120,7 +120,7 @@ class PresentationData extends Presentations
         return 14-$this->checkIfSpecs()-$this->checkIfIssues()-$this->checkIfMethods()-$this->checkIfLocation()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfAvailability()-$this->checkIfUpdate()-$this->checkIfUpdate();
     }
 
-     public function locationOperatingModels()
+    public function locationOperatingModels()
     {
         // 0-within
         // 1-HQ
@@ -169,10 +169,48 @@ class PresentationData extends Presentations
         return $model_list;
     }
 
+     public function locationOperatingModelsSearch()
+    {
+        // 0-within
+        // 2-City (up to 20km)
+        // 4-Country (up to 500 km)
+        // 6-Worldwide
+        $service = $this->service;
+        $model_list = [];
+        if($service){
+            switch ($service->coverage) {
+            case 0:
+                $model_list = [];
+                break;
+            case 3:
+                $model_list = [
+                    4=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
+                    2=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    0=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                ];
+                break;
+            case 4:
+                $model_list = [
+                    6=>'Bez ograničenja (ceo svet/nebitno)', 
+                    4=>'Samo u okviru države <b><span class="loc_op_country"></span></b>', 
+                    2=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    0=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                ];
+                break;
+            default:
+                $model_list = [
+                    2=>'Samo u gradu <b><span class="loc_op_city"></span></b>',
+                    0=>'<span class="loc_op_circle">Odredi područje na mapi</span>',
+                ];
+            }
+        }
+        return $model_list;
+    }
+
     /**
      * Izlistava sve specifikacije izabranih predmeta usluga i modela predmeta.
      */
-    public function allObjectSpecifications($service, $object_model)
+    public function allObjectSpecifications($service, $object_model=null)
     {
         //$object_model = $this->objectModels;
         //$service = $this->pService;
@@ -260,6 +298,24 @@ class PresentationData extends Presentations
             return $model_specs;
         }
         return null;        
+    }
+
+    /**
+     * Kreira Modele PresentationSpecs za sve izabrane specifikacije.
+     */
+    public function loadPresentationSpecificationsIndex($model_specs)
+    {
+        if($model_specs){
+            foreach($model_specs as $key=>$model_spec){
+                $property = \frontend\models\CsProperties::findOne($key);
+                $model_spec->specification = $model_spec->spec;
+                $model_spec->property = $property;
+                $model_spec->service = $this->pService;
+                $model_spec->checkUserObject = ($this->checkUserObjectsExist($this->pService, $this->objectModels)) ? 0 : 1;
+            }
+            return $model_specs;
+        }
+        return null;         
     }
 
     public function loadPresentationMethods($service)

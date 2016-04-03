@@ -20,10 +20,15 @@ use yii\bootstrap\Modal;
 ]); ?>
     <fieldset class="settings" style="margin:30px 0 !important;">
     <?php // 1 GENERAL USER DETAILS: username, email, password, fullname ?>
+         <?= $this->render('formParts/basic.php', ['form'=>$form, 'model'=>$model, 'details' => $details]) ?>
     <?php // 2 AVATAR/COVER ?>
+        <?= $this->render('formParts/avatar.php', ['form'=>$form, 'model'=>$model, 'details' => $details]) ?>
     <?php // 3 USER DETAILS: fullname, DOB, gender ?>
+        <?= $this->render('formParts/details.php', ['form'=>$form, 'model'=>$model, 'details' => $details]) ?>
     <?php // 4 CONTACT DETAILS: email, phone, fax ?>
+        <?= $this->render('formParts/contact.php', ['form'=>$form, 'model'=>$model, ]) ?>
     <?php // 5 LOCATION ?>
+        <?= $this->render('formParts/location.php', ['form'=>$form, 'model'=>$model, 'locationHQ' => $locationHQ]) ?>
     <?php // 6 ACCOUNT: invite, role, account type, status, currency, units, language ?>
 
     <?php // 16 SUBMIT

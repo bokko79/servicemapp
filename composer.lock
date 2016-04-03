@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "adc091c051df65861ed239897f8bc998",
-    "content-hash": "f108c84476cb2395771cb4941179b61a",
+    "hash": "682f88a510a10e67d8dec3987268a5c3",
+    "content-hash": "6ccdb3c3315448d527f854704020f97d",
     "packages": [
         {
             "name": "2amigos/yii2-google-maps-library",
@@ -995,7 +995,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/francoispluchino/composer-asset-plugin/zipball/bae7a15712e9339a2439aeca3b7c5ecf65b087d1",
+                "url": "https://api.github.com/repos/francoispluchino/composer-asset-plugin/zipball/62d2cdc302de2534f3985a1a2f5d4a783de4a5eb",
                 "reference": "bae7a15712e9339a2439aeca3b7c5ecf65b087d1",
                 "shasum": ""
             },
@@ -1189,7 +1189,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/d094e337976dff9d8e2424e8485872194e768662",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8e4e5ef9fbcc6ced335f398b32dcf2a0e4a24acb",
                 "reference": "6a173ddae1a8e58be871f6d010e88c029eaf5cae",
                 "shasum": ""
             },
@@ -1943,6 +1943,53 @@
             "time": "2016-03-03 12:24:13"
         },
         {
+            "name": "kartik-v/yii2-slider",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-slider.git",
+                "reference": "81a2463294fa88a58d0ed8214254c8a6b63b7e89"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-slider/zipball/81a2463294fa88a58d0ed8214254c8a6b63b7e89",
+                "reference": "81a2463294fa88a58d0ed8214254c8a6b63b7e89",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/yii2-krajee-base": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\slider\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An advanced slider input for Yii Framework 2 for both touch enabled and desktop devices based on bootstrap-slider.",
+            "homepage": "https://github.com/kartik-v/yii2-slider",
+            "keywords": [
+                "bootstrap",
+                "bootstrap 3",
+                "extension",
+                "range",
+                "slider",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-01-10 17:24:24"
+        },
+        {
             "name": "kartik-v/yii2-sortable",
             "version": "dev-master",
             "source": {
@@ -2196,7 +2243,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/dec4e574c2efcbbd4b6441ef64334daa79edf8f2",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/15e21f38aa9c2119e818c2053dfbd3becce3bc07",
                 "reference": "a9ccae25cbb5c0af6f2a549e4cc3ee6628c253ab",
                 "shasum": ""
             },
@@ -2362,7 +2409,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/philippfrenzel/yii2fullcalendar/zipball/3bf2ee0f84f8a2cbcf37e40917d360a4387fa101",
+                "url": "https://api.github.com/repos/philippfrenzel/yii2fullcalendar/zipball/23543c0fa6f1abbf6edd5be2266f1d6a2b98dd53",
                 "reference": "3bf2ee0f84f8a2cbcf37e40917d360a4387fa101",
                 "shasum": ""
             },
@@ -2866,7 +2913,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d44ea5685555d6f768632e0f08301f55616617a3",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/81c67c9859d5c78949561abe12acbe2fa427210c",
                 "reference": "88ceadba3fc19ec90f72b6ba895347b7fecd3dfb",
                 "shasum": ""
             },
@@ -2960,7 +3007,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/e64170ffa5678be6cb8c3decf92feac8142aa523",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/4dd9f52e2a376a875d998de6ab4c381291b0c69e",
                 "reference": "4133d6b26f48615de38ea1ec04eb00c4b7057bc9",
                 "shasum": ""
             },
@@ -3152,7 +3199,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-jui/zipball/226ffd897b26965a357e187cdf67f6c2e43e3139",
+                "url": "https://api.github.com/repos/yiisoft/yii2-jui/zipball/69cd9763b4807dbbce367d599dc615c5b8a8ef4f",
                 "reference": "1425ab29929dd195f468d3c4eb340ab509f28b83",
                 "shasum": ""
             },
@@ -3344,7 +3391,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/68c0d749b7a9bb527a7b0d3226fa397f26005955",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/8deb6343c80c4edf546a6fff01a2b05c7dc59ac4",
                 "reference": "588da2fff1b9da3acb9b6e1d7395e820102bde01",
                 "shasum": ""
             },
@@ -3686,7 +3733,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/af32eeee557fa12e1b362e24fd8d0bc14713e361",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/3f7b38886e334a2c8c4262f155d98812461efd36",
                 "reference": "bc22b97c342f9cbea25e5eee6ce7312ed0561cbd",
                 "shasum": ""
             },
@@ -4525,7 +4572,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-authclient/zipball/22cd09896e664e03e4d00695704332a25998b56e",
+                "url": "https://api.github.com/repos/yiisoft/yii2-authclient/zipball/4a0c4273a07e7a92c6d44b5ebeddd2c71f29b438",
                 "reference": "f946784cc1edb5ca128bce1dc5e9ff77e4194e70",
                 "shasum": ""
             },

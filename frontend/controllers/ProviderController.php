@@ -199,12 +199,18 @@ class ProviderController extends Controller
         if(isset($username)) {
             $model = $this->findModelByUsername($username);
 
-            if($model) {               
-                
+            if($model and $model->provider) {
                 $details = $model->details;
-                $filters = ($model->filters) ? $model->filters : new \frontend\models\UserFilters;
-                $images = $model->images;
-                $notifications = $model->userNotifications;
+                $locationHQ = $model->location;
+                $provider = $model->provider;
+                $portfolio = $provider->portfolio;
+                $certification = new \frontend\models\ProviderPortfolioCertifications();
+                $education = new \frontend\models\ProviderPortfolioEducations();
+                $experience = new \frontend\models\ProviderPortfolioExperience();
+                $portfolio_images = new \frontend\models\ProviderPortfolioImages();
+                $publication = new \frontend\models\ProviderPortfolioPublications();
+                $licence = new \frontend\models\ProviderLicences();
+                $openingHours = new \frontend\models\ProviderOpeningHours();
 
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -212,8 +218,15 @@ class ProviderController extends Controller
                     return $this->render('update', [
                         'model' => $model,
                         'details' => $details,
-                        'filters' => $filters,
-                        'images' => $images,
+                        'provider' => $provider,
+                        'locationHQ' => $locationHQ,
+                        'portfolio' => $portfolio,
+                        'certification' => $certification,
+                        'education' => $education,
+                        'experience' => $experience,
+                        'portfolio_images' => $portfolio_images,
+                        'publication' => $publication,
+                        'openingHours' => $openingHours,
                     ]);
                 }
             } else {

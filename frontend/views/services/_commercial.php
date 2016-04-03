@@ -9,7 +9,7 @@ use frontend\models\Presentations;
 <hr style="margin-top:0">
 <div class="featured">
 	<h2 style="text-align:left; margin:30px 0 10px 0;"><i class="fa fa-flag-o"></i> Ponude usluge
-	<?= Html::a('POKAŽI JOŠ', Url::to('/services'), array('class'=>'btn btn-default uppercase bold float-right')); ?>
+	<?= Html::a('POKAŽI JOŠ', Url::to('/presentations'), array('class'=>'btn btn-default uppercase bold float-right')); ?>
 	</h2>
 	<p class="paragraph fs_11 gray_color margin-bottom-20"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 	<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "isFitWidth": true, "gutter": 30 }' style="margin-top:40px;">

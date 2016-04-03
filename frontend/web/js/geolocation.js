@@ -629,6 +629,225 @@ function initialize_reg_pro_loc(){
   });  
 }
 
+
+// presentations location start
+function initialize_pres_loc_search(){
+  $("#presentation-search").geocomplete({
+    map: "#my_map-search",
+    mapOptions: {
+      zoom: 12,
+      scrollwheel: true,
+      fullscreenControl: true,
+      streetViewControl: false,
+      scaleControl: true,
+    },
+    markerOptions: {
+      draggable: true,
+    },    
+    details: "#form-horizontal-presentation-search",
+    detailsAttribute: "data-geosrch",
+    location: [lat,lng],  // initialize map with user home location
+    types: ['(cities)'],
+  })
+  .bind("geocode:result", function(event, result){   
+    var isCity = false;
+    for (var i = 0; i < result.address_components.length; i++) {
+      if(result.address_components[i].types[0] === "country"){
+        if(result.address_components[i].long_name!=''){
+          $('.loc_op_country').html(result.address_components[i].long_name);
+        }else{
+          $('.loc_op_country').html('');
+        };
+      }
+      if(result.address_components[i].types[0] === "administrative_area_level_2"){
+        if(result.address_components[i].long_name!=''){
+          $('.loc_op_region').html(result.address_components[i].long_name);
+        }else{
+          $('.loc_op_region').html('');
+        };
+      }
+      if(result.address_components[i].types[0] === "locality"){
+        if(result.address_components[i].long_name){
+          $('.loc_op_city').html(result.address_components[i].long_name);                
+        }else{
+          $('.loc_op_city').html('');
+        } 
+        isCity = true;      
+      }
+    }
+    if(isCity){
+      $(".location_operational_plaza").show();
+    } else {
+      $(".location_operational_plaza").hide();
+    }
+    $('.loc_op_exact').html(result.formatted_address);
+    locExct = result.formatted_address;
+  })
+  .bind("geocode:dragged", function(event, latLng){
+    $(".loc_hq_lat").val(latLng.lat());
+    $(".loc_hq_lng").val(latLng.lng());
+    
+    var map = $("#presentation-search").geocomplete("map");
+    map.panTo(latLng);   
+
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+        'latLng': latLng,        
+      }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+
+          var res = results[0].address_components;
+
+          for (var i = 0; i < results.length; i++) {
+            /// država
+            if (results[i].types[0] === "country") {
+              var country = results[i].address_components[0].long_name;                    
+              $(".loc_hq_country").val(country);
+              $('.loc_op_country').html(country);
+            }
+            /// region
+            if (results[i].types[0] === "administrative_area_level_2") {
+              var state = results[i].address_components[0].long_name;                    
+              $(".loc_hq_state").val(state);
+            }
+            /// region
+            if (results[i].types[0] === "sublocality") {
+              var sublocality = results[i].address_components[0].long_name;                    
+              $(".loc_hq_district").val(sublocality);
+              $('.loc_op_region').html(sublocality);
+            }
+            /// grad
+            if (results[i].types[0] === "locality") {
+              var city = results[i].address_components[0].long_name;                    
+              $(".loc_hq_city").val(city);
+              $('.loc_op_city').html(city);
+              $(".location_operational_plaza").show();
+              if(city==''){
+                $(".location_operational_plaza").hide();
+              }
+            }
+            /// zip
+            if (results[i].types[0] === "postal_code") {
+              var postal_code = results[i].address_components[0].long_name;                    
+              $(".loc_hq_zip").val(postal_code);
+            }
+            /// mz
+            if (results[i].types[0] === "neighborhood") {
+              var neighborhood = results[i].address_components[0].long_name;                    
+              $(".loc_hq_mz").val(neighborhood);
+            }
+            /// ulica
+            if (results[i].types[0] === "route") {
+              var street = results[i].address_components[0].long_name;                    
+              $(".loc_hq_street").val(street);
+            }
+            /// no
+            if (results[i].types[0] === "street_number") {
+              var no = results[i].address_components[0].long_name;                    
+              $(".loc_hq_no").val(no);
+            }               
+          }
+          /// formated adresa                  
+          var formatted_address = results[0].formatted_address;                    
+          $(".loc_hq_location_name").val(formatted_address);
+          $("#presentation-search").val(formatted_address);   
+          $('.loc_op_exact').html(formatted_address);
+          locExct = formatted_address;
+        }
+      }
+    });
+  });
+
+  var map = $("#presentation-search").geocomplete("map"),
+    marker = $("#presentation-search").geocomplete("marker");
+
+  $("input[name='PresentationsSearch[coverage]']").on('change', function(){    
+    if($(this).val()==0){  
+        myCity.bindTo('center', marker, 'position');    
+        myCity.setMap(map); 
+        google.maps.event.addListener(myCity, 'radius_changed', function () {
+            $("input[class='location_within_input']").val((myCity.getRadius()/1000).toFixed(2));
+            $(".loc_op_circle").html('U radijusu od ' + (myCity.getRadius()/1000).toFixed(2) + ' km u odnosu na ' + '<span class="loc_op_exact"> ' + locExct + '</span>');
+        });
+        google.maps.event.addListener(myCity, 'center_changed', function () {
+            map.panTo(myCity.getCenter());
+
+            var geocoder2 = new google.maps.Geocoder();
+            geocoder2.geocode({
+                'latLng': myCity.getCenter(),        
+              }, function(results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+
+                  var res = results[0].address_components;
+
+                  for (var i = 0; i < results.length; i++) {
+                    /// država
+                    if (results[i].types[0] === "country") {
+                      var country = results[i].address_components[0].long_name;                    
+                      $(".loc_hq_country").val(country);
+                      $('.loc_op_country').html(country);
+                    }
+                    /// region
+                    if (results[i].types[0] === "administrative_area_level_2") {
+                      var state = results[i].address_components[0].long_name;                    
+                      $(".loc_hq_state").val(state);
+                    }
+                    /// region
+                    if (results[i].types[0] === "sublocality") {
+                      var sublocality = results[i].address_components[0].long_name;                    
+                      $(".loc_hq_district").val(sublocality);
+                      $('.loc_op_region').html(sublocality);
+                    }
+                    /// grad
+                    if (results[i].types[0] === "locality") {
+                      var city = results[i].address_components[0].long_name;                    
+                      $(".loc_hq_city").val(city);
+                      $('.loc_op_city').html(city);
+                      $(".location_operational_plaza").show();
+                      if(city==''){
+                        $(".location_operational_plaza").hide();
+                      }
+                    }
+                    /// zip
+                    if (results[i].types[0] === "postal_code") {
+                      var postal_code = results[i].address_components[0].long_name;                    
+                      $(".loc_hq_zip").val(postal_code);
+                    }
+                    /// mz
+                    if (results[i].types[0] === "neighborhood") {
+                      var neighborhood = results[i].address_components[0].long_name;                    
+                      $(".loc_hq_mz").val(neighborhood);
+                    }
+                    /// ulica
+                    if (results[i].types[0] === "route") {
+                      var street = results[i].address_components[0].long_name;                    
+                      $(".loc_hq_street").val(street);
+                    }
+                    /// no
+                    if (results[i].types[0] === "street_number") {
+                      var no = results[i].address_components[0].long_name;                    
+                      $(".loc_hq_no").val(no);
+                    }               
+                  }
+                  /// formated adresa                  
+                  var formatted_address = results[0].formatted_address;                    
+                  $(".loc_hq_location_name").val(formatted_address);
+                  $("#presentation-search").val(formatted_address);   
+                  $('.loc_op_exact').html(formatted_address);
+                  locExct = formatted_address;
+                }
+              }
+            });
+        });     
+    } else {
+        myCity.setMap(null);
+    }
+  });
+}
+
+
 $(document).ready(function(){ 
   $('.loc_op_country').html(locCtry);
   $('.loc_op_region').html(locDis);
@@ -684,7 +903,18 @@ $(document).ready(function(){
       500);
   }); 
 
+  $(".wrapper").one('click', function(){                  
+    $(this).next('.body').slideDown({
+      complete:function (){
+        initialize_pres_loc_search();
+      }
+    });
+  }); 
 
+  $(".more-filters").on('click', function(){                  
+    $('.more-filters-plaza').toggle();
+  }); 
+  
 
 /*var map = $("#presentation-location").geocomplete("map"),
     marker = $("#presentation-location").geocomplete("marker");  

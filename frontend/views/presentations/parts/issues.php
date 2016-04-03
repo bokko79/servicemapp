@@ -46,6 +46,7 @@ $model_list = ArrayHelper::map($rel_obj->issues, 'issue', 'issue');
         	]
         ]
     ]) ?>
+    </div>
     <div class="form-group">
     	<label class="control-label col-md-3" for="presentations-name">Ostali problemi</label>
 	    <div class="col-sm-9">
@@ -54,6 +55,5 @@ $model_list = ArrayHelper::map($rel_obj->issues, 'issue', 'issue');
 			</div>
 		</div>
     </div>
-</div>
 <?= $this->render('_submitButton.php') ?>
 </div>

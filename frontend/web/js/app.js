@@ -53,7 +53,46 @@ function checkAllOrNone() {
   $( "[id^='ckbCheckAll']").on('click', function () {    
     $(this).closest('.enclosedCheckboxes').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
   });
-}  
+} 
+
+function clearForm(oForm) {
+    
+  var elements = oForm.elements;
+    
+  oForm.reset();
+
+  for(i=0; i<elements.length; i++) {
+      
+  field_type = elements[i].type.toLowerCase();
+  
+  switch(field_type) {
+  
+    case "text": 
+    case "password": 
+    case "textarea":
+    //case "hidden": 
+    case "number":  
+      
+      elements[i].value = ""; 
+      break;
+        
+    case "radio":
+    case "checkbox":
+        if (elements[i].checked) {
+          elements[i].checked = false; 
+      }
+      break;
+
+    case "select-one":
+    case "select-multi":
+                elements[i].selectedIndex = -1;
+      break;
+
+    default: 
+      break;
+  }
+    }
+}
 
 $(document).ready(function(){
   $(".search-index").click(function(){
@@ -443,7 +482,7 @@ $(document).ready(function(){
       $('html, body').stop();
   });
 
-  //highlight menu item on scroll
+/*  //highlight menu item on scroll
   // Cache selectors
   var lastId,
       topMenu = $("ul.sidebar-menu"),
@@ -488,7 +527,7 @@ $(document).ready(function(){
            .end().filter("[href='#"+id+"']").parent().addClass("active");
      }                   
   });
-    
+    */
   $('[id^="sections"]').on("click", function(e) {
     var string = $(this).attr('id');
     var lastTwo = string.substr(string.length - 2);
@@ -525,4 +564,10 @@ $(document).ready(function(){
       });
     }); 
   });
+
+  $('.clearButton').on("click", function(e) {
+    //clearForm($(this).closest('form'));
+  });  
 });
+
+

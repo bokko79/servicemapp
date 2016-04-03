@@ -81,6 +81,9 @@ use yii\helpers\Url;
  */
 class User extends \yii\db\ActiveRecord
 {
+    public $location_input;
+    public $user_avatar;
+
     /**
      * @inheritdoc
      */
@@ -135,16 +138,16 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
+            'username' => 'Korisničko ime',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'unconfirmed_email' => 'Unconfirmed Email',
-            'fullname' => 'Fullname',
+            'fullname' => 'Puno ime/naziv',
             'is_provider' => 'Is Provider',
-            'invite_hash' => 'Invite Hash',
-            'registered_by' => 'Registered By',
+            'invite_hash' => 'Referalni kod',
+            'registered_by' => 'Registrovan od',
             'registered_from' => 'Registered From',
             'registration_ip' => 'Registration Ip',
             'type' => 'Type',
@@ -152,7 +155,7 @@ class User extends \yii\db\ActiveRecord
             'logged_in_from' => 'Logged In From',
             'login_count' => 'Login Count',
             'last_activity' => 'Last Activity',
-            'phone' => 'Phone',
+            'phone' => 'Telefon',
             'phone_verification_hash' => 'Phone Verification Hash',
             'phone_verification_time' => 'Phone Verification Time',
             'rememberme_token' => 'Rememberme Token',

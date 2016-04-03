@@ -310,5 +310,56 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+    /**
+     * Displays search result page.
+     *
+     * @return mixed
+     */
+    public function actionLanguage()
+    {
+        $language = Yii::$app->request->get('language');
+        Yii::$app->language = $language;
+
+        $languageCookie = new \yii\web\Cookie([
+            'name' => 'language',
+            'value' => $language,
+            'expire' => time() + 60 * 60 * 24 * 30, // 30 days
+        ]);
+        Yii::$app->response->cookies->add($languageCookie);
+
+        if(!Yii::$app->user->isGuest){
+            $user = \frontend\models\User::findOne(Yii::$app->user->id);
+            $user->details->lang_code = $language;
+            $user->save();
+        }
+            
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * Displays search result page.
+     *
+     * @return mixed
+     */
+    public function actionCurrency()
+    {
+        $currency = Yii::$app->request->get('currency');
+        //Yii::$app->currency = $currency;
+
+        $currencyCookie = new \yii\web\Cookie([
+            'name' => 'currency',
+            'value' => $currency,
+            'expire' => time() + 60 * 60 * 24 * 30, // 30 days
+        ]);
+        Yii::$app->response->cookies->add($currencyCookie);
+
+        if(!Yii::$app->user->isGuest){
+            $user = \frontend\models\User::findOne(Yii::$app->user->id);
+            $user->details->currency_id = $currency;
+            $user->save();
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
     
 }

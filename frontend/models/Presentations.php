@@ -107,6 +107,8 @@ class Presentations extends \yii\db\ActiveRecord
     public $provider_presentation_docs;
     public $provider_presentation_methods;
 
+    public $calculated_Price;
+
     private $_service;
 
     /**
@@ -124,12 +126,12 @@ class Presentations extends \yii\db\ActiveRecord
     {
         return [
             [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'provider_id'], 'required'],
-           [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'provider_id', 'loc_id', 'loc_to_id', 'price_unit', 'currency_id', 'fixed_price', 'consumer_price', 'qtyPriceConst', 'qtyMin', 'qtyMax', 'qtyMax_percent', 'consumerPriceConst', 'consumerMin', 'consumerMax', 'consumerMax_percent', 'quantity_constraint', 'quantity_min', 'quantity_max', 'consumer_constraint', 'consumer_min', 'consumer_max', 'item_availability', 'item_count', 'duration', 'duration_unit', 'warranty', 'delivery_delay', 'on_sale'], 'integer'],
+           [['activity_id', 'offer_id', 'provider_service_id', 'service_id', 'object_id', 'provider_id', 'loc_id', 'loc_to_id', 'price_unit', 'currency_id', 'fixed_price', 'consumer_price', 'qtyPriceConst', 'qtyMin', 'qtyMax', 'qtyMax_percent', 'consumerPriceConst', 'consumerMin', 'consumerMax', 'consumerMax_percent', 'availabilityPriceConst', 'availability_percent', 'quantity_constraint', 'quantity_min', 'quantity_max', 'consumer_constraint', 'consumer_min', 'consumer_max', 'item_availability', 'item_count', 'duration', 'duration_unit', 'warranty', 'delivery_delay', 'on_sale'], 'integer'],
            [['description', 'coverage', 'price_per', 'price_operator', 'time_availability', 'validity', 'duration_operator', 'request_type', 'delivery_delay_unit', 'note', 'status'], 'string'],
            [['coverage_within', 'qtyMin_price', 'consumerMin_price'], 'number'],
            [['price'], 'number', 'min'=>0],
            [['price'], 'required'],
-           [['valid_from', 'valid_through', 'update_time'], 'safe'],
+           [['valid_from', 'valid_through', 'update_time', 'calculated_Price'], 'safe'],
            [['youtube_link'], 'string', 'max' => 256],
            [['youtube_link'], 'url', 'pattern'=>'/^https:\/\/(?:www\.)?(?:youtube.com|youtu.be)\/(?:watch\?(?=.*v=([\w\-]+))(?:\S+)?|([\w\-]+))$/'],
            [['title', 'valid_for_consumers'], 'string', 'max' => 64],
@@ -196,6 +198,8 @@ class Presentations extends \yii\db\ActiveRecord
            'consumerMin_price' => Yii::t('app', 'Consumer Min Price'),
            'consumerMax' => Yii::t('app', 'Consumer Max'),
            'consumerMax_percent' => Yii::t('app', 'Consumer Max Percent'),
+           'availabilityPriceConst' => Yii::t('app', 'Korekcije cene za dostupnost?'),
+           'availability_percent' => Yii::t('app', 'Korekcija cene ukoliko niste dostupni'),
            'quantity_constraint' => Yii::t('app', 'Korekcije cene za naručene količine?'),
            'quantity_min' => Yii::t('app', 'Quantity Min'),
            'quantity_max' => Yii::t('app', 'Quantity Max'),
@@ -344,7 +348,7 @@ class Presentations extends \yii\db\ActiveRecord
      */
     public function getObjectModels()
     {
-        return $this->hasMany(PresentationObjectModels::className(), ['object_model_id' => 'id']);
+        return $this->hasMany(PresentationObjectModels::className(), ['presentation_id' => 'id']);
     }
 
     /**
@@ -397,7 +401,6 @@ class Presentations extends \yii\db\ActiveRecord
         return $this->hasMany(PresentationImages::className(), ['presentation_id' => 'id']);
     }
 
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -412,6 +415,12 @@ class Presentations extends \yii\db\ActiveRecord
     public function getMethods()
     {
         return $this->hasMany(PresentationMethods::className(), ['presentation_id' => 'id']);
+    }
+
+    public function getMethodModels() 
+    {
+        return $this->hasMany(PresentationMethodModels::className(), ['presentation_method_id' => 'id'])
+          ->viaTable('presentation_methods', ['presentation_id' => 'id']);
     }
 
     /**
@@ -446,6 +455,12 @@ class Presentations extends \yii\db\ActiveRecord
     public function getSpecs()
     {
         return $this->hasMany(PresentationSpecs::className(), ['presentation_id' => 'id']);
+    }
+
+    public function getSpecModels() 
+    {
+        return $this->hasMany(PresentationSpecModels::className(), ['presentation_spec_id' => 'id'])
+          ->viaTable('presentation_specs', ['presentation_id' => 'id']);
     }
 
     /**
@@ -486,6 +501,14 @@ class Presentations extends \yii\db\ActiveRecord
     public function getLocationTo()
     {
         return $this->hasOne(LocationPresentationTo::className(), ['id' => 'loc_to_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocationHQ()
+    {
+        return $this->user->provider->location;
     }
 
     /**
@@ -604,7 +627,7 @@ class Presentations extends \yii\db\ActiveRecord
     {
         $objectM = null;
         if($objectModels = $this->objectModels){
-            $objectM = count($objectModels)==1 ? $objectModels[0]->tNameGen : null;
+            $objectM = count($objectModels)==1 ? $objectModels[0]->object->tNameGen : null;
         }
         $methodM = null;
         if($methodModels = $this->methods){
@@ -654,5 +677,29 @@ class Presentations extends \yii\db\ActiveRecord
                     break;
             } 
         }                    
+    }
+
+    public function calculatedPrice($quantity=null, $consumer=null, $availability=false)
+    {
+        $price = $this->price;
+        if((($this->qtyMin_price and $this->qtyMin) or ($this->qtyMax_percent and $this->qtyMax)) and $quantity!=null and $quantity!=''){
+          if($quantity < $this->qtyMin){
+            return  $this->qtyMin_price;
+          } else if($quantity > $this->qtyMax) {
+            return round($price*(100-$this->qtyMax_percent)/100, 2);
+          }          
+        }
+        if((($this->consumerMin_price and $this->consumerMin) or ($this->consumerMax_percent and $this->consumerMax)) and $consumer!=null and $consumer!=''){
+          if($consumer < $this->consumerMin){
+            return  $this->consumerMin_price;
+          } else if($consumer > $this->consumerMax) {
+            return round($price*(100-$this->consumerMax_percent)/100, 2);
+          }
+        }        
+        if($this->availability_percent!=null and $this->availabilityPriceConst==1 and $availability!=null){
+          return ($availability) ? round($price*(100+$this->availability_percent)/100, 2) : $price;
+        }
+
+        return $price;
     }
 }

@@ -78,6 +78,12 @@ return [
             ],
         ],
     ],
+    'bootstrap' => [
+        [
+            'class' => '\frontend\components\LanguageSelector',
+            'supportedLanguages' => ['en_US', 'sr_RS'],
+        ],
+    ],
     'modules' => [
         'datecontrol' =>  [
             'class' => '\kartik\datecontrol\Module',

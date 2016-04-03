@@ -9,7 +9,7 @@ use frontend\widgets\Tabs;
 use frontend\widgets\PageTitle;
 ?>
 
-<?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
+<?php $this->beginContent('@app/views/layouts/html/html_forms.php'); ?>
 
 <?php /* PROFILE HEADING */ ?>
 

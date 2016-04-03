@@ -24,7 +24,7 @@ $this->pageTitle = [
     <?= $this->render('_form', [
         'model' => $model,
         'details' => $details,
-        'filters' => $filters,
+        'locationHQ' => $locationHQ,
         'images' => $images,
     ]) ?>
 

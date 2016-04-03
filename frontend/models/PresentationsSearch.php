@@ -10,18 +10,49 @@ use frontend\models\Presentations;
 /**
  * PresentationsSearch represents the model behind the search form about `frontend\models\Presentations`.
  */
-class PresentationsSearch extends Presentations
+class PresentationsSearch extends PresentationData
 {
+    public $quantity;
+    public $quantity_operator;
+    public $consumer;
+    public $consumer_operator;
+    public $availability;
+    public $industry;
+    public $provider;
+    public $service;
+    public $service_id;
+    public $object;
+    public $object_models = [];
+
+    public $budget;
+    public $budget_operator;
+
+    public $methods = [];
+
+    public $specs = [];
+
+    public $issues = [];
+
+    public $timetable;
+    public $location;
+    public $coverage;
+    public $coverage_within;
+
+
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'activity_id', 'offer_id', 'provider_service_id'], 'integer'],
-            [['description'], 'safe'],
+            [['id', 'activity_id', 'offer_id', 'provider_service_id', 'quantity', 'consumer'], 'integer'],
+            [['methods', 'specs', 'issues', 'timetable', 'budget_operator', 'consumer_operator', 'quantity_operator', 'object_models'], 'safe'],
+            [['coverage', 'coverage_within'], 'safe'],
+            [['title'], 'string'],
+            [['budget', 'calculated_Price'], 'number', 'min'=>0],
         ];
-    }
+    } 
 
     /**
      * @inheritdoc
@@ -30,6 +61,209 @@ class PresentationsSearch extends Presentations
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function queryQuantity()
+    {
+        if($this->quantity_operator and $this->quantity){
+            switch ($this->quantity_operator) {
+                case 'approx':
+                    return ['AND', ['OR', ['<=', 'presentations.quantity_min', $this->quantity*1.2], 'presentations.quantity_min IS NULL'], ['OR', ['>=', 'presentations.quantity_max', $this->quantity*0.8], 'presentations.quantity_max IS NULL']];
+                    break;               
+                default:
+                    return ['AND', ['OR', ['<=', 'presentations.quantity_min', $this->quantity], 'presentations.quantity_min IS NULL'], ['OR', ['>=', 'presentations.quantity_max', $this->quantity], 'presentations.quantity_max IS NULL']];
+                    break;
+            }
+        }
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function queryConsumers()
+    {
+        if($this->consumer_operator and $this->consumer){
+            switch ($this->consumer_operator) {
+                case 'approx':
+                    return ['AND', ['OR', ['<=', 'presentations.consumer_min', $this->consumer*1.2], 'presentations.consumer_min IS NULL'], ['OR', ['>=', 'presentations.consumer_max', $this->consumer*0.8], 'presentations.consumer_max IS NULL']];
+                    break;               
+                default:
+                    return ['AND', ['OR', ['<=', 'presentations.consumer_min', $this->consumer], 'presentations.consumer_min IS NULL'], ['OR', ['>=', 'presentations.consumer_max', $this->consumer], 'presentations.consumer_max IS NULL']];
+                    break;
+            }
+        }
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function queryPrice()
+    {
+        if($this->budget!='' and $this->budget!=null){
+           if($this->quantity!=null or $this->quantity!=''){
+                return ['OR', ['OR', ['AND', 'presentations.price <= '.$this->budget.'*100/(100-presentations.qtyMax_percent)', 'presentations.qtyMax<'.$this->quantity], 'presentations.price <= '.$this->budget], ['AND', 'presentations.qtyMin_price <='.$this->budget, 'presentations.qtyMin>'.$this->quantity]];
+            }
+            if($this->consumer!=null or $this->consumer!=''){
+                return ['OR', ['OR', ['AND', 'presentations.price <= '.$this->budget.'*100/(100-presentations.consumerMax_percent)', 'presentations.consumerMax<'.$this->consumer], 'presentations.price <= '.$this->budget], ['AND', 'presentations.consumerMin_price <='.$this->budget, 'presentations.consumerMin>'.$this->consumer]];
+            } 
+        }
+            
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function querySpecs()
+    {
+        if($presSpecs = Yii::$app->request->get('PresentationSpecs') and $service = $this->service){
+            //echo '<pre>';
+            //print_r($presSpecs); die();
+            $arrSpec = '';
+            foreach ($presSpecs as $key => $presSpec) {
+                if(is_array($presSpec)){
+                    $property = \frontend\models\CsProperties::findOne($key);
+                    $arrSpec .= '(presentation_specs.spec_id='.$presSpec['spec_id'].' AND ';
+                    if($property->type==1){
+                        if($presSpec['value']!=''){
+                            if($service->service_object==1 or $service->service_object==3 or $service->service_object==5){
+                                // ako je provajderov predmet, onda je range
+                                $arrSpec .= '(presentation_specs.value>'.$presSpec['value'].' OR presentation_specs.value IS NULL)';
+                            } else {
+                                $arrSpec .= '(presentation_specs.value<'.$presSpec['value'].' AND presentation_specs.value>'.$presSpec['value'].')';
+                            }
+                        } else {
+                            $arrSpec .= '1=1';
+                        }
+                    }
+                    if($property->type==2 or $property->type==21 or $property->type==3){
+                        if($presSpec['spec_models']!=''){
+                            if($service->service_object==1 or $service->service_object==3 or $service->service_object==5){
+                                // multi od multi 
+                                $arrSpecPref = '(';                         
+                                foreach($presSpec['spec_models'] as $spc_mdl){
+                                    $arrSpecPref .= 'presentation_spec_models.spec_model='.$spc_mdl.' OR ';
+                                }                            
+                                $arrSpecPref = substr($arrSpecPref, 0, -4);
+                                $arrSpecPref .= ')';
+                                $arrSpec .= $arrSpecPref;     
+                            } else {
+                                // radio = ako je vrednost (jedna) među spec_modelima (više)
+                                $arrSpec .= 'presentation_spec_models.spec_model='.$presSpec['spec_models'][0];
+                            }
+                        } else {
+                            $arrSpec .= '1=1';
+                        }
+                    }
+                    if($property->type==4 or $property->type==41){
+                        if($presSpec['spec_models']!=''){
+                            $arrSpecPref = '(';                         
+                            foreach($presSpec['spec_models'] as $spc_mdl){
+                                $arrSpecPref .= 'presentation_spec_models.spec_model='.$spc_mdl.' OR ';
+                            }                            
+                            $arrSpecPref = substr($arrSpecPref, 0, -4);
+                            $arrSpecPref .= ')';
+                            $arrSpec .= $arrSpecPref;
+                        }  else {
+                            $arrSpec .= '1=1';
+                        }
+                    }
+                    if($property->type==5){
+                        $arrSpec .= 'presentation_specs.value='.$presSpec['value'];                        
+                    }
+                    $arrSpec .= ') OR ';
+                }                    
+            }
+            return substr($arrSpec, 0, -4);            
+        }
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function queryMethods()
+    {
+        if($presMethods = Yii::$app->request->get('PresentationMethods') and $service = $this->service){
+            //echo '<pre>';
+            //print_r($presSpecs); die();
+            $arrMeth = '';
+            foreach ($presMethods as $key => $presMethod) {
+                if(is_array($presMethod)){
+                    $property = \frontend\models\CsProperties::findOne($key);
+                    $arrMeth .= '(presentation_methods.method_id='.$presMethod['method_id'].' AND ';
+                    if($property->type==1 or $property->type==5){
+                        if($presMethod['value']!=''){
+                            // ako je provajderov predmet, onda je range
+                            $arrMeth .= '(presentation_methods.value>'.$presMethod['value'].' OR presentation_methods.value IS NULL)';                            
+                        } else {
+                            $arrMeth .= '1=1';
+                        }
+                    }
+                    if($property->type==2 or $property->type==21 or $property->type==3 or $property->type==4 or $property->type==41){
+                        if($presMethod['method_models']!=''){                            
+                            $arrMethPref = '(';                         
+                            foreach($presMethod['method_models'] as $mth_mdl){
+                                $arrMethPref .= 'presentation_method_models.method_model='.$mth_mdl.' OR ';
+                            }                            
+                            $arrMethPref = substr($arrMethPref, 0, -4);
+                            $arrMethPref .= ')';
+                            $arrMeth .= $arrMethPref;    
+                            
+                        } else {
+                            $arrMeth .= '1=1';
+                        }
+                    }
+                    $arrMeth .= ') OR ';
+                }                    
+            }
+            return substr($arrMeth, 0, -4);            
+        }
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function queryLocations()
+    {
+        if($location = Yii::$app->request->get('Locations') and $this->coverage!=''){
+            $lat = $location['lat'];
+            $lng = $location['lng'];
+            $city = $location['city'];
+            $country = $location['country'];
+            $coverage = $this->coverage;
+            $within = $this->coverage_within;
+            switch ($coverage) {
+                case 6:
+                    return [];
+                    break;
+
+                case 4:
+                    return 'locations.country="'.$country.'"';
+                    break;
+
+                case 2:
+                    return 'locations.city="'.$city.'"';
+                    break;
+                
+                default:
+                    return 'locations.lat
+                             BETWEEN '.$lat.'  - ('.$within.' / 111.045)
+                                 AND '.$lat.'  + ('.$within.' / 111.045)
+                            AND locations.lng
+                             BETWEEN '.$lng.' - ('.$within.' / (111.045 * COS(RADIANS('.$lng.'))))
+                                 AND '.$lng.' + ('.$within.' / (111.045 * COS(RADIANS('.$lng.'))))'; // calculation
+                    break;
+            }
+            print_r($lng); die();                  
+        }
+        return [];
     }
 
     /**
@@ -44,6 +278,7 @@ class PresentationsSearch extends Presentations
         $query = Presentations::find();
 
         // add conditions that should always apply here
+        $query->joinWith(['objectModels', 'specModels', 'methodModels', 'location']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -65,7 +300,28 @@ class PresentationsSearch extends Presentations
             'provider_service_id' => $this->provider_service_id,
         ]);
 
-        $query->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere($this->queryQuantity());
+        $query->andFilterWhere($this->queryConsumers());
+        $query->andFilterWhere($this->queryPrice());
+
+        
+        if($this->object_models){
+            $arr = '';
+            for($i=0; $i<count($this->object_models); $i++){
+                $arr .= 'presentation_object_models.object_model_id='.$this->object_models[$i];
+                if($i<(count($this->object_models)-1)){
+                    $arr .= ' OR ';
+                }
+            }
+            $query->andWhere($arr);
+        }
+
+        $query->andWhere($this->querySpecs());
+        $query->andWhere($this->queryMethods());
+        $query->andWhere($this->queryLocations());
+        //print_r($this->queryLocations());
+        $query->groupBy('presentations.id');
 
         return $dataProvider;
     }

@@ -19,7 +19,7 @@ if($session['cart']!=null){
         foreach($session['cart']['industry'][$industry->id]['skills'] as $skill){
             $model->skills[] = $skill;
         }
-    }        
+    }
 }
 //print_r($model->skills); die();
 $message = 'Za obavljanje pojedinih usluga, pružalac usluge bi trebalo da poseduje neophodan pribor, određeno stručno znanje i veštine ili neke druge osobine, karakteristične za usluge koje obavlja.';

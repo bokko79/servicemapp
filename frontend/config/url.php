@@ -92,7 +92,6 @@ return [
         'provider-industries' => 'provider-services/industries', // :page
         'provider-industry-skills' => 'provider-services/skills', // :page
         'provider-industry-services' => 'provider-services/services', // :page
-        'objectModelsPresentProSer' => 'services/object-models-present', // ajax
 
         // 13 PROVIDER SKILLS
         'new-skill' => 'provider-industry-skills/create', // :page

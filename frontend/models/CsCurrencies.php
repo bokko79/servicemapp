@@ -104,5 +104,5 @@ class CsCurrencies extends \yii\db\ActiveRecord
     public function getUserOrders()
     {
         return $this->hasMany(UserOrder::className(), ['currency_id' => 'id']);
-    }
+    }    
 }

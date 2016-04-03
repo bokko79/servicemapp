@@ -243,6 +243,7 @@ class UsersController extends Controller
                 $filters = ($model->filters) ? $model->filters : new \frontend\models\UserFilters;
                 $images = ($model->images) ? $model->images : new \frontend\models\UserImages;
                 $notifications = $model->userNotifications;
+                $locationHQ = $model->location;
 
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -252,6 +253,7 @@ class UsersController extends Controller
                         'details' => $details,
                         'filters' => $filters,
                         'images' => $images,
+                        'locationHQ' => $locationHQ,
                     ]);
                 }
             } else {

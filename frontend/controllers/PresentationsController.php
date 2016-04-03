@@ -72,14 +72,25 @@ class PresentationsController extends Controller
      */
     public function actionIndex()
     {
+        $service = (Yii::$app->request->get('PresentationsSearch') and isset(Yii::$app->request->get('PresentationsSearch')['service_id'])) ? $this->findService(Yii::$app->request->get('PresentationsSearch')['service_id']) : null;
+
         $this->layout = '/index_presentation';
 
         $searchModel = new PresentationsSearch();
+        $searchModel->service = $service;
+        $model_specs = $searchModel->loadPresentationSpecifications($service, null);
+        $model_methods = $searchModel->loadPresentationMethods($service);
+        $location = (Yii::$app->user->location) ? Yii::$app->user->location : new \frontend\models\Locations();
+        //print_r(Yii::$app->request->queryParams); die();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'service' => $service,
+            'model_specs' => $model_specs,
+            'model_methods' => $model_methods,
+            'location' => $location,
         ]);
     }
 
@@ -476,28 +487,27 @@ class PresentationsController extends Controller
                     if($locationHQ->load(Yii::$app->request->post()) and !$newUser and !$newProvider){
                         if($locationHQ && !$locationHQ->save()){
                             return false;
-                        }           
+                        }
                     }
                     // location FROM
                     if($locationPresentation->load(Yii::$app->request->post())){
                         $locationPresentation->user_id = $user->id;
                         if($locationPresentation->save()){
                             $model->loc_id = $locationPresentation->id;
-                        } else {
-                            echo '<pre>';
-                            print_r($locationPresentation); die();
-                        }                                
+                        }                              
+                    } else {
+                        $model->loc_id = $proserv->provider->loc_id;
                     }
                     // location TO
                     if($locationPresentationTo->load(Yii::$app->request->post())){
                         $locationPresentationTo->user_id = $user->id;
                         if($locationPresentationTo->save()){
                             $model->loc_to_id = $locationPresentationTo->id;
-                        } else {
-                            echo '<pre>';
-                            print_r($locationPresentationTo); die();
-                        }                               
-                    }                    
+                        }                              
+                    }
+                    
+                    $model->coverage = $model->coverage!=null ? $model->coverage : $proserv->provider->coverage;
+                    $model->coverage_within = $model->coverage_within!=null ? $model->coverage_within : $proserv->provider->coverage_within;
                     //print_r($model); die();
                     if($model->save()){
                         // Presentation Object Models

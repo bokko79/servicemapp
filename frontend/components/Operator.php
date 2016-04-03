@@ -47,11 +47,34 @@ class Operator extends Component
 	}
 
 	/* Za prva slova č, ć, š, đ, ž */
-	public static function sentenceCase($string)
+	public function sentenceCase($string)
 	{
 	    $strlen = mb_strlen($string, 'UTF-8');
 	    $firstChar = mb_substr($string, 0, 1, 'UTF-8');
 	    $then = mb_substr($string, 1, $strlen - 1, 'UTF-8');
 	    return mb_strtoupper($firstChar, 'UTF-8') . $then;
 	}
+
+	public function findCurrencyByCode($code)
+    {
+        if (($model = \frontend\models\CsCurrencies::find()->where('code="'.$code.'"')->one()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function price($price, $curr_1, $curr_2)
+    {
+        $curr_1 = $this->findCurrencyByCode($curr_1);
+        $curr_2 = $this->findCurrencyByCode($curr_2);
+        if($curr_1 and $curr_2){
+            // konverzija cene u EUR
+            $EUR_price = $price/$curr_1->rate;
+
+            // tražena cena u izabranoj valuti
+            return $EUR_price*$curr_2->rate;
+        }
+        return;   
+    }
 }

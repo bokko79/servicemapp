@@ -2243,7 +2243,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/15e21f38aa9c2119e818c2053dfbd3becce3bc07",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/064b38c16790249488e7a8b987acf1c9d7383c09",
                 "reference": "a9ccae25cbb5c0af6f2a549e4cc3ee6628c253ab",
                 "shasum": ""
             },
@@ -2458,7 +2458,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/6bfbfdbf7e0d12a0aa327bb067bf89153316ab1a",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/8f614a053810e8dfac4f2aad6af59a7b369cfd8e",
                 "reference": "6bfbfdbf7e0d12a0aa327bb067bf89153316ab1a",
                 "shasum": ""
             },
@@ -2913,7 +2913,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/81c67c9859d5c78949561abe12acbe2fa427210c",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/3fa8254dd475aa0979e1ab2a4a7d83aaf5acdfc8",
                 "reference": "88ceadba3fc19ec90f72b6ba895347b7fecd3dfb",
                 "shasum": ""
             },
@@ -4712,7 +4712,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/989d6c52c92e51f0d562729c329ee1012191cba2",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/0d93a9dbd55f2d0921b8e153554379bb213a2c7f",
                 "reference": "ce42838abcbef076ebaf46147671d518ae69d028",
                 "shasum": ""
             },

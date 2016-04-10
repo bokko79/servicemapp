@@ -42,8 +42,9 @@ class CsSpecs extends \yii\db\ActiveRecord
     {
         return [
             [['object_id', 'property_id'], 'required'],
-            [['object_id', 'property_id', 'range_min', 'range_max', 'range_step', 'required'], 'integer'],
-            [['description'], 'string'],
+            [['object_id', 'property_id', 'required', 'display_order'], 'integer'],
+            [['description', 'pattern'], 'string'],
+            [['range_min', 'range_max', 'range_step'], 'number'],
             [['object_name', 'property_name'], 'string', 'max' => 64],
             [['default_value'], 'string', 'max' => 16],
         ];
@@ -64,6 +65,8 @@ class CsSpecs extends \yii\db\ActiveRecord
             'range_min' => Yii::t('app', 'Range Min'),
             'range_max' => Yii::t('app', 'Range Max'),
             'range_step' => Yii::t('app', 'Range Step'),
+            'pattern' => Yii::t('app', 'Pattern'),
+            'display_order' => Yii::t('app', 'Display order'),
             'required' => Yii::t('app', 'Required'),
             'description' => Yii::t('app', 'Description'),
         ];
@@ -107,5 +110,13 @@ class CsSpecs extends \yii\db\ActiveRecord
     public function getPresentationSpecs()
     {
         return $this->hasMany(PresentationSpecs::className(), ['spec_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function serviceSpec($service_id)
+    {
+        return \frontend\models\CsServiceSpecs::find()->where('spec_id='.$this->id.' AND service_id='.$service_id)->one();
     }
 }

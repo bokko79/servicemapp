@@ -32,6 +32,7 @@ use yii\helpers\Url;
 class Cart extends Widget
 {
     public $cart=[];
+    public $card_class;
 
 
     /**
@@ -40,10 +41,11 @@ class Cart extends Widget
     public function run()
     { 
     	if($this->cart['session']!=null): ?>
-		<div class="card_container record-270 no-shadow" id="card_container" style="float:none;">		       
-	        <div class="primary-context small-margin">
-	            <div class="head lower">Vaša korpa</div>
+		<div class="card_container <?= $this->card_class ?>" id="card_container" style="float:none;">		       
+	        <div class="header-context">
+	            <div class="head lower gray-color regular">Vaša korpa</div>
 	            <div class="subhead">Lorem ipsum</div>
+	            <?= Html::a('<i class="fa fa-trash-o"></i>', Url::to(['/empty-cart']), ['class'=>'btn btn-link', 'style'=>'width:100%']); ?>
 	        </div>
 	        <?php 
 	        	foreach ($this->cart['session'] as $s){
@@ -53,8 +55,8 @@ class Cart extends Widget
 			        </div>
 	        <?php } ?>
 	        
-	        <div class="action-area right">
-	            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Poruči'), Url::to(), ['class'=>'btn btn-link']); ?>
+	        <div class="action-area center">
+	            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Poruči'), Url::to(['/new-order', 'industry'=>$this->cart['industry']]), ['class'=>'btn btn-info', 'style'=>'width:100%']); ?>
 	        </div>		   
 		</div>
 <?php

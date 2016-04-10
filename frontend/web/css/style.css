@@ -139,6 +139,7 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 .muted {color:#999}
 
 .hint, .disabled {color: #888;}
+.hint-block, .disabled {color: #888; font-size: 11px; font-style: italic; margin-top: 5px;}
 
 .overflow-hidden {overflow: hidden;}
 .drop-shadow {box-shadow: 1px 1px 4px #ccc;}
@@ -543,13 +544,13 @@ header.main nav { min-height: 60px; width:100%; background: #fff; /*border-botto
 /* ----------------- 31.4. NAVBAR CONTROL BOX (SPAN3 GDE JE USERNAME, NOTICATIONS, LANGUAGE, MESSAGES i INFO) */
 
 .navbar_control_box {padding: 0;  height:60px; margin: 0; list-style: none;}
-.navbar_control_box > li {display: inline-table; float: left; padding:0; background: transparent; min-width: 30px; height: 60px; border-radius: 0px;-moz-border-radius:0px; margin: 0 8px; /*box-shadow: 0px 0px 3px #eee;*/border:none;}
+.navbar_control_box > li {display: inline-table; float: left; padding:0; background: transparent; min-width: 30px; height: 60px; border-radius: 0px;-moz-border-radius:0px; margin: 0px; /*box-shadow: 0px 0px 3px #eee;*/border:none;}
 .navbar_control_box > li:first-child, .navbar_control_box > li:nth-last-child(2) {margin: 0;}
 .navbar_control_box > li.notif_li { position: relative;}
 .navbar_control_box > li.blank {box-shadow: none;}
 .navbar_control_box > li:hover {background: #2196F3;}
 .navbar_control_box > li:hover > a {color:white; background: none;}
-.navbar_control_box > li > a {width:60px; height:60px; padding: 0; text-decoration: none; display: table-cell; vertical-align: middle; text-align: center; font-size: 12px; font-weight: 700; border:none;}
+.navbar_control_box > li > a {width:54px; height:60px; padding: 0; text-decoration: none; display: table-cell; vertical-align: middle; text-align: center; font-size: 12px; font-weight: 700; border:none;}
 .navbar_control_box > li.shopping-cart {/*width:60px;*/}
 .navbar_control_box > li.open {box-shadow: 0px 0px 8px #ddd inset;}
 .navbar_control_box > li.open > a {color: #2196F3 !important; opacity:1;}
@@ -570,7 +571,7 @@ header.main nav { min-height: 60px; width:100%; background: #fff; /*border-botto
 .navbar_control_box li.notif_li ul li a:visited, 
 .navbar_control_box li.notif_li ul li a:active {color:#000; padding: 10px 0 0; width:100%; text-align: left; font-weight: 400; display: inline; float: none; font-size: 12px;}
 .navbar_control_box li.badger {position: relative;}
-.navbar_control_box li.badger .label {position: absolute; top:5px; right:-5px; z-index: 10;}
+.navbar_control_box li.badger .label {position: absolute; top:7px; right:5px; z-index: 10;}
 .navbar_control_box li .caret {display: none;}
 .navbar_control_box .msg_counter {width: auto !important; height: 15px; display: block; background: #2196F3; border-radius: 2px; text-align: center; padding: 0 4px; font-weight: 700; position:absolute; left: 24px;top: -5px; font-size:10px; color:#fff; box-shadow: 1px 1px 3px #aaa;}
 
@@ -1078,7 +1079,7 @@ a.butn {width: 100%; /*font-weight: 700;*/ font-size: 13px; text-transform: uppe
 /* full-calendar row height */
 .fc-row {height: 52px !important;}
 /* select2 input styling */
-.select2-container--krajee .select2-selection {border-radius: 0px !important;}
+/*.select2-container--krajee .select2-selection {border-radius: 0px !important;}*/
 /* for geocomplete in modals */
 .pac-container {z-index: 9999 !important;}
 
@@ -1114,4 +1115,5 @@ a.butn {width: 100%; /*font-weight: 700;*/ font-size: 13px; text-transform: uppe
     height: 100%;
 }
 
-/*.js-masonry .list-view > div {min-height: 200px;}*/
+/*.js-masonry .list-view > div {overflow: hidden;}
+.js-masonry .list-view ul.pagination {position: absolute; top: -124px; right: 0;}*/

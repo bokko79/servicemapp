@@ -182,13 +182,13 @@ class CsProperties extends \yii\db\ActiveRecord
     {
         switch ($this->type) {
             case 1:
-                $part = '_number';
+                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_number' : '_range';
                 break;
             case 2:
-                $part = $service_object!=1 ? '_radio' : '_multiselect';
+                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_radio' : '_multiselect';
                 break;
             case 21:
-                $part = $service_object!=1 ? '_radioButton' : '_checkboxButton';
+                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_radioButton' : '_checkboxButton';
                 break;
             case 22:
                 $part = '_radio';
@@ -196,31 +196,64 @@ class CsProperties extends \yii\db\ActiveRecord
                 $part = '_radioButton';
                 break;
             case 3:
-                $part = $service_object!=1 ? '_select' : '_multiselect';
+                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_select' : '_multiselect';
+                break;
+            case 31:
+                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_select2' : '_multiselect_select2';
+                break;
+            case 32:
+                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_select_media' : '_multiselect_media';
                 break;
             case 4:
                 $part = '_multiselect';
+                break;            
+            case 41:
+                $part = '_checkboxButton';
+                break;
+            case 42:
+                $part = '_multiselect_select';
+                break;
+            case 43:
+                $part = '_multiselect_select2';
+                break;
+            case 44:
+                $part = '_multiselect_media';
                 break;
             case 5:
                 $part = '_checkbox';
                 break;
-            case 51:
-                $part = $service_object!=1 ? '_checkboxButton' : '_checkboxButton';
-                break;
-            case 52:
-                $part = $service_object!=1 ? '_checkboxButton' : '_radioButton';
-                break;
             case 6:
-                $part = $service_object!=1 ? '_text' : null;
+                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_text' : null;
                 break;
             case 7:
-                $part = $service_object!=1 ? '_textarea' : null;
+                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_textarea' : null;
                 break;
             case 8:
-                $part = '_color';
+                $part = '_slider';
                 break;
             case 9:
-                $part = '_range';
+                $part = '_range'; // with operator
+                break;
+            case 10:
+                $part = '_date';
+                break;
+            case 11:
+                $part = '_time';
+                break;
+            case 12:
+                $part = '_datetime';
+                break;
+            case 13:
+                $part = '_email';
+                break;
+            case 14:
+                $part = '_url';
+                break;
+            case 15:
+                $part = '_color';
+                break;
+            case 16:
+                $part = '_date_range';
                 break;
             default:
                 $part = '_text';
@@ -239,10 +272,10 @@ class CsProperties extends \yii\db\ActiveRecord
                 $part = '_number';
                 break;
             case 2:
-                $part = $service_object==1 ? '_radio' : '_multiselect';
+                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_radio' : '_multiselect';
                 break;
             case 21:
-                $part = $service_object==1 ? '_radioButton' : '_checkboxButton';
+                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_radioButton' : '_checkboxButton';
                 break;
             case 22:
                 $part = '_radio';
@@ -250,31 +283,64 @@ class CsProperties extends \yii\db\ActiveRecord
                 $part = '_radioButton';
                 break;
             case 3:
-                $part = $service_object==1 ? '_select' : '_multiselect';
+                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_select' : '_multiselect';
+                break;
+            case 31:
+                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_select2' : '_multiselect';
+                break;
+            case 32:
+                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_select_media' : '_multiselect';
                 break;
             case 4:
                 $part = '_multiselect';
+                break;            
+            case 41:
+                $part = '_checkboxButton';
+                break;
+            case 42:
+                $part = '_multiselect_select';
+                break;
+            case 43:
+                $part = '_multiselect_select2';
+                break;
+            case 44:
+                $part = '_multiselect_media';
                 break;
             case 5:
                 $part = '_checkbox';
-                break;
-            case 51:
-                $part = $service_object==1 ? '_checkboxButton' : '_checkboxButton';
-                break;
-            case 52:
-                $part = $service_object==1 ? '_checkboxButton' : '_radioButton';
-                break;
+                break;            
             case 6:
-                $part = $service_object==1 ? '_text' : null;
+                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_text' : null;
                 break;
             case 7:
-                $part = $service_object==1 ? '_textarea' : null;
+                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_textarea' : null;
                 break;
             case 8:
-                $part = '_color';
+                $part = '_slider';
                 break;
             case 9:
                 $part = '_range';
+                break;
+            case 10:
+                $part = '_date';
+                break;
+            case 11:
+                $part = '_time';
+                break;
+            case 12:
+                $part = '_datetime';
+                break;
+            case 13:
+                $part = '_email';
+                break;
+            case 14:
+                $part = '_url';
+                break;
+            case 15:
+                $part = '_color';
+                break;
+            case 16:
+                $part = '_date_range';
                 break;
             default:
                 $part = '_text';

@@ -1,0 +1,20 @@
+#service_objects_container {margin:0; border: 1px solid #ddd; border-bottom: none; border-radius:2px;}
+#psd {padding:0; margin: 0; width: 100%; background: #fff;}
+#psd td {padding: 0 0 5px 0; margin: 0; vertical-align: top;}
+#psd .image {width:99px;}
+#psd .image .req_view_title {width:89px; margin: 0; padding:2px 5px 6px;}
+#psd .main {padding: 0 0 0 10px; font-size: 12px; font-weight: 700;}
+#psd .main  p {line-height: 10px; color: #777; padding:5px 0; font-size: 10px; margin: 0;}
+#psd .main h1 {margin:0; padding:0; line-height: 20px;}
+#psd .main h1 a {font-weight: 700; font-size: 32px; color:#444; letter-spacing: -1px;}
+#psd .main h1 a:hover {color:#00aff0 !important;}
+#psd .main table, #psd .main table td {margin: 0; padding: 0; font-size: 11px;}
+#psd .main .left {width: 20%; text-align: left; font-size: 10px;}
+#psd .main .right {text-align: left; padding-left: 10px;}
+#psd .main.service {vertical-align: bottom; padding-bottom: 10px;}
+#psd .main.object {padding:10px;}
+#psd .main .object {font-size: 15px;}
+#psd .main .note {padding-right: 10px; font-weight: 400; display: block; line-height: 14px;}
+#psd .right {vertical-align: middle; text-align: center;}
+#psd .right .toggle_details, #psd .right .toggle_pics {float:right; margin-right:10px; cursor: pointer; color:#aaa; font-weight: 400; font-size: 9px;}
+

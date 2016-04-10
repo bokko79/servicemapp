@@ -91,7 +91,7 @@ class CsServices extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'industry_id', 'action_id', 'action_name', 'object_id', 'object_name', 'unit_id', 'coverage'], 'required'],
-            [['image_id', 'industry_id', 'action_id', 'object_id', 'object_model_relevance', 'unit_id', 'amount_default', 'amount_range_min', 'amount_range_max', 'consumer_default', 'consumer_range_min', 'consumer_range_max', 'geospecific', 'process', 'added_by', 'hit_counter'], 'integer'],
+            [['image_id', 'industry_id', 'action_id', 'object_id', 'object_model_relevance', 'unit_id', 'amount_default', 'amount_range_min', 'amount_range_max', 'consumer_default', 'consumer_range_min', 'consumer_range_max', 'geospecific', 'process', 'shipping', 'installation', 'added_by', 'hit_counter'], 'integer'],
             [['amount_range_step', 'consumer_range_step'], 'number'], 
             [['dat', 'status'], 'string'],
             [['added_time'], 'safe'],
@@ -175,7 +175,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getServiceProcesses()
+    public function getProcesses()
     {
         return $this->hasMany(CsServiceProcesses::className(), ['service_id' => 'id']);
     }
@@ -183,9 +183,17 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getServiceRegulations()
+    public function getRegulations()
     {
         return $this->hasMany(CsServiceRegulations::className(), ['service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectModels()
+    {
+        return $this->hasMany(CsServiceObjectModels::className(), ['service_id' => 'id']);
     }
 
     /**
@@ -203,6 +211,14 @@ class CsServices extends \yii\db\ActiveRecord
     public function getServiceSpecs()
     {
         return $this->hasMany(CsServiceSpecs::className(), ['service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServiceSkills()
+    {
+        return $this->hasMany(CsServiceSkills::className(), ['service_id' => 'id']);
     }
 
     /**
@@ -367,8 +383,52 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTNameGen()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_gen;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameDat()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_dat;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameAkk()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_akk;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSCaseName()
     {
-        return Yii::$app->operator->sentenceCase($this->tName); 
+        return c($this->tName); 
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTDescription()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->note;
+        }       
+        return false;   
     }
 }

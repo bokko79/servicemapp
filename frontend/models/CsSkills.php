@@ -35,9 +35,11 @@ class CsSkills extends \yii\db\ActiveRecord
     {
         return [
             [['industry_id', 'property_id'], 'required'],
-            [['industry_id', 'property_id', 'required'], 'integer'],
-            [['description'], 'string'],
+            [['industry_id', 'property_id', 'required', 'display_order', ], 'integer'],
+            [['description', 'pattern'], 'string'],
+            [['range_min', 'range_max', 'range_step'], 'number'],
             [['industry_name', 'property_name'], 'string', 'max' => 64],
+            [['default_value'], 'string', 'max' => 16],
         ];
     }
 
@@ -51,6 +53,12 @@ class CsSkills extends \yii\db\ActiveRecord
             'industry_name' => Yii::t('app', 'Industry'),
             'property_id' => Yii::t('app', 'Property ID'),
             'property_name' => Yii::t('app', 'Property'),
+            'default_value' => Yii::t('app', 'Default Value'),
+            'range_min' => Yii::t('app', 'Range Min'),
+            'range_max' => Yii::t('app', 'Range Max'),
+            'range_step' => Yii::t('app', 'Range Step'),
+            'pattern' => Yii::t('app', 'Pattern'),
+            'display_order' => Yii::t('app', 'Display order'),
             'required' => Yii::t('app', 'Required'),
         ];
     }
@@ -78,5 +86,21 @@ class CsSkills extends \yii\db\ActiveRecord
     public function getOrderSkills()
     {
         return $this->hasMany(OrderSkills::className(), ['skill_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServiceSkills()
+    {
+        return $this->hasMany(CsServiceSkills::className(), ['skill_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function serviceSkill($service_id)
+    {
+        return \frontend\models\CsServiceSkills::find()->where('skill_id='.$this->id.' AND service_id='.$service_id)->one();
     }
 }

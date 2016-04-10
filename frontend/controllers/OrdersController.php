@@ -71,56 +71,51 @@ class OrdersController extends Controller
         if (isset($title) && ($ser_tr = $this->findServiceByTitle($title))) {
             $object_models = (Yii::$app->request->get('CsObjects')) ? Yii::$app->request->get('CsObjects')['id'] : null;
             $presentation = (Yii::$app->request->get('Presentations')) ? $this->findPresentation(Yii::$app->request->get('Presentations')['id']) : null;
-
             $service = $this->findService($ser_tr->service_id);
             $key = (isset(Yii::$app->session['cart']['industry'][$service->industry_id]['data']) && Yii::$app->session['cart']['industry'][$service->industry_id]['data']!=null) ? count(Yii::$app->session['cart']['industry'][$service->industry_id]['data'])+1 : 1;
             
-            $model = new \frontend\models\CartForm();
-            $model->service = $service;
-            $model->object_models = $object_models;
-            $model->key = $key;
-            $model->type = $presentation ? 'direct' : 'global';
-            $model->presentation = $presentation ? $presentation : null;
-            $model->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 1 : 0;
-            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+            $model = $this->loadCartFormModel($service, $object_models, $key, $presentation);
+            // skill model
+            $model_skill = $this->loadServiceSkills($service, $key);
             // method model
             $model_method = $this->loadServiceMethods($service, $key);
             // specification model
             $model_spec = $this->loadServiceSpecifications($service, $object_models, $key);                                   
                     
-            if($model->load(Yii::$app->request->post()) && $model->storeToCart()) {                          
+            if($model->load(Yii::$app->request->post()) and $model->storeToCart()) {
                 if($model_method!=null){ // methods
-                    if(yii\base\Model::loadMultiple($model_method, Yii::$app->request->post()) && yii\base\Model::validateMultiple($model_method)) {
+                    if(yii\base\Model::loadMultiple($model_method, Yii::$app->request->post()) and yii\base\Model::validateMultiple($model_method)) {
                         foreach ($model_method as $m_method) {
-                            if(!$m_method->store()) {
-                                return $this->goBack();
-                            }
+                            $m_method->store();
                         }
                     }
                 }
-                if($model_spec!=null && ($model->user_object=='' || $model->user_object==null)){ // specifications
-                    if(yii\base\Model::loadMultiple($model_spec, Yii::$app->request->post()) && yii\base\Model::validateMultiple($model_spec)) {
+                if($model_spec!=null and ($model->user_object=='' || $model->user_object==null)){ // specifications
+                    if(yii\base\Model::loadMultiple($model_spec, Yii::$app->request->post()) and yii\base\Model::validateMultiple($model_spec)) {
                         foreach ($model_spec as $m_spec) {
-                            if(!$m_spec->store()) {
-                                return $this->goBack();
-                            }
+                            $m_spec->store();
                         }
                     }
                 }
                 if ($model->imageFiles) {
-                    if(!$model->upload()){
-                        return $this->goBack();
-                    }
+                    $model->upload();
                 }
-                return $this->redirect(['/new-order', 'industry'=>$service->industry_id]);
+                if(isset($_POST['searchPresentationIndex']) and $_POST['searchPresentationIndex']==''){                 
+                    return $this->redirect($this->addParamsForPresentationIndex($model_spec, $model_method, $model, $service));
+                }
+                if(isset($_POST['addMoreServices']) and $_POST['addMoreServices']==''){
+                    return $this->redirect(['/services', 'i'=>$service->industry_id]);
+                }
+                return $this->redirect(['/new-order', 'industry'=>$service->industry_id]);                
             } else {
                 return $this->render('add', [
                     'model' => $model,
                     'model_specs' => $model_spec,
                     'model_methods' => $model_method,
+                    'model_skills' => $model_skill,
                     'service' => $service,
                     'object_models' => $object_models,
-                    'objects' => $this->getObjectModels($object_models),                    
+                    'objects' => $this->getObjectModels($object_models),
                     'serviceSpecs' => $service->serviceSpecs,
                     'objectSpecifications' => $this->objectSpecifications($service, $object_models),
                     'userObjects' => $this->checkUserObjectsExist($service, $object_models),
@@ -255,6 +250,21 @@ class OrdersController extends Controller
     }
 
     /**
+     * Displays a single Orders model.
+     * @param string $id
+     * @return mixed
+     */
+    public function actionEmptyCart()
+    {        
+
+        $session = Yii::$app->session;
+
+        $session->remove('cart');
+        
+        return $this->redirect('/services');
+    }
+
+    /**
      * Finds the Orders model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
@@ -309,6 +319,22 @@ class OrdersController extends Controller
      * @return CsServices the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    protected function findObject($id)
+    {
+        if (($model = \frontend\models\CsObjects::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the CsServicesTranslation model based on its translated title.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return CsServices the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     protected function findPresentation($id)
     {
         if (($model = \frontend\models\Presentations::findOne($id)) !== null) {
@@ -341,50 +367,42 @@ class OrdersController extends Controller
      */
     protected function objectSpecifications($service, $object_models)
     {
-        if($object_models!=null || $service->serviceSpecs!=null) {
-            if($service->serviceSpecs!=null){
-               foreach($service->serviceSpecs as $serviceSpec) {
-                    if($serviceSpec->spec) {
-                        $objectSpecification[] = $serviceSpec->spec;
-                    }           
-                } 
+        if($object_models!=null || $service->serviceSpecs!=null) {            
+            $object = $service->object;
+            if ($object) {
+                if ($object->specs) {
+                    foreach($object->specs as $objectSpec) {
+                        $objectSpecification[] = $objectSpec->id;                                                                  
+                    }
+                }           
             }
-            if($object_models!=null){
+            if($object_models and count($object_models)==1){
                 foreach($object_models as $object_model) {
-                    $object = \frontend\models\CsObjects::findOne($object_model);
-                    if ($object) {
-                        if ($object->specs) {
-                            foreach($object->specs as $objectSpec) {
-                                if(!in_array($objectSpec, $objectSpecification)){ 
-                                    $objectSpecification[] = $objectSpec;                               
+                    $object_m = \frontend\models\CsObjects::findOne($object_model);
+                    if ($object_m) {
+                        if ($object_m->specs) {
+                            foreach($object_m->specs as $objectSpec_m) {
+                                if(!in_array($objectSpec_m->id, $objectSpecification)){ 
+                                    $objectSpecification[] = $objectSpec_m->id;                               
                                 }                                   
                             }
                         }           
                     }       
                 }
-            }          
-        } 
-        return (isset($objectSpecification)) ? $objectSpecification : null;
-    }
-
-    protected function loadServiceMethods($service, $key)
-    {
-        if($service->serviceMethods!=null) {
-            foreach($service->serviceMethods as $serviceMethod) {
-                if($serviceMethod->method) {
-                    if($serviceMethod->method->property) { 
-                        $property = $serviceMethod->method->property;
-                        $model_method[$property->id] = new \frontend\models\CartServiceActionMethod();
-                        $model_method[$property->id]->serviceMethod = $serviceMethod->method;
-                        $model_method[$property->id]->property = $property;
-                        $model_method[$property->id]->service = $service;
-                        $model_method[$property->id]->key = $key;
-                    }
-                }           
             }
-            return $model_method;
-        }
-        return null;
+            if($objectSpecification){
+                if($service->serviceSpecs!=null){
+                   foreach($service->serviceSpecs as $serviceSpec) { // all servicespecs
+                        // we need only specs for this service and this/these object_models
+
+                        if(in_array($serviceSpec->spec_id, $objectSpecification)) {
+                            $serviceObjectSpecification[] = $serviceSpec->spec;
+                        }           
+                    } 
+                }
+            }
+        } 
+        return (isset($serviceObjectSpecification)) ? $serviceObjectSpecification : null;
     }
 
     /**
@@ -409,7 +427,69 @@ class OrdersController extends Controller
             return (isset($model_spec)) ? $model_spec : null;
         }
         return null;        
-    }    
+    } 
+
+    protected function loadServiceMethods($service, $key)
+    {
+        if($service->serviceMethods!=null) {
+            foreach($service->serviceMethods as $serviceMethod) {
+                if($serviceMethod->method) {
+                    if($serviceMethod->method->property) { 
+                        $property = $serviceMethod->method->property;
+                        $model_method[$property->id] = new \frontend\models\CartServiceActionMethod();
+                        $model_method[$property->id]->serviceMethod = $serviceMethod->method;
+                        $model_method[$property->id]->property = $property;
+                        $model_method[$property->id]->service = $service;
+                        $model_method[$property->id]->key = $key;
+                    }
+                }           
+            }
+            return $model_method;
+        }
+        return null;
+    }
+
+    protected function loadServiceSkills($service, $key)
+    {
+        if($serviceSkills = $service->serviceSkills) {
+            foreach($serviceSkills as $serviceSkill) {
+                if($serviceSkill->skill) {
+                    if($serviceSkill->skill->property) { 
+                        $property = $serviceSkill->skill->property;
+                        $model_skill[$property->id] = new \frontend\models\CartServiceIndustrySkill();
+                        $model_skill[$property->id]->serviceSkill = $serviceSkill->skill;
+                        $model_skill[$property->id]->property = $property;
+                        $model_skill[$property->id]->service = $service;
+                        $model_skill[$property->id]->key = $key;
+                    }
+                }           
+            }
+            return $model_skill ? $model_skill : null;
+        }
+        return null;
+    }
+
+    /**
+     * Kreira Modele CartServiceObjectSpecification za sve izabrane specifikacije.
+     */
+    protected function loadCartFormModel($service, $object_models, $key, $presentation)
+    {
+        if($service and $key){
+            $model = new \frontend\models\CartForm();
+            $model->service = $service;
+            $model->object_models = $object_models;
+            $model->key = $key;
+            $model->type = $presentation ? 'direct' : 'global';
+            $model->presentation = $presentation ? $presentation : null;
+            $model->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 1 : 0;
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+
+            return (isset($model)) ? $model : null;
+        }
+        return null;        
+    } 
+
+       
 
     protected function saveOrderServices($model, $activity, $cart, $service)
     {
@@ -638,5 +718,55 @@ class OrdersController extends Controller
         unset($cart['industry'][$industry]);
         $session['cart'] = $cart;
         return;
-    }        
+    }  
+
+    protected function addParamsForPresentationIndex($model_spec, $model_method, $model, $service)
+    {
+        if($model_method and $model_spec and $model and $service){
+           if($model_spec!=null){
+                foreach ($model_spec as $keys => $m_spec) {
+                    if($m_spec['spec_models'] or $m_spec['spec_models']==''){
+                        if(is_array($m_spec['spec_models'])){
+                            foreach ($m_spec['spec_models'] as $keym => $mSpecModel) {
+                                $arrayParams['PresentationSpecs['.$keys.'][spec_models]'][]=$mSpecModel;
+                            } 
+                        } else {
+                            $arrayParams['PresentationSpecs['.$keys.'][spec_models]']=$m_spec['spec_models'];
+                        }                                                                       
+                    } else {
+                        $arrayParams['PresentationSpecs['.$keys.'][value_operator]']=$m_spec['spec_operator'];
+                        $arrayParams['PresentationSpecs['.$keys.'][value]']=$m_spec['spec'];
+                    }
+                    $arrayParams['PresentationSpecs['.$keys.'][spec_id]']=$m_spec->specification->id;
+                }
+            }
+            if($model_method!=null){
+                //echo '<pre>';
+                //print_r($model_method); die();
+                foreach ($model_method as $keys => $m_method) {
+                    if($m_method['method_models'] or $m_method['method_models']==''){
+                        if(is_array($m_method['method_models'])){
+                            foreach ($m_method['method_models'] as $keym => $mMethodModel) {
+                                $arrayParams['PresentationMethods['.$keys.'][method_models]'][]=$mMethodModel;
+                            } 
+                        } else {
+                            $arrayParams['PresentationMethods['.$keys.'][method_models]']=$m_method['method_models'];
+                        }                                                                       
+                    } else {
+                        $arrayParams['PresentationMethods['.$keys.'][value]']=$m_method['method'];
+                    }
+                    $arrayParams['PresentationMethods['.$keys.'][method_id]']=$m_method->serviceMethod->id;
+                }
+            }
+
+            $arrayParams['PresentationsSearch[service_id]']=$service->id; 
+            $arrayParams['PresentationsSearch[quantity]']=$model->amount;
+            $arrayParams['PresentationsSearch[quantity_operator]']=$model->amount_operator;
+            $arrayParams['PresentationsSearch[consumer]']=$model->consumer;
+            $arrayParams['PresentationsSearch[consumer_operator]']=$model->consumer_operator;
+            $arrayParams['PresentationsSearch[title]']=$model->title;
+            return array_merge(['/presentations'], $arrayParams); 
+        }
+        return;
+    }      
 }

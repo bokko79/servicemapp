@@ -8,6 +8,7 @@ $this->title = Yii::t('app', 'Create Orders');
 
 $this->cart = [
     'session' => Yii::$app->session['cart']['industry'][$service->industry_id]['data'],
+    'industry' => $service->industry_id,
 ];
 ?>
 <?= $this->render('_steps.php', ['service'=>$service]) ?>

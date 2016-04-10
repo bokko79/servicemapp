@@ -6,10 +6,12 @@ use yii\bootstrap\Modal;
 use yii\web\Session;
 
 $service = $model->pService;
-$model->calculated_Price = $model->calculatedPrice(Yii::$app->request->get('PresentationsSearch')['quantity'], Yii::$app->request->get('PresentationsSearch')['consumer'], false);
+$quan = isset(Yii::$app->request->get('PresentationsSearch')['quantity']) ? Yii::$app->request->get('PresentationsSearch')['quantity'] : null;
+$cons = isset(Yii::$app->request->get('PresentationsSearch')['quantity']) ? Yii::$app->request->get('PresentationsSearch')['quantity'] : null;
+$model->calculated_Price = $model->calculatedPrice($quan, $cons, false);
 $unit = $model->price_unit!=null ? $model->unit->oznaka : $model->pService->unit->oznaka;
 ?>
-<div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="">    
+<div class="card_container record-md grid-item fadeInUp animated" id="card_container" style="">    
     <div class="media-area">
 		<div class="image">
 			<?= Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg', ['style'=>'']) ?>
@@ -32,17 +34,16 @@ $unit = $model->price_unit!=null ? $model->unit->oznaka : $model->pService->unit
         </div>
         
 		<div class="button float-right">
-                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Poruči'), Url::to(['/add/'.slug($service->tName), 'Presentation[id]'=>$model->id]), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']) ?>
+                <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to(), ['class'=>'btn btn-info', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#add-presentation-to-cart'.$model->id]) ?>
+                
 		</div>
     </div>    
 </div>
-<?php /*Modal::begin([
-        'id'=>'object-models-order-modal'.$model->id,
-        'size'=>Modal::SIZE_SMALL,
+<?php Modal::begin([
+        'id'=>'add-presentation-to-cart'.$model->id,
+        //'size'=>Modal::SIZE_SMALL,
         'class'=>'overlay_modal',
-        'header'=> $model->object->isPart() ? ($model->service_object==1 ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' Vas interesuju:</h3>' :
-        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->service_object==1 ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' Vas interesuju:</h3>' :
-        '<h3>Izaberite vrstu '. $model->object->tNameGen.'</h3>'),
+        'header'=> 'Opišite šta Vam treba',
     ]); ?>
    <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>
-<?php Modal::end();*/ ?>
+<?php Modal::end(); ?>

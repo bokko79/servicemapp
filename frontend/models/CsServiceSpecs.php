@@ -33,7 +33,7 @@ class CsServiceSpecs extends \yii\db\ActiveRecord
     {
         return [
             [['service_id', 'spec_id', 'requirement'], 'required'],
-            [['service_id', 'spec_id', 'requirement'], 'integer'],
+            [['service_id', 'spec_id', 'requirement', 'readOnly'], 'integer'],
             [['description'], 'string']
         ];
     }

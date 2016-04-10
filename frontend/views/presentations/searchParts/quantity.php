@@ -37,6 +37,9 @@ $message = '';
                     'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
                     'showLabels'=>false
                 ])->input('number', ['min'=>$service->amount_range_min, 'max'=>$service->amount_range_max, 'step'=>$service->amount_range_step]); ?>
-        </div>        
+        </div> 
+        <div class="col-sm-7" style="padding-right:0">
+           <?= $this->render('_submitButton.php') ?>
+        </div>       
     </div>
 </div>

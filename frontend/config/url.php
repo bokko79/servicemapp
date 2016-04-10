@@ -134,6 +134,7 @@ return [
         'order/<id:\d+>' => 'orders/view', // :page
         'order-setup/<id:\d+>' => 'orders/update', // :page
         '<username:\w+>/saved-orders' => 'orders/saved', // :page
+        'empty-cart' => 'orders/empty-cart', // :action
 
         // 21 BIDS
         'new-bid' => 'bids/create', // S-16:page

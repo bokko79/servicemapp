@@ -40,12 +40,12 @@ $state = $session->get('state');
 					        	 | <?= c($model->industry->tName) ?> <i class="fa fa-caret-right"></i> <?= c($model->industry->category->tName) ?></div>
 				    	</div>
 				    	<div class="subaction">
-				    		<?= Html::a('<i class="fa fa-bars"></i>&nbsp;'.Yii::t('app', 'Pregled ponuda'), Url::to(['/presentations', 'PresentationsSearch[service_id]'=>$model->id]), ['class'=>'btn btn-default margin-right-10', 'style'=>'']) ?>
+				    		<?= Html::a('<i class="fa fa-bars"></i>&nbsp;'.Yii::t('app', 'Pregled ponuda'), Url::to(['/presentations', 'PresentationsSearch[service_id]'=>$model->id, 'PresentationsSearch[object_models][]'=>$object->id]), ['class'=>'btn btn-default margin-right-10', 'style'=>'']) ?>
 				    		<?php if($object->models): ?>
 							<?= $state!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to(), ['class'=>'btn btn-info margin-right-10', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-order-modal'.$model->id]) : null ?>
 				            <?= $state!='order' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-present-modal'.$model->id]) : null ?>
 				        <?php else: ?>
-				            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to(['/add/'.slug($model->name), 'CsObjects[id]'=>$object->id]), ['class'=>'btn btn-info margin-right-10', 'style'=>'color:#fff;']) ?>
+				            <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to(['/add/'.slug($model->name), 'CsObjects[id][]'=>$object->id]), ['class'=>'btn btn-info margin-right-10', 'style'=>'color:#fff;']) ?>
 				        	<?= Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), ['/new-presentation'], [
 				                'class'=>'btn btn-warning', 
 				                'style'=>'', 
@@ -63,6 +63,10 @@ $state = $session->get('state');
 		endif; ?>
 	</div>
 </div>
+<?php
+		$services = ($object->parent) ? $object->parent->services : $object->services;    	
+    	if ($services):
+    		foreach ($services as $model): ?>
 <?php Modal::begin([
         'id'=>'object-models-order-modal'.$model->id,
         'size'=>Modal::SIZE_SMALL,
@@ -83,3 +87,6 @@ $state = $session->get('state');
     ]); ?>
    <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>
 <?php Modal::end(); ?>
+<?php 
+			endforeach;
+		endif; ?>

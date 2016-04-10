@@ -32,7 +32,8 @@ class CsServiceMethods extends \yii\db\ActiveRecord
     {
         return [
             [['service_id', 'method_id', 'requirement'], 'required'],
-            [['service_id', 'method_id', 'requirement'], 'integer'],
+            [['service_id', 'method_id', 'requirement', 'readOnly'], 'integer'],
+            [['description'], 'string']
         ];
     }
 

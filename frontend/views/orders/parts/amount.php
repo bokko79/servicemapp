@@ -25,11 +25,13 @@ $message = Yii::t('app', 'Koliko {unit} Vam treba {service}?', ['unit'=>$service
             'label'=>'Obim usluge', 
             'class'=>'col-sm-3 control-label'
         ]); ?>
+        <?php if($service->amount==2): ?>
         <div class="col-sm-2" style="padding-right:0">
             <?= $form->field($model, 'amount_operator',[
                     'showLabels'=>false
-                ])->dropDownList(['exact'=>'tačno', 'approx'=>'oko', 'min'=>'najmanje', 'max'=>'najviše'], ['class'=>'input-lg']) ?>
+                ])->dropDownList(['exact'=>'=', 'approx'=>'oko', 'min'=>'min', 'max'=>'max'], ['class'=>'input-lg']) ?>
         </div>
+        <?php endif; ?>
         <div class="col-sm-3" style="padding-right:0">
             <?= $form->field($model, 'amount',[
                     'addon' => [

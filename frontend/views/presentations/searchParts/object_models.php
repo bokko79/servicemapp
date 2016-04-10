@@ -37,7 +37,7 @@ $message = '';
                         'hintSettings' => ['onLabelClick' => false, 'onLabelHover' => true, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
                     ],              
                     'items' => $model_list,
-                    'options'=>['tag'=>'ul', 'class'=>'column4 multiselect', 'style'=>'padding:13px 20px 20px; background:#f8f8f8; border:1px solid #ddd; border-radius:4px;'],
+                    'options'=>['tag'=>'ul', 'class'=>'column4 multiselect', 'style'=>'padding:13px 20px 20px; background:#f8f8f8; border:1px solid #ddd; border-radius:4px;', 'unselect'=>null],
                 ]
             ]
         ]) ?>

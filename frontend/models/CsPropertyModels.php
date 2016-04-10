@@ -178,4 +178,18 @@ class CsPropertyModels extends \yii\db\ActiveRecord
             return $this->label;
         }               
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameWithMedia()
+    {
+        if ($this->hint!=null) {
+            return $this->label . '<span data-container="body" data-toggle="popover" data-placement="top" data-content="'.$this->hint.'">
+                 <i class="fa fa-question-circle gray-color"></i>
+                </span>' . yii\helpers\Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg', ['style'=>'width:100%; height:110px; margin: 5px 0 10px']); 
+        } else {
+            return $this->label . yii\helpers\Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg', ['style'=>'width:100%; height:110px; margin: 5px 0 10px']);
+        } 
+    }
 }

@@ -8,13 +8,13 @@ use frontend\widgets\Steps;
 use frontend\widgets\Cart;
 use frontend\widgets\Help;
 use yii\web\Session;
+use frontend\widgets\ProfileSubNav;
 $session = Yii::$app->session;
 ?>
 
 <?php $this->beginContent('@app/views/layouts/html/html_forms.php'); ?>
 
 <?php /* PROFILE HEADING */ ?>
-
 <div class="grid-container">
     <div class="grid-row">
         <div class="grid-leftacross">
@@ -34,7 +34,8 @@ $session = Yii::$app->session;
             <?php /* WIDGET: CART */ 
                 if(Yii::$app->controller->id=='orders' && (Yii::$app->controller->action->id=='add' || Yii::$app->controller->action->id=='create') && isset($session['cart'])): ?>
                 <?= Cart::widget([
-                    'cart' => $this->cart, // Card Picture
+                    'cart' => $this->cart,
+                    'card_class' => 'record-270 no-shadow',
                 ]);
                 endif;
                 ?>

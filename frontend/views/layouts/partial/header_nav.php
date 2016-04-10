@@ -29,8 +29,10 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
           <div class="grid-right media_control">
               <?php                   
                 if (Yii::$app->user->isGuest) {
-                    $menuItems[] = ['label' => 'Login/Registracija', 'linkOptions' => ['data-toggle'=>'modal', 'data-target'=>'#uac-modal']];
-                    
+                    $menuItems[] = ['label' => '<i class="fa fa-sign-in fa-lg"></i>', 'linkOptions' => ['data-toggle'=>'modal', 'data-target'=>'#uac-modal']]; 
+                    //$menuItems[] = ['label' => '<i class="fa fa-sign-in fa-lg"></i>', 'url'=>'/user/security/login']; 
+                    $logo = Html::img(Yii::$app->homeUrl.'images/logo/logo3.png', ['alt'=>'User avatar', 'class'=>'', 'style' => 'border-radius:3px;', 'width'=>16]);
+                    $menuItems[] = ['label' => $logo, 'url' => ['/info']];                   
                 } else {
                     $user = User::findOne(Yii::$app->user->id);
                     $user_avatar = Html::img(Yii::$app->homeUrl.'images/cards/default_avatar.jpg', ['alt'=>'User avatar', 'class'=>'', 'style' => 'border-radius:3px;', 'width'=>24]);
@@ -56,33 +58,32 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
                         ],
                         'linkOptions' => ['class'=>'btn btn-default']
                     ];
-
-                   /* $menuItems[] = [
+                    $menuItems[] = [
                         'label' => '<i class="fa fa-bell-o fa-lg"></i> <span class="label label-info">17</span>',    
                         'items' => [
                               $this->render('notifications_excerpt.php')
                         ],
                         'options' => ['class'=>'notif_li badger'],
                         'linkOptions' => ['class'=>'btn btn-default'],
-                    ];
-                    $menuItems[] = [
-                      'label' => Yii::$app->language,
-                      'items' => [
-                          ['label' => 'srpski', 'url' => ['/site/language', 'language'=>'sr-RS']],
-                          ['label' => 'English', 'url' => ['/site/language', 'language'=>'en-US']],
-                         
-                      ],
-                    ];*/
-                    $menuItems[] = [
-                      'label' => $user->details->currency->code,
-                      'items' => [
-                          ['label' => 'RSD', 'url' => ['/site/currency', 'currency'=>1]],
-                          ['label' => 'EUR', 'url' => ['/site/currency', 'currency'=>3]],
-                         
-                      ],
-                    ];
+                    ];                    
                 }
-                $menuItems[] = ['label' => '<i class="fa fa-shopping-cart fa-lg"></i> <span class="label label-info">2</span>', 'url' => ['/index'], 'options' => ['class'=>'shopping-cart badger'], 'linkOptions' => ['class'=>'btn btn-success']];  
+                $menuItems[] = [
+                  'label' => Yii::$app->user->currency,
+                  'items' => [
+                      ['label' => 'RSD', 'url' => ['/site/currency', 'currency'=>1]],
+                      ['label' => 'EUR', 'url' => ['/site/currency', 'currency'=>3]],
+                     
+                  ],
+                ];
+                $menuItems[] = [
+                  'label' => c(Yii::$app->language),
+                  'items' => [
+                      ['label' => 'srpski', 'url' => ['/site/language', 'language'=>'sr-Latn']],
+                      ['label' => 'English', 'url' => ['/site/language', 'language'=>'en-US']],
+                     
+                  ],
+                ];
+                $menuItems[] = ['label' => '<i class="fa fa-shopping-cart fa-lg"></i> '.(count(Yii::$app->session['cart'])>0 ? '<span class="label label-warning">'.count(Yii::$app->session['cart']).'</span>' : null), 'url' => ['/index'], 'options' => ['class'=>'shopping-cart badger'], 'linkOptions' => ['class'=>'btn btn-success']];  
                 //$menuItems[] = ['label' => '<i class="fa fa-support fa-lg"></i>', 'url' => ['/posts'], 'options' => ['class'=>'help-button'], 'linkOptions' => ['class'=>'btn btn-default']];
                               
                 echo Nav::widget([

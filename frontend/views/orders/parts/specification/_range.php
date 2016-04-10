@@ -5,9 +5,37 @@ use kartik\widgets\ActiveField;
 use kartik\widgets\TouchSpin;
 use kartik\field\FieldRange;
 use yii\helpers\ArrayHelper;
+
+$model_spec->spec = $specification->default_value;
 ?>
-<?php if($object_type!=1): ?>
-	<?= FieldRange::widget([
+<div class="form-group kv-fieldset-inline">
+    <?= Html::activeLabel($model_spec, '['.$key.']spec', [
+        'label'=>$property->label, 
+        'class'=>'col-sm-3 control-label'
+    ]); ?>
+    <div class="col-sm-2" style="padding-right:0">
+        <?= $form->field($model_spec, '['.$key.']spec_operator',[
+                'showLabels'=>false
+            ])->dropDownList(['exact'=>'=', 'approx'=>'oko', 'min'=>'min', 'max'=>'max'], ['class'=>'input-lg']) ?>
+    </div>
+    <div class="col-sm-3" style="padding-right:0">
+        <?= $form->field($model_spec, '['.$key.']spec',[
+                'addon' => [
+                    'append' => ['content'=>($property->unit!=null) ? $property->unit->oznaka : null],
+                    'groupOptions' => ['class'=>'input-group-lg']],
+                'feedbackIcon' => [
+                    'success' => 'ok',
+                    'error' => 'exclamation-sign',
+                    'successOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%'],
+                    'errorOptions' => ['class'=>'text-primary', 'style'=>'padding-right:60%; top: 6px;']
+                ],
+                //'hintType' => ActiveField::HINT_SPECIAL,
+                //'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
+                'showLabels'=>false
+            ])->input('number', ['min'=>$specification->range_min, 'max'=>$specification->range_max, 'step'=>$specification->range_step])->hint($property->tHint); ?>
+    </div>        
+</div>
+<?php /* FieldRange::widget([
 	    'form' => $form,
 	    'model' => $model_spec,
 	    'label' => $property->label,
@@ -33,17 +61,4 @@ use yii\helpers\ArrayHelper;
 		        'step' => $specification->range_step,
 		    ]
 	    ],
-	]); ?>
-<?php else: ?>
-	<?= $form->field($model_spec, '['.$key.']spec', [
-	'addon' => ['append' => ['content'=>$service->unit->oznaka]],
-	'feedbackIcon' => [
-                        'success' => 'ok',
-                        'error' => 'exclamation-sign',
-                        'successOptions' => ['class'=>'text-primary', 'style'=>'right:18%;'],
-                        'errorOptions' => ['class'=>'text-primary', 'style'=>'right:18%; top: 6px;']
-                    ],
-	'hintType' => ActiveField::HINT_SPECIAL,
-	'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
-    ])->input('number', ['min'=>$specification->range_min, 'max'=>$specification->range_max, 'step'=>$specification->range_step, 'value'=>$specification->default_value])->label($property->label)->hint($property->tHint) ?>
-<?php endif; ?>
+	]);*/ ?>

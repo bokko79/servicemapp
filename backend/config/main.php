@@ -25,7 +25,7 @@ return [
         'user' => [
             'identityCookie' => [
                 'name'     => '_backendIdentity',
-                'path'     => '/admin',
+                'path'     => '/',
                 'httpOnly' => true,
             ],
         ],
@@ -33,7 +33,7 @@ return [
             'name' => 'BACKENDSESSID',
             'cookieParams' => [
                 'httpOnly' => true,
-                'path'     => '/admin',
+                'path'     => '/',
             ],
         ],
         'log' => [

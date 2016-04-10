@@ -40,7 +40,7 @@ class CsActionsTranslation extends \yii\db\ActiveRecord
             [['action_id'], 'integer'],
             [['description'], 'string'],
             [['lang_code', 'name_gender'], 'string', 'max' => 2],
-            [['name'], 'string', 'max' => 100],
+            [['name', 'name_gen', 'name_dat'], 'string', 'max' => 100],
             [['name_akk', 'name_inst', 'orig_name'], 'string', 'max' => 64],
             [['lang_code'], 'exist', 'skipOnError' => true, 'targetClass' => CsLanguages::className(), 'targetAttribute' => ['lang_code' => 'code']],
         ];

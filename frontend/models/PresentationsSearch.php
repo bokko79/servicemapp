@@ -126,7 +126,7 @@ class PresentationsSearch extends PresentationData
             //print_r($presSpecs); die();
             $arrSpec = '';
             foreach ($presSpecs as $key => $presSpec) {
-                if(is_array($presSpec)){
+                if(is_array($presSpec) and ((isset($presSpec['value']) and $presSpec['value']!='') or (isset($presSpec['spec_models']) and $presSpec['spec_models']!=''))){
                     $property = \frontend\models\CsProperties::findOne($key);
                     $arrSpec .= '(presentation_specs.spec_id='.$presSpec['spec_id'].' AND ';
                     if($property->type==1){
@@ -179,7 +179,7 @@ class PresentationsSearch extends PresentationData
                     $arrSpec .= ') OR ';
                 }                    
             }
-            return substr($arrSpec, 0, -4);            
+            return $arrSpec!='' ? substr($arrSpec, 0, -4) : [];            
         }
         return [];
     }
@@ -194,7 +194,7 @@ class PresentationsSearch extends PresentationData
             //print_r($presSpecs); die();
             $arrMeth = '';
             foreach ($presMethods as $key => $presMethod) {
-                if(is_array($presMethod)){
+                if(is_array($presMethod) and ((isset($presMethod['value']) and $presMethod['value']!='') or (isset($presMethod['method_models']) and $presMethod['method_models']!=''))){
                     $property = \frontend\models\CsProperties::findOne($key);
                     $arrMeth .= '(presentation_methods.method_id='.$presMethod['method_id'].' AND ';
                     if($property->type==1 or $property->type==5){
@@ -206,7 +206,7 @@ class PresentationsSearch extends PresentationData
                         }
                     }
                     if($property->type==2 or $property->type==21 or $property->type==3 or $property->type==4 or $property->type==41){
-                        if($presMethod['method_models']!=''){                            
+                        if(isset($presMethod['method_models']) and $presMethod['method_models']!=''){                            
                             $arrMethPref = '(';                         
                             foreach($presMethod['method_models'] as $mth_mdl){
                                 $arrMethPref .= 'presentation_method_models.method_model='.$mth_mdl.' OR ';
@@ -222,7 +222,7 @@ class PresentationsSearch extends PresentationData
                     $arrMeth .= ') OR ';
                 }                    
             }
-            return substr($arrMeth, 0, -4);            
+            return $arrMeth!='' ? substr($arrMeth, 0, -4) : [];            
         }
         return [];
     }
@@ -232,11 +232,11 @@ class PresentationsSearch extends PresentationData
      */
     public function queryLocations()
     {
-        if($location = Yii::$app->request->get('Locations') and $this->coverage!=''){
+        if($location = Yii::$app->request->get('Locations') and $this->coverage!='' and (isset($location['lat']) and $location['lat']!='') and (isset($location['lng']) and $location['lng']!='')){
             $lat = $location['lat'];
             $lng = $location['lng'];
-            $city = $location['city'];
-            $country = $location['country'];
+            $city = $location['city']!='' ? $location['city'] : null;
+            $country = $location['country']!='' ? $location['country'] : null;
             $coverage = $this->coverage;
             $within = $this->coverage_within;
             switch ($coverage) {
@@ -245,23 +245,41 @@ class PresentationsSearch extends PresentationData
                     break;
 
                 case 4:
-                    return 'locations.country="'.$country.'"';
+                    return 'locations.country="'.$country.'" OR presentations.coverage=6 OR provider.coverage=6';
                     break;
 
                 case 2:
-                    return 'locations.city="'.$city.'"';
+                    return 'locations.city="'.$city.'" OR presentations.coverage=6 OR provider.coverage=6 OR (provider.coverage=4 AND locations.country="'.$country.'")';
                     break;
                 
                 default:
-                    return 'locations.lat
-                             BETWEEN '.$lat.'  - ('.$within.' / 111.045)
-                                 AND '.$lat.'  + ('.$within.' / 111.045)
+                    return '(locations.lat
+                             BETWEEN '.$lat.'  - (('.$within.'+ presentations.coverage_within) / 111.045)
+                                 AND '.$lat.'  + (('.$within.'+ presentations.coverage_within) / 111.045)
                             AND locations.lng
-                             BETWEEN '.$lng.' - ('.$within.' / (111.045 * COS(RADIANS('.$lng.'))))
-                                 AND '.$lng.' + ('.$within.' / (111.045 * COS(RADIANS('.$lng.'))))'; // calculation
+                             BETWEEN '.$lng.' - (('.$within.'+ presentations.coverage_within) / (111.045 * COS(RADIANS('.$lng.'))))
+                                 AND '.$lng.' + (('.$within.'+ presentations.coverage_within) / (111.045 * COS(RADIANS('.$lng.'))))) OR presentations.coverage=6 OR provider.coverage=6'; // calculation
                     break;
             }
-            print_r($lng); die();                  
+            //print_r($lng); die();                  
+        }
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function queryObjectModels()
+    {
+        if($this->object_models){
+            $arr = '';
+            for($i=0; $i<count($this->object_models); $i++){
+                $arr .= 'presentation_object_models.object_model_id='.$this->object_models[$i];
+                if($i<(count($this->object_models)-1)){
+                    $arr .= ' OR ';
+                }
+            }
+            return $arr;
         }
         return [];
     }
@@ -278,7 +296,7 @@ class PresentationsSearch extends PresentationData
         $query = Presentations::find();
 
         // add conditions that should always apply here
-        $query->joinWith(['objectModels', 'specModels', 'methodModels', 'location']);
+        $query->joinWith(['objectModels', 'specModels', 'methodModels', 'location', 'provider']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -304,23 +322,12 @@ class PresentationsSearch extends PresentationData
         $query->andFilterWhere($this->queryQuantity());
         $query->andFilterWhere($this->queryConsumers());
         $query->andFilterWhere($this->queryPrice());
-
-        
-        if($this->object_models){
-            $arr = '';
-            for($i=0; $i<count($this->object_models); $i++){
-                $arr .= 'presentation_object_models.object_model_id='.$this->object_models[$i];
-                if($i<(count($this->object_models)-1)){
-                    $arr .= ' OR ';
-                }
-            }
-            $query->andWhere($arr);
-        }
+        $query->andWhere($this->queryObjectModels());
 
         $query->andWhere($this->querySpecs());
         $query->andWhere($this->queryMethods());
         $query->andWhere($this->queryLocations());
-        //print_r($this->queryLocations());
+
         $query->groupBy('presentations.id');
 
         return $dataProvider;

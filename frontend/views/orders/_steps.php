@@ -33,12 +33,18 @@ if (Yii::$app->controller->action->id=='add') {
 							<table>
 								<tr>
 									<td class="main">										
+										<?= Yii::t('app', 'Izabrali ste...') ?>									
+									</td>
+									<td class="main hover">										
 										<?= Yii::t('app', 'Izaberite') ?>									
 									</td>
 								</tr>
 								<tr>
 									<td class="sub">
-										<?= Yii::t('app', 'Choose a service you need done within an industry.') ?>
+										<?= c($service->tName); ?>
+									</td>
+									<td class="sub hover">
+										<?= Yii::t('app', 'Vratite se i izaberite novu uslugu') ?>
 									</td>
 								</tr>
 							</table>									

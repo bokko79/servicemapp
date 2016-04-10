@@ -11,25 +11,30 @@ use yii\bootstrap\Modal;
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
-<div class="presentations-search" style="margin-top:10px; margin-bottom:30px;">
+<div class="presentations-search" style="margin-top:10px; margin-bottom:10px;">
 <?php $form = kartik\widgets\ActiveForm::begin([
     'id' => 'form-horizontal-presentation-search',
     'action' => ['index'],
     'method' => 'get',
-    'type' => ActiveForm::TYPE_HORIZONTAL,
-    'fullSpan' => 12,      
-    'formConfig' => ['labelSpan' => 2, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
+    'type' => ActiveForm::TYPE_VERTICAL,
+    //'fullSpan' => 12,      
+    //'formConfig' => ['labelSpan' => 2, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
     //'enableAjaxValidation' => true,
     //'enableClientValidation' => true,
 ]); ?>
-    <fieldset class="settings" style="margin:30px 0 !important;">
+    <h4 class="gray-color">Filteri pretrage
+    <div class="float-right"><?= Html::resetButton(Yii::t('app', '<i class="fa fa-stop-circle"></i> Resetuj filtere'), ['class' => 'btn btn-default']) ?>
+        <?= Html::button(Yii::t('app', '<i class="fa fa-undo"></i> Poništi sve filtere'), ['class' => 'btn btn-default', 'name'=>'clear', 'onclick'=>'clearForm(this.form);']) ?>
+        </div>
+    </h4>
+    <fieldset class="settings mini">
     <?= $this->render('searchParts/title.php', ['form'=>$form, 'model'=>$model, 'service'=>$service]) ?>
-    <div class="form-group margin-bottom-20">
-        <div class="col-sm-offset-2">
+    <?php /*<div class="form-group margin-bottom-20">
+        <div class="col-sm-12 padding-left-20">
         <?= Html::a(Yii::t('app', '<i class="fa fa-sliders"></i> Detaljna pretraga'), null, ['class' => 'btn btn-default more-filters']) ?>
         </div>        
     </div>
-    <div class="more-filters-plaza animated fadeIn" style="display:none; margin:20px 0">
+    <div class="more-filters-plaza animated fadeIn" style="display:none; margin:20px 0"> */ ?>
     <?= $this->render('searchParts/budget.php', ['form'=>$form, 'model'=>$model, 'service'=>$service]) ?>
     <?= $this->render('searchParts/location.php', ['form'=>$form, 'model'=>$model, 'service'=>$service, 'location' => $location,]) ?>
     <?php if($service): ?>
@@ -41,8 +46,7 @@ use yii\bootstrap\Modal;
         <?php endif; ?>        
         <?php if($service->object->models): ?>
         <?= $this->render('searchParts/object_models.php', ['form'=>$form, 'model'=>$model, 'service'=>$service]) ?>
-        <?php endif; ?>
-        
+        <?php endif; ?>        
         <?= $this->render('searchParts/specifications.php', ['form'=>$form, 'model'=>$model, 'service'=>$service, 'model_specs'=>$model_specs]) ?>
         <?php if($service->service_type==6 and $service->object->issues): ?>
         <?= $this->render('searchParts/issues.php', ['form'=>$form, 'model'=>$model, 'service'=>$service]) ?>
@@ -51,14 +55,14 @@ use yii\bootstrap\Modal;
         <?= yii\helpers\Html::activeHiddenInput($model, 'service_id', ['value'=>($service) ? $service->id : null]) ?>    
         <?= $this->render('searchParts/timetable.php', ['form'=>$form, 'model'=>$model, 'service'=>$service]) ?>
     <?php endif; ?>  
-    </div>
+    <?php /*</div>
+    <?php /*
     <div class="form-group margin-top-20">
-        <div class="col-sm-offset-2">
-        <?= Html::submitButton(Yii::t('app', '<i class="fa fa-search"></i> Traži'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', '<i class="fa fa-stop-circle"></i> Resetuj filtere'), ['class' => 'btn btn-default']) ?>
-        <?= Html::button(Yii::t('app', '<i class="fa fa-undo"></i> Poništi sve filtere'), ['class' => 'btn btn-default', 'name'=>'clear', 'onclick'=>'clearForm(this.form);']) ?>
+        <div class="col-sm-12 right padding-right-20">
+        <?php // Html::submitButton(Yii::t('app', '<i class="fa fa-search"></i> Traži'), ['class' => 'btn btn-primary']) ?>
+       
         </div>        
-    </div>
+    </div> */ ?>
 
     <?php ActiveForm::end(); ?>
     </fieldset>

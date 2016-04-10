@@ -37,9 +37,11 @@ class CsMethods extends \yii\db\ActiveRecord
     {
         return [
             [['action_id', 'property_id', 'type'], 'required'],
-            [['action_id', 'property_id', 'required'], 'integer'],
-            [['type'], 'string'],
+            [['action_id', 'property_id', 'required', 'display_order',], 'integer'],
+            [['description', 'pattern'], 'string'],
+            [['range_min', 'range_max', 'range_step'], 'number'],
             [['action_name', 'property_name'], 'string', 'max' => 64],
+            [['default_value'], 'string', 'max' => 16],
         ];
     }
 
@@ -54,8 +56,14 @@ class CsMethods extends \yii\db\ActiveRecord
             'action_name' => Yii::t('app', 'Action'),
             'property_id' => Yii::t('app', 'Property ID'),
             'property_name' => Yii::t('app', 'Property'),
-            'type' => Yii::t('app', 'Type'),
+            'default_value' => Yii::t('app', 'Default Value'),
+            'range_min' => Yii::t('app', 'Range Min'),
+            'range_max' => Yii::t('app', 'Range Max'),
+            'range_step' => Yii::t('app', 'Range Step'),
+            'pattern' => Yii::t('app', 'Pattern'),
+            'display_order' => Yii::t('app', 'Display order'),
             'required' => Yii::t('app', 'Required'),
+            'description' => Yii::t('app', 'Description'),
         ];
     }
 
@@ -89,5 +97,21 @@ class CsMethods extends \yii\db\ActiveRecord
     public function getPresentationMethods()
     {
         return $this->hasMany(PresentationMethods::className(), ['method_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServiceMethods()
+    {
+        return $this->hasMany(CsServiceMethods::className(), ['method_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function serviceMethod($service_id)
+    {
+        return \frontend\models\CsServiceMethods::find()->where('method_id='.$this->id.' AND service_id='.$service_id)->one();
     }
 }

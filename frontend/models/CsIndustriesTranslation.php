@@ -37,7 +37,7 @@ class CsIndustriesTranslation extends \yii\db\ActiveRecord
             [['industry_id'], 'integer'],
             [['description'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
-            [['name'], 'string', 'max' => 100],
+            [['name', 'name_gen', 'name_akk'], 'string', 'max' => 100],
             [['orig_name'], 'string', 'max' => 60]
         ];
     }

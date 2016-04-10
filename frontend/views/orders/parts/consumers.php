@@ -26,11 +26,13 @@ $message = Yii::t('app', 'Za koliko osoba Vam treba {service}?', ['service'=>$se
             'label'=>'Broj korisnika', 
             'class'=>'col-sm-3 control-label'
         ]); ?>
+        <?php if($service->consumer==2): ?>
         <div class="col-sm-2" style="padding-right:0">
             <?= $form->field($model, 'consumer_operator',[
                     'showLabels'=>false
-                ])->dropDownList(['exact'=>'tačno', 'approx'=>'oko', 'min'=>'najmanje', 'max'=>'najviše'], ['class'=>'input-lg']) ?>
+                ])->dropDownList(['exact'=>'=', 'approx'=>'oko', 'min'=>'min', 'max'=>'max'], ['class'=>'input-lg']) ?>
         </div>
+        <?php endif; ?>
         <div class="col-sm-3" style="padding-right:0">
             <?= $form->field($model, 'consumer',[
                     'addon' => [
@@ -46,7 +48,7 @@ $message = Yii::t('app', 'Za koliko osoba Vam treba {service}?', ['service'=>$se
                     'hintType' => ActiveField::HINT_SPECIAL,
                     'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
                     'showLabels'=>false
-                ])->input('number', ['min'=>$service->consumer_range_min, 'max'=>$service->consumer_range_max, 'step'=>$service->consumer_range_step, 'placeholder'=>($service->consumer_children==0) ? '' : 'Broj odraslih'])->hint('Enter address in 4 lines. First 2 lines must contain the street details and next 2 lines the city, zip, and country detail.') ?>
+                ])->input('number', ['value'=>$service->consumer_range_min, 'min'=>$service->consumer_range_min, 'max'=>$service->consumer_range_max, 'step'=>$service->consumer_range_step, 'placeholder'=>($service->consumer_children==0) ? '' : 'Broj odraslih'])->hint('Enter address in 4 lines. First 2 lines must contain the street details and next 2 lines the city, zip, and country detail.') ?>
         </div>
 
         <?php if($service->consumer!=0 && $service->consumer_children!=0): ?>

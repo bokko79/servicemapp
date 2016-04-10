@@ -6,14 +6,14 @@ use yii\helpers\Html;
 /**
  * CartServiceObjectSpecification is the model behind the adding a service to user's shopping cart.
  */
-class CartServiceObjectSpecification extends Model
+class CartServiceObjectSpecification extends PresentationSpecs
 {
     public $key;
     public $service;
     public $specification;
     public $cart; // to connect to CartForm Model
     public $property;
-    public $spec;
+    public $spec;    
     public $spec_models = [];
     public $spec_to;
     public $spec_operator;
@@ -34,11 +34,11 @@ class CartServiceObjectSpecification extends Model
         switch ($property->type) {
             case 1:
                 if($this->service->service_object!=1){ // number
-                    $spec_validation_type = ['spec', 'integer', 'message'=>Yii::t('app', 'Vrednost "{specification_name}" mora biti broj', ['specification_name'=>$property->tName])];
+                    $spec_validation_type = ['spec', 'number', 'message'=>Yii::t('app', 'Vrednost "{specification_name}" mora biti broj', ['specification_name'=>$property->tName])];
                     $spec_to_validation_type = ['spec_to', 'safe'];
                 } else { // range
-                    $spec_validation_type = ['spec', 'integer', 'min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max, 'message'=>Yii::t('app', 'Mora biti između {min} i {max}', ['min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max])];
-                    $spec_to_validation_type = ['spec_to', 'integer', 'min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max, 'message'=>Yii::t('app', 'Mora biti između {min} i {max}', ['min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max])];
+                    $spec_validation_type = ['spec', 'number', 'min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max, 'message'=>Yii::t('app', 'Mora biti između {min} i {max}', ['min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max])];
+                    $spec_to_validation_type = ['spec_to', 'number', 'min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max, 'message'=>Yii::t('app', 'Mora biti između {min} i {max}', ['min'=>$objectSpec->range_min, 'max'=>$objectSpec->range_max])];
                 }                
                 break;
 
@@ -55,7 +55,7 @@ class CartServiceObjectSpecification extends Model
         return [
             $spec_validation_type,
             $spec_to_validation_type,
-            [['spec_models'] , 'safe'],
+            [['spec_models'] , 'safe'],            
             ['spec_operator', 'default', 'value'=>'exact'],
             ['spec', 'required', 'when' => function ($model) {
                 return false;
@@ -104,7 +104,7 @@ class CartServiceObjectSpecification extends Model
         $_SESSION['cart']['industry'][$this->service->industry_id]['data'][$this->key]['specifications'][$this->getProperty()->id] = [
             'spec' => $this->spec,
             'spec_models' => $this->spec_models,
-            'spec_to' => $this->spec_to,
+            'spec_to' => $this->spec_to,            
             'spec_operator' => $this->spec_operator,
             'property' => $this->property->id,
             'objectSpec' => $this->specification->id,

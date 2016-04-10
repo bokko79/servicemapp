@@ -82,7 +82,7 @@ class PresentationsController extends Controller
         $model_methods = $searchModel->loadPresentationMethods($service);
         $location = (Yii::$app->user->location) ? Yii::$app->user->location : new \frontend\models\Locations();
         //print_r(Yii::$app->request->queryParams); die();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -920,5 +920,33 @@ class PresentationsController extends Controller
             return $this->redirect('/presentation-setup/'.$red);
         }            
         return false;        
+    }
+
+    /**
+     * Lists all ProviderServices models.
+     * @return mixed
+     */
+    public function actionAddPresentationToCart($id=null)
+    {
+        if($id){
+            if($presentation = $this->findModel($id)) {
+                return $this->renderAjax('//orders/addPresentation', [
+                    'presentation' => $presentation,
+                    'object' => $service->object,
+
+                    'model' => $model,
+                    'model_specs' => $model_spec,
+                    'model_methods' => $model_method,
+                    'service' => $model->pService,
+                    'object_models' => $object_models,
+                    'objects' => $this->getObjectModels($object_models),                    
+                    'serviceSpecs' => $model->pService->serviceSpecs,
+                    'objectSpecifications' => $this->objectSpecifications($model->pService, $object_models),
+                    'userObjects' => $this->checkUserObjectsExist($model->pService, $object_models),
+                    'serviceMethods' => $model->pService->serviceMethods,
+                ]);
+            }
+        }
+        return;            
     }
 }

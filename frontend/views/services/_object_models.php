@@ -7,8 +7,8 @@ use yii\helpers\ArrayHelper;
 use yii\web\Session;
 $session = Yii::$app->session;
 
-$o_models = $object->models;
-$model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
+$o_models = $model->objectModels;
+$model_list = ArrayHelper::map($o_models, 'object_id', 'sCaseName');
 ?>
 <div class="container-fluid">
 	<div class="row">

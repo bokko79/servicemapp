@@ -3,11 +3,33 @@
 use yii\helpers\Html;
 use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
+use dosamigos\tinymce\TinyMce;
 
+$model_spec->spec = $specification->default_value;
 ?>
-<?php if($object_type!=1): ?>
-<?= $form->field($model_spec, '['.$key.']spec', [
-	'hintType' => ActiveField::HINT_SPECIAL,
-	'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
-    ])->textarea()->label($property->label)->hint($property->tHint) ?>
-<?php endif; ?>
+<div class="form-group kv-fieldset-inline">
+    <?= Html::activeLabel($model_spec, '['.$key.']spec', [
+        'label'=>$property->label, 
+        'class'=>'col-sm-3 control-label'
+    ]); ?>
+    <div class="col-sm-9" style="padding-right:0">
+	<?= $form->field($model_spec, '['.$key.']spec', [
+			'showLabels' => false,
+			'hintType' => ActiveField::HINT_SPECIAL,
+			'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
+	    ])->widget(TinyMce::className(), [
+		    'options' => ['rows' => 6],
+		    'language' => 'sr',
+		    'clientOptions' => [
+		        'plugins' => [
+		           "insertdatetime media table contextmenu paste" 
+		        ],
+		        'convert_fonts_to_spans' => true,
+		        'paste_as_text' => true,
+		        'menubar' => false,
+		        'statusbar' => false,
+		        'toolbar' => "undo redo | bold italic | bullist numlist outdent indent"
+		    ]
+		]) ?>
+	</div>        
+</div>

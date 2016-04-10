@@ -22,6 +22,7 @@ class CartForm extends Model
     public $imageFiles = [];
     public $issues = [];
     public $user_object;
+    public $item_count;
     public $amount;
     public $amount_to;
     public $amount_operator;
@@ -32,6 +33,8 @@ class CartForm extends Model
     public $note;
     public $title;
     public $issue_text;
+    public $installation;
+    public $shipping;
     public $checkUserObject = 0; // proverava da li su unete specifikacije
 
     private $_service;
@@ -50,6 +53,7 @@ class CartForm extends Model
         
         return [
             ['service', 'required'],
+            [['item_count'] , 'integer'],
             $amount,
             ['amount', 'number', 'min'=>$service->amount_range_min, 'max'=>$service->amount_range_max],
             ['amount_operator', 'default', 'value'=>'exact'],
@@ -62,7 +66,7 @@ class CartForm extends Model
             [['note', 'issue_text'], 'string'],            
             [['title', 'note'], 'filter', 'filter' => 'trim'],
             //$pic,
-            [['skills', 'type', 'presentation'], 'safe'],
+            [['skills', 'type', 'presentation', 'helpers'], 'safe'],
             ['user_object', 'required', 'when' => function ($model) {
                 return false;
             }, 'whenClient' => "function (attribute, value) {
@@ -83,6 +87,7 @@ class CartForm extends Model
             'amount' => Yii::t('app', 'Količina').$amount,
             'consumer' => Yii::t('app', 'Broj korisnika'),
             'consumer_children' => Yii::t('app', 'Broj dece'),
+            'item_count' => Yii::t('app', 'Broj ').$service->object->tNameGen,
             'imageFiles' => Yii::t('app', 'Slike'),
             'note' => Yii::t('app', 'Napomena'),
             'title' => Yii::t('app', 'Naslov'), 
@@ -137,7 +142,7 @@ class CartForm extends Model
 
     public function checkIfPic()
     {
-        return ($this->service->pic==1 && $this->service->service_object!=1) ? 0 : 1;
+        return ($this->service->pic==1 and $this->service->service_object!=1 and $this->service->service_object!=3 and $this->service->service_object!=5 and $this->service->service_object!=7 and $this->service->service_object!=9) ? 0 : 1;
     }
 
     public function checkIfIssues()
@@ -155,39 +160,44 @@ class CartForm extends Model
         return ($this->service->consumer!=0) ? 0 : 1;
     }
 
-    public function getNoMethods()
-    {
-        return 2-$this->checkIfSkills();
-    }
-
     public function getNoSpecs()
     {
-        return 3-$this->checkIfSkills()-$this->checkIfMethods();
-    }
+        return 2-$this->checkIfSkills();
+    }    
 
     public function getNoPic()
     {
-        return 4-$this->checkIfSkills()-$this->checkIfMethods()-$this->checkIfSpecs();
+        return 3-$this->checkIfSkills()-$this->checkIfSpecs();
     }
 
     public function getNoIssues()
     {
-        return 5-$this->checkIfSkills()-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfPic();
+        return 4-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic();
     }
 
     public function getNoAmount()
     {
-        return 6-$this->checkIfSkills()-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues();
+        return 5-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues();
     }
 
     public function getNoConsumer()
     {
-        return 7-$this->checkIfSkills()-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount();
+        return 6-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount();
+    }
+
+    public function getNoMethods()
+    {
+        return 7-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount()-$this->checkIfConsumer();
     }
 
     public function getNoOther()
     {
-        return 8-$this->checkIfSkills()-$this->checkIfMethods()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount()-$this->checkIfConsumer();
+        return 8-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfMethods();
+    }
+
+    public function getNoProcess()
+    {
+        return 9-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfMethods();
     }
 
     /**
@@ -217,7 +227,7 @@ class CartForm extends Model
 
         if(!isset($_SESSION['cart']['industry'][$this->service->industry_id])){
             $_SESSION['cart']['industry'][$this->service->industry_id] = [            
-                'skills' => $this->skills,
+                'skills' => $this->skills,                
             ];
         }
         
@@ -226,6 +236,7 @@ class CartForm extends Model
             'type' => $this->type,
             'presentation' => $this->presentation,
             'object_models' => $this->object_models,
+            'item_count' => $this->item_count,
             'amount' => $this->amount,
             'amount_to' => $this->amount_to,
             'amount_operator' => $this->amount_operator,
@@ -239,6 +250,8 @@ class CartForm extends Model
             'images' => $this->imageFiles,
             'issues' => $this->issues,
             'user_object' => $this->user_object,
+            'shipping' => $this->shipping,
+            'installation' => $this->installation,            
             // specifications
             // methods
             // process

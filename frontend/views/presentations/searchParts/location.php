@@ -11,7 +11,7 @@ $inputLoc = Yii::$app->request->get('Locations');
 <div class="wrapper headline search" style="">
     <label class="head">
         <i class="fa fa-map-marker fa-lg"></i>&nbsp;
-        <?= Yii::t('app', 'Lokacije') ?>
+        <?= Yii::t('app', 'Lokacija i područje') ?>
     </label>
     <i class="fa fa-chevron-right chevron"></i>
 </div>
@@ -42,28 +42,31 @@ $inputLoc = Yii::$app->request->get('Locations');
 		</div>
 		<div class="col-md-4">
 			<div class="location_operational_plaza fadeIn animated" style="<?= !empty($inputLoc) ? '' : 'display:none' ?>">
-			<?php $model->coverage = $model->coverage ? $model->coverage : $service->coverage; ?>
+			<?php $model->coverage = ($psrch = Yii::$app->request->get('PresentationsSearch') and isset($psrch['coverage']) and $psrch['coverage']!='') ? $psrch['coverage'] : $service->coverage; ?>
 			<?= $form->field($model, 'coverage', [
 				'hintType' => ActiveField::HINT_SPECIAL,
 				'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
 			    ])->radioList($model->locationOperatingModelsSearch())->label(false)->hint('Pokrivenost') ?>
 			</div>
-		</div>	    
-	</div>	
+			<?= $this->render('_submitButton.php') ?>
+		</div>
+
+	</div>
+
 </div>
 <div class="overflow-hidden" style="height:0;">
-<input type="hidden" id="control_input_locationName" value="<?= !empty($inputLoc) ? $inputLoc['location_name'] : (Yii::$app->user->location ? Yii::$app->user->location->location_name : 'Beograd, Srbija') ?>">
-<input type="hidden" id="control_input_country" value="<?= !empty($inputLoc) ? $inputLoc['country'] : (Yii::$app->user->location ? Yii::$app->user->location->country : 'Srbija') ?>">
-<input type="hidden" id="control_input_city" value="<?= !empty($inputLoc) ? $inputLoc['city'] : (Yii::$app->user->location ? Yii::$app->user->location->city : 'Beograd') ?>">
-<input type="hidden" id="control_input_lat" value="<?= !empty($inputLoc) ? $inputLoc['lat'] : (Yii::$app->user->location ? Yii::$app->user->location->lat : 44.786568) ?>">
-<input type="hidden" id="control_input_lng" value="<?= !empty($inputLoc) ? $inputLoc['lng'] : (Yii::$app->user->location ? Yii::$app->user->location->lng : 20.44892159999995) ?>">
+<input type="hidden" id="control_input_locationName" value="<?= (isset($inputLoc['location_name']) and $inputLoc['location_name']!='') ? $inputLoc['location_name'] : (Yii::$app->user->location ? Yii::$app->user->location->location_name : 'Beograd, Srbija') ?>">
+<input type="hidden" id="control_input_country" value="<?= (isset($inputLoc['country']) and $inputLoc['country']!='') ? $inputLoc['country'] : (Yii::$app->user->location ? Yii::$app->user->location->country : 'Srbija') ?>">
+<input type="hidden" id="control_input_city" value="<?= (isset($inputLoc['city']) and $inputLoc['city']!='') ? $inputLoc['city'] : (Yii::$app->user->location ? Yii::$app->user->location->city : 'Beograd') ?>">
+<input type="hidden" id="control_input_lat" value="<?= (isset($inputLoc['lat']) and $inputLoc['lat']!='') ? $inputLoc['lat'] : (Yii::$app->user->location ? Yii::$app->user->location->lat : 44.786568) ?>">
+<input type="hidden" id="control_input_lng" value="<?= (isset($inputLoc['lng']) and $inputLoc['lng']!='') ? $inputLoc['lng'] : (Yii::$app->user->location ? Yii::$app->user->location->lng : 20.44892159999995) ?>">
 <?= yii\helpers\Html::activeHiddenInput($model, 'coverage_within', ['id'=>'hidden-geo-input', 'class'=>'location_within_input']) ?>
 
-<?= $form->field($location, 'lat', ['options'=>['style'=>'height:0;']])->hiddenInput(['data-geosrch'=>'lat', 'id'=>'hidden-geo-input', 'style'=>'margin:0;padding:0;', 'class'=>'loc_hq_lat'])->label(false) ?>
-<?= $form->field($location, 'lng', ['options'=>['style'=>'height:0;']])->hiddenInput(['data-geosrch'=>'lng', 'id'=>'hidden-geo-input', 'style'=>'margin:0;padding:0;', 'class'=>'loc_hq_lng'])->label(false) ?>
-<?= $form->field($location, 'city', ['options'=>['style'=>'height:0;']])->hiddenInput(['data-geosrch'=>'locality', 'id'=>'hidden-geo-input', 'style'=>'margin:0;padding:0;', 'class'=>'loc_hq_city'])->label(false) ?>
-<?= yii\helpers\Html::activeHiddenInput($location, 'country', ['data-geosrch'=>'country', 'id'=>'hidden-geo-input', 'class'=>'loc_hq_country']) ?>
+<?= $form->field($location, 'lat', ['options'=>['style'=>'height:0;']])->hiddenInput(['data-geosrch'=>'lat', 'id'=>'hidden-geo-input', 'style'=>'margin:0;padding:0;', 'class'=>'loc_hq_lat', 'value'=>(isset($inputLoc['lat']) and $inputLoc['lat']!='') ? $inputLoc['lat'] : null])->label(false) ?>
+<?= $form->field($location, 'lng', ['options'=>['style'=>'height:0;']])->hiddenInput(['data-geosrch'=>'lng', 'id'=>'hidden-geo-input', 'style'=>'margin:0;padding:0;', 'class'=>'loc_hq_lng', 'value'=>(isset($inputLoc['lng']) and $inputLoc['lng']!='') ? $inputLoc['lng'] : null])->label(false) ?>
+<?= $form->field($location, 'city', ['options'=>['style'=>'height:0;']])->hiddenInput(['data-geosrch'=>'locality', 'id'=>'hidden-geo-input', 'style'=>'margin:0;padding:0;', 'class'=>'loc_hq_city', 'value'=>(isset($inputLoc['city']) and $inputLoc['city']!='') ? $inputLoc['city'] : null])->label(false) ?>
+<?= yii\helpers\Html::activeHiddenInput($location, 'country', ['data-geosrch'=>'country', 'id'=>'hidden-geo-input', 'class'=>'loc_hq_country', 'value'=>(isset($inputLoc['country']) and $inputLoc['country']!='') ? $inputLoc['country'] : null]) ?>
 
-<?= yii\helpers\Html::activeHiddenInput($location, 'location_name', ['data-geosrch'=>'formatted_address', 'id'=>'hidden-geo-input', 'class'=>'loc_hq_location_name']) ?>
+<?= yii\helpers\Html::activeHiddenInput($location, 'location_name', ['data-geosrch'=>'formatted_address', 'id'=>'hidden-geo-input', 'class'=>'loc_hq_location_name', 'value'=>(isset($inputLoc['location_name']) and $inputLoc['location_name']!='') ? $inputLoc['location_name'] : null]) ?>
 
 </div>

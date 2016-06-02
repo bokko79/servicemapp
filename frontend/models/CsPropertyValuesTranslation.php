@@ -18,14 +18,14 @@ use Yii;
  * @property CsLanguages $langCode
  * @property CsPropertyModels $propertyModel
  */
-class CsPropertyModelsTranslation extends \yii\db\ActiveRecord
+class CsPropertyValuesTranslation extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'cs_property_models_translation';
+        return 'cs_property_values_translation';
     }
 
     /**

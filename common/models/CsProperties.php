@@ -9,13 +9,14 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property integer $unit_id
- * @property integer $type 
+ * @property integer $type
+ * @property integer $property_id
+ * @property integer $multiple_values
+ * @property integer $translatable_values
  * @property string $class
- * @property string $mark
  * @property string $description
  *
- * @property CsPropertyModels[] $csPropertyModels
+ * @property CsPropertyValues[] $csPropertyValues
  * @property CsUnits $unit
  * @property CsPropertiesTranslation[] $csPropertiesTranslations
  * @property CsMethods[] $csMethods
@@ -39,11 +40,9 @@ class CsProperties extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['unit_id', 'type'], 'integer'],
+            [['type', 'property_id', 'multiple_values', 'translatable_values'], 'integer'],
             [['name'], 'string', 'max' => 64],
-            [['mark'], 'string', 'max' => 10],
             [['class', 'description'], 'string', 'max' => 32],
-            [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['unit_id' => 'id']],
         ];
     }
 
@@ -53,28 +52,75 @@ class CsProperties extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Svojstvo.',
-            'unit_id' => 'Jedinica mere svojstva. Ako je \"0\", svojstvo nema jedinicu mere, već mnoštvo vrednosti, predefinisanih u tabeli cs_property_model.',
-            'mark' => 'Oznaka svojstva.',
-            'description' => 'Opis svojstva.',
+           'id' => Yii::t('app', 'ID'),
+           'name' => Yii::t('app', 'Name'),
+           'type' => Yii::t('app', 'Type'),
+           'property_id' => Yii::t('app', 'Property ID'),
+           'multiple_values' => Yii::t('app', 'Multiple Values'),
+           'translatable_values' => Yii::t('app', 'Translatable Values'),
+           'class' => Yii::t('app', 'Class'),
+           'description' => Yii::t('app', 'Description'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsPropertyModels()
+    public function getPropertyValues()
     {
-        return $this->hasMany(CsPropertyModels::className(), ['property_id' => 'id']);
+        return $this->hasMany(CsPropertyValues::className(), ['property_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUnit()
+    public function getChildren()
     {
-        return $this->hasOne(CsUnits::className(), ['id' => 'unit_id']);
+        return $this->hasMany(CsProperties::className(), ['property_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(CsProperties::className(), ['id' => 'property_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectProperties()
+    {
+        return $this->hasMany(CsObjectProperties::className(), ['property_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActionProperties()
+    {
+        return $this->hasMany(CsActionProperties::className(), ['property_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIndustryProperties()
+    {
+        return $this->hasMany(CsIndustryProperties::className(), ['property_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $property_translation = \frontend\models\CsPropertiesTranslation::find()->where('lang_code="SR" and property_id='.$this->id)->one();
+        if($property_translation) {
+            return $property_translation;
+        }
+        return false;        
     }
 
     /**
@@ -88,25 +134,12 @@ class CsProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMethods()
+    public function getTName()
     {
-        return $this->hasMany(CsMethods::className(), ['property_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSkills()
-    {
-        return $this->hasMany(CsSkills::className(), ['property_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSpecs()
-    {
-        return $this->hasMany(CsSpecs::className(), ['property_id' => 'id']);
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
     }
 
     /**

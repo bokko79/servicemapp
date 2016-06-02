@@ -6,15 +6,15 @@ use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 use kartik\widgets\Select2;
 
-$model_list = ArrayHelper::map($property->models, 'id', 'tName');
+$model_list = ArrayHelper::map($property->propertyValues, 'id', 'tName');
 
-foreach($property->models as $prop_model){
-	if($prop_model->selected_value==1){
-		$model_spec->spec_models[] = $prop_model->id;
-	}
+foreach($property->propertyValues as $propertyValue){
+    if($propertyValue->selected_value==1){
+        $model_spec->property_values[] = $propertyValue->id;
+    }
 }
 ?>
-<?= $form->field($model_spec, '['.$key.']spec_models', [
+<?= $form->field($model_spec, '['.$key.']property_values', [
         'hintType' => ActiveField::HINT_SPECIAL,
         'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
         ])->widget(Select2::classname(), [

@@ -9,6 +9,7 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cs Objects'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['renderIndex'] = false;
 ?>
 <div class="cs-objects-view">
 
@@ -30,12 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
+            'object_id',
+            'level',
             'object_type_id',
             'favour',
             'image_id',
-            'status',
-            'added_by',
-            'added_time',
+            'class',
             'description',
         ],
     ]) ?>

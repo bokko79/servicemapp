@@ -34,7 +34,7 @@ use frontend\widgets\Stats;
 					'boxData'=>$this->stats,
 				]); ?>
 			</div>
-		</div>			
+		</div>					
 	</div>
 </div>
 	

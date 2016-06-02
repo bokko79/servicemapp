@@ -34,7 +34,9 @@ class OrderServiceSpecs extends \yii\db\ActiveRecord
         return [
             [['order_service_id', 'spec_id'], 'required'],
             [['order_service_id', 'spec_id'], 'integer'],
-            [['value', 'value_max'], 'string', 'max' => 100]
+            [['value', 'value_max'], 'string', 'max' => 100],
+            [['multiple_values', 'read_only'], 'integer'],
+            [['value_operator'], 'string'],
         ];
     }
 

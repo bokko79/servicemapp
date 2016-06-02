@@ -38,7 +38,9 @@ class CsObjectTypesTranslation extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
             [['name'], 'string', 'max' => 100],
-            [['orig_name'], 'string', 'max' => 50]
+            [['orig_name'], 'string', 'max' => 50],
+            [['object_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsObjectTypes::className(), 'targetAttribute' => ['object_type_id' => 'id']],
+            [['lang_code'], 'exist', 'skipOnError' => true, 'targetClass' => CsLanguages::className(), 'targetAttribute' => ['lang_code' => 'code']],
         ];
     }
 

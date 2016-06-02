@@ -21,12 +21,12 @@ switch ($object->t[0]->name_gender) {
         break;
 }
 
-$message = ($service->service_object!=1 and $service->service_object!=3 and $service->service_object!=5 and $service->service_object!=7) ? Yii::t('app', 'Opišite ukratko {your} {object}...', ['your'=>$your, 'object'=>$object->tName]) :
+$message = ($object_ownership=='user') ? Yii::t('app', 'Opišite ukratko {your} {object}...', ['your'=>$your, 'object'=>$object->tName]) :
         Yii::t('app', 'Opišite ukratko {whatkind} {object} zahtevate...', ['whatkind'=>$whatkind, 'object'=>$object->tName]);
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge"><?= $model->noSpecs ?></span>&nbsp;
+        <span class="badge">1</span>&nbsp;
         <i class="fa fa-cube fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Reč-dve o {object}...', ['your'=>$your, 'object'=>$object->tNameDat]) ?>
     </label>
@@ -35,7 +35,7 @@ $message = ($service->service_object!=1 and $service->service_object!=3 and $ser
 </div>
 <div class="wrapper body fadeIn animated" style="border-top:none;">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
-<?php if($userObjects && ($service->service_object==2 or $service->service_object==4 or $service->service_object==6 or $service->service_object==8)){ ?>    
+<?php if($userObjects and $object_ownership=='user'){ ?>    
         <?= $form->field($model, 'user_object', [
                 'feedbackIcon' => [
                     'success' => 'ok',
@@ -56,17 +56,24 @@ $message = ($service->service_object!=1 and $service->service_object!=3 and $ser
         <div class="enter_objectSpec fadeIn animated" style="display:none">                
 <?php } ?>
 <?php foreach($model_specs as $model_spec) {
-		$specification = $model_spec->specification;
+		$objectProperty = $model_spec->objectProperty;
 		$property = $model_spec->property;
-        $serviceSpec = $specification->serviceSpec($service->id);
-        if($serviceSpec and $serviceSpec->readOnly==0):
-		echo $this->render('specification/'.$property->formType($service->service_object).'.php', ['form'=>$form, 'key'=>$property->id, 'model_spec'=>$model_spec, 'specification'=>$specification, 'property'=>$property, 'service'=>$service, 'object_type'=>$object_type]);        
-        echo Html::activeHiddenInput($model_spec, 'checkUserObject', ['id'=>'checkUserObject_model_spec'.$property->id]);
-        echo Html::activeHiddenInput($model_spec, '['.$property->id.']checkIfRequired', ['id'=>'checkIfRequired_model_spec'.$property->id]); 
-        endif;   
+        //$serviceObjectProperty = $objectProperty->serviceSpec($service->id);
+        //if($serviceSpec and $serviceSpec->readOnly==0):
+        switch($objectProperty->property_type)
+        {
+            
+
+            default:
+                echo $this->render('specification/'.$property->formType($object_ownership).'.php', ['form'=>$form, 'key'=>$property->id, 'model_spec'=>$model_spec, 'objectProperty'=>$objectProperty, 'property'=>$property, 'service'=>$service, 'object_ownership'=>$object_ownership]);        
+                echo Html::activeHiddenInput($model_spec, 'checkUserObject', ['id'=>'checkUserObject_model_spec'.$property->id]);
+                echo Html::activeHiddenInput($model_spec, '['.$property->id.']checkIfRequired', ['id'=>'checkIfRequired_model_spec'.$property->id]);
+        }
+		
+        //endif;   
     }
 // 
-    if($service->service_object==3 or $service->service_object==4){ ?>
+    /*if($service->service_object==3 or $service->service_object==4){ ?>
         <h6 class="col-sm-offset-1 margin-top-20 gray-color">Količina ovakvih <?= $service->object->tNamePlGen ?></h6>
         <p class="hint-text col-sm-offset-1 margin-bottom-20">Koliko ovakvih <?= (($objects and count($objects)==1) ? $objects[0]->tNamePlGen : $service->object->tNamePlGen) ?> Vam je potrebno?</p>    
         <div class="form-group kv-fieldset-inline" style="margin:40px 0 0px;">
@@ -90,8 +97,8 @@ $message = ($service->service_object!=1 and $service->service_object!=3 and $ser
                 ])->hint($property->tHint) ?>           
             </div>        
         </div>
-<?php } ?>
-<?php if($userObjects && ($service->service_object==2 or $service->service_object==4 or $service->service_object==6 or $service->service_object==8)){ ?>
+<?php }*/ ?>
+<?php if($userObjects and $object_ownership=='user'){ ?>
     </div>
 <?php } ?>
 </div>

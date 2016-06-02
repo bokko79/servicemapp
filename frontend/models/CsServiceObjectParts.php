@@ -5,25 +5,22 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "cs_service_specs".
+ * This is the model class for table "cs_service_object_part_specs".
  *
- * @property integer $id
+ * @property string $id
  * @property integer $service_id
- * @property string $spec_id
+ * @property string $object_part_id
  * @property integer $requirement
  * @property string $description
- *
- * @property CsServices $service
- * @property CsSpecs $spec
  */
-class CsServiceSpecs extends \yii\db\ActiveRecord
+class CsServiceObjectParts extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'cs_service_specs';
+        return 'cs_service_object_parts';
     }
 
     /**
@@ -32,9 +29,9 @@ class CsServiceSpecs extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['service_id', 'spec_id', 'requirement'], 'required'],
-            [['service_id', 'spec_id', 'requirement', 'readOnly'], 'integer'],
-            [['description'], 'string']
+            [['service_id', 'object_part_id'], 'required'],
+            [['service_id', 'object_part_id', 'requirement'], 'integer'],
+            [['description'], 'string'],
         ];
     }
 
@@ -46,7 +43,7 @@ class CsServiceSpecs extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'service_id' => Yii::t('app', 'Service ID'),
-            'spec_id' => Yii::t('app', 'Spec ID'),
+            'object_part_id' => Yii::t('app', 'Object Part Spec ID'),
             'requirement' => Yii::t('app', 'Requirement'),
             'description' => Yii::t('app', 'Description'),
         ];
@@ -63,8 +60,24 @@ class CsServiceSpecs extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSpec()
+    public function getObjectPart()
     {
-        return $this->hasOne(CsSpecs::className(), ['id' => 'spec_id']);
+        return $this->hasOne(CsObjectParts::className(), ['id' => 'object_part_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObject()
+    {
+        return $this->objectPart->object;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPart()
+    {
+        return $this->objectPart->part;
     }
 }

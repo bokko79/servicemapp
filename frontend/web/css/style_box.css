@@ -2,6 +2,8 @@
 .list-container {border-bottom: 1px solid #ddd;}
 .card_container, #card_container {margin:0 0 26px 0; padding:0; border-radius: 2px; box-shadow: 0px 2px 4px #999; background: #fff; float: left; /*position: relative;*/}
 
+.card_container.striped:hover {background: rgba(0,0,0,.05)  !important;}
+
 .card_container.record-full, .card_container.teaser-full {width:100%;}
 .card_container.record-xl, .card_container.teaser-xl {width:650px;}
 .card_container.record-md, .card_container.teaser-md {width:312px;}
@@ -30,6 +32,7 @@
 .card_container .head {font-size: 24px; font-weight: 500; float:none; width:100%; line-height: 24px; padding-bottom: 4px;}
 .card_container .head.lower {font-size: 16px; line-height: 16px; padding-top: 4px; font-weight: 900;}
 .card_container .head.second {font-size: 14px; line-height: 14px; padding-top: 4px; font-weight: 700;}
+.card_container .head.third {font-size: 18px; line-height: 18px; padding-top: 4px; font-weight: 700;}
 .card_container .head.major {font-size: 20px; line-height: 18px; padding-top: 4px; font-weight: 700;}
 .card_container .head.grand {font-size: 32px; line-height: 32px; padding-top: 4px; font-weight: 700;}
 .card_container .head.colos {font-size: 36px; line-height: 36px; padding-top: 4px; font-weight: 700;}

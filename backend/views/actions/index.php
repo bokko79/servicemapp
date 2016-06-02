@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="cs-actions-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Cs Actions', ['create'], ['class' => 'btn btn-success']) ?>
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'status',
             'added_by',
             // 'added_time',
-            // 'description',
+             'description',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

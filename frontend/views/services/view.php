@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'service_type',
             'amount',
             'pic',
-            'service_object',
+            'object_ownership',
             'consumer',
             'support',
             'location',

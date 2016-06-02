@@ -15,7 +15,7 @@ use Yii;
  * @property string $action_name
  * @property integer $object_id
  * @property string $object_name
- * @property integer $object_model_relevance 
+ * @property integer $object_class
  * @property string $service_type
  * @property integer $unit_id
  * @property string $amount
@@ -29,7 +29,7 @@ use Yii;
  * @property integer $consumer_range_min 
  * @property integer $consumer_range_max 
  * @property string $consumer_range_step 
- * @property string $service_object 
+ * @property string $object_ownership 
  * @property string $pic
  * @property string $location
  * @property string $time
@@ -91,14 +91,14 @@ class CsServices extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'industry_id', 'action_id', 'action_name', 'object_id', 'object_name', 'unit_id', 'coverage'], 'required'],
-            [['image_id', 'industry_id', 'action_id', 'object_id', 'object_model_relevance', 'unit_id', 'amount_default', 'amount_range_min', 'amount_range_max', 'consumer_default', 'consumer_range_min', 'consumer_range_max', 'geospecific', 'process', 'shipping', 'installation', 'added_by', 'hit_counter'], 'integer'],
+            [['image_id', 'industry_id', 'action_id', 'object_id', 'object_container_id', 'unit_id', 'amount_default', 'amount_range_min', 'amount_range_max', 'consumer_default', 'consumer_range_min', 'consumer_range_max', 'geospecific', 'process', 'shipping', 'installation', 'added_by', 'hit_counter'], 'integer'],
             [['amount_range_step', 'consumer_range_step'], 'number'], 
-            [['dat', 'status'], 'string'],
+            [['dat', 'status', 'object_ownership', 'object_class'], 'string'],
             [['added_time'], 'safe'],
             [['name'], 'string', 'max' => 90],
             [['action_name'], 'string', 'max' => 80],
-            [['object_name'], 'string', 'max' => 60],
-            [['service_type', 'amount', 'consumer', 'consumer_children', 'service_object', 'pic', 'location', 'time', 'duration', 'frequency', 'support', 'turn_key', 'tools', 'labour_type', 'coverage', 'availability', 'ordering', 'pricing', 'terms'], 'string', 'max' => 1],
+            [['object_name'], 'string', 'max' => 60],            
+            [['service_type', 'amount', 'consumer', 'consumer_children', 'pic', 'location', 'time', 'duration', 'frequency', 'support', 'turn_key', 'tools', 'labour_type', 'coverage', 'availability', 'ordering', 'pricing', 'terms'], 'string', 'max' => 1],
             [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['unit_id' => 'id']],
             [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
         ];
@@ -118,7 +118,8 @@ class CsServices extends \yii\db\ActiveRecord
             'action_name' => Yii::t('app', 'Action'),
             'object_id' => Yii::t('app', 'Object ID'),
             'object_name' => Yii::t('app', 'Object Name'),
-            'object_model_relevance' => Yii::t('app', 'Object Model Relevance'), 
+            'object_class' => Yii::t('app', 'Object Class'), 
+            'object_container_id' => Yii::t('app', 'Object Part Container'), 
             'service_type' => Yii::t('app', 'Service Type'), 
             'amount' => Yii::t('app', 'Amount'),
             'amount_default' => Yii::t('app', 'Amount Default'), 
@@ -131,7 +132,7 @@ class CsServices extends \yii\db\ActiveRecord
             'consumer_range_min' => Yii::t('app', 'Consumer Range Min'), 
             'consumer_range_max' => Yii::t('app', 'Consumer Range Max'), 
             'consumer_range_step' => Yii::t('app', 'Consumer Range Step'), 
-            'service_object' => Yii::t('app', 'Service Object'), 
+            'object_ownership' => Yii::t('app', 'Service Object Ownership'), 
             'pic' => Yii::t('app', 'Pic'),
             'location' => Yii::t('app', 'Location'),
             'time' => Yii::t('app', 'Time'),
@@ -191,7 +192,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getObjectModels()
+    public function getServiceObjectModels()
     {
         return $this->hasMany(CsServiceObjectModels::className(), ['service_id' => 'id']);
     }
@@ -208,9 +209,9 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getServiceSpecs()
+    public function getServiceObjectProperties()
     {
-        return $this->hasMany(CsServiceSpecs::className(), ['service_id' => 'id']);
+        return $this->hasMany(CsServiceObjectProperties::className(), ['service_id' => 'id']);
     }
 
     /**
@@ -227,6 +228,22 @@ class CsServices extends \yii\db\ActiveRecord
     public function getObject()
     {
         return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPartContainer()
+    {
+        return $this->hasOne(CsObjects::className(), ['id' => 'object_container_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->object->products ? $this->object->products : null;
     }
 
     /**
@@ -424,11 +441,58 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTDescription()
+    public function getTNote()
     {
         if($this->getTranslation()) {
             return $this->getTranslation()->note;
         }       
         return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTSubnote()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->note;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTHintOrder()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->hint_order;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTHintPresentation()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->hint_presentation;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectModelsList()
+    {
+        if($this->serviceObjectModels):
+            $model_list = \yii\helpers\ArrayHelper::map($this->serviceObjectModels, 'model', 'sCaseModelName');
+        else:
+            $model_list = \yii\helpers\ArrayHelper::map($this->object->objectModels, 'model_id', 'sCaseName');
+        endif;
+
+        return $model_list;
     }
 }

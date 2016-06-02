@@ -24,12 +24,12 @@ $message = 'Da bi poslali porudžbinu, morate imate nalog i biti prijavljeni kor
     </div>
     <div class="form-group loginForm fadeIn animated">
 	    <div class="form-group kv-fieldset-inline">
-	        <?= Html::activeLabel($returning_user, 'username', [
+	        <?= Html::activeLabel($returning_user, 'login', [
 	            'label'=>'Korisničko ime', 
 	            'class'=>'col-sm-3 control-label'
 	        ]); ?>
 	        <div class="col-sm-5" style="padding-right:0">
-	            <?= $form->field($returning_user, 'username',[
+	            <?= $form->field($returning_user, 'login',[
 	                    'feedbackIcon' => [
 	                    	'default' => 'user',
 	                        'success' => 'ok',

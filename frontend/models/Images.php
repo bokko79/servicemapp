@@ -166,4 +166,19 @@ class Images extends \yii\db\ActiveRecord
         }
         return false;
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImageByBaseEncode($base_encode=null)
+    {
+        if($base_encode!=null){
+            $image = Images::find()->where('base_encode="'.$base_encode.'"')->one();
+            if($image){
+                return $image;
+            }
+            return null;
+        }
+        return false;
+    }
 }

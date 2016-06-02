@@ -33,7 +33,9 @@ class OrderServiceMethods extends \yii\db\ActiveRecord
         return [
             [['order_service_id', 'method_id'], 'required'],
             [['order_service_id', 'method_id'], 'integer'],
-            [['value'], 'string', 'max' => 120]
+            [['value', 'value_max'], 'string', 'max' => 100],
+            [['multiple_values', 'read_only'], 'integer'],
+            [['value_operator'], 'string'],
         ];
     }
 

@@ -9,7 +9,7 @@ $message = 'Lokacija za izvršenje usluga.';
 ?>
 <div class="wrapper headline" style="">
     <label class="head">
-        <span class="badge">1</span>&nbsp;
+        <span class="badge"><?= $model->getNoLocation() ?></span>&nbsp;
         <i class="fa fa-map-marker fa-lg"></i>&nbsp;
         <?php echo Yii::t('app', 'Gde?'); ?>
     </label>
@@ -19,7 +19,7 @@ $message = 'Lokacija za izvršenje usluga.';
 <div class="wrapper <?= ($service->location!=1 && $service->location!=3) ? 'notshown' : '' ?> body fadeIn animated" style="border-top:none;">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
 <?php 
-	if($service->location==1 || $service->location==3){
+	if($service->location==1 or $service->location==3){
 		if(!Yii::$app->user->isGuest) { 
 			$user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
 			<?= $form->field($model, 'loc_id', [])->dropDownList(ArrayHelper::map($user->locations, 'id', 'location_name'), ['prompt'=>'Izaberite jednu od sačuvanih lokacija', 'class'=>'input-lg']) ?>
@@ -66,7 +66,7 @@ $message = 'Lokacija za izvršenje usluga.';
 		<input type="hidden" id="control_input_lng" value="<?= (isset($user)) ? $user->location->lng : 20.44892159999995 ?>">
 	</div>
 <?php } ?>
-<?php if($service->location==2 || $service->location==4): ?>
+<?php if($service->location==2 or $service->location==4): ?>
     <?= $form->field($model, 'loc_id2')->textInput(['maxlength' => true]) ?>
 <?php endif; ?>
     

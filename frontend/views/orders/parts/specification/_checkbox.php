@@ -5,9 +5,9 @@ use kartik\widgets\ActiveField;
 use kartik\switchinput\SwitchInput;
 use yii\helpers\ArrayHelper;
 
-$model_spec->spec = $specification->default_value;
+$model_spec->value = $objectProperty->value_default;
 ?>
-<?= $form->field($model_spec, '['.$key.']spec', [
+<?= $form->field($model_spec, '['.$key.']value', [
 	'hintType' => ActiveField::HINT_SPECIAL,
 	'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
     ])->widget(SwitchInput::classname(), [

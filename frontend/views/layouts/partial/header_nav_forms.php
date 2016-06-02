@@ -32,7 +32,7 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
                     
                 } else {
                     $user = User::findOne(Yii::$app->user->id);
-                    $user_avatar = Html::img(Yii::$app->homeUrl.'images/cards/default_avatar.jpg', ['alt'=>'User avatar', 'class'=>'', 'style' => 'border-radius:3px;', 'width'=>24]);
+                    $user_avatar = Html::img(Yii::$app->homeUrl.'images/cards/default_avatar.png', ['alt'=>'User avatar', 'class'=>'', 'style' => 'border-radius:3px;', 'width'=>24]);
                     $menuItems[] = [
                         'label' => $user_avatar,    
                         'items' => [

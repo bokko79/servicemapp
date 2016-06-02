@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * PropertyModelsTranslationController implements the CRUD actions for CsPropertyModelsTranslation model.
  */
-class PropertyModelsTranslationController extends Controller
+class PropertyValuesTranslationController extends Controller
 {
     /**
      * @inheritdoc

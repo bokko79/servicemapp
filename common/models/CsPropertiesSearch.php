@@ -18,8 +18,8 @@ class CsPropertiesSearch extends CsProperties
     public function rules()
     {
         return [
-            [['id', 'unit_id', 'type'], 'integer'],
-            [['name', 'class', 'mark', 'description'], 'safe'],
+            [['id', 'type', 'property_id', 'multiple_values', 'translatable_values'], 'integer'],
+            [['name', 'class', 'description'], 'safe'],
         ];
     }
 
@@ -60,13 +60,11 @@ class CsPropertiesSearch extends CsProperties
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'unit_id' => $this->unit_id,
             'type' => $this->type,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'class', $this->class])
-            ->andFilterWhere(['like', 'mark', $this->mark])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

@@ -5,12 +5,13 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 
-$model_list = ArrayHelper::map($property->models, 'id', 'tNameWithMedia');
+$model_list = ArrayHelper::map($property->propertyValues, 'id', 'tNameWithMedia');
 
-foreach($property->models as $prop_model){
-	if($prop_model->selected_value==1){
-		$model_spec->spec_models[] = $prop_model->id;
-	}
+foreach($property->propertyValues as $propertyValue){
+    if($propertyValue->selected_value==1){
+        $model_spec->value = $propertyValue->id;
+        break;
+    }
 }
 ?>
 <div class="enclosedCheckboxes">
@@ -20,7 +21,7 @@ foreach($property->models as $prop_model){
         'options'=>['tag'=>'div', 'style'=>'margin:10px 0;'],
         'contentBefore'=>'',
         'attributes'=> [
-        	'['.$key.']spec_models' => [
+        	'['.$key.']property_values' => [
         		'type'=>Form::INPUT_RADIO_LIST,
         		'label' => $property->label,
         		'hint'=> $property->tHint,

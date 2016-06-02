@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Request;
 use yii\web\Session;
 use yii\web\UploadedFile;
+use yii\imagine\Image;
 /**
  * CartForm is the model behind the adding a service to user's shopping cart.
  */
@@ -20,16 +21,17 @@ class CartForm extends Model
     public $object_models;
     public $skills = [];
     public $imageFiles = [];
+    public $youtube_link;
     public $issues = [];
     public $user_object;
     public $item_count;
     public $amount;
     public $amount_to;
     public $amount_operator;
-    public $consumer;
+    /*public $consumer;
     public $consumer_to;
     public $consumer_operator;
-    public $consumer_children;
+    public $consumer_children;*/
     public $note;
     public $title;
     public $issue_text;
@@ -47,9 +49,9 @@ class CartForm extends Model
         $service = $this->service;
         // amount
         $amount = ($service->amount==1) ? ['amount', 'required', 'message'=>Yii::t('app', 'Unesite količinu usluge u datoj jedinici mere.')] : ['amount', 'safe'];        
-        $consumer = ($service->consumer==1) ? ['consumer', 'required', 'message'=>Yii::t('app', 'Unesite broj odraslih koji će koristiti ovu uslugu.')] : ['consumer', 'safe'];
-        $consumer_children = ($service->consumer!=0 && $service->consumer_children==1) ? ['consumer_children', 'required', 'message'=>Yii::t('app', 'Unesite broj dece koja će koristiti ovu uslugu.')] : ['consumer_children', 'safe'];
-        $pic = ($service->pic==1) ? [['imageFiles'], 'file', 'skipOnEmpty' => false, /*'extensions' => 'png, jpg, jpeg, gif', */'maxFiles' => 8, 'tooMany'=>'Možete prikačiti najviše 8 fotografija.'] : ['imageFiles', 'safe'];      
+        //$consumer = ($service->consumer==1) ? ['consumer', 'required', 'message'=>Yii::t('app', 'Unesite broj odraslih koji će koristiti ovu uslugu.')] : ['consumer', 'safe'];
+        //$consumer_children = ($service->consumer!=0 && $service->consumer_children==1) ? ['consumer_children', 'required', 'message'=>Yii::t('app', 'Unesite broj dece koja će koristiti ovu uslugu.')] : ['consumer_children', 'safe'];
+        $pic = ($service->pic==1) ? [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, pdf', 'maxFiles' => 12, 'maxSize' => 1024*1024*20, 'tooMany'=>'Možete prikačiti najviše 12 dokumenata.'] : ['imageFiles', 'safe'];      
         
         return [
             ['service', 'required'],
@@ -57,16 +59,18 @@ class CartForm extends Model
             $amount,
             ['amount', 'number', 'min'=>$service->amount_range_min, 'max'=>$service->amount_range_max],
             ['amount_operator', 'default', 'value'=>'exact'],
-            $consumer,
-            $consumer_children,
-            [['consumer_children', 'amount_to', 'consumer_to'], 'integer'],
-            ['consumer', 'integer', 'min'=>$service->consumer_range_min, 'max'=>$service->consumer_range_max],
-            ['consumer_operator', 'default', 'value'=>'exact'],
+            //$consumer,
+            //$consumer_children,
+            [[/*'consumer_children', */'amount_to', /*'consumer_to'*/], 'integer'],
+            //['consumer', 'integer', 'min'=>$service->consumer_range_min, 'max'=>$service->consumer_range_max],
+            //['consumer_operator', 'default', 'value'=>'exact'],
             ['title', 'string', 'max' => 64], 
-            [['note', 'issue_text'], 'string'],            
+            [['note', 'issue_text', 'youtube_link'], 'string'], 
+            [['youtube_link'], 'string', 'max' => 256],
+            [['youtube_link'], 'url', 'pattern'=>'/^https:\/\/(?:www\.)?(?:youtube.com|youtu.be)\/(?:watch\?(?=.*v=([\w\-]+))(?:\S+)?|([\w\-]+))$/'],           
             [['title', 'note'], 'filter', 'filter' => 'trim'],
             //$pic,
-            [['skills', 'type', 'presentation', 'helpers'], 'safe'],
+            [['skills', 'type', 'presentation'], 'safe'],
             ['user_object', 'required', 'when' => function ($model) {
                 return false;
             }, 'whenClient' => "function (attribute, value) {
@@ -85,8 +89,8 @@ class CartForm extends Model
         $amount = ($service->amount==1) ? $required : null;
         return [
             'amount' => Yii::t('app', 'Količina').$amount,
-            'consumer' => Yii::t('app', 'Broj korisnika'),
-            'consumer_children' => Yii::t('app', 'Broj dece'),
+            //'consumer' => Yii::t('app', 'Broj korisnika'),
+            //'consumer_children' => Yii::t('app', 'Broj dece'),
             'item_count' => Yii::t('app', 'Broj ').$service->object->tNameGen,
             'imageFiles' => Yii::t('app', 'Slike'),
             'note' => Yii::t('app', 'Napomena'),
@@ -112,6 +116,46 @@ class CartForm extends Model
     {
         if ($this->validate()) { 
             foreach ($this->imageFiles as $key_f=>$file) {
+                $fileName = Yii::$app->security->generateRandomString();
+                if($file->extension=='pdf'){
+                    $file->saveAs('images/orders/docs/' . $fileName . '.' . $file->extension);
+                } else {
+                    $file->saveAs('images/orders/' . $fileName . '1.' . $file->extension);
+                }
+                
+                $image[$key_f] = new \frontend\models\Images();
+                $image[$key_f]->ime = $fileName . '.' . $file->extension;
+                $image[$key_f]->type = $file->extension=='pdf' ? 'pdf' : 'image';
+                $image[$key_f]->base_encode = $file->baseName.'.'. $file->extension;
+                $image[$key_f]->date = date('Y-m-d H:i:s');
+                if($file->extension!='pdf'){
+                   $thumb = '@webroot/images/orders/'.$fileName.'1.'.$file->extension;
+                    Image::thumbnail($thumb, 400, 300)->save(Yii::getAlias('@webroot/images/orders/'.$fileName.'.'.$file->extension), ['quality' => 80]);
+                    Image::thumbnail($thumb, 1920, 1200)->save(Yii::getAlias('@webroot/images/orders/full/'.$fileName.'.'.$file->extension), ['quality' => 80]);
+                    Image::thumbnail($thumb, 80, 64)->save(Yii::getAlias('@webroot/images/orders/thumbs/'.$fileName.'.'.$file->extension), ['quality' => 80]); 
+                }  
+                $image[$key_f]->save();                  
+                /*if($image[$key_f]->save()){
+                    $presentation_image[$key_f] = new \frontend\models\PresentationImages();
+                    $presentation_image[$key_f]->presentation_id = $this->id;
+                    $presentation_image[$key_f]->image_id = $image[$key_f]->id;
+                    $presentation_image[$key_f]->type = $image[$key_f]->type;
+                    $presentation_image[$key_f]->save();
+                }*/
+                if($file->extension!='pdf'){
+                    unlink(Yii::getAlias($thumb));
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*public function upload()
+    {
+        if ($this->validate()) { 
+            foreach ($this->imageFiles as $key_f=>$file) {
                 $file->saveAs('images/user_objects/' . $file->baseName . '.' . $file->extension);
                 $image[$key_f] = new \frontend\models\Images();
                 $image[$key_f]->ime = $file->baseName . '.' . $file->extension;
@@ -123,12 +167,7 @@ class CartForm extends Model
         } else {
             return false;
         }
-    }
-
-    public function checkIfSkills()
-    {
-        return ($this->service->industry->skills && !isset(Yii::$app->session['cart']) && Yii::$app->session['cart']['industry'][$this->service->industry_id]==null) ? 0 : 1;
-    }
+    }  */  
 
     public function checkIfMethods()
     {
@@ -137,12 +176,12 @@ class CartForm extends Model
 
     public function checkIfSpecs()
     {
-        return ($this->service->serviceSpecs!=null) ? 0 : 1;
+        return ($this->service->serviceObjectProperties!=null) ? 0 : 1;
     }
 
     public function checkIfPic()
     {
-        return ($this->service->pic==1 and $this->service->service_object!=1 and $this->service->service_object!=3 and $this->service->service_object!=5 and $this->service->service_object!=7 and $this->service->service_object!=9) ? 0 : 1;
+        return ($this->service->pic==1 and $this->service->object_ownership=='user') ? 0 : 1;
     }
 
     public function checkIfIssues()
@@ -153,51 +192,36 @@ class CartForm extends Model
     public function checkIfAmount()
     {
         return ($this->service->amount!=0) ? 0 : 1;
-    }
-
-    public function checkIfConsumer()
-    {
-        return ($this->service->consumer!=0) ? 0 : 1;
-    }
-
-    public function getNoSpecs()
-    {
-        return 2-$this->checkIfSkills();
-    }    
+    }   
 
     public function getNoPic()
     {
-        return 3-$this->checkIfSkills()-$this->checkIfSpecs();
+        return 2-$this->checkIfSpecs();
     }
 
     public function getNoIssues()
     {
-        return 4-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic();
+        return 3-$this->checkIfSpecs()-$this->checkIfPic();
     }
 
     public function getNoAmount()
     {
-        return 5-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues();
-    }
-
-    public function getNoConsumer()
-    {
-        return 6-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount();
-    }
+        return 4-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues();
+    }    
 
     public function getNoMethods()
     {
-        return 7-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount()-$this->checkIfConsumer();
+        return 5-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount();
     }
 
     public function getNoOther()
     {
-        return 8-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfMethods();
+        return 6-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount()-$this->checkIfMethods();
     }
 
     public function getNoProcess()
     {
-        return 9-$this->checkIfSkills()-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount()-$this->checkIfConsumer()-$this->checkIfMethods();
+        return 7-$this->checkIfSpecs()-$this->checkIfPic()-$this->checkIfIssues()-$this->checkIfAmount()-$this->checkIfMethods();
     }
 
     /**
@@ -205,11 +229,11 @@ class CartForm extends Model
      *
      * @return CsServiceSpecs|null
      */
-    public function serviceSpecs()
+    public function serviceObjectProperties()
     {
         $service = $this->getService();
         if($service) {
-            return $service->serviceSpecs;
+            return $service->serviceObjectProperties;
         }
         return false;
     }
@@ -225,11 +249,11 @@ class CartForm extends Model
             return false;         
         }
 
-        if(!isset($_SESSION['cart']['industry'][$this->service->industry_id])){
+        /*if(!isset($_SESSION['cart']['industry'][$this->service->industry_id])){
             $_SESSION['cart']['industry'][$this->service->industry_id] = [            
                 'skills' => $this->skills,                
             ];
-        }
+        }*/
         
         $_SESSION['cart']['industry'][$this->service->industry_id]['data'][$this->key] = [
             'service' => $this->getService()->id,
@@ -240,18 +264,19 @@ class CartForm extends Model
             'amount' => $this->amount,
             'amount_to' => $this->amount_to,
             'amount_operator' => $this->amount_operator,
-            'consumer' => $this->consumer,
+            /*'consumer' => $this->consumer,
             'consumer_to' => $this->consumer_to,
             'consumer_operator' => $this->consumer_operator,
-            'consumer_children' => $this->consumer_children,
+            'consumer_children' => $this->consumer_children,*/
             'note' => $this->note,
             'title' => $this->title,
             'issue_text' => $this->issue_text,
             'images' => $this->imageFiles,
+            'youtube_link' => $this->youtube_link,
             'issues' => $this->issues,
             'user_object' => $this->user_object,
-            'shipping' => $this->shipping,
-            'installation' => $this->installation,            
+            /*'shipping' => $this->shipping,
+            'installation' => $this->installation,*/            
             // specifications
             // methods
             // process

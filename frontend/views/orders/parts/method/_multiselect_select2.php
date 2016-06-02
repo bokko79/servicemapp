@@ -6,11 +6,11 @@ use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 use kartik\widgets\Select2;
 
-$model_list = ArrayHelper::map($property->models, 'id', 'tName');
+$model_list = ArrayHelper::map($property->propertyValues, 'id', 'tName');
 
-foreach($property->models as $prop_model){
-    if($prop_model->selected_value==1){
-        $model_method->method_models[] = $prop_model->id;
+foreach($property->propertyValues as $propertyValue){
+    if($propertyValue->selected_value==1){
+        $model_method->method_models[] = $propertyValue->id;
     }
 }
 ?>

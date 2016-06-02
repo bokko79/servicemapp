@@ -9,11 +9,19 @@ use Yii;
  *
  * @property integer $id
  * @property integer $action_id
- * @property integer $action_name
+ * @property string $action_name
  * @property integer $property_id
- * @property integer $property_name
- * @property string $type
+ * @property string $property_name
+ * @property string $value_default
+ * @property integer $value_min
+ * @property string $value_max
+ * @property string $step
+ * @property string $pattern
+ * @property integer $display_order
+ * @property integer $multiple_values
+ * @property integer $read_only
  * @property integer $required
+ * @property string $description
  *
  * @property CsActions $action
  * @property CsAttributes $attribute
@@ -36,12 +44,13 @@ class CsMethods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['action_id', 'property_id', 'type'], 'required'],
-            [['action_id', 'property_id', 'required', 'display_order',], 'integer'],
-            [['description', 'pattern'], 'string'],
-            [['range_min', 'range_max', 'range_step'], 'number'],
+            [['action_id', 'property_id'], 'required'],
+            [['action_id', 'property_id', 'value_min', 'value_max', 'display_order', 'multiple_values', 'read_only', 'required'], 'integer'],
+            [['step'], 'number'],
+            [['description'], 'string'],
             [['action_name', 'property_name'], 'string', 'max' => 64],
-            [['default_value'], 'string', 'max' => 16],
+            [['value_default'], 'string', 'max' => 128],
+            [['pattern'], 'string', 'max' => 32],
         ];
     }
 
@@ -53,15 +62,17 @@ class CsMethods extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'action_id' => Yii::t('app', 'Action ID'),
-            'action_name' => Yii::t('app', 'Action'),
+            'action_name' => Yii::t('app', 'Action Name'),
             'property_id' => Yii::t('app', 'Property ID'),
-            'property_name' => Yii::t('app', 'Property'),
-            'default_value' => Yii::t('app', 'Default Value'),
-            'range_min' => Yii::t('app', 'Range Min'),
-            'range_max' => Yii::t('app', 'Range Max'),
-            'range_step' => Yii::t('app', 'Range Step'),
+            'property_name' => Yii::t('app', 'Property Name'),
+            'value_default' => Yii::t('app', 'Value Default'),
+            'value_min' => Yii::t('app', 'Value Min'),
+            'value_max' => Yii::t('app', 'Value Max'),
+            'step' => Yii::t('app', 'Step'),
             'pattern' => Yii::t('app', 'Pattern'),
-            'display_order' => Yii::t('app', 'Display order'),
+            'display_order' => Yii::t('app', 'Display Order'),
+            'multiple_values' => Yii::t('app', 'Multiple Values'),
+            'read_only' => Yii::t('app', 'Read Only'),
             'required' => Yii::t('app', 'Required'),
             'description' => Yii::t('app', 'Description'),
         ];

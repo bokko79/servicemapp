@@ -4,7 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use frontend\models\CsObjects;
-use frontend\models\ObjectsSearch;
+use frontend\models\CsObjectsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,6 +32,21 @@ class ObjectsController extends Controller
      * Lists all CsObjects models.
      * @return mixed
      */
+    public function actionIndex()
+    {
+        $searchModel = new CsObjectsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists all CsObjects models.
+     * @return mixed
+     */
     public function actionAdd()
     {
         $searchModel = new ObjectsSearch();
@@ -48,11 +63,22 @@ class ObjectsController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($title=null)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (isset($title)) {
+            $obj_tr = $this->findModelByTitle($title);
+            // ako je našao ime usluge, renderuj stranicu - URL injection
+            if ($obj_tr)
+            {
+                $model = $this->findModel($obj_tr->object_id);
+
+                return $this->render('view', [
+                    'model' => $model,
+                ]);
+            }        
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }    
 
     /**
@@ -65,6 +91,22 @@ class ObjectsController extends Controller
     protected function findModel($id)
     {
         if (($model = CsObjects::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the CsServicesTranslation model based on its translated title.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return CsServices the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelByTitle($title)
+    {
+        if (($model = \common\models\CsObjectsTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

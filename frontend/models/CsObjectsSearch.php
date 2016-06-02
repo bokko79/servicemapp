@@ -1,16 +1,16 @@
 <?php
 
-namespace common\models;
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\CsPropertyModels;
+use frontend\models\CsObjects;
 
 /**
- * CsPropertyModelsSearch represents the model behind the search form about `common\models\CsPropertyModels`.
+ * CsObjectsSearch represents the model behind the search form about `frontend\models\CsObjects`.
  */
-class CsPropertyModelsSearch extends CsPropertyModels
+class CsObjectsSearch extends CsObjects
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class CsPropertyModelsSearch extends CsPropertyModels
     public function rules()
     {
         return [
-            [['id', 'property_id', 'selected_value', 'image_id', 'entry_by'], 'integer'],
-            [['name', 'property_name', 'hint', 'entry_time', 'description'], 'safe'],
+            [['id', 'object_id', 'level', 'object_type_id', 'favour', 'image_id'], 'integer'],
+            [['name', 'class', 'description'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CsPropertyModelsSearch extends CsPropertyModels
      */
     public function search($params)
     {
-        $query = CsPropertyModels::find();
+        $query = CsObjects::find();
 
         // add conditions that should always apply here
 
@@ -60,16 +60,15 @@ class CsPropertyModelsSearch extends CsPropertyModels
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'property_id' => $this->property_id,
-            'selected_value' => $this->selected_value,
+            'object_id' => $this->object_id,
+            'level' => $this->level,
+            'object_type_id' => $this->object_type_id,
+            'favour' => $this->favour,
             'image_id' => $this->image_id,
-            'entry_by' => $this->entry_by,
-            'entry_time' => $this->entry_time,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'property_name', $this->property_name])
-            ->andFilterWhere(['like', 'hint', $this->hint])
+            ->andFilterWhere(['like', 'class', $this->class])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

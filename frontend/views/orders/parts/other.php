@@ -25,34 +25,11 @@ $message = 'Dodatne opcije za ovu porudžbinu, koji mogu da pomognu pružaocima 
 
 <div class="wrapper notshown body fadeIn animated" style="border-top:none;">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>  
-     <?= $form->field($model, 'phone_contact', [                
-                'hintType' => ActiveField::HINT_SPECIAL,
-                'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
-                ])->widget(SwitchInput::classname(), [
-                    'containerOptions'=>['style'=>'margin-left:0;'],
-                    'pluginOptions' => [
-                        'onText' => 'Da',
-                        'offText' => 'Ne',
-                        'size' => 'large',
-                        'inlineLabel' => false,         
-                    ]
-                ])->hint('') ?>
-    <?= $form->field($model, 'turn_key', [
-                'hintType' => ActiveField::HINT_SPECIAL,
-                'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Ključ u ruke', ],
-                ])->widget(SwitchInput::classname(), [
-                    'containerOptions'=>['style'=>'margin-left:0;'],
-                    'pluginOptions' => [
-                        'onText' => 'Da',
-                        'offText' => 'Ne',
-                        'size' => 'large',
-                        'inlineLabel' => false,         
-                    ]
-                ])->hint('Da li želite da pružalac usluge ponudi objedinjenu cenu i za ruke i za upotrebljeni materijal i opermu, po principu "ključ u ruke"?') ?>
 
-    <?= $form->field($model, 'tools', [
+<?php if($service->installation!=0): ?>
+    <?= $form->field($model, 'installation', [
                 'hintType' => ActiveField::HINT_SPECIAL,
-                'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Pribor i oprema', ],
+                'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Podrška pružaoca usluge', ],
                 ])->widget(SwitchInput::classname(), [
                     'containerOptions'=>['style'=>'margin-left:0;'],
                     'pluginOptions' => [
@@ -61,8 +38,10 @@ $message = 'Dodatne opcije za ovu porudžbinu, koji mogu da pomognu pružaocima 
                         'size' => 'large',
                         'inlineLabel' => false,         
                     ]
-                ])->hint('Da li pružalac usluge može korisiti Vaš alat, pribor i opremu tokom izvršenja usluge?') ?>
+                ])->hint('Da li zahtevate besplatnu podršku i nakon izvršenja usluge, kao dodatnu vrstu garancije pružaoca usluge na kvalitet izvrešnih usluga?<p>Napomena: Ukoliko se odlučite za "da", to može povećati ukupnu ponuđenu cenu usluge.</p>') ?>
+<?php endif; ?>
 
+<?php if($service->support!=0): ?>
     <?= $form->field($model, 'support', [
                 'hintType' => ActiveField::HINT_SPECIAL,
                 'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Podrška pružaoca usluge', ],
@@ -76,7 +55,53 @@ $message = 'Dodatne opcije za ovu porudžbinu, koji mogu da pomognu pružaocima 
                     ]
                 ])->hint('Da li zahtevate besplatnu podršku i nakon izvršenja usluge, kao dodatnu vrstu garancije pružaoca usluge na kvalitet izvrešnih usluga?<p>Napomena: Ukoliko se odlučite za "da", to može povećati ukupnu ponuđenu cenu usluge.</p>') ?>
 
-   
-    <?= $form->field($model, 'order_type')->dropDownList([ 'single' => 'Single', 'multi' => 'Multi', 'operation' => 'Operation', 'process' => 'Process', ], ['prompt' => '']) ?>
-    <?= $form->field($model, 'loc_within')->textInput() ?>
+<?php endif; ?>
+<?php if($service->turn_key!=0): ?>
+    <?= $form->field($model, 'turn_key', [
+                'hintType' => ActiveField::HINT_SPECIAL,
+                'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Ključ u ruke', ],
+                ])->widget(SwitchInput::classname(), [
+                    'containerOptions'=>['style'=>'margin-left:0;'],
+                    'pluginOptions' => [
+                        'onText' => 'Da',
+                        'offText' => 'Ne',
+                        'size' => 'large',
+                        'inlineLabel' => false,         
+                    ]
+                ])->hint('Da li želite da pružalac usluge ponudi objedinjenu cenu i za ruke i za upotrebljeni materijal i opermu, po principu "ključ u ruke"?') ?>
+<?php endif; ?>
+<?php if($service->tools!=0): ?>
+    <?= $form->field($model, 'tools', [
+                'hintType' => ActiveField::HINT_SPECIAL,
+                'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Pribor i oprema', ],
+                ])->widget(SwitchInput::classname(), [
+                    'containerOptions'=>['style'=>'margin-left:0;'],
+                    'pluginOptions' => [
+                        'onText' => 'Da',
+                        'offText' => 'Ne',
+                        'size' => 'large',
+                        'inlineLabel' => false,         
+                    ]
+                ])->hint('Da li pružalac usluge može korisiti Vaš alat, pribor i opremu tokom izvršenja usluge?') ?>
+
+<?php endif; ?>
+<?php if(!Yii::$app->user->isGuest): ?>
+    <?= $form->field($model, 'phone_contact', [                
+                'hintType' => ActiveField::HINT_SPECIAL,
+                'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
+                ])->widget(SwitchInput::classname(), [
+                    'containerOptions'=>['style'=>'margin-left:0;'],
+                    'pluginOptions' => [
+                        'onText' => 'Da',
+                        'offText' => 'Ne',
+                        'size' => 'large',
+                        'inlineLabel' => false,         
+                    ]
+                ])->hint('') ?>
+<?php endif; ?>
+
+    <?= $form->field($model, 'order_type')->radioButtonGroup([ 'single' => 'Single', 'multi' => 'Multi', 'operation' => 'Operation', 'process' => 'Process', ], ['class' => 'btn-group',
+            'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]]) ?>
+    <?= $form->field($model, 'title', [])->input('text', []) ?>
+    <?= $form->field($model, 'note')->textArea(['rows'=>4, 'placeholder'=>$service->tHintOrder]) ?>
 </div>

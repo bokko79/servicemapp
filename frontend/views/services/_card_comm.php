@@ -5,6 +5,9 @@ use yii\helpers\Url;
 use yii\bootstrap\Modal;
 use yii\web\Session;
 $session = Yii::$app->session;
+
+/*echo '<pre>';
+print_r($model); die();*/
 ?>
 <div class="card_container record-sm grid-item fadeInUp animated" id="card_container" style="margin:0 11px;">
     <a href="<?= Url::to('/s/'.slug($model->name)) ?>">
@@ -27,7 +30,7 @@ $session = Yii::$app->session;
                 ex ea commodo consequat.</p>
         </div>
         <div class="action-area right">
-            <?php if($model->object->models): ?>
+            <?php if($model->object->objectModels): ?>
             <?= $session['state']!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-order-modal'.$model->id]) : null ?>
             <?= $session['state']!='order' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-present-modal'.$model->id]) : null ?>
         <?php else: ?>
@@ -47,8 +50,8 @@ $session = Yii::$app->session;
         'id'=>'object-models-order-modal'.$model->id,
         'size'=>Modal::SIZE_SMALL,
         'class'=>'overlay_modal',
-        'header'=> $model->object->isPart() ? ($model->service_object==1 ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' Vas interesuju:</h3>' :
-        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->service_object==1 ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' Vas interesuju:</h3>' :
+        'header'=> $model->object->isPart() ? ($model->object_ownership=='provider' ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' Vas interesuju:</h3>' :
+        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->object_ownership=='provider' ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' Vas interesuju:</h3>' :
         '<h3>Izaberite vrstu '. $model->object->tNameGen.'</h3>'),
     ]); ?>
    <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>
@@ -57,8 +60,8 @@ $session = Yii::$app->session;
         'id'=>'object-models-present-modal'.$model->id,
         'size'=>Modal::SIZE_SMALL,
         'class'=>'overlay_modal',
-        'header'=> $model->object->isPart() ? ($model->service_object!=1 ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' imate u ponudi:</h3>' :
-        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->service_object!=1 ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' imate u ponudi:</h3>' :
+        'header'=> $model->object->isPart() ? ($model->object_ownership=='user' ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' imate u ponudi:</h3>' :
+        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->object_ownership=='user' ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' imate u ponudi:</h3>' :
         '<h3>Izaberite vrstu '. $model->object->tNameGen.'</h3>'),
     ]); ?>
    <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>

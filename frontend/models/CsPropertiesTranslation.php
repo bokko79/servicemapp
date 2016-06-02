@@ -11,7 +11,7 @@ use Yii;
  * @property integer $property_id
  * @property string $lang_code
  * @property string $name
- * @property string $name_akk 
+ * @property string $name_akk
  * @property string $hint
  * @property string $orig_name
  * @property string $description
@@ -56,7 +56,7 @@ class CsPropertiesTranslation extends \yii\db\ActiveRecord
             'property_id' => Yii::t('app', 'Property ID'),
             'lang_code' => Yii::t('app', 'Lang Code'),
             'name' => Yii::t('app', 'Name'),
-            'name_akk' => Yii::t('app', 'Name Akk'), 
+            'name_akk' => Yii::t('app', 'Name Akk'),
             'hint' => Yii::t('app', 'Hint'),
             'orig_name' => Yii::t('app', 'Orig Name'),
             'description' => Yii::t('app', 'Description'),

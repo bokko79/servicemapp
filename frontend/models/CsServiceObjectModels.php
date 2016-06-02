@@ -9,7 +9,8 @@ use Yii;
  *
  * @property string $id
  * @property integer $service_id
- * @property string $object_id
+ * @property string $object_model_id
+ * @property integer $requirement
  * @property string $description
  */
 class CsServiceObjectModels extends \yii\db\ActiveRecord
@@ -28,8 +29,8 @@ class CsServiceObjectModels extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['service_id', 'object_id'], 'required'],
-            [['service_id', 'object_id'], 'integer'],
+            [['service_id', 'object_model_id'], 'required'],
+            [['service_id', 'object_model_id', 'requirement'], 'integer'],
             [['description'], 'string'],
         ];
     }
@@ -42,7 +43,8 @@ class CsServiceObjectModels extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'service_id' => Yii::t('app', 'Service ID'),
-            'object_id' => Yii::t('app', 'Object ID'),
+            'object_model_id' => Yii::t('app', 'Object Model ID'),
+            'requirement' => Yii::t('app', 'Requirement'),
             'description' => Yii::t('app', 'Description'),
         ];
     }
@@ -60,13 +62,21 @@ class CsServiceObjectModels extends \yii\db\ActiveRecord
      */
     public function getObjectModel()
     {
-        return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
+        return $this->hasOne(CsObjectModels::className(), ['id' => 'object_model_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSCaseName()
+    public function getModel()
+    {
+        return $this->objectModel->model_id;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSCaseModelName()
     {
         return c($this->objectModel->tName); 
     }

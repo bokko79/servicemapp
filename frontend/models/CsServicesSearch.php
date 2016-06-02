@@ -13,6 +13,7 @@ use frontend\models\CsServices;
 class CsServicesSearch extends CsServices
 {
     public $tag_id;
+    public $product_id;
 
     /**
      * @inheritdoc
@@ -21,7 +22,7 @@ class CsServicesSearch extends CsServices
     {
         return [
             [['id', 'industry_id', 'action_id', 'object_id', 'unit_id', 'process', 'geospecific', 'added_by', 'hit_counter'], 'integer'],
-            [['tag_id', 'name', 'action', 'object_name', 'service_type', 'amount', 'pic', 'service_object', 'consumer', 'support', 'location', 'time', 'duration', 'turn_key', 'tools', 'labour_type', 'frequency', 'coverage', 'dat', 'status', 'added_time'], 'safe'],
+            [['tag_id', 'product_id', 'name', 'action', 'object_name', 'service_type', 'amount', 'pic', 'object_ownership', 'consumer', 'support', 'location', 'time', 'duration', 'turn_key', 'tools', 'labour_type', 'frequency', 'coverage', 'dat', 'status', 'added_time'], 'safe'],
         ];
     }
 
@@ -45,8 +46,14 @@ class CsServicesSearch extends CsServices
     {
         $query = CsServices::find();
 
+        $query->joinWith(['t t']);
+        //$query->joinWith(['object', 'products']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 2,
+            ],
         ]);
 
         $this->load($params);
@@ -62,9 +69,10 @@ class CsServicesSearch extends CsServices
             'industry_id' => $this->industry_id,
             'action_id' => $this->action_id,
             'object_id' => $this->object_id,
+            //'product_id' => $this->object_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 't.name', $this->name]);
 
         return $dataProvider;
     }

@@ -27,6 +27,6 @@ $message = 'Za obavljanje pojedinih usluga, pružalac usluge bi trebalo da posed
         $skill = $model_skill->serviceSkill;
         $property = $model_skill->property;
         $serviceSkill = $skill->serviceSkill($service->id);
-        echo ($serviceSkill and $serviceSkill->readOnly==0) ? $this->render('skills/'.$property->formType($service->service_object).'.php', ['form'=>$form, 'key'=>$property->id, 'model_skill'=>$model_skill, 'skill'=>$skill, 'property'=>$property, 'service'=>$service]) : null;
+        echo ($serviceSkill and $serviceSkill->readOnly==0) ? $this->render('skills/'.$property->formType($object_ownership).'.php', ['form'=>$form, 'key'=>$property->id, 'model_skill'=>$model_skill, 'skill'=>$skill, 'property'=>$property, 'service'=>$service]) : null;
     } ?>  
 </div>

@@ -97,6 +97,7 @@ class AutocompleteController extends \yii\web\Controller
             ->innerJoin('cs_objects AS obj_p', 'obj_p.id=obj.object_id')
             ->innerJoin('cs_objects_translation AS obj_trans_p', 'obj_trans_p.object_id=obj_p.id')
             ->where(['like', 'obj_trans.name', $q])
+            ->andWhere('obj.class != "abstract"')
             ->andWhere(['obj_trans.lang_code' => $this->lang_code])
             ->groupBy('obj.id')
             ->orderBy([ 'obj_trans.name' => SORT_ASC]);
@@ -105,6 +106,26 @@ class AutocompleteController extends \yii\web\Controller
         $out = [];
         foreach ($data as $d) {
             $out[] = ['object_id' => $d['object_id'], 'name' => $d['object'], 'parent' => $d['parent']];
+        }
+        echo \yii\helpers\Json::encode($out);
+    }
+
+    // THE CONTROLLER
+    public function actionListProducts($q = null, $id = null) {        
+        $query = new \yii\db\Query;
+        $query->select('products.id AS product_id, products.name AS product, obj_trans.name AS parent')
+            ->from('cs_products AS products')            
+            ->innerJoin('cs_objects AS obj', 'obj.id=products.object_id')
+            ->innerJoin('cs_objects_translation AS obj_trans', 'obj_trans.object_id=obj.id')
+            ->where(['like', 'products.name', $q])
+            ->andWhere(['or', 'products.level=1', 'products.level=2'])
+            ->groupBy('products.id')
+            ->orderBy([ 'products.name' => SORT_ASC]);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $out = [];
+        foreach ($data as $d) {
+            $out[] = ['product_id' => $d['product_id'], 'name' => $d['product'], 'parent' => $d['parent']];
         }
         echo \yii\helpers\Json::encode($out);
     }
@@ -201,17 +222,22 @@ class AutocompleteController extends \yii\web\Controller
         // industry
         if(isset($post['industry_id']) && $post['industry_id']!=null && $post['industry_id']!=''){
             $industry = \frontend\models\CsIndustries::findOne($post['industry_id']);
-            return $this->redirect(['/services', 'i'=>$industry->id]);
+            return $this->redirect(['/services/i/'.slug($industry->tName)]);
         }
         // object
         if(isset($post['object_id']) && $post['object_id']!=null && $post['object_id']!=''){
             $object = \frontend\models\CsObjects::findOne($post['object_id']);
-            return $this->redirect(['/services', 'o'=>$object->id]);
+            return $this->redirect(['/services/o/'.slug($object->tName)]);
+        }
+        // product
+        if(isset($post['product_id']) && $post['product_id']!=null && $post['product_id']!=''){
+            $product = \frontend\models\CsProducts::findOne($post['product_id']);
+            return $this->redirect(['/services/p/'.slug($product->name)]);
         }
         // action
         if(isset($post['action_id']) && $post['action_id']!=null && $post['action_id']!=''){
             $action = \frontend\models\CsActions::findOne($post['action_id']);
-            return $this->redirect(['/services', 'a'=>$action->id]);
+            return $this->redirect(['/services/a/'.slug($action->tName)]);
         }
         // service
         if(isset($post['id']) && $post['id']!=null && $post['id']!=''){

@@ -9,10 +9,11 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property integer $unit_id
- * @property integer $type 
+ * @property integer $type
+ * @property integer $property_id
+ * @property integer $multiple_values
+ * @property integer $translatable_values
  * @property string $class
- * @property string $mark
  * @property string $description
  *
  * @property CsPropertyModels[] $csPropertyModels
@@ -38,12 +39,10 @@ class CsProperties extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'type'], 'required'],
-            [['unit_id', 'type'], 'integer'],
+            [['name'], 'required'],
+            [['type', 'property_id', 'multiple_values', 'translatable_values'], 'integer'],
             [['name'], 'string', 'max' => 64],
-            [['mark'], 'string', 'max' => 10],
             [['class', 'description'], 'string', 'max' => 32],
-            [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['unit_id' => 'id']],
         ];
     }
 
@@ -55,10 +54,11 @@ class CsProperties extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
-            'unit_id' => Yii::t('app', 'Unit ID'),
-            'type' => Yii::t('app', 'Type'), 
-            'class' => Yii::t('app', 'Class'), 
-            'mark' => Yii::t('app', 'Mark'),
+            'type' => Yii::t('app', 'Type'),
+            'property_id' => Yii::t('app', 'Property ID'),
+            'multiple_values' => Yii::t('app', 'Multiple Values'),
+            'translatable_values' => Yii::t('app', 'Translatable Values'),
+            'class' => Yii::t('app', 'Class'),
             'description' => Yii::t('app', 'Description'),
         ];
     }
@@ -66,17 +66,17 @@ class CsProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getModels()
+    public function getPropertyValues()
     {
-        return $this->hasMany(CsPropertyModels::className(), ['property_id' => 'id']);
+        return $this->hasMany(CsPropertyValues::className(), ['property_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUnit()
+    public function getPropertyUnits()
     {
-        return $this->hasOne(CsUnits::className(), ['id' => 'unit_id']);
+        return $this->hasMany(CsPropertyUnits::className(), ['property_id' => 'id']);
     }
 
     /**
@@ -106,9 +106,9 @@ class CsProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSpecs()
+    public function getObjectProperties()
     {
-        return $this->hasMany(CsSpecs::className(), ['property_id' => 'id']);
+        return $this->hasMany(CsObjectProperties::className(), ['property_id' => 'id']);
     }
 
     /**
@@ -178,17 +178,17 @@ class CsProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function formType($service_object=1)
+    public function formType($object_ownership='provider')
     {
         switch ($this->type) {
             case 1:
-                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_number' : '_range';
+                $part = ($object_ownership=='user') ? '_number' : '_range';
                 break;
             case 2:
-                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_radio' : '_multiselect';
+                $part = ($object_ownership=='user') ? '_radio' : '_multiselect';
                 break;
             case 21:
-                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_radioButton' : '_checkboxButton';
+                $part = ($object_ownership=='user') ? '_radioButton' : '_checkboxButton';
                 break;
             case 22:
                 $part = '_radio';
@@ -196,13 +196,13 @@ class CsProperties extends \yii\db\ActiveRecord
                 $part = '_radioButton';
                 break;
             case 3:
-                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_select' : '_multiselect';
+                $part = ($object_ownership=='user') ? '_select' : '_multiselect';
                 break;
             case 31:
-                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_select2' : '_multiselect_select2';
+                $part = ($object_ownership=='user') ? '_select2' : '_multiselect_select2';
                 break;
             case 32:
-                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_select_media' : '_multiselect_media';
+                $part = ($object_ownership=='user') ? '_select_media' : '_multiselect_media';
                 break;
             case 4:
                 $part = '_multiselect';
@@ -223,10 +223,10 @@ class CsProperties extends \yii\db\ActiveRecord
                 $part = '_checkbox';
                 break;
             case 6:
-                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_text' : null;
+                $part = ($object_ownership=='user') ? '_text' : null;
                 break;
             case 7:
-                $part = ($service_object!=1 and $service_object!=3 and $service_object!=5 and $service_object!=7) ? '_textarea' : null;
+                $part = ($object_ownership=='user') ? '_textarea' : null;
                 break;
             case 8:
                 $part = '_slider';
@@ -265,17 +265,17 @@ class CsProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function formTypePresentation($service_object=1)
+    public function formTypePresentation($object_ownership='provider')
     {
         switch ($this->type) {
             case 1:
                 $part = '_number';
                 break;
             case 2:
-                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_radio' : '_multiselect';
+                $part = ($object_ownership=='provider') ? '_radio' : '_multiselect';
                 break;
             case 21:
-                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_radioButton' : '_checkboxButton';
+                $part = ($object_ownership=='provider') ? '_radioButton' : '_checkboxButton';
                 break;
             case 22:
                 $part = '_radio';
@@ -283,13 +283,13 @@ class CsProperties extends \yii\db\ActiveRecord
                 $part = '_radioButton';
                 break;
             case 3:
-                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_select' : '_multiselect';
+                $part = ($object_ownership=='provider') ? '_select' : '_multiselect';
                 break;
             case 31:
-                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_select2' : '_multiselect';
+                $part = ($object_ownership=='provider') ? '_select2' : '_multiselect';
                 break;
             case 32:
-                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_select_media' : '_multiselect';
+                $part = ($object_ownership=='provider') ? '_select_media' : '_multiselect';
                 break;
             case 4:
                 $part = '_multiselect';
@@ -310,10 +310,10 @@ class CsProperties extends \yii\db\ActiveRecord
                 $part = '_checkbox';
                 break;            
             case 6:
-                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_text' : null;
+                $part = ($object_ownership=='provider') ? '_text' : null;
                 break;
             case 7:
-                $part = ($service_object==1 or $service_object==3 or $service_object==5 or $service_object==7) ? '_textarea' : null;
+                $part = ($object_ownership=='provider') ? '_textarea' : null;
                 break;
             case 8:
                 $part = '_slider';

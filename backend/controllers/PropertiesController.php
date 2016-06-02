@@ -5,9 +5,14 @@ namespace backend\controllers;
 use Yii;
 use common\models\CsProperties;
 use common\models\CsPropertiesSearch;
+use common\models\CsPropertyValues;
+use common\models\CsObjectProperties;
+//use common\models\CsActionProperties;
+//use common\models\CsIndustryProperties;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * PropertiesController implements the CRUD actions for CsProperties model.
@@ -51,8 +56,25 @@ class PropertiesController extends Controller
      */
     public function actionView($id)
     {
+        $dataProviderPropertyValues = new ActiveDataProvider([
+            'query' => CsPropertyValues::find()->filterWhere(['property_id' => $id]),
+        ]);
+        $dataProviderObjectProperties = new ActiveDataProvider([
+            'query' => CsObjectProperties::find()->filterWhere(['property_id' => $id]),
+        ]);
+        /*$dataProviderActionProperties = new ActiveDataProvider([
+            'query' => CsActionProperties::find()->filterWhere(['property_id' => $id]),
+        ]);
+        $dataProviderIndustryProperties = new ActiveDataProvider([
+            'query' => CsIndustryProperties::find()->filterWhere(['property_id' => $id]),
+        ]);*/
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProviderPropertyValues' => $dataProviderPropertyValues,
+            'dataProviderObjectProperties' => $dataProviderObjectProperties,
+            //'dataProviderActionProperties' => $dataProviderActionProperties,
+            //'dataProviderIndustryProperties' => $dataProviderIndustryProperties,
         ]);
     }
 

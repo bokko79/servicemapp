@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 $service = frontend\models\CsServices::findOne($order_service['service']);
 ?>          
-<div class="card_container record-full fadeIn animated" id="card_container" style="float:none;">   
+<div class="card_container record-full no-shadow transparent fadeIn animated" id="card_container" style="float:none;">   
     <table class="main-context"> 
         <tr>
             <td class="media-area left">
@@ -17,7 +17,7 @@ $service = frontend\models\CsServices::findOne($order_service['service']);
             </td>
             <td class="body-area">
                 <div class="primary-context normal">
-                    <div class="head major"><?= c($service->tName).((isset($objects)) ? ': '.$objects[0]->tName : null) ?>
+                    <div class="head major regular gray-color"><?= c($service->tName).((isset($objects)) ? ': '.$objects[0]->tName : null) ?>
                         <div class="action-area free">
                             <?= Html::a('<i class="fa fa-wrench"></i>', Url::to(), ['class'=>'btn btn-default']); ?>
                             <?= Html::a('<i class="fa fa-times"></i>', Url::to(), ['class'=>'btn btn-danger']); ?>
@@ -27,8 +27,6 @@ $service = frontend\models\CsServices::findOne($order_service['service']);
                 </div>
                 <div class="secondary-context cont">
                     <span><i class="fa fa-signal"></i>&nbsp;<?= $order_service['amount'] ?></span>
-                    <span>&nbsp;<i class="fa fa-users"></i>&nbsp;<?= $order_service['consumer'] ?></span>
-                    <span>&nbsp;<i class="fa fa-rss fa-child"></i>&nbsp;<?= $order_service['consumer_children'] ?></span>
                     <p><?= $order_service['note'] ?></p>
                 </div>
             </td>

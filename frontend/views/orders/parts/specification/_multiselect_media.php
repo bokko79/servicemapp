@@ -5,13 +5,23 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 
-$model_list = ArrayHelper::map($property->models, 'id', 'tNameWithMedia');
+switch($objectProperty->property_type)
+{
+    case 'part':
+        $model_list = ArrayHelper::map($property->propertyValues, 'id', 'tNameWithMedia');
 
-foreach($property->models as $prop_model){
-	if($prop_model->selected_value==1){
-		$model_spec->spec_models[] = $prop_model->id;
-	}
+    default:
+        $model_list = ArrayHelper::map($objectProperty->objectParts, 'part_id', 'partDescription');
+
+        foreach($property->propertyValues as $propertyValue){
+            if($propertyValue->selected_value==1){
+                $model_spec->property_values[] = $propertyValue->id;
+            }
+        }
+    break;
+        
 }
+
 ?>
 <div class="enclosedCheckboxes">
     <?= Form::widget([
@@ -20,7 +30,7 @@ foreach($property->models as $prop_model){
         'options'=>['tag'=>'div', 'style'=>'margin:10px 0;'],
         'contentBefore'=>'',
         'attributes'=> [
-        	'['.$key.']spec_models' => [
+        	'['.$key.']property_values' => [
         		'type'=>Form::INPUT_CHECKBOX_LIST,
         		'label' => $property->label .'<br><div class="checkbox col-sm-offset-3"><label><input type="checkbox" id="ckbCheckAll'. $property->id .'"> <i>Izaberite/Poništite sve</i></label></div>',
         		'hint'=> $property->tHint,

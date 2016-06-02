@@ -8,13 +8,16 @@ use Yii;
  * This is the model class for table "cs_objects_translation".
  *
  * @property integer $id
- * @property integer $object_id
+ * @property string $object_id
  * @property string $lang_code
  * @property string $name
  * @property string $name_gen
  * @property string $name_dat
  * @property string $name_akk
  * @property string $name_inst
+ * @property string $name_pl
+ * @property string $name_pl_gen
+ * @property string $name_gender
  * @property string $orig_name
  * @property string $description
  *
@@ -37,12 +40,13 @@ class CsObjectsTranslation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['object_id', 'lang_code', 'name', 'name_gen', 'name_dat', 'name_akk', 'name_inst', 'orig_name', 'name_gender'], 'required'],
+            [['object_id', 'lang_code', 'name', 'name_gen', 'name_dat', 'name_akk', 'name_inst', 'orig_name'], 'required'],
             [['object_id'], 'integer'],
-            [['description'], 'string'],
-            [['lang_code', 'name_gender'], 'string', 'max' => 2],
+            [['name_gender', 'description'], 'string'],
+            [['lang_code'], 'string', 'max' => 2],
             [['name', 'name_gen', 'name_dat', 'name_akk', 'name_inst', 'name_pl', 'name_pl_gen'], 'string', 'max' => 100],
             [['orig_name'], 'string', 'max' => 50],
+            [['hint'], 'string', 'max' => 256],
             [['lang_code'], 'exist', 'skipOnError' => true, 'targetClass' => CsLanguages::className(), 'targetAttribute' => ['lang_code' => 'code']],
         ];
     }
@@ -57,11 +61,13 @@ class CsObjectsTranslation extends \yii\db\ActiveRecord
             'object_id' => Yii::t('app', 'Object ID'),
             'lang_code' => Yii::t('app', 'Lang Code'),
             'name' => Yii::t('app', 'Name'),
-            'name_gen' => Yii::t('app', 'Name Gen'), 
+            'name_gen' => Yii::t('app', 'Name Gen'),
             'name_dat' => Yii::t('app', 'Name Dat'),
             'name_akk' => Yii::t('app', 'Name Akk'),
             'name_inst' => Yii::t('app', 'Name Inst'),
-            'name_gender' => Yii::t('app', 'Name Gender'), 
+            'name_pl' => Yii::t('app', 'Name Pl'),
+            'name_pl_gen' => Yii::t('app', 'Name Pl Gen'),
+            'name_gender' => Yii::t('app', 'Name Gender'),
             'orig_name' => Yii::t('app', 'Orig Name'),
             'description' => Yii::t('app', 'Description'),
         ];

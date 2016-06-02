@@ -19,5 +19,5 @@ $message = 'Što bolje i opširnije opišete šta Vam treba i šta zahtevate, bo
 <div class="wrapper notshown body fadeIn animated" style="border-top:none;;">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
 	<?= $form->field($model, 'title', [])->input('text', ['value'=>$service->sCaseName.((isset($objects)) ? ': '.$objects[0]->tName : null)]) ?>
-    <?= $form->field($model, 'note')->textArea(['rows'=>4, 'placeholder'=>$service->tDescription]) ?>
+    <?= $form->field($model, 'note')->textArea(['rows'=>4, 'placeholder'=>$service->tHintOrder]) ?>
 </div>

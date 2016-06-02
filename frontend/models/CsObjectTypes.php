@@ -36,7 +36,8 @@ class CsObjectTypes extends \yii\db\ActiveRecord
             [['object_class_id', 'name'], 'required'],
             [['object_class_id'], 'integer'],
             [['description'], 'string'],
-            [['name'], 'string', 'max' => 50]
+            [['name'], 'string', 'max' => 50],
+            [['object_class_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsObjectClasses::className(), 'targetAttribute' => ['object_class_id' => 'id']],
         ];
     }
 

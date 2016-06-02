@@ -31,7 +31,10 @@ class OrderServiceImages extends \yii\db\ActiveRecord
     {
         return [
             [['order_service_id', 'image_id'], 'required'],
-            [['order_service_id', 'image_id'], 'integer']
+            [['order_service_id', 'image_id'], 'integer'],
+            [['type'], 'string'],
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],
+            [['order_service_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrderServices::className(), 'targetAttribute' => ['order_service_id' => 'id']],
         ];
     }
 

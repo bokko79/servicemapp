@@ -113,6 +113,7 @@ return [
         // 17 SERVICES
         'add-services' => 'services/add', // :page
         'services' => 'services/index', // :page
+        'services/<entity>/<title>' => 'services/index', // :page
         's/<title>' => 'services/view', // :page
         'objectModelsPresent' => 'services/object-models-present', // ajax
         'objectModelsOrder' => 'services/object-models-order', // ajax
@@ -120,6 +121,8 @@ return [
 
         // 18 OBJECTS
         'add-objects' => 'objects/add', // :page
+        'objects' => 'objects/index', // :page
+        'o/<title>' => 'objects/view', // :page
 
         // 19 ACTIVITIES AND FEEDBACK
         'market' => 'activities/index', // E-31:page
@@ -175,6 +178,7 @@ return [
         'auto/list-industries' => 'autocomplete/list-industries',
         'auto/list-actions' => 'autocomplete/list-actions',
         'auto/list-objects' => 'autocomplete/list-objects',
+        'auto/list-products' => 'autocomplete/list-products',
         'auto/list-providers' => 'autocomplete/list-providers',
         'auto/list-tags' => 'autocomplete/list-tags',
         'auto/list-services-tags' => 'autocomplete/list-services-tags',
@@ -182,5 +186,15 @@ return [
         'auto/list-actions-tags' => 'autocomplete/list-actions-tags',
         'auto/list-objects-tags' => 'autocomplete/list-objects-tags',
         'auto/index' => 'autocomplete/index',
+
+        // 26 PRODUCTS
+        'new-product' => 'products/create', // S-16:page
+        'products' => 'products/index', // S-16:page
+        'product/<title>' => 'products/view', // S-16:page
+        'product-setup/<id:\d+>' => 'products/update', // S-16:page
+
+        // 27 INDUSTRIES
+        'industries' => 'industries/index', // :page
+        'i/<title>' => 'industries/view', // :page
     ],
 ];

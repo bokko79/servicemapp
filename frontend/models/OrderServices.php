@@ -13,23 +13,24 @@ use Yii;
  * @property integer $service_id
  * @property string $provider_service_id
  * @property string $title
+ * @property integer $item_count
  * @property string $amount
+ * @property string $amount_to
  * @property string $amount_operator
- * @property integer $consumer
- * @property integer $consumer_children
+ * @property integer $duration
+ * @property string $duration_unit
+ * @property string $duration_operator
  * @property string $issue_text
  * @property string $note
+ * @property string $video_link
  * @property string $description
  *
  * @property OrderServiceImages[] $orderServiceImages
  * @property OrderServiceIssues[] $orderServiceIssues
  * @property OrderServiceMethods[] $orderServiceMethods
  * @property OrderServiceSpecs[] $orderServiceSpecs
- * @property CsServices $service
- * @property CsCurrencies $currency
  * @property ProviderServices $providerService
  * @property Activities $activity
- * @property Orders $order
  */
 class OrderServices extends \yii\db\ActiveRecord
 {
@@ -48,9 +49,12 @@ class OrderServices extends \yii\db\ActiveRecord
     {
         return [
             [['activity_id', 'order_id', 'service_id'], 'required'],
-            [['activity_id', 'order_id', 'service_id', 'provider_service_id', 'amount', 'amount_to', 'consumer', 'consumer_to', 'consumer_children'], 'integer'],
-            [['title', 'issue_text', 'note', 'description'], 'string'],
-            [['amount_operator', 'consumer_operator'], 'safe']
+            [['activity_id', 'order_id', 'service_id', 'provider_service_id', 'item_count', 'amount', 'amount_to', 'duration'], 'integer'],
+            [['amount_operator', 'duration_unit', 'duration_operator', 'issue_text', 'note', 'description'], 'string'],
+            [['title'], 'string', 'max' => 64],
+            [['video_link'], 'string', 'max' => 128],
+            [['provider_service_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProviderServices::className(), 'targetAttribute' => ['provider_service_id' => 'id']],
+            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activities::className(), 'targetAttribute' => ['activity_id' => 'id']],
         ];
     }
 
@@ -65,13 +69,17 @@ class OrderServices extends \yii\db\ActiveRecord
             'order_id' => Yii::t('app', 'Order ID'),
             'service_id' => Yii::t('app', 'Service ID'),
             'provider_service_id' => Yii::t('app', 'Provider Service ID'),
+            'title' => Yii::t('app', 'Title'),
+            'item_count' => Yii::t('app', 'Item Count'),
             'amount' => Yii::t('app', 'Amount'),
-            'consumer' => Yii::t('app', 'Consumer'),
-            'consumer_children' => Yii::t('app', 'Frequency'),
-            'amount_operator' => Yii::t('app', 'Amount operator'),
+            'amount_to' => Yii::t('app', 'Amount To'),
+            'amount_operator' => Yii::t('app', 'Amount Operator'),
+            'duration' => Yii::t('app', 'Trajanje'),
+            'duration_unit' => Yii::t('app', 'Jedinica vremena'),
+            'duration_operator' => Yii::t('app', 'Trajanje operator'),
             'issue_text' => Yii::t('app', 'Issue Text'),
             'note' => Yii::t('app', 'Note'),
-            'title' => Yii::t('app', 'Title'),            
+            'video_link' => Yii::t('app', 'Video Link'),
             'description' => Yii::t('app', 'Description'),
         ];
     }
@@ -79,10 +87,10 @@ class OrderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImages()
+    /*public function getImages()
     {
         return $this->hasMany(OrderServiceImages::className(), ['order_service_id' => 'id']);
-    }
+    }*/
 
     /**
      * @return \yii\db\ActiveQuery
@@ -163,5 +171,47 @@ class OrderServices extends \yii\db\ActiveRecord
     {
         return c($this->service->action->tName). ' ' . 
                 (($this->objectModels) ? $this->objectModels[0]->object->tNameGen : $this->service->object->tNameGen);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDocuments()
+    {
+        return $this->hasMany(OrderServiceImages::className(), ['order_service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImages()
+    {   
+        $images = [];     
+        if($documents = $this->documents)
+        {
+            foreach($documents as $document){
+                if($document->image->type=='image'){
+                    $images[] = $document->image;
+                }
+            }
+        }
+        return $images;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPdfs()
+    {   
+        $pdf = [];     
+        if($documents = $this->documents)
+        {
+            foreach($documents as $document){
+                if($document->image->type=='pdf'){
+                    $pdf[] = $document->image;
+                }
+            }
+        }
+        return $pdf;
     }
 }

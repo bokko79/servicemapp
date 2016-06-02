@@ -70,17 +70,16 @@ class OrdersController extends Controller
     {
         if (isset($title) && ($ser_tr = $this->findServiceByTitle($title))) {
             $object_models = (Yii::$app->request->get('CsObjects')) ? Yii::$app->request->get('CsObjects')['id'] : null;
+            $products = (Yii::$app->request->get('CsProducts')) ? Yii::$app->request->get('CsProducts')['id'] : null;
             $presentation = (Yii::$app->request->get('Presentations')) ? $this->findPresentation(Yii::$app->request->get('Presentations')['id']) : null;
             $service = $this->findService($ser_tr->service_id);
             $key = (isset(Yii::$app->session['cart']['industry'][$service->industry_id]['data']) && Yii::$app->session['cart']['industry'][$service->industry_id]['data']!=null) ? count(Yii::$app->session['cart']['industry'][$service->industry_id]['data'])+1 : 1;
             
-            $model = $this->loadCartFormModel($service, $object_models, $key, $presentation);
-            // skill model
-            $model_skill = $this->loadServiceSkills($service, $key);
+            $model = $this->loadCartFormModel($service, $object_models, $key, $products, $presentation);            
             // method model
             $model_method = $this->loadServiceMethods($service, $key);
             // specification model
-            $model_spec = $this->loadServiceSpecifications($service, $object_models, $key);                                   
+            $model_spec = $this->loadServiceObjectProperties($service, $object_models, $products, $key);                                   
                     
             if($model->load(Yii::$app->request->post()) and $model->storeToCart()) {
                 if($model_method!=null){ // methods
@@ -111,13 +110,12 @@ class OrdersController extends Controller
                 return $this->render('add', [
                     'model' => $model,
                     'model_specs' => $model_spec,
-                    'model_methods' => $model_method,
-                    'model_skills' => $model_skill,
+                    'model_methods' => $model_method,                    
                     'service' => $service,
                     'object_models' => $object_models,
                     'objects' => $this->getObjectModels($object_models),
-                    'serviceSpecs' => $service->serviceSpecs,
-                    'objectSpecifications' => $this->objectSpecifications($service, $object_models),
+                    'serviceObjectProperties' => $service->serviceObjectProperties,
+                    'objectProperties' => $this->objectProperties($service, $object_models, $products),
                     'userObjects' => $this->checkUserObjectsExist($service, $object_models),
                     'serviceMethods' => $service->serviceMethods,
                 ]);
@@ -160,7 +158,9 @@ class OrdersController extends Controller
             $objects = $this->getObjectModels($cart[$industry]['data'][1]['object_models']);
             $user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // orderer
             $model = new Orders();
-            $model->service = $service;            
+            $model->service = $service;
+            // skill model
+            $model_skill = $this->loadServiceSkills($service);
             $location = new Locations();
             $location->control = $service->location;
             $location->userControl = (Yii::$app->user->isGuest) ? 0 : 1;
@@ -205,6 +205,7 @@ class OrdersController extends Controller
                 return $this->render('create', [
                     'service' => $service,
                     'model' => $model,
+                    'model_skills' => $model_skill,
                     'location'=> $location,
                     'location_end'=> $location_end,
                     'objects' => $objects,
@@ -258,6 +259,31 @@ class OrdersController extends Controller
     {        
 
         $session = Yii::$app->session;
+        if($cart = $session['cart']){
+            /*if(isset($cart['industry']) and $cart['industry']!=null){
+                foreach($cart['industry'] as $ki=>$industry){                    
+                    if(isset($industry[$ki]['data']['images']) && $industry[$ki]['data']['images']!=null){
+                        foreach ($industry[$ki]['data']['images'] as $key_im => $image) {
+                            $imageInstance = \frontend\models\Images::getImageByBaseEncode($image->name);
+                            if($imageInstance){
+                                $thumb = '@webroot/images/orders/thumbs/'.$imageInstance->ime;
+                                $full = '@webroot/images/orders/full/'.$imageInstance->ime;
+                                $docs = '@webroot/images/orders/docs/'.$imageInstance->ime;
+                                $image = '@webroot/images/orders/'.$imageInstance->ime;
+                                if($imageInstance->type=='image'){
+                                    unlink(Yii::getAlias($thumb));
+                                    unlink(Yii::getAlias($full));
+                                    unlink(Yii::getAlias($image));
+                                } else{
+                                    unlink(Yii::getAlias($docs));
+                                }
+                                $imageInstance->delete();
+                            }
+                        }
+                    }                    
+                }                    
+            }*/
+        }
 
         $session->remove('cart');
         
@@ -345,7 +371,7 @@ class OrdersController extends Controller
     }   
 
     /**
-     * Izlistava sve modele izabranih predmeta usluga.
+     * Izlistava izabrane modele izabranog predmeta usluga.
      */
     protected function getObjectModels($object_models=null)
     {
@@ -363,66 +389,104 @@ class OrdersController extends Controller
     }
 
     /**
+     * Izlistava izabrane proizvode izabranog predmeta usluga.
+     */
+    protected function getProducts($products=null)
+    {
+        if($products!=null){
+            $product_container = [];
+            foreach($products as $product_m) {
+                $product = \frontend\models\CsProducts::findOne($product_m);
+                if ($product) {
+                    $product_container[] = $product;          
+                }       
+            }
+            return $product_container;
+        } 
+        return null;           
+    }
+
+    /**
      * Izlistava sve specifikacije izabranih predmeta usluga i modela predmeta.
      */
-    protected function objectSpecifications($service, $object_models)
+    protected function objectProperties($service, $object_models, $products)
     {
-        if($object_models!=null || $service->serviceSpecs!=null) {            
-            $object = $service->object;
-            if ($object) {
-                if ($object->specs) {
-                    foreach($object->specs as $objectSpec) {
-                        $objectSpecification[] = $objectSpec->id;                                                                  
-                    }
-                }           
-            }
+        if($object_models!=null or $products!=null or $service->serviceObjectProperties!=null) {
+           /*$object = $service->object;
+            $class = $object->class;
+            $level = $object->level;*/
+            // if part: parts properties + container's own and inherited properties + container model/product properties
+            /*if($class=='part'){
+                $part = $object;
+                $container = $service->partContainer;
+            }*/
+            // if model: models properties + objects public/protected properties + inherited properties // filtered through services object properties
             if($object_models and count($object_models)==1){
                 foreach($object_models as $object_model) {
                     $object_m = \frontend\models\CsObjects::findOne($object_model);
-                    if ($object_m) {
-                        if ($object_m->specs) {
-                            foreach($object_m->specs as $objectSpec_m) {
-                                if(!in_array($objectSpec_m->id, $objectSpecification)){ 
-                                    $objectSpecification[] = $objectSpec_m->id;                               
-                                }                                   
-                            }
-                        }           
+                    if ($object_m and $object_m->objectProperties) {
+                        foreach($object_m->objectProperties as $object_mProperty) {
+                            //if(!in_array($object_mProperty->id, $objectSpecification)){ 
+                                $objectProperties[] = $object_mProperty;                               
+                            //}                                   
+                        }     
                     }       
                 }
             }
-            if($objectSpecification){
-                if($service->serviceSpecs!=null){
-                   foreach($service->serviceSpecs as $serviceSpec) { // all servicespecs
-                        // we need only specs for this service and this/these object_models
 
-                        if(in_array($serviceSpec->spec_id, $objectSpecification)) {
-                            $serviceObjectSpecification[] = $serviceSpec->spec;
-                        }           
-                    } 
-                }
+            if($service->serviceObjectProperties!=null){
+                foreach($service->serviceObjectProperties as $serviceObjectProperty) { // all servicespecs
+                    // we need only specs for this service and this/these object_models
+
+                    if(!in_array($serviceObjectProperty->object_property_id, $objectProperties)) {
+                        $objectProperties[] = $serviceObjectProperty->objectProperty;
+                    }           
+                } 
             }
+
+            // if object: object's and inherited properties // filtered through services object properties
+
+            // if products: product properties + inherited + object's and inherited properties // filtered through services object properties
+
+            // filtered through services object properties
+            /*if ($object = $service->object) {
+                if ($object->objectProperties) {
+                    foreach($object->objectProperties as $objectProperty) {
+                        if($objectProperty->property_class!='private'){
+                            $objectSpecification[] = $objectProperty->id;
+                        }                                                                                          
+                    }
+                }           
+            }
+            
+            if(isset($objectSpecification) and $objectSpecification) {
+                
+            }*/
         } 
-        return (isset($serviceObjectSpecification)) ? $serviceObjectSpecification : null;
+        return (isset($objectProperties)) ? $objectProperties : null;
     }
 
     /**
      * Kreira Modele CartServiceObjectSpecification za sve izabrane specifikacije.
      */
-    protected function loadServiceSpecifications($service, $object_models, $key)
+    protected function loadServiceObjectProperties($service, $object_models, $products, $key)
     {
-        $objectSpecs = $this->objectSpecifications($service, $object_models);
-        if($objectSpecs!=null){
-            foreach($objectSpecs as $objectSpec) {
-                if($objectSpec->property) {
-                    $property = $objectSpec->property;
-                    $model_spec[$property->id] = new \frontend\models\CartServiceObjectSpecification();
-                    $model_spec[$property->id]->specification = $objectSpec;
+        $objectProperties = $this->objectProperties($service, $object_models, $products);
+        if($objectProperties!=null){
+            /*echo '<pre>';
+                print_r($objectProperties); die();*/
+            foreach($objectProperties as $objectProperty) {
+                
+                if($objectProperty->property) {
+                    $property = $objectProperty->property;
+                    $model_spec[$property->id] = new \frontend\models\CartServiceObjectProperties();
+                    $model_spec[$property->id]->objectProperty = $objectProperty;
                     $model_spec[$property->id]->property = $property;
                     $model_spec[$property->id]->service = $service;
                     $model_spec[$property->id]->key = $key;
                     $model_spec[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 0 : 1;
-                    $model_spec[$property->id]->checkIfRequired = ($objectSpec->required==1) ? 1 : 0;             
-                }                                   
+                    $model_spec[$property->id]->checkIfRequired = ($objectProperty->required==1) ? 1 : 0;
+                }
             }
             return (isset($model_spec)) ? $model_spec : null;
         }
@@ -449,18 +513,18 @@ class OrdersController extends Controller
         return null;
     }
 
-    protected function loadServiceSkills($service, $key)
+    protected function loadServiceSkills($service)
     {
         if($serviceSkills = $service->serviceSkills) {
             foreach($serviceSkills as $serviceSkill) {
                 if($serviceSkill->skill) {
                     if($serviceSkill->skill->property) { 
                         $property = $serviceSkill->skill->property;
-                        $model_skill[$property->id] = new \frontend\models\CartServiceIndustrySkill();
+                        $model_skill[$property->id] = new \frontend\models\OrderSkills();
                         $model_skill[$property->id]->serviceSkill = $serviceSkill->skill;
                         $model_skill[$property->id]->property = $property;
                         $model_skill[$property->id]->service = $service;
-                        $model_skill[$property->id]->key = $key;
+                        //$model_skill[$property->id]->key = $key;
                     }
                 }           
             }
@@ -472,7 +536,7 @@ class OrdersController extends Controller
     /**
      * Kreira Modele CartServiceObjectSpecification za sve izabrane specifikacije.
      */
-    protected function loadCartFormModel($service, $object_models, $key, $presentation)
+    protected function loadCartFormModel($service, $object_models, $key, $products, $presentation)
     {
         if($service and $key){
             $model = new \frontend\models\CartForm();
@@ -487,8 +551,7 @@ class OrdersController extends Controller
             return (isset($model)) ? $model : null;
         }
         return null;        
-    } 
-
+    }
        
 
     protected function saveOrderServices($model, $activity, $cart, $service)

@@ -7,8 +7,6 @@ use yii\helpers\ArrayHelper;
 use yii\web\Session;
 $session = Yii::$app->session;
 
-$o_models = $model->objectModels;
-$model_list = ArrayHelper::map($o_models, 'object_id', 'sCaseName');
 ?>
 <div class="container-fluid">
 	<div class="row">
@@ -19,14 +17,14 @@ $model_list = ArrayHelper::map($o_models, 'object_id', 'sCaseName');
 		    'action' => '/add/'.slug($model->name),
 		    'type' => ActiveForm::TYPE_VERTICAL,
 		]); ?>
-			<?php if($model->service_object==1): ?>
+			<?php if($model->object_ownership=='provider'): ?>
 				<p class="hint">Možete izabrati više vrsta.</p>
 				<div class="enclosedCheckboxes">
 					<div class="checkbox"><label><input type="checkbox" id="ckbCheckAll<?= $model->id ?>"> <i>Izaberite/Poništite sve</i></label></div>
-					<?= $form->field(new \frontend\models\CsObjects, 'id[]')->checkboxList($model_list, ['unselect'=>null])->label(false) ?>
+					<?= $form->field(new \frontend\models\CsObjects, 'id[]')->checkboxList($model->objectModelsList, ['unselect'=>null])->label(false) ?>
 				</div>
 			<?php else: ?>
-					<?= $form->field(new \frontend\models\CsObjects, 'id[]')->radioList($model_list, ['unselect'=>null])->label(false) ?>
+					<?= $form->field(new \frontend\models\CsObjects, 'id[]')->radioList($model->objectModelsList, ['unselect'=>null])->label(false) ?>
 			<?php endif; ?>
 			<div class="float-right">
 		            <?= Html::submitButton(Yii::t('app', 'Nastavi'), ['class' => 'btn btn-success shadow']) ?>

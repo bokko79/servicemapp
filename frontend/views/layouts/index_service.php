@@ -11,7 +11,7 @@ use yii\helpers\Url;
 </div>
     <?= $this->render('partial/six_boxes.php') ?>
 <?php if(isset($this->params['industry']) && $this->params['industry']!=null): ?>
-    <?= $this->render('partial/service_head.php') ?>
+    <?= $this->render('partial/view_head.php') ?>
 <?php endif; ?>
 <?php if(!$renderIndex): ?>
 <div class="grid-container" style="">
@@ -24,7 +24,7 @@ use yii\helpers\Url;
 <?php endif; ?>
 <div style="background:#f8f8f8">
     <?= $this->render('//services/_commercial.php', ['services'=>$renderIndex]) ?>
-    <?= $this->render('partial/footer.php') ?>
+    <?= $this->render('partial/footer-full.php') ?>
 </div>
 
 <?php $this->endContent(); // HTML ?>

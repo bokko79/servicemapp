@@ -638,10 +638,10 @@ div.subnav-fixed > ul > li.title img {width:30px; height: 30px; border-radius: 3
 .screen .links {text-align: center;}
 .screen .links a {margin: 0 10px; cursor: pointer; text-transform: uppercase; font-weight: 700; font-size: 11px;}
 
-.screen.mini {width:100%; height: 60px; background: #ddd; border-bottom: 1px solid #ddd;}
+.screen.mini {width:100%; height: 60px; background: #F1F1F1; border-bottom: 1px solid #ddd;}
 .screen.mini .container, div.subnav-fixed.search .container {height: 60px;}
 .screen.mini .content, div.subnav-fixed.search .content {width:100%; height: 60px; position: static; margin: 0;}
-.screen.mini .content .service_autocomplete_search {margin:13px 0 0; float:left; width:40%;}
+.screen.mini .content .service_autocomplete_search {margin:13px 0 0; float:left; width:55%;}
 .screen.mini .links {text-align: right; float:right; display: inline-block; padding:21px 15px 10px; /*color: #fff;*/}
 .screen.mini .links a {margin: 0 20px; cursor: pointer; /*color:#fff;*/ text-decoration: none;  padding:0;}
 
@@ -900,7 +900,7 @@ img.card-image {width:200px; height:200px; box-shadow: 0px 0px 6px #444;}
 .tab_track > ul {padding: 0; height: auto;}
 .tab_track > ul > li {padding: 15px 0 0;}
 .tab_track > ul > li.active, .tab_track > ul > li:hover {border-bottom:4px solid #2196F3;}
-.tab_track > ul > li a {text-transform: uppercase;font-size: 11px;font-weight: 900;color: #999;border:none;}
+.tab_track > ul > li a {text-transform: uppercase;font-size: 11px;font-weight: 500;color: #999;border:none;}
 .tab_track > ul.nav.nav-tabs > li.active a {text-transform: uppercase;font-size: 11px;font-weight: 900;color: #999;border:none; background: transparent;}
 .tab_track > ul > li.active a, .tab_track > ul > li.active a:hover, .tab_track > ul > li.active a:active, .tab_track > ul > li.active a:visited {background: transparent; box-shadow: none; color: #000 !important; border: none;}
 .tab_track > ul > li a:hover {text-decoration: none; background: transparent;}
@@ -1115,5 +1115,48 @@ a.butn {width: 100%; /*font-weight: 700;*/ font-size: 13px; text-transform: uppe
     height: 100%;
 }
 
-/*.js-masonry .list-view > div {overflow: hidden;}
-.js-masonry .list-view ul.pagination {position: absolute; top: -124px; right: 0;}*/
+.list-view > div {overflow: hidden;}
+/*.js-masonry .list-view ul.pagination {position: absolute; top: -124px; right: 0;}*/
+
+/* GOOGLE FONTS AND ICONS */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+/* Rules for sizing the icon. */
+.material-icons.md-11 { font-size: 14px; line-height: 11px;}
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+.material-icons.orange600 { color: #FB8C00; }

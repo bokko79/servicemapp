@@ -40,7 +40,7 @@ ul.multiselect  li label {font-size: 11px; font-weight: 400;cursor: pointer; fon
 .settings label.multiselect input[type=checkbox] {height: 13px; width:13px; }
 .settings .profile_cont {margin-left: 15px; text-align: center;}
 
-.settings label.head {margin-bottom: 1px !important; color:#263238; float:left; cursor:pointer; font-size: 21px; font-weight: 500; padding-left: 5px;}
+.settings label.head {margin-bottom: 1px !important; color:#666; float:left; cursor:pointer; font-size: 21px; font-weight: 500; padding-left: 5px;}
 .settings .search label.head {font-size: 17px; font-weight: 500; padding-left: 5px;}
 
 
@@ -99,14 +99,23 @@ p.helps_hints.whitey {display: none; text-align: left !important; color:#fff; fo
 .shopping_steps .step table td {padding: 0; }
 .shopping_steps .step table .icon {width:45px; padding:0 15px 0 30px; vertical-align: middle; font-size: 48px; text-align: center;}
 .shopping_steps .step table .icon span {width:45px;}
-.shopping_steps .step table .content {padding:0;}
+.shopping_steps .step table .content {padding:0 10px 0 0;}
 .shopping_steps .step table .content td {text-align: left; padding: 3px 0px;}
 .shopping_steps .step table .content .main {font-size: 17px;}
 .shopping_steps .step table .content .main.hover {display:none;}
 .shopping_steps .step table .content .sub {font-size: 12px; font-weight:400; color:#aaa !important;}
 .shopping_steps .step table .content .sub.hover {display: none;}
 .shopping_steps .step.passed:hover table .content .main.hover, .shopping_steps .step.passed:hover table .content .sub.hover {display: block;}
-.shopping_steps .step.passed:hover table .content .main, .shopping_steps .step.passed:hover table .content .sub {display: none;}
+.shopping_steps .step.passed:hover table .content .main.passed, .shopping_steps .step.passed:hover table .content .sub.passed {display: none;}
+.shopping_steps .step.passed table .content .main.passed, .shopping_steps .step.passed table .content .sub.passed {display: block;}
+.shopping_steps .step.passed table .content .main, .shopping_steps .step.passed table .content .sub {display: none;}
+.shopping_steps .step.passed table .content .main.after, .shopping_steps .step.passed table .content .sub.after {display: block;}
+.shopping_steps .step.active table .content .main.next, .shopping_steps .step.active table .content .sub.next {display: none;}
+.shopping_steps .step.active table .content .main.passed, .shopping_steps .step.active table .content .sub.passed {display: none;}
+.shopping_steps .step.active table .content .main.active, .shopping_steps .step.active table .content .sub.active {display: block;}
+.shopping_steps .step.active table .content .main.next, .shopping_steps .step.active table .content .sub.next {display: none;}
+.shopping_steps .step.next table .content .main.next, .shopping_steps .step.next table .content .sub.next {display: block;}
+.shopping_steps .step.next table .content .main.active, .shopping_steps .step.next table .content .sub.active {display: none;}
 
 .hitn {display: none; font-size: 90%; color:#aaa;  margin:0; line-height:10px;}
 

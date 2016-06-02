@@ -19,15 +19,27 @@ $this->cart = [
 ];
 
 $service = $model->service;
-$object_type = $service->service_object;
+$object_ownership = $service->object_ownership;
 
 $session = Yii::$app->session;
 ?>
 <?= $this->render('_steps.php', ['service'=>$service]) ?>
 
-<h6 class="gray-color regular">Naručujete globalno...</h6>
-<h1 class="thin"><?= c($service->tName) . ($object_models!=null ? ': '.$objects[0]->tName : null) ?></h1>
-<p class="hint gray-color regular">Aukcijsko naručivanje usluge</p>
+<div class="card_container record-full transparent no-shadow fadeInUp animated overflow-hidden" id="card_container" style="float:none;">  
+    <div class="header-context">                
+        <div class="avatar">
+            <?= Html::img('@web/images/cards/default_avatar.png') ?>          
+        </div>
+        <div class="title">
+            <div class="subhead">Naručujete...</div>
+            <div class="head colos gray-color regular"><?= c($service->tNameAkk) . ($object_models!=null ? ': '.$objects[0]->tName : null) ?></div>
+            <div class="subhead">Globalno <i class="fa fa-question-circle"></i></div> 
+        </div>
+        <div class="subaction">
+            Aukcijsko naručivanje usluge <i class="fa fa-question-circle"></i>
+        </div>
+    </div>
+</div>
 <?php $form = kartik\widgets\ActiveForm::begin([
     'id' => 'form-horizontal',
     'type' => ActiveForm::TYPE_HORIZONTAL,
@@ -38,32 +50,25 @@ $session = Yii::$app->session;
 
     <fieldset class="settings" style="margin:30px 0 !important;">      
 
-    <?php if($service->serviceSkills && !isset($session['cart']) && $session['cart']['industry'][$service->industry_id]==null): // SERVICE INDUSTRY SKILLS ?>
-        <?= $this->render('parts/skills.php', ['form'=>$form, 'service'=>$service, 'model'=>$model, 'industry'=>$service->industry, 'session'=>$session, 'model_skills' => $model_skills,]) ?>
-    <?php endif; ?>    
 
-    <?php if($objectSpecifications!=null): // SERVICE OBJECT SPECIFICATIONS ?>
-        <?= $this->render('parts/specifications.php', ['form'=>$form, 'model'=>$model, 'service'=>$service, 'model_specs'=>$model_specs, 'userObjects'=>$userObjects, 'object_type'=>$object_type, 'serviceSpecs'=>$objectSpecifications, 'objects' => $objects]) ?>
+    <?php if($objectProperties!=null): // SERVICE OBJECT SPECIFICATIONS ?>
+        <?= $this->render('parts/specifications.php', ['form'=>$form, 'model'=>$model, 'service'=>$service, 'model_specs'=>$model_specs, 'userObjects'=>$userObjects, 'object_ownership'=>$object_ownership, 'serviceObjectProperties'=>$objectProperties, 'objects' => $objects]) ?>
     <?php endif; ?>
 
-    <?php if($service->pic==1 && $object_type!=1): // SERVICE OBJECT IMAGES ?>
+    <?php if($service->pic==1 && $object_ownership=='user'): // SERVICE OBJECT IMAGES ?>
         <?= $this->render('parts/pics.php', ['model'=>$model, 'form'=>$form, 'service'=>$service]) ?>
     <?php endif; ?>
 
     <?php if($service->service_type==3 && $service->object->issues!=null): // SERVICE OBJECT ISSUES ?>
-        <?= $this->render('parts/issues.php', ['form'=>$form, 'service'=>$service, 'object_type'=>$object_type, 'serviceSpecs'=>$serviceSpecs, 'object_models' => $object_models]) ?>
+        <?= $this->render('parts/issues.php', ['form'=>$form, 'service'=>$service, 'object_ownership'=>$object_ownership, 'serviceObjectProperties'=>$serviceObjectProperties, 'object_models' => $object_models]) ?>
     <?php endif; ?>
 
     <?php if($service->amount!=0): // SERVICE AMOUNT ?>
         <?= $this->render('parts/amount.php', ['model'=>$model, 'form'=>$form, 'service'=>$service]) ?>
-    <?php endif; ?>
-
-    <?php if($service->consumer!=0): // SERVICE CONSUMERS ?>
-        <?= $this->render('parts/consumers.php', ['model'=>$model, 'form'=>$form, 'service'=>$service]) ?>
-    <?php endif; ?>
+    <?php endif; ?>   
 
     <?php if($service->serviceMethods): // SERVICE ACTION METHODS ?>
-        <?= $this->render('parts/methods.php', ['form'=>$form, 'service'=>$service, 'model'=>$model, 'model_methods'=>$model_methods, 'object_type'=>$object_type, 'serviceMethods'=>$serviceMethods]) ?>
+        <?= $this->render('parts/methods.php', ['form'=>$form, 'service'=>$service, 'model'=>$model, 'model_methods'=>$model_methods, 'object_ownership'=>$object_ownership, 'serviceMethods'=>$serviceMethods]) ?>
     <?php endif; ?>
 
     <?php // ORDER NOTE AND TITLE ?>        
@@ -74,21 +79,17 @@ $session = Yii::$app->session;
     <?php endif; ?>
 
         <hr>
-        <div class="float-left col-sm-5 left" style="margin:20px;">            
-            <?= Html::a(Yii::t('app', '<i class="fa fa-arrow-circle-left"></i> Odustani'), null, ['class' => 'btn btn-default', 'name' => 'searchPresentationIndex']) ?>
-        </div>
-
-        <div class="float-right col-sm-offset-7 col-sm-5 center" style="margin:20px;">
+        <div class="float-right col-sm-offset-5 col-sm-7 center" style="margin:20px;">
             <?= Html::hiddenInput('industry', $service->industry_id) ?>
             <?php if($service->service_type!=5 and $service->service_type!=7 and $service->service_type!=9 and $service->service_type!=13): ?>
                 
-            <?= Html::submitButton(Yii::t('app', '<i class="fa fa-shopping-basket"></i> Ubaci u korpu i dodaj {new} {object} <i class="fa fa-plus-circle"></i>', ['new'=>($service->object->tGender=='f' ? 'novu' : 'novi'), 'object'=>$service->object->tNameAkk]), ['class' => 'btn btn-default btn-lg', 'name' => 'addMoreServices']) ?>
+            <?= Html::submitButton(Yii::t('app', '<i class="fa fa-shopping-basket"></i> Ubacite u korpu i dodajte {new} {object} <i class="fa fa-plus-circle"></i>', ['new'=>($service->object->tGender=='f' ? 'novu' : 'novi'), 'object'=>$service->object->tNameAkk]), ['class' => 'btn btn-default btn-lg', 'name' => 'addMoreServices']) ?>
                 <h4 class="divider horizontal"><i class="fa fa-sort"></i> ILI</h4>
             <?php endif; ?>
-            <?= Html::submitButton(Yii::t('app', 'Završni korak i slanje porudžbine <i class="fa fa-arrow-circle-right"></i>'), ['class' => 'btn btn-primary btn-lg']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Pređite na završni korak i pošaljite porudžbinu <i class="fa fa-arrow-circle-right"></i>'), ['class' => 'btn btn-primary btn-lg']) ?>
             
                 <h4 class="divider horizontal"><i class="fa fa-sort"></i> ILI</h4>
-            <?= Html::submitButton(Yii::t('app', 'Pretraži ponude usluga za date kriterijume <i class="fa fa-arrow-circle-right"></i>'), ['class' => 'btn btn-info', 'name' => 'searchPresentationIndex']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Pretražite postojeće ponude za opisanu '.$service->tNameAkk.' <i class="fa fa-arrow-circle-right"></i>'), ['class' => 'btn btn-info', 'name' => 'searchPresentationIndex']) ?>
         </div>
 
     </fieldset>

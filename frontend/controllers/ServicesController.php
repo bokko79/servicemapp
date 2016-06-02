@@ -8,6 +8,7 @@ use frontend\models\CsServicesSearch;
 use frontend\models\CsObjects;
 use frontend\models\CsIndustries;
 use frontend\models\CsActions;
+use frontend\models\CsProducts;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,12 +39,14 @@ class ServicesController extends Controller
      * Lists all CsServices models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($entity = null, $title = null)
     {
         $request = Yii::$app->request;
         $session = Yii::$app->session;
 
         //$session->removeAll();
+        $entity = $request->get('entity');
+        $title = $request->get('title');
 
         if($state = $request->get('st')){            
             $session->set('state', $state);
@@ -52,17 +55,30 @@ class ServicesController extends Controller
             }
         }
         $q = $request->get('q');
-        $queryObjects = ($q) ? CsObjects::find()->where(['like', 'name', $q])->all() : null;
-        $queryIndustries = ($q) ? CsIndustries::find()->where(['like', 'name', $q])->all() : null;
-        $queryActions = ($q) ? CsActions::find()->where(['like', 'name', $q])->all() : null;
-        $object = ($request_O = $request->get('o')) ? CsObjects::findOne($request_O) : null;
-        $industry = ($request_I = $request->get('i')) ? CsIndustries::findOne($request_I) : null;
-        $action = ($request_A = $request->get('a')) ? CsActions::findOne($request_A) : null;
+        $queryObjects = ($q) ?  new ActiveDataProvider([
+                    'query' => CsObjects::find()->joinWith(['t t'])->where(['like', 't.name', $q])->andWhere('cs_objects.class != "abstract"')->groupBy('cs_objects.id'),
+                ]) : null;
+        $queryIndustries = ($q) ? new ActiveDataProvider([
+                    'query' => CsIndustries::find()->joinWith(['t t'])->where(['like', 't.name', $q])->groupBy('cs_industries.id'),
+                ]) : null;
+        //$queryIndustries = ($q) ? $this->suggested_word($q) : null;
+        $queryActions = ($q) ? new ActiveDataProvider([
+                    'query' => CsActions::find()->joinWith(['t t'])->where(['like', 't.name', $q])->groupBy('cs_actions.id'),
+                ]) : null;
+        $queryProducts = ($q) ? new ActiveDataProvider([
+                    'query' => CsProducts::find()->where(['like', 'name', $q])->andWhere(['or', 'level=1', 'level=2']),
+                ]) : null;
 
-        $renderIndex = $object || $industry || $action || $q ? false : true;
+        $object = ($entity=='o' and $title) ? $this->findObjectByTitle($title) : null;
+        $industry = ($entity=='i' and $title) ? $this->findIndustryByTitle($title) : null;
+        $action = ($entity=='a' and $title) ? $this->findActionByTitle($title) : null;
+        $product = ($entity=='p' and $title) ? $this->findProductByTitle($title) : null;
+
+        $renderIndex = $object || $industry || $action || $product || $q ? false : true;
         
         $searchModel = new CsServicesSearch();
-        $dataProvider = $searchModel->search(['CsServicesSearch'=>['name'=>$q]]);
+        $dataProvider = $searchModel->search(['CsServicesSearch'=>['name'=>$q, 'industry_id'=>$industry ? $industry->id : null, 'action_id'=>$action ? $action->id : null, 'object_id'=>$object ? $object->id : null,]]);
+
         
         return $this->render('index', [
             //'searchModel' => $searchModel,
@@ -70,11 +86,19 @@ class ServicesController extends Controller
             'renderIndex' => $renderIndex,
             'industry' => $industry,
             'action' => $action,
-            'object' => $object, 
+            'object' => $object,
+            'product' => $product, 
             'searchString' => $request->get('q'),           
             'queryObjects' => $queryObjects,
             'queryIndustries' => $queryIndustries,
             'queryActions' => $queryActions, 
+            'queryProducts' => $queryProducts, 
+            'countSearchResults' => $this->countSearchResults($dataProvider, $queryObjects, $queryIndustries, $queryActions, $queryProducts),
+            'countServicesResults' => $this->countServicesResults($dataProvider),
+            'countIndustriesResults' => $this->countIndustriesResults($queryIndustries),
+            'countActionsResults' => $this->countActionsResults($queryActions),
+            'countObjectsResults' => $this->countObjectsResults($queryObjects),
+            'countProductsResults' => $this->countProductsResults($queryProducts),
         ]);
     }
 
@@ -143,7 +167,71 @@ class ServicesController extends Controller
      */
     protected function findModelByTitle($title)
     {
-        if (($model = \common\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+        if (($model = \frontend\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the CsServicesTranslation model based on its translated title.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return CsServices the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findObjectByTitle($title)
+    {
+        if (($model = \frontend\models\CsObjectsTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+            return $model->object;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the CsServicesTranslation model based on its translated title.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return CsServices the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findActionByTitle($title)
+    {
+        if (($model = \frontend\models\CsActionsTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+            return $model->action;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the CsServicesTranslation model based on its translated title.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return CsServices the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findIndustryByTitle($title)
+    {
+        if (($model = \frontend\models\CsIndustriesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+            return $model->industry;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the CsServicesTranslation model based on its translated title.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return CsServices the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findProductByTitle($title)
+    {
+        if (($model = \frontend\models\CsProducts::find()->where('name=:name', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -182,5 +270,92 @@ class ServicesController extends Controller
             }
         }
         return;            
+    }
+
+    public function suggested_word($result, &$p = null, &$percent = null) 
+    {
+        
+        $actions = \frontend\models\CsIndustriesTranslation::find()->all();        
+        $data = [];
+        foreach ($actions as $key=>$word) {
+            $string = explode(' ',$word->name);
+            $res_string = explode(' ',$result);
+            
+            for ($i=0; $i<6; $i++) {
+                for ($j=0; $j<6; $j++) {
+                    if (!empty($res_string[$i]) && !empty($string[$j])) {
+                        $f = similar_text($res_string[$i], $string[$j], $p);
+
+                        $lev = levenshtein($res_string[$i], $string[$j]);
+                        $percent = round((1 - $lev / max(strlen($res_string[$i]), strlen($string[$j])))*100, 0);
+                        
+                        if ((strlen($res_string[$i])==$f) && (strpos($string[$j],$res_string[$i]) !== false)) {
+                            $data [] = array($f, $percent, $word->name, round($p,0), $word->id);
+                        }
+
+                        if ((strlen($res_string[$i])!=$f) && $p>70 && $percent>50) {
+                            $data [] = array($f, $percent, $word->name, round($p,0), $word->id);
+                        }  
+                    }                   
+                }               
+            }
+
+            
+        } // kraj foreach
+        if (!empty($data)) {
+                $fs = [];          
+                foreach ($data as $row) {
+                    $fs[]  = $row[0];
+                    $percents[]  = $row[1];
+                    $words[]  = $row[2];
+                    $ps[]  = $row[3];                              
+                }
+
+                array_multisort($fs, SORT_DESC, $percents, SORT_DESC, $data);
+                $output = [];
+
+                foreach ($data as $date) 
+                {
+                    $delatnost = \frontend\models\CsIndustriesTranslation::find($date[4])->one();
+                    
+                    $ind = $delatnost->industry;
+                    //$output .= '<li class="list-group-item" style="height: auto; line-height: 22px; font-size: 16px; font-weight:700; padding:5px 20px;"><span style="font-size: 11px; font-weight:400; color: '.$ind->color.'"><i class="'.$ind->icon.'"></i></span> '.c($ind->tName), Yii::app()->createUrl('site/index', array('del'=>$delatnost->delatnost->id, 'controller'=>'ind', 'page_action'=>'details')), array('style'=>'background: none !important;')).' | <span class="fs_12" style="color:#aaa;">'.$delatnost->delatnost->kat->kategorijeTranslations[0]->ime.'</span><span style="float: right; font-size: 11px; color: #aaa;">('.$date[1].'%)</span></li>'; // treba uaciti action_translations
+                    $output[] = $ind;
+                } // kraj foreach action
+                return $output; 
+                
+        } else {
+            return false;
+        }
+    }
+
+    public function countSearchResults($dataProvider, $queryObjects, $queryIndustries, $queryActions, $queryProducts) 
+    {
+        return ($dataProvider ? $dataProvider->totalCount : 0)+($queryIndustries ? $queryIndustries->totalCount : 0)+($queryActions ? $queryActions->totalCount : 0)+($queryObjects ? $queryObjects->totalCount : 0)+($queryProducts ? $queryProducts->totalCount : 0);
+    }
+
+    public function countServicesResults($dataProvider) 
+    {
+        return $dataProvider ? $dataProvider->totalCount : 0;
+    }
+
+    public function countIndustriesResults($queryIndustries) 
+    {
+        return $queryIndustries ? $queryIndustries->totalCount : 0;
+    }
+
+    public function countActionsResults($queryActions) 
+    {
+        return $queryActions ? $queryActions->totalCount : 0;
+    }
+
+    public function countObjectsResults($queryObjects) 
+    {
+        return $queryObjects ? $queryObjects->totalCount : 0;
+    }
+
+    public function countProductsResults($queryProducts) 
+    {
+        return $queryProducts ? $queryProducts->totalCount : 0;
     }
 }

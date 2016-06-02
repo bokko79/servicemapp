@@ -12,7 +12,7 @@ $message = Yii::t('app', 'Koliko {unit} Vam treba {service}?', ['unit'=>$service
 <div class="wrapper headline" style="">
     <label class="head">
         <span class="badge"><?= $model->noAmount ?></span>&nbsp;
-        <i class="fa fa-signal fa-rotate-270 fa-lg"></i>&nbsp;
+        <i class="fa fa-balance-scale fa-lg"></i>&nbsp;
         <?= Yii::t('app', 'Koliko {unit}?', ['unit'=>$service->unit->tNameGen,]) ?>
     </label>
     <?= ($service->amount==2) ? ' <span class="optional">(opciono)</span>' : '' ?>
@@ -22,7 +22,7 @@ $message = Yii::t('app', 'Koliko {unit} Vam treba {service}?', ['unit'=>$service
     <?= $this->render('../_hint.php', ['message'=>$message]) ?>
     <div class="form-group kv-fieldset-inline">
         <?= Html::activeLabel($model, 'amount', [
-            'label'=>'Obim usluge', 
+            'label'=>'Količina', 
             'class'=>'col-sm-3 control-label'
         ]); ?>
         <?php if($service->amount==2): ?>

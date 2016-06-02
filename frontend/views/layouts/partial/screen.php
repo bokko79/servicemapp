@@ -19,9 +19,8 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo3.png', ['alt'=>'Servi
 	<?php endif; ?>
 		<?= $this->render('autocomplete.php', ['renderIndex'=>$renderIndex]) ?>
 		<div class="links">
-			Pretražite usluge: 
 			<?= Html::a('Uslužne delatnosti', null, ['class'=>($renderIndex ? 'industries-six-boxes-link' : 'industries-six-boxes-link-mini')]); ?> | 
-			<?= Html::a('Predmeti usluga', null, ['class'=>'objects-six-boxes-link']); ?>
+			<?= Html::a('Predmeti i proizvodi', null, ['class'=>'objects-six-boxes-link']); ?>
 		</div>		
 	</div>
 </div>

@@ -1,19 +1,21 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use Yii;
-use common\models\CsPropertyModels;
-use common\models\CsPropertyModelsSearch;
+use frontend\models\CsProducts;
+use frontend\models\CsProductsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PropertyModelsController implements the CRUD actions for CsPropertyModels model.
+ * ProductController implements the CRUD actions for CsProducts model.
  */
-class PropertyModelsController extends Controller
+class ProductsController extends Controller
 {
+    public $layout='index';
+
     /**
      * @inheritdoc
      */
@@ -30,12 +32,12 @@ class PropertyModelsController extends Controller
     }
 
     /**
-     * Lists all CsPropertyModels models.
+     * Lists all CsProducts models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CsPropertyModelsSearch();
+        $searchModel = new CsProductsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +47,7 @@ class PropertyModelsController extends Controller
     }
 
     /**
-     * Displays a single CsPropertyModels model.
+     * Displays a single CsProducts model.
      * @param string $id
      * @return mixed
      */
@@ -57,13 +59,13 @@ class PropertyModelsController extends Controller
     }
 
     /**
-     * Creates a new CsPropertyModels model.
+     * Creates a new CsProducts model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new CsPropertyModels();
+        $model = new CsProducts();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +77,7 @@ class PropertyModelsController extends Controller
     }
 
     /**
-     * Updates an existing CsPropertyModels model.
+     * Updates an existing CsProducts model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -94,7 +96,7 @@ class PropertyModelsController extends Controller
     }
 
     /**
-     * Deletes an existing CsPropertyModels model.
+     * Deletes an existing CsProducts model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -107,15 +109,15 @@ class PropertyModelsController extends Controller
     }
 
     /**
-     * Finds the CsPropertyModels model based on its primary key value.
+     * Finds the CsProducts model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return CsPropertyModels the loaded model
+     * @return CsProducts the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = CsPropertyModels::findOne($id)) !== null) {
+        if (($model = CsProducts::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

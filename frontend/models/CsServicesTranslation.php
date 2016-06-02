@@ -40,6 +40,7 @@ class CsServicesTranslation extends \yii\db\ActiveRecord
             [['note', 'subnote', 'description'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
             [['name', 'name_gen', 'name_dat', 'name_akk'], 'string', 'max' => 100],
+            [['hint_order', 'hint_presentation'], 'string', 'max' => 128],
             [['orig_name'], 'string', 'max' => 90],
             [['lang_code'], 'exist', 'skipOnError' => true, 'targetClass' => CsLanguages::className(), 'targetAttribute' => ['lang_code' => 'code']],
         ];

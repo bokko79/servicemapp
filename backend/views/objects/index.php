@@ -27,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'object_type_id',
-            'has_model',
             'object_id',
             // 'type',
             // 'favour',

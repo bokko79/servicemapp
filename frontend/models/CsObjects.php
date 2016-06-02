@@ -7,17 +7,13 @@ use Yii;
 /**
  * This is the model class for table "cs_objects".
  *
- * @property integer $id
+ * @property string $id
  * @property string $name
  * @property integer $object_type_id
- * @property integer $has_model 
  * @property string $object_id
- * @property string $type
+ * @property string $class
  * @property integer $favour
  * @property string $image_id
- * @property string $status
- * @property string $added_by
- * @property string $added_time
  * @property string $description
  *
  * @property CsObjects[] $csObjects
@@ -47,11 +43,9 @@ class CsObjects extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['object_type_id', 'has_model', 'object_id', 'favour', 'image_id', 'added_by'], 'integer'],
-            [['status', 'description', 'type'], 'string'],
-            [['added_time'], 'safe'],
+            [['object_type_id', 'object_id', 'level', 'favour', 'image_id'], 'integer'],
+            [['class', 'description'], 'string'],
             [['name'], 'string', 'max' => 50],
-            [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
         ];
     }
 
@@ -64,13 +58,10 @@ class CsObjects extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'object_type_id' => Yii::t('app', 'Object Type ID'),
-            'has_model' => Yii::t('app', 'Has Model'), 
-            'object_id' => Yii::t('app', 'Object ID'), 
+            'object_id' => Yii::t('app', 'Object ID'),
+            'class' => Yii::t('app', 'Class'),
             'favour' => Yii::t('app', 'Favour'),
             'image_id' => Yii::t('app', 'Image ID'),
-            'status' => Yii::t('app', 'Status'),
-            'added_by' => Yii::t('app', 'Added By'),
-            'added_time' => Yii::t('app', 'Added Time'),
             'description' => Yii::t('app', 'Description'),
         ];
     }
@@ -81,6 +72,14 @@ class CsObjects extends \yii\db\ActiveRecord
     public function getIssues()
     {
         return $this->hasMany(CsObjectIssues::className(), ['object_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(CsProducts::className(), ['object_id' => 'id']);
     }
 
     /**
@@ -102,14 +101,6 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAddedBy()
-    {
-        return $this->hasOne(User::className(), ['id' => 'added_by']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getT()
     {
         return $this->hasMany(CsObjectsTranslation::className(), ['object_id' => 'id']);
@@ -126,7 +117,15 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getChild()
+    public function getObjectModelServices()
+    {
+        return $this->hasMany(CsServiceObjectModels::className(), ['object_model_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getChildren()
     {
         return $this->hasMany(CsObjects::className(), ['object_id' => 'id']);
     }
@@ -142,9 +141,9 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSpecs()
+    public function getObjectProperties()
     {
-        return $this->hasMany(CsSpecs::className(), ['object_id' => 'id']);
+        return $this->hasMany(CsObjectProperties::className(), ['object_id' => 'id']);
     }
 
     /**
@@ -174,21 +173,33 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getModels()
+    public function getObjectParts()
     {
-        if($this->isPart()){
-            return $this->parent->models;
-        } else {
-            return $this->hasMany(CsObjects::className(), ['object_id' => 'id'])->where('type="model"');
-        }        
+        return $this->hasMany(CsObjectParts::className(), ['object_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getParts()
+    public function getObjectContainers()
     {
-        return $this->hasMany(CsObjects::className(), ['object_id' => 'id'])->where('type="part"');
+        return $this->hasMany(CsObjectParts::className(), ['part_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectModels()
+    {
+        return $this->hasMany(CsObjectModels::className(), ['object_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectModelObjects()
+    {
+        return $this->hasMany(CsObjectModels::className(), ['model_id' => 'id']);
     }
 
     /**
@@ -219,7 +230,7 @@ class CsObjects extends \yii\db\ActiveRecord
      */
     public function getSCaseName()
     {
-        return Yii::$app->operator->sentenceCase($this->tName); 
+        return c($this->tName); 
     }
 
     /**
@@ -304,7 +315,7 @@ class CsObjects extends \yii\db\ActiveRecord
      */
     public function isModel()
     {
-        return $this->type=='model' ? true : false;
+        return $this->class=='model' ? true : false;
     }
 
     /**
@@ -312,6 +323,68 @@ class CsObjects extends \yii\db\ActiveRecord
      */
     public function isPart()
     {
-        return $this->type=='part' ? true : false;
+        return $this->class=='part' ? true : false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function isAbstract()
+    {
+        return $this->class=='abstract' ? true : false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function isObject()
+    {
+        return $this->class=='object' ? true : false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPath($object)
+    {
+        $path = [];
+        $level = $object->level;
+        $parent = $object->parent;
+        
+        if ($level>1)
+        {            
+            $path[$level-1] = $parent;     
+            $path = array_merge($this->getpath($parent), $path);
+        }
+
+        return $path;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProperties($object)
+    {
+        $properties = [];
+        if($objectProperties = $object->objectProperties){
+            foreach($objectProperties as $objectProperty){
+                if(!in_array($objectProperty, $properties)){
+                    $properties[] = $objectProperty;
+                }
+            }
+        }
+            
+        if($object->getPath($object)){
+            foreach ($this->getPath($this) as $key => $objectpp) {
+                if($objectPropertiespp = $objectpp->objectProperties){
+                    foreach($objectPropertiespp as $objectPropertypp){
+                        if($objectPropertypp->property_class!='private' and !in_array($objectPropertypp, $properties)){
+                            $properties[] = $objectPropertypp;
+                        }
+                    }
+                }                    
+            }
+        }
+        return $properties;
     }
 }

@@ -25,7 +25,7 @@ $message = Yii::t('app', 'Kakve opcije {action} Vam trebaju?', ['action'=>$servi
 		$method = $model_method->serviceMethod;
 		$property = $model_method->property;
 		$serviceMethod = $method->serviceMethod($service->id);
-		echo ($serviceMethod and $serviceMethod->readOnly==0) ? $this->render('method/'.$property->formType($service->service_object).'.php', ['form'=>$form, 'key'=>$property->id, 'model_method'=>$model_method, 'method'=>$method, 'property'=>$property, 'service'=>$service]) : null;
+		echo ($serviceMethod and $serviceMethod->readOnly==0) ? $this->render('method/'.$property->formType($object_ownership).'.php', ['form'=>$form, 'key'=>$property->id, 'model_method'=>$model_method, 'method'=>$method, 'property'=>$property, 'service'=>$service]) : null;
 	}
 	if($service->shipping==1){ 
 		$model->shipping = 1; ?>
@@ -43,5 +43,22 @@ $message = Yii::t('app', 'Kakve opcije {action} Vam trebaju?', ['action'=>$servi
 			        'inlineLabel' => false,	        
 			    ]
 		    ])->label('Dostava na adresu?')->hint('Ukoliko želite da opisani '.$service->object->tName.' bude i isporučen na Vašu željenu adresu, izaberite ovu opciju.') ?>
-<?php } ?>    
+<?php } 
+	if($service->installation==1){ 
+		$model->installation = 1; ?>
+		<?= $form->field($model, 'installation', [
+			'hintType' => ActiveField::HINT_SPECIAL,
+			'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
+		    ])->widget(SwitchInput::classname(), [
+		    	'value'=>true,
+		    	'containerOptions'=>['style'=>'margin-left:0;'],
+			    'pluginOptions' => [
+			        'onText' => 'Da',
+			        'onColor' => 'info',
+			        'offText' => 'Ne',
+			        'size' => 'large',
+			        'inlineLabel' => false,	        
+			    ]
+		    ])->label('Ugradnja?')->hint('Ukoliko želite da Vam pružalac usluge/prodavac opisani '.$service->object->tName.' i ugradi, montira odnosno instalira, izaberite ovu opciju.') ?>
+<?php }?>    
 </div>

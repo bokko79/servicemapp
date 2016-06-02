@@ -19,7 +19,7 @@ $this->registerJs($onSelectJs, View::POS_HEAD);*/
 $template = '<div class="card_container record-full no-shadow no-border no-margin">'.
     '<div class="header-context low-margin">'.
         '<div class="avatar round">'.
-        	Html::img('@web/images/cards/default_avatar.jpg').
+        	Html::img('@web/images/cards/default_avatar.png').
             //'<i class="fs_12 fa {{icon}} fa-3x" style="color:{{color}}"></i>'.
         '</div>'.
         '<div class="title">'.
@@ -49,7 +49,19 @@ $template_act = '<div class="capitalize">{{name}}</div>';
 $template_obj = '<div class="card_container record-full no-shadow no-border no-margin">'.
     '<div class="header-context low-margin">'.
         '<div class="avatar round">'.
-        	Html::img('@web/images/cards/default_avatar.jpg').
+        	Html::img('@web/images/cards/default_avatar.png').
+            //'<i class="fs_12 fa {{icon}} fa-3x" style="color:{{color}}"></i>'.
+        '</div>'.
+        '<div class="title">'.
+            '<div class="head second regular capitalize">{{name}}</div>'.
+            '<div class="subhead capitalize">{{parent}}</div>'.
+        '</div>'.
+    '</div>'.
+'</div>';
+$template_prod = '<div class="card_container record-full no-shadow no-border no-margin">'.
+    '<div class="header-context low-margin">'.
+        '<div class="avatar round">'.
+        	Html::img('@web/images/cards/default_avatar.png').
             //'<i class="fs_12 fa {{icon}} fa-3x" style="color:{{color}}"></i>'.
         '</div>'.
         '<div class="title">'.
@@ -164,6 +176,18 @@ $template_tag = '<div class="capitalize">{{name}} <i class="fa fa-caret-right"><
 			            'datumTokenizer' => "Bloodhound.tokenizers.obj.whitespace('value')",
 			            'display' => 'name',
 			            'remote' => [
+			                'url' => Url::to(['/auto/list-products']) . '?q=%QUERY',
+			                'wildcard' => '%QUERY',
+			            ],
+			            'templates' => [
+			            	'header' => '<div class="fs_16 gray-color border-bottom" style="padding: 15px 15px 2px">Proizvodi</div>',
+			                'suggestion' => new JsExpression("Handlebars.compile('{$template_prod}')")
+			            ]
+			        ],
+			        [
+			            'datumTokenizer' => "Bloodhound.tokenizers.obj.whitespace('value')",
+			            'display' => 'name',
+			            'remote' => [
 			                'url' => Url::to(['/auto/list-actions']) . '?q=%QUERY',
 			                'wildcard' => '%QUERY',
 			            ],
@@ -183,7 +207,7 @@ $template_tag = '<div class="capitalize">{{name}} <i class="fa fa-caret-right"><
 			            	'header' => '<div class="fs_14 gray-color border-bottom" style="padding: 15px 15px 2px">Tagovi akcija</div>',
 			                'suggestion' => new JsExpression("Handlebars.compile('{$template_tag}')")
 			            ]
-			        ],
+			        ],			        
 			        
 			    ],
 			    'pluginEvents' => [
@@ -202,6 +226,8 @@ $template_tag = '<div class="capitalize">{{name}} <i class="fa fa-caret-right"><
 				    			$('#csservicessearch-action_id').val(data.action_id); 
 				    		} else if(data.object_id){
 				    			$('#csservicessearch-object_id').val(data.object_id); 
+				    		} else if(data.product_id){
+				    			$('#csservicessearch-product_id').val(data.product_id); 
 				    		} else if(data.tag_id){
 				    			$('#csservicessearch-tag_id').val(data.tag_id); 
 				    		}
@@ -213,6 +239,7 @@ $template_tag = '<div class="capitalize">{{name}} <i class="fa fa-caret-right"><
     <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'industry_id')?>
     <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'action_id')?>
     <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'object_id')?>
+    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'product_id')?>
     <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'tag_id')?>
 	<?php ActiveForm::end(); ?>
 </div>

@@ -20,6 +20,7 @@ $this->cart = [
 <?= $this->render('_form', [
 	'service' => $service,
     'model' => $model,
+    'model_skills' => $model_skills,
     'location'=> $location,
 	'location_end'=> $location_end,
 	'objects' => $objects,

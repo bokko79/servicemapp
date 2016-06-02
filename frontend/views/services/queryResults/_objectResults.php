@@ -9,17 +9,7 @@ use yii\web\Session;
 $session = Yii::$app->session;
 $state = $session->get('state');
 ?>
-<div class="card_container record-full transparent no-shadow fadeInUp animated" id="card_container" style="">
-    <div class="primary-context overflow-hidden">
-    	<div class="avatar">
-    		<i class="fa fa-cube fa-3x"></i>
-    	</div>
-    	<div class="title">
-    		<div class="head grand"><?= c($object->tName) ?> <?= ($object->parent) ? '<span class="head major thin">['.c($object->parent->tName).']</span>' : null ?></div>
-	        <div class="subhead"><?= c($object->oType->tName) ?> <i class="fa fa-caret-right"></i> <?= c($object->oType->class->tName) ?></div>
-    	</div>	        
-    </div>
-    <div class="secondary-context overflow-hidden avatar-padded">
+
     <?php
 		$services = ($object->parent) ? $object->parent->services : $object->services;    	
     	if ($services):
@@ -33,7 +23,9 @@ $state = $session->get('state');
 				    		<div class="head major regular" style="line-height: 22px;">
 				    			<?= Html::a(c($model->action->tName), Url::to(['/s/'.slug($model->tName)]), []) ?>
 				    			<span class="fs_11 muted">[<?= c($model->tName) ?>]</span> 
-				    			<?= (1==1) ? '<div class="label label-success fs_11 thin"><i class="fa fa-plus"></i> Prati</div>' : null ?></div>
+				    			<?= (1==1) ? '<div class="label label-success fs_11 thin"><i class="fa fa-plus"></i> Prati</div>' : null ?>
+				    			<?= Html::a('<i class="fa fa-bars"></i>&nbsp;'.Yii::t('app', 'Pregled ponuda'), Url::to(['/presentations', 'PresentationsSearch[service_id]'=>$model->id, 'PresentationsSearch[object_models][]'=>$object->id]), ['class'=>'btn btn-default btn-mini margin-left-10', 'style'=>'']) ?>
+				    		</div>
 					        <div class="subhead">
 					        	<i class="fa fa-flag"></i> <b><?= count($model->presentations) ?></b>
 					        	<i class="fa fa-shopping-cart"></i> <b><?= count($model->orders) ?></b>
@@ -41,7 +33,7 @@ $state = $session->get('state');
 				    	</div>
 				    	<div class="subaction">
 				    		<?= Html::a('<i class="fa fa-bars"></i>&nbsp;'.Yii::t('app', 'Pregled ponuda'), Url::to(['/presentations', 'PresentationsSearch[service_id]'=>$model->id, 'PresentationsSearch[object_models][]'=>$object->id]), ['class'=>'btn btn-default margin-right-10', 'style'=>'']) ?>
-				    		<?php if($object->models): ?>
+				    		<?php if($object->objectModels): ?>
 							<?= $state!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to(), ['class'=>'btn btn-info margin-right-10', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-order-modal'.$model->id]) : null ?>
 				            <?= $state!='order' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-present-modal'.$model->id]) : null ?>
 				        <?php else: ?>
@@ -61,8 +53,6 @@ $state = $session->get('state');
 	<?php 
 			endforeach;
 		endif; ?>
-	</div>
-</div>
 <?php
 		$services = ($object->parent) ? $object->parent->services : $object->services;    	
     	if ($services):
@@ -71,8 +61,8 @@ $state = $session->get('state');
         'id'=>'object-models-order-modal'.$model->id,
         'size'=>Modal::SIZE_SMALL,
         'class'=>'overlay_modal',
-        'header'=> $model->object->isPart() ? ($model->service_object==1 ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' Vas interesuju:</h3>' :
-        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->service_object==1 ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' Vas interesuju:</h3>' :
+        'header'=> $model->object->isPart() ? ($model->object_ownership=='provider' ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' Vas interesuju:</h3>' :
+        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->object_ownership=='provider' ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' Vas interesuju:</h3>' :
         '<h3>Izaberite vrstu '. $model->object->tNameGen.'</h3>'),
     ]); ?>
    <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>
@@ -81,8 +71,8 @@ $state = $session->get('state');
         'id'=>'object-models-present-modal'.$model->id,
         'size'=>Modal::SIZE_SMALL,
         'class'=>'overlay_modal',
-        'header'=> $model->object->isPart() ? ($model->service_object!=1 ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' imate u ponudi:</h3>' :
-        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->service_object!=1 ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' imate u ponudi:</h3>' :
+        'header'=> $model->object->isPart() ? ($model->object_ownership=='user' ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' imate u ponudi:</h3>' :
+        '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->object_ownership=='user' ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' imate u ponudi:</h3>' :
         '<h3>Izaberite vrstu '. $model->object->tNameGen.'</h3>'),
     ]); ?>
    <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>

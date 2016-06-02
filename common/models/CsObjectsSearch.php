@@ -18,8 +18,8 @@ class CsObjectsSearch extends CsObjects
     public function rules()
     {
         return [
-            [['id', 'object_type_id', 'has_model', 'object_id', 'favour', 'image_id', 'added_by'], 'integer'],
-            [['name', 'type', 'status', 'added_time', 'description'], 'safe'],
+            [['object_type_id', 'object_id', 'favour', 'image_id', ], 'integer'],
+            [['class', 'description', 'name'], 'string'],
         ];
     }
 
@@ -61,18 +61,13 @@ class CsObjectsSearch extends CsObjects
         $query->andFilterWhere([
             'id' => $this->id,
             'object_type_id' => $this->object_type_id,
-            'has_model' => $this->has_model,
             'object_id' => $this->object_id,
             'favour' => $this->favour,
             'image_id' => $this->image_id,
-            'added_by' => $this->added_by,
-            'added_time' => $this->added_time,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'status', $this->status])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'class', $this->class]);
 
         return $dataProvider;
     }

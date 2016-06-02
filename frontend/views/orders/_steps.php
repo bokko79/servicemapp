@@ -32,19 +32,19 @@ if (Yii::$app->controller->action->id=='add') {
 						<td class="content">
 							<table>
 								<tr>
-									<td class="main">										
+									<td class="main passed">										
 										<?= Yii::t('app', 'Izabrali ste...') ?>									
 									</td>
 									<td class="main hover">										
-										<?= Yii::t('app', 'Izaberite') ?>									
+										<?= Yii::t('app', 'Izaberite novu uslugu') ?>									
 									</td>
 								</tr>
 								<tr>
-									<td class="sub">
-										<?= c($service->tName); ?>
+									<td class="sub passed">
+										<?= c($service->tNameAkk); ?>
 									</td>
 									<td class="sub hover">
-										<?= Yii::t('app', 'Vratite se i izaberite novu uslugu') ?>
+										<?= Yii::t('app', 'Vratite se i izaberite drugu uslugu') ?>
 									</td>
 								</tr>
 							</table>									
@@ -69,13 +69,25 @@ if (Yii::$app->controller->action->id=='add') {
 						<td class="content">
 							<table>
 								<tr>
-									<td class="main">										
-										<?= Yii::t('app', 'Opišite') ?>									
+									<td class="main active">										
+										<?= Yii::t('app', '...sada opisujete...') ?>									
+									</td>
+									<td class="main passed">										
+										<?= Yii::t('app', 'Opisali ste...') ?>									
+									</td>
+									<td class="main hover">										
+										<?= Yii::t('app', 'Podesite opisanu uslugu') ?>									
 									</td>
 								</tr>
 								<tr>
-									<td class="sub">
-										<?= c($service->tName); ?>
+									<td class="sub active">
+										<?= c($service->tNameAkk); ?>
+									</td>
+									<td class="sub passed">
+										<?= c($service->tNameAkk); ?>
+									</td>
+									<td class="sub hover">
+										<?= Yii::t('app', 'Vratite se i ponovo opišite uslugu') ?>
 									</td>
 								</tr>
 							</table>									
@@ -95,13 +107,19 @@ if (Yii::$app->controller->action->id=='add') {
 					<td class="content">
 						<table>
 							<tr>
-								<td class="main">										
-									<?= Yii::t('app', 'Poručite') ?>									
+								<td class="main next">										
+										<?= Yii::t('app', 'Poručite') ?>									
+									</td>
+								<td class="main active">										
+									<?= Yii::t('app', '...sada poručujete.') ?>									
 								</td>
 							</tr>
 							<tr>
-								<td class="sub">
-									<?= Yii::t('app', 'Enter where and when you need it and send request to the providers.') ?>
+								<td class="sub active">
+									<?= Yii::t('app', 'Unesite detalje porudžbine i pošaljite.') ?>
+								</td>
+								<td class="sub next">
+									<?= Yii::t('app', 'Unesite detalje porudžbine i pošaljite.') ?>
 								</td>
 							</tr>
 						</table>									

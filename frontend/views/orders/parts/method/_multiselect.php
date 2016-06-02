@@ -5,12 +5,12 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 
-$model_list = ArrayHelper::map($property->models, 'id', 'tNameWithHint');
+$model_list = ArrayHelper::map($property->propertyValues, 'id', 'tNameWithHint');
 
-foreach($property->models as $prop_model){
-	if($prop_model->selected_value==1){
-		$model_method->method_models[] = $prop_model->id;
-	}
+foreach($property->propertyValues as $propertyValue){
+    if($propertyValue->selected_value==1){
+        $model_method->method_models[] = $propertyValue->id;
+    }
 }
 ?>
 <div class="enclosedCheckboxes">    

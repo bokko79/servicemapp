@@ -160,6 +160,61 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPresentations()
+    {
+        $cont = [];
+        if($services = $this->services){
+            foreach($services as $service){
+                if($presentations = $service->presentations){
+                    foreach($presentations as $presentation){
+                        $cont[] = $presentation;
+                    }
+                }
+            }
+        }
+        return $cont;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrders()
+    {
+        $cont = [];
+        if($services = $this->services){
+            foreach($services as $service){
+                if($orders = $service->orders){
+                    foreach($orders as $order){
+                        $cont[] = $order;
+                    }
+                }
+            }
+        }
+        return $cont;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPromotions()
+    {
+        $cont = [];
+        if($services = $this->services){
+            foreach($services as $service){
+                if($promotions = $service->promotionServices){
+                    foreach($promotions as $promotion){
+                        $cont[] = $promotion;
+                    }
+                }
+            }
+        }
+        return $cont;
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSimilarIndustries()
     {
         return $this->hasMany(CsSimilarIndustries::className(), ['industry_id' => 'id']);
@@ -279,4 +334,15 @@ class CsIndustries extends \yii\db\ActiveRecord
         return $options;
     }
 
+    // count services    
+    public function getCountServices() {
+        return $this->services ? count($this->services) : 0;
+    }
+    // orders, active orders, successful orders
+    // providers, active providers
+    // presentations, active presentations
+    // promotions, active promotions,
+    // by location, by language, by time, by status
+    // images, avatars, formats
+    // special functions.. TBD
 }

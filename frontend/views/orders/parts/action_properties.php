@@ -21,10 +21,11 @@ $message = Yii::t('app', 'Kakve opcije {action} Vam trebaju?', ['action'=>$servi
 
 <div class="wrapper notshown body fadeIn animated" style="border-top:none;">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
+<?php // echo '<pre>';print_r($model_action_properties); die(); ?>
 <?php foreach($model_action_properties as $model_action_property) {
 		$actionProperty = $model_action_property->actionProperty;
 		$property = $model_action_property->property;
-		$serviceActionProperty = $actionProperty->serviceActionProperty($service->id);
+		$serviceActionProperty = $model_action_property->serviceActionProperty;
 		echo ($serviceActionProperty and $serviceActionProperty->readOnly==0) ? $this->render('actionProperty/'.$property->formType($object_ownership).'.php', ['form'=>$form, 'key'=>$property->id, 'model_action_property'=>$model_action_property, 'actionProperty'=>$actionProperty, 'property'=>$property, 'service'=>$service]) : null;
 	}
 	if($service->shipping==1){ 

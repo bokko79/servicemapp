@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 use kartik\widgets\TimePicker;
 use kartik\datecontrol\DateControl;
 
-$model_action_property->actionProperty = $actionProperty->default_value;
+$model_action_property->actionProperty = $actionProperty->value_default;
 ?>
 <div class="form-group kv-fieldset-inline">
     <?= Html::activeLabel($model_action_property, '['.$key.']actionProperty', [
@@ -23,8 +23,8 @@ $model_action_property->actionProperty = $actionProperty->default_value;
                         'size' => 'lg',
                         'pluginOptions' => [                        
                             'autoclose' => true,
-                            'minuteStep' => $actionProperty->range_step,
-                            'defaultTime' => $actionProperty->default_value,
+                            'minuteStep' => $actionProperty->step,
+                            'defaultTime' => $actionProperty->value_default,
                         ],
                     ],                                
             ]) ?>

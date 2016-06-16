@@ -501,36 +501,37 @@ class OrdersController extends Controller
                 print_r($objectProperties); die();*/
             foreach($objectProperties as $objectProperty) {                
                 if($property = $objectProperty->property) {
-                    $model_object_property[$property->id] = new \frontend\models\CartServiceObjectProperties();
-                    $model_object_property[$property->id]->objectProperty = $objectProperty;
-                    $model_object_property[$property->id]->property = $property;
-                    $model_object_property[$property->id]->service = $service;
-                    $model_object_property[$property->id]->key = $key;
-                    $model_object_property[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 0 : 1;
-                    $model_object_property[$property->id]->checkIfRequired = ($objectProperty->required==1) ? 1 : 0;
+                    $model_object_properties[$property->id] = new \frontend\models\CartServiceObjectProperties();
+                    $model_object_properties[$property->id]->objectProperty = $objectProperty;
+                    $model_object_properties[$property->id]->property = $property;
+                    $model_object_properties[$property->id]->service = $service;
+                    $model_object_properties[$property->id]->key = $key;
+                    $model_object_properties[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 0 : 1;
+                    $model_object_properties[$property->id]->checkIfRequired = ($objectProperty->required==1) ? 1 : 0;
                 }
             }
-            return (isset($model_object_property)) ? $model_object_property : null;
+            return (isset($model_object_properties)) ? $model_object_properties : null;
         }
         return null;        
     } 
 
     protected function loadServiceActionProperties($service, $key)
     {
-        if($service->serviceActionProperties!=null) {
+        if($service->serviceActionProperties) {
             foreach($service->serviceActionProperties as $serviceActionProperty) {
                 if($actionProperty = $serviceActionProperty->actionProperty) {
                     if($property = $actionProperty->property) { 
-                        $model_action_property[$property->id] = new \frontend\models\CartServiceActionProperties();
-                        $model_action_property[$property->id]->serviceActionProperty = $serviceActionProperty;
-                        $model_action_property[$property->id]->actionProperty = $actionProperty;
-                        $model_action_property[$property->id]->property = $property;
-                        $model_action_property[$property->id]->service = $service;
-                        $model_action_property[$property->id]->key = $key;
+                        $model_action_properties[$property->id] = new \frontend\models\CartServiceActionProperties();
+                        $model_action_properties[$property->id]->serviceActionProperty = $serviceActionProperty;
+                        $model_action_properties[$property->id]->actionProperty = $actionProperty;
+                        $model_action_properties[$property->id]->property = $property;
+                        $model_action_properties[$property->id]->service = $service;
+                        $model_action_properties[$property->id]->key = $key;
                     }
                 }           
-            }
-            return $model_action_property;
+            } 
+
+            return $model_action_properties;
         }
         return null;
     }

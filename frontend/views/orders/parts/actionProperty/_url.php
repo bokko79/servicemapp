@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 
-$model_action_property->actionProperty = $actionProperty->default_value;
+$model_action_property->actionProperty = $actionProperty->value_default;
 ?>
 <div class="form-group kv-fieldset-inline">
     <?= Html::activeLabel($model_action_property, '['.$key.']actionProperty', [

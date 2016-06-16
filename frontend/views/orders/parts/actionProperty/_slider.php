@@ -5,7 +5,7 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 use kartik\slider\Slider;
 
-$model_action_property->actionProperty = $actionProperty->default_value;
+$model_action_property->actionProperty = $actionProperty->value_default;
 ?>
 <div class="form-group kv-fieldset-inline">
     <?= Html::activeLabel($model_action_property, '['.$key.']actionProperty', [
@@ -20,11 +20,11 @@ $model_action_property->actionProperty = $actionProperty->default_value;
             ])->widget(Slider::classname(), [
                 'sliderColor'=>Slider::TYPE_INFO,
                 'handleColor'=>Slider::TYPE_INFO,
-                'value'=>$actionProperty->default_value,
+                'value'=>$actionProperty->value_default,
                 'pluginOptions'=>[
-                    'min'=>$actionProperty->range_min,
-                    'max'=>$actionProperty->range_max,
-                    'step'=>$actionProperty->range_step,
+                    'min'=>$actionProperty->value_min,
+                    'max'=>$actionProperty->value_max,
+                    'step'=>$actionProperty->step,
                     'tooltip'=>'always'
                 ]
             ])->hint($property->tHint) ?>

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 
-$model_action_property->actionProperty = $actionProperty->default_value;
+$model_action_property->actionProperty = $actionProperty->value_default;
 ?>
 <div class="form-group kv-fieldset-inline">
     <?= Html::activeLabel($model_action_property, '['.$key.']actionProperty', [
@@ -16,6 +16,6 @@ $model_action_property->actionProperty = $actionProperty->default_value;
 			'showLabels' => false,
 			'hintType' => ActiveField::HINT_SPECIAL,
 			'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
-	    ])->input('text', ['value'=>$actionProperty->default_value, 'class'=>'input-lg'])->label($property->label)->hint($property->tHint) ?>
+	    ])->input('text', ['value'=>$actionProperty->value_default, 'class'=>'input-lg'])->label($property->label)->hint($property->tHint) ?>
 	</div>        
 </div>

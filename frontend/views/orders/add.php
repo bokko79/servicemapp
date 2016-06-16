@@ -67,9 +67,9 @@ $session = Yii::$app->session;
         <?= $this->render('parts/amount.php', ['model'=>$model, 'form'=>$form, 'service'=>$service]) ?>
     <?php endif; ?>   
 
-    <?php  /*if($service->serviceActionProperties): // SERVICE ACTION METHODS ?>
+    <?php if($service->serviceActionProperties): // SERVICE ACTION METHODS ?>
         <?= $this->render('parts/action_properties.php', ['form'=>$form, 'service'=>$service, 'model'=>$model, 'model_action_properties'=>$model_action_properties, 'object_ownership'=>$object_ownership, 'serviceActionProperties'=>$serviceActionProperties]) ?>
-    <?php endif; */ ?>
+    <?php endif; ?>
 
     <?php // ORDER NOTE AND TITLE ?>        
         <?= $this->render('parts/note.php', ['model'=>$model, 'form'=>$form, 'service'=>$service, 'objects' => $objects]) ?>

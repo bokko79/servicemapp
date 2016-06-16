@@ -24,9 +24,9 @@ class CartServiceActionProperties extends Model
     
     public function rules()
     {
-        $actionPropertyww = $this->getActionProperty();
-        $property = $this->getProperty();
-        $method_validation_requirement = ($actionPropertyww->required) ? ['actionProperty', 'required', 'message'=>Yii::t('app', 'Unesite {method_name}', ['method_name'=>$property->tNameAkk])] : ['method', 'safe'];
+        $getActionProperty = $this->getActionProperty();
+        $property = $this->getProperty();        
+        //$method_validation_requirement = ($getActionProperty->required) ? ['actionProperty', 'required', 'message'=>Yii::t('app', 'Unesite {method_name}', ['method_name'=>$property->tNameAkk])] : ['actionProperty', 'safe'];
         switch ($property->type) {
             case 1:
                 $method_validation_type = ['actionProperty', 'integer', 'message'=>Yii::t('app', 'Vrednost "{method_name}" mora biti broj', ['method_name'=>$property->tName])];
@@ -42,7 +42,7 @@ class CartServiceActionProperties extends Model
         }
 
         return [
-            $method_validation_requirement,
+           // $method_validation_requirement,
             $method_validation_type,
         ];
     }

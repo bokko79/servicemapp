@@ -42,3 +42,8 @@ $this->params['renderIndex'] = false;
     ]) ?>
 
 </div>
+<?php if($models = $model->models){
+    foreach($models as $objectModel){
+        echo $objectModel->tName. '<br>';
+    }
+    } ?>

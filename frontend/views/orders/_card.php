@@ -139,7 +139,7 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
                 <div class="subhead">
                     <div class="label label-success fs_11 margin-right-15"><i class="fa fa-building"></i> Izdavanje nekretnina</div>
                     <?= ($orderService->amount) ? '<span class="margin-right-15"><i class="fa fa-signal fa-rotate-270 margin-right-5"></i>'.$orderService->amount.'</span>' : null ?>
-                    <?= ($orderService->consumer) ? '<span class="margin-right-15"><i class="fa fa-user"></i> '.$orderService->consumer.'</span>' : null ?>
+                    <?php // ($orderService->consumer) ? '<span class="margin-right-15"><i class="fa fa-user"></i> '.$orderService->consumer.'</span>' : null ?>
                 </div>                                   
             </div>
 

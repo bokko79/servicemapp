@@ -63,7 +63,7 @@ class TransactionsController extends Controller
      */
     public function actionView($id)
     {
-        $this->layout = '//finances';
+        $this->layout = '//blank';
 
         return $this->render('view', [
             'model' => $this->findModel($id),

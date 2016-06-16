@@ -104,14 +104,6 @@ class CsObjectProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getObjectParts()
-    {
-        return $this->hasMany(CsObjectParts::className(), ['object_property_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getObject()
     {
         return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
@@ -144,23 +136,31 @@ class CsObjectProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderServiceSpecs()
+    public function getOrderServiceObjectProperties()
     {
-        return $this->hasMany(OrderServiceSpecs::className(), ['spec_id' => 'id']);
+        return $this->hasMany(OrderServiceObjectProperties::className(), ['object_property_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentationSpecs()
+    public function getPresentationObjectProperties()
     {
-        return $this->hasMany(PresentationSpecs::className(), ['spec_id' => 'id']);
+        return $this->hasMany(PresentationObjectProperties::className(), ['object_property_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function serviceObjectSpec($service_id)
+    public function getUserObjectProperties()
+    {
+        return $this->hasMany(UserObjectProperties::className(), ['object_property_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function serviceObjectProperty($service_id)
     {
         return \frontend\models\CsServiceObjectProperties::find()->where('object_property_id='.$this->id.' AND service_id='.$service_id)->one();
     }

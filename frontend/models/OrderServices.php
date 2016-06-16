@@ -103,17 +103,17 @@ class OrderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMethods()
+    public function getOrderServiceActionProperties()
     {
-        return $this->hasMany(OrderServiceMethods::className(), ['order_service_id' => 'id']);
+        return $this->hasMany(OrderServiceActionProperties::className(), ['order_service_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSpecs()
+    public function getOrderServiceObjectProperties()
     {
-        return $this->hasMany(OrderServiceSpecs::className(), ['order_service_id' => 'id']);
+        return $this->hasMany(OrderServiceObjectProperties::className(), ['order_service_id' => 'id']);
     }
 
     /**

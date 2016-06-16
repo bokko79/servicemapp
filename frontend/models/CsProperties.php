@@ -90,17 +90,17 @@ class CsProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMethods()
+    public function getActionProperties()
     {
-        return $this->hasMany(CsMethods::className(), ['property_id' => 'id']);
+        return $this->hasMany(CsActionProperties::className(), ['property_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSkills()
+    public function getIndustryProperties()
     {
-        return $this->hasMany(CsSkills::className(), ['property_id' => 'id']);
+        return $this->hasMany(CsIndustryProperties::className(), ['property_id' => 'id']);
     }
 
     /**

@@ -214,4 +214,76 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->role_code = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 13)), 0, 13);
     }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsOwner()
+    {
+        return $this->role->name == 'owner';
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsAdmin()
+    {
+        return $this->role->name == 'admin';
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsEditor()
+    {
+        return $this->role->name == 'editor';
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsFree()
+    {
+        return $this->role->name == 'free' or $this->role->name == 'free_pro';
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsSilver()
+    {
+        return $this->role->name == 'silver' or $this->role->name == 'silver_pro';
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsGold()
+    {
+        return $this->role->name == 'gold' or $this->role->name == 'gold_pro';
+    }
+
+    /**
+     * @return bool Whether the user is confirmed or not.
+     */
+    public function getIsPremium()
+    {
+        return $this->role->name == 'premium' or $this->role->name == 'premium_pro';
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRole()
+    {
+        return $this->details->role;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDetails()
+    {
+        return $this->hasOne(UserDetails::className(), ['user_id' => 'id']);
+    }
 }

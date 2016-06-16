@@ -19,7 +19,7 @@ $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Serv
         <div class="grid-row">
           <div class="grid-left">
             <!-- LOGO -->
-            <?= Html::a($logo_url, '/site/index', ['class' => '']) ?>
+            <?= Html::a($logo_url, '/services', ['class' => '']) ?>
           </div>          
           <div class="grid-center" style="position:static;">
             <?= $this->render('global_nav.php') ?>

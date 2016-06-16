@@ -60,8 +60,40 @@ class ProviderPortfolio extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getProviderPortfolioCertifications()
+    {
+        return $this->hasMany(ProviderPortfolioCertifications::className(), ['provider_portfolio_id' => 'provider_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProviderPortfolioEducations()
+    {
+        return $this->hasMany(ProviderPortfolioEducations::className(), ['provider_portfolio_id' => 'provider_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProviderPortfolioExperience()
+    {
+        return $this->hasMany(ProviderPortfolioExperience::className(), ['provider_portfolio_id' => 'provider_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getProviderPortfolioImages()
     {
         return $this->hasMany(ProviderPortfolioImages::className(), ['provider_portfolio_id' => 'provider_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProviderPortfolioPublications()
+    {
+        return $this->hasMany(ProviderPortfolioPublications::className(), ['provider_portfolio_id' => 'provider_id']);
     }
 }

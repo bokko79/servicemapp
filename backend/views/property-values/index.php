@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsPropertyModelsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Property Models';
+$this->title = 'Cs Property Values';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cs-property-models-index">
@@ -16,24 +16,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Cs Property Models', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Cs Property Values', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
-            'name',
-            'property_id',
-            'property_name',
+            'property.tName',
+            'value',            
             'selected_value',
-            // 'hint',
-            // 'image_id',
-            // 'entry_by',
-            // 'entry_time',
-            // 'description',
+            'transl.hint',
+
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

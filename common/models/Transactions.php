@@ -9,7 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $user_id
- * @property string $agreement_id
+ * @property string $booking_id
  * @property string $transaction_type
  * @property string $time
  *
@@ -32,8 +32,8 @@ class Transactions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'agreement_id', 'transaction_type', 'time'], 'required'],
-            [['user_id', 'agreement_id'], 'integer'],
+            [['user_id', 'booking_id', 'transaction_type', 'time'], 'required'],
+            [['user_id', 'booking_id'], 'integer'],
             [['transaction_type'], 'string'],
             [['time'], 'safe']
         ];
@@ -47,7 +47,7 @@ class Transactions extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'Korisnik.',
-            'agreement_id' => 'Transakcija.',
+            'booking_id' => 'Transakcija.',
             'transaction_type' => 'Vrsta transakcije.',
             'time' => 'Datum i vreme transakcije.',
         ];
@@ -64,9 +64,9 @@ class Transactions extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAgreement()
+    public function getBooking()
     {
-        return $this->hasOne(Agreements::className(), ['id' => 'agreement_id']);
+        return $this->hasOne(Bookings::className(), ['id' => 'booking_id']);
     }
 
     /**

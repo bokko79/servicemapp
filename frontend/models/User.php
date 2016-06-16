@@ -200,46 +200,6 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsActions()
-    {
-        return $this->hasMany(CsActions::className(), ['added_by' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCsAttributeModels()
-    {
-        return $this->hasMany(CsAttributeModels::className(), ['entry_by' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCsIndustries()
-    {
-        return $this->hasMany(CsIndustries::className(), ['added_by' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCsObjects()
-    {
-        return $this->hasMany(CsObjects::className(), ['added_by' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCsServices()
-    {
-        return $this->hasMany(CsServices::className(), ['added_by' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getEvents()
     {
         return $this->hasMany(Events::className(), ['user_id' => 'id']);
@@ -524,6 +484,7 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->credit->balance > 0;
     }
+    
 
     /**
      * @return \yii\db\ActiveQuery

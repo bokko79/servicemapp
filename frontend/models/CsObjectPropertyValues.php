@@ -29,9 +29,9 @@ class CsObjectPropertyValues extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['object_property_id', 'property_value_id'], 'required'],
-            [['object_property_id', 'property_value_id', 'selected_value'], 'integer'],
-            [['description'], 'string'],
+            [['object_property_id'], 'required'],
+            [['object_property_id', 'property_value_id', 'object_id', 'selected_value'], 'integer'],
+            [['value_type', 'description'], 'string'],
         ];
     }
 
@@ -44,6 +44,8 @@ class CsObjectPropertyValues extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'object_property_id' => Yii::t('app', 'Object Property ID'),
             'property_value_id' => Yii::t('app', 'Property Value ID'),
+            'object_id' => Yii::t('app', 'Object ID'),
+            'value_type' => Yii::t('app', 'Value Type'),
             'selected_value' => Yii::t('app', 'Selected Value'),
             'description' => Yii::t('app', 'Description'),
         ];
@@ -64,6 +66,14 @@ class CsObjectPropertyValues extends \yii\db\ActiveRecord
     public function getPropertyValue()
     {
         return $this->hasOne(CsPropertyValues::className(), ['id' => 'property_value_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObject()
+    {
+        return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
     }
 
     /**

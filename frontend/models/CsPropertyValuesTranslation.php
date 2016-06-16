@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "cs_property_models_translation".
  *
  * @property string $id
- * @property integer $property_model_id
+ * @property integer $property_value_id
  * @property string $lang_code
  * @property string $name
  * @property string $name_akk 
@@ -34,8 +34,8 @@ class CsPropertyValuesTranslation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['property_model_id', 'lang_code', 'name', 'name_akk'], 'required'],
-            [['property_model_id'], 'integer'],
+            [['property_value_id', 'lang_code', 'name', 'name_akk'], 'required'],
+            [['property_value_id'], 'integer'],
             [['lang_code'], 'string', 'max' => 2],
             [['name', 'orig_name'], 'string', 'max' => 128],
             [['name_akk'], 'string', 'max' => 100],
@@ -51,7 +51,7 @@ class CsPropertyValuesTranslation extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'property_model_id' => Yii::t('app', 'Property Model ID'),
+            'property_value_id' => Yii::t('app', 'Property Value ID'),
             'lang_code' => Yii::t('app', 'Lang Code'),
             'name' => Yii::t('app', 'Name'),
             'name_akk' => Yii::t('app', 'Name Akk'), 
@@ -71,8 +71,8 @@ class CsPropertyValuesTranslation extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPropertyModel()
+    public function getPropertyValue()
     {
-        return $this->hasOne(CsPropertyModels::className(), ['id' => 'property_model_id']);
+        return $this->hasOne(CsPropertyValue::className(), ['id' => 'property_value_id']);
     }
 }

@@ -67,14 +67,6 @@ class CsPropertyValuesTranslation extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPropertyValue()
-    {
-        return $this->hasOne(CsPropertyValues::className(), ['id' => 'property_value_id']);
-    }
-
-    /**
      * @inheritdoc
      * @return CsPropertyValuesTranslationQuery the active query used by this AR class.
      */

@@ -8,9 +8,11 @@ use kartik\widgets\ActiveForm;
 use yii\grid\GridView;
 
 $this->title = 'Promocije usluga';
-$this->params['breadcrumbs'][] = ['label' => $model->username, 'url' => [$model->username.'/home']];
-$this->params['breadcrumbs'][] = ['label' => 'Vaše poslovanje', 'url' => [$model->username.'/orders']];
+$this->params['breadcrumbs'][] = ['label' => $user->username, 'url' => [$user->username.'/home']];
+$this->params['breadcrumbs'][] = ['label' => 'Vaše poslovanje', 'url' => [$user->username.'/orders']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->params['user'] = $user;
 
 ?>
 <div class="title_holder_home">

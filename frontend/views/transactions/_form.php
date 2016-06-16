@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'agreement_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'booking_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'transaction_type')->dropDownList([ 'income_lodge' => 'Income lodge', 'income_M2M' => 'Income M2M', 'expense_payout' => 'Expense payout', 'expense_M2M' => 'Expense M2M', ], ['prompt' => '']) ?>
 

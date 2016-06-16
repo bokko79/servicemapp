@@ -13,7 +13,7 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Cs Properties', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-properties-view">
+
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
+<div class="col-sm-6">
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -42,7 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'description',
         ],
     ]) ?>
-
+</div>
+<div class="col-sm-6">
 <?php
 //parent
 if($model->parent):
@@ -55,10 +56,13 @@ foreach ($model->children as $child){
     echo '<li>'.Html::a($child->tName, ['view', 'id' => $child->id], ['class' => '']) . ' </li> ';
 }
 echo '</ul>';
-endif;
+endif;  ?>
+</div>
+<div class="col-sm-12">
+<?php
 // values
 if($model->propertyValues):
-echo '<h5 class="margin-top-20">Values: </h5>'; 
+echo '<h5 class="margin-top-20">Property Values: </h5>'; 
     
 Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProviderPropertyValues,
@@ -93,7 +97,7 @@ endif;
 
 // property of objects
 if($model->objectProperties):
-echo '<h5 class="margin-top-20">Objects: </h5>'; 
+echo '<h5 class="margin-top-20">Objects (object_properties): </h5> (predmeti koji imaju ovo svojstvo) '; 
 Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProviderObjectProperties,
         'columns' => [
@@ -116,7 +120,19 @@ Pjax::begin(); ?>    <?= GridView::widget([
             'required',
             
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'urlCreator' => function ($action, $model, $key, $index) {
+                                    if ($action === 'view') {
+                                        $url = Url::to('/object-properties/view?id='.$model->id); // your own url generation logic
+                                        return $url;
+                                    }
+                                    if ($action === 'update') {
+                                        $url = Url::to('/object-properties/update?id='.$model->id); // your own url generation logic
+                                        return $url;
+                                    }
+                                },
+            ],
         ],
     ]);
 Pjax::end();

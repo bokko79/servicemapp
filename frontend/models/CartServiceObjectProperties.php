@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /**
  * CartServiceObjectSpecification is the model behind the adding a service to user's shopping cart.
  */
-class CartServiceObjectProperties extends PresentationSpecs
+class CartServiceObjectProperties extends PresentationObjectProperties
 {
     public $key;
     public $service;
@@ -14,7 +14,7 @@ class CartServiceObjectProperties extends PresentationSpecs
     public $cart; // to connect to CartForm Model
     public $property;
     public $value; // $spec;
-    public $property_values = []; // $spec_models
+    public $objectPropertyValues = []; // $spec_models
     public $value_max; // $spec_to;
     public $value_operator; // $spec_operator;
     public $checkUserObject;
@@ -55,7 +55,7 @@ class CartServiceObjectProperties extends PresentationSpecs
         return [
             $value_validation_type,
             $value_max_validation_type,
-            [['property_values'] , 'safe'],            
+            [['objectPropertyValues'] , 'safe'],            
             ['value_operator', 'default', 'value'=>'exact'],
             ['value', 'required', 'when' => function ($model) {
                 return false;
@@ -103,7 +103,7 @@ class CartServiceObjectProperties extends PresentationSpecs
         }
         $_SESSION['cart']['industry'][$this->service->industry_id]['data'][$this->key]['specifications'][$this->getProperty()->id] = [
             'value' => $this->value,
-            'property_values' => $this->property_values,
+            'objectPropertyValues' => $this->objectPropertyValues,
             'value_max' => $this->value_max,            
             'value_operator' => $this->value_operator,
             'property' => $this->property->id,

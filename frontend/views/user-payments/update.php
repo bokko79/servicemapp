@@ -13,6 +13,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User Payments'), 'ur
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
+$this->params['user'] = $model->user;
+
 $pageDescription = '<p style="font-size:12px; line-height:14px; margin:10px;">'.Yii::t('app', 'Lista mojih sačuvanih predmeta usluga i njihove karakteristike. Klikom na dugme desno "dodaj/izbaci predmet" pređite na stranicu za izbor i izaberite predmet.').'</p>';
 $pageDescription .= Html::img('@web/images/general/credit-cards.png', ['width'=>130]);
 $this->pageTitle = [

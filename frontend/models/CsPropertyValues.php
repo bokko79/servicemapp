@@ -92,33 +92,33 @@ class CsPropertyValues extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderSpecModels()
+    public function getOrderServiceObjectPropertyValues()
     {
-        return $this->hasMany(OrderServiceSpecModels::className(), ['id' => 'spec_model']);
+        return $this->hasMany(OrderServiceObjectPropertyValues::className(), ['id' => 'property_value_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentationSpecModels()
+    public function getPresentationObjectPropertyValues()
     {
-        return $this->hasMany(PresentationSpecModels::className(), ['id' => 'spec_model']);
+        return $this->hasMany(PresentationObjectPropertyValues::className(), ['id' => 'property_value_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentationMethodModels()
+    public function getPresentationActionPropertyValues()
     {
-        return $this->hasMany(PresentationMethodModels::className(), ['id' => 'method_model']);
+        return $this->hasMany(PresentationActionPropertyValues::className(), ['id' => 'property_value_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserObjectSpecModels()
+    public function getUserObjectPropertyValues()
     {
-        return $this->hasMany(UserObjectSpecModels::className(), ['id' => 'spec_model']);
+        return $this->hasMany(UserObjectPropertyValues::className(), ['id' => 'property_value_id']);
     }
 
     /**

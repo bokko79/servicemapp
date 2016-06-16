@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id') ?>
 
-    <?= $form->field($model, 'agreement_id') ?>
+    <?= $form->field($model, 'booking_id') ?>
 
     <?= $form->field($model, 'transaction_type') ?>
 

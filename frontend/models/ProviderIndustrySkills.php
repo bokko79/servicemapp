@@ -9,12 +9,12 @@ use Yii;
  *
  * @property string $id
  * @property string $provider_industry_id
- * @property integer $skill_id
- * @property integer $property_model_id
+ * @property integer $industry_property_id
+ * @property integer $property_value_id
  * @property string $description
  *
  * @property ProviderIndustries $providerIndustry
- * @property CsSkills $skill
+ * @property CsIndustryProperties $industryProperties
  */
 class ProviderIndustrySkills extends \yii\db\ActiveRecord
 {
@@ -34,12 +34,12 @@ class ProviderIndustrySkills extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['provider_industry_id', 'skill_id', 'property_model_id'], 'required'],
-            [['provider_industry_id', 'skill_id', 'property_model_id'], 'integer'],
+            [['provider_industry_id', 'industry_property_id', 'property_value_id'], 'required'],
+            [['provider_industry_id', 'industry_property_id', 'property_value_id'], 'integer'],
             [['selection'] , 'safe'],
             [['description'], 'string'],
             [['provider_industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProviderIndustries::className(), 'targetAttribute' => ['provider_industry_id' => 'id']],
-            [['skill_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsSkills::className(), 'targetAttribute' => ['skill_id' => 'id']],
+            [['industry_property_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsIndustryProperties::className(), 'targetAttribute' => ['industry_property_id' => 'id']],
         ];
     }
 
@@ -51,8 +51,8 @@ class ProviderIndustrySkills extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'provider_industry_id' => 'Provider Industry ID',
-            'skill_id' => 'Skill ID',
-            'property_model_id' => 'Model',
+            'industry_property_id' => 'Skill ID',
+            'property_value_id' => 'Model',
             'description' => 'Description',
         ];
     }
@@ -68,16 +68,16 @@ class ProviderIndustrySkills extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSkill()
+    public function getIndustryProperty()
     {
-        return $this->hasOne(CsSkills::className(), ['id' => 'skill_id']);
+        return $this->hasOne(CsIndustryProperties::className(), ['id' => 'industry_property_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getModel()
+    public function getPropertyValue()
     {
-        return $this->hasOne(CsPropertyModels::className(), ['id' => 'property_model_id']);
+        return $this->hasOne(CsPropertyValues::className(), ['id' => 'property_value_id']);
     }
 }

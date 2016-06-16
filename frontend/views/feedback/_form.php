@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'offer_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'agreement_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'booking_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textInput() ?>
 

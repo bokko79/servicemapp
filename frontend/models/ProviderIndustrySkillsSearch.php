@@ -18,7 +18,7 @@ class ProviderIndustrySkillsSearch extends ProviderIndustrySkills
     public function rules()
     {
         return [
-            [['id', 'provider_industry_id', 'skill_id'], 'integer'],
+            [['id', 'provider_industry_id', 'industry_property_id'], 'integer'],
             [['description'], 'safe'],
         ];
     }
@@ -61,7 +61,7 @@ class ProviderIndustrySkillsSearch extends ProviderIndustrySkills
         $query->andFilterWhere([
             'id' => $this->id,
             'provider_industry_id' => $this->provider_industry_id,
-            'skill_id' => $this->skill_id,
+            'industry_property_id' => $this->industry_property_id,
         ]);
 
         $query->andFilterWhere(['like', 'description', $this->description]);

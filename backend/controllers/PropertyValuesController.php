@@ -115,7 +115,7 @@ class PropertyValuesController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = CsPropertyModels::findOne($id)) !== null) {
+        if (($model = CsPropertyValues::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

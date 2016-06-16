@@ -12,6 +12,8 @@ $this->params['breadcrumbs'][] = ['label' => $model->username, 'url' => [$model-
 $this->params['breadcrumbs'][] = ['label' => 'Vaše poslovanje', 'url' => [$model->username.'/orders']];
 $this->params['breadcrumbs'][] = $this->title;
 
+$this->params['user'] = $model;
+
 ?>
 <div class="title_holder_home">
    <h2 style="padding: 20px 20px 10px 50px;"><?= Html::encode($this->title) ?></h2>

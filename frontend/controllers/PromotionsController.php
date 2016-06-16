@@ -29,21 +29,6 @@ class PromotionsController extends Controller
     }
 
     /**
-     * Lists all Promotions models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new PromotionsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
      * Displays a single Promotions model.
      * @param string $id
      * @return mixed

@@ -13,7 +13,7 @@ use yii\helpers\Url;
                     <i class="fa fa-clock-o"></i> <?= \yii\timeago\TimeAgo::widget(['timestamp' => $model->time]) ?>
                 </div>
             </div>
-            <div class="subhead"><?= $model->agreement_id ?></div>
+            <div class="subhead"><?= $model->booking_id ?></div>
         </div>
         <div class="secondary-context tease">
             <?= $model->user->username ?>

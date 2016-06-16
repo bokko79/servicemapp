@@ -231,9 +231,9 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSkills()
+    public function getIndustryProperties()
     {
-        return $this->hasOne(CsSkills::className(), ['industry_id' => 'id']);
+        return $this->hasMany(CsIndustryProperties::className(), ['industry_id' => 'id']);
     }
 
     /**

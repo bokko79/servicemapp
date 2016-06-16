@@ -72,7 +72,7 @@ class CsPropertyValues extends \yii\db\ActiveRecord
      */
     public function getTranslation()
     {
-        $property_translation = \frontend\models\CsPropertyValuesTranslation::find()->where('lang_code="SR" and property_value_id='.$this->id)->one();
+        $property_translation = \common\models\CsPropertyValuesTranslation::find()->where('lang_code="SR" and property_value_id='.$this->id)->one();
         if($property_translation) {
             return $property_translation;
         }
@@ -96,6 +96,18 @@ class CsPropertyValues extends \yii\db\ActiveRecord
             return $this->getTranslation()->name;
         }       
         return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransl()
+    {
+        $property_translation = \common\models\CsPropertyValuesTranslation::find()->where('lang_code="SR" and property_value_id='.$this->id);
+        if($property_translation) {
+            return $property_translation;
+        }
+        return false;        
     }
 
     /**

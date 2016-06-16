@@ -128,14 +128,14 @@ class PresentationsSearch extends PresentationData
             foreach ($presSpecs as $key => $presSpec) {
                 if(is_array($presSpec) and ((isset($presSpec['value']) and $presSpec['value']!='') or (isset($presSpec['spec_models']) and $presSpec['spec_models']!=''))){
                     $property = \frontend\models\CsProperties::findOne($key);
-                    $arrSpec .= '(presentation_specs.spec_id='.$presSpec['spec_id'].' AND ';
+                    $arrSpec .= '(presentation_object_properties.spec_id='.$presSpec['spec_id'].' AND ';
                     if($property->type==1){
                         if($presSpec['value']!=''){
                             if($service->service_object==1 or $service->service_object==3 or $service->service_object==5){
                                 // ako je provajderov predmet, onda je range
-                                $arrSpec .= '(presentation_specs.value>'.$presSpec['value'].' OR presentation_specs.value IS NULL)';
+                                $arrSpec .= '(presentation_object_properties.value>'.$presSpec['value'].' OR presentation_object_properties.value IS NULL)';
                             } else {
-                                $arrSpec .= '(presentation_specs.value<'.$presSpec['value'].' AND presentation_specs.value>'.$presSpec['value'].')';
+                                $arrSpec .= '(presentation_object_properties.value<'.$presSpec['value'].' AND presentation_object_properties.value>'.$presSpec['value'].')';
                             }
                         } else {
                             $arrSpec .= '1=1';
@@ -147,14 +147,14 @@ class PresentationsSearch extends PresentationData
                                 // multi od multi 
                                 $arrSpecPref = '(';                         
                                 foreach($presSpec['spec_models'] as $spc_mdl){
-                                    $arrSpecPref .= 'presentation_spec_models.spec_model='.$spc_mdl.' OR ';
+                                    $arrSpecPref .= 'presentation_object_property_values.property_value_id='.$spc_mdl.' OR ';
                                 }                            
                                 $arrSpecPref = substr($arrSpecPref, 0, -4);
                                 $arrSpecPref .= ')';
                                 $arrSpec .= $arrSpecPref;     
                             } else {
                                 // radio = ako je vrednost (jedna) među spec_modelima (više)
-                                $arrSpec .= 'presentation_spec_models.spec_model='.$presSpec['spec_models'][0];
+                                $arrSpec .= 'presentation_object_property_values.property_value_id='.$presSpec['spec_models'][0];
                             }
                         } else {
                             $arrSpec .= '1=1';
@@ -164,7 +164,7 @@ class PresentationsSearch extends PresentationData
                         if($presSpec['spec_models']!=''){
                             $arrSpecPref = '(';                         
                             foreach($presSpec['spec_models'] as $spc_mdl){
-                                $arrSpecPref .= 'presentation_spec_models.spec_model='.$spc_mdl.' OR ';
+                                $arrSpecPref .= 'presentation_object_property_values.property_value_id='.$spc_mdl.' OR ';
                             }                            
                             $arrSpecPref = substr($arrSpecPref, 0, -4);
                             $arrSpecPref .= ')';
@@ -174,7 +174,7 @@ class PresentationsSearch extends PresentationData
                         }
                     }
                     if($property->type==5){
-                        $arrSpec .= 'presentation_specs.value='.$presSpec['value'];                        
+                        $arrSpec .= 'presentation_object_properties.value='.$presSpec['value'];                        
                     }
                     $arrSpec .= ') OR ';
                 }                    
@@ -196,11 +196,11 @@ class PresentationsSearch extends PresentationData
             foreach ($presMethods as $key => $presMethod) {
                 if(is_array($presMethod) and ((isset($presMethod['value']) and $presMethod['value']!='') or (isset($presMethod['method_models']) and $presMethod['method_models']!=''))){
                     $property = \frontend\models\CsProperties::findOne($key);
-                    $arrMeth .= '(presentation_methods.method_id='.$presMethod['method_id'].' AND ';
+                    $arrMeth .= '(presentation_action_properties.action_property_id='.$presMethod['method_id'].' AND ';
                     if($property->type==1 or $property->type==5){
                         if($presMethod['value']!=''){
                             // ako je provajderov predmet, onda je range
-                            $arrMeth .= '(presentation_methods.value>'.$presMethod['value'].' OR presentation_methods.value IS NULL)';                            
+                            $arrMeth .= '(presentation_action_properties.value>'.$presMethod['value'].' OR presentation_action_properties.value IS NULL)';                            
                         } else {
                             $arrMeth .= '1=1';
                         }
@@ -209,7 +209,7 @@ class PresentationsSearch extends PresentationData
                         if(isset($presMethod['method_models']) and $presMethod['method_models']!=''){                            
                             $arrMethPref = '(';                         
                             foreach($presMethod['method_models'] as $mth_mdl){
-                                $arrMethPref .= 'presentation_method_models.method_model='.$mth_mdl.' OR ';
+                                $arrMethPref .= 'presentation_action_property_values.property_value_id='.$mth_mdl.' OR ';
                             }                            
                             $arrMethPref = substr($arrMethPref, 0, -4);
                             $arrMethPref .= ')';
@@ -296,7 +296,7 @@ class PresentationsSearch extends PresentationData
         $query = Presentations::find();
 
         // add conditions that should always apply here
-        $query->joinWith(['objectModels', 'specModels', 'methodModels', 'location', 'provider']);
+        $query->joinWith(['objectModels', 'presentationObjectPropertyValues', 'presentationActionPropertyValues', 'location', 'provider']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -324,9 +324,9 @@ class PresentationsSearch extends PresentationData
         $query->andFilterWhere($this->queryPrice());
         $query->andWhere($this->queryObjectModels());
 
-        $query->andWhere($this->querySpecs());
-        $query->andWhere($this->queryMethods());
-        $query->andWhere($this->queryLocations());
+        //$query->andWhere($this->querySpecs());
+        //$query->andWhere($this->queryMethods());
+        //$query->andWhere($this->queryLocations());
 
         $query->groupBy('presentations.id');
 

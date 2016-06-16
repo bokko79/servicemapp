@@ -200,9 +200,9 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getServiceMethods()
+    public function getServiceActionProperties()
     {
-        return $this->hasMany(CsServiceMethods::className(), ['service_id' => 'id']);
+        return $this->hasMany(CsServiceActionProperties::className(), ['service_id' => 'id']);
     }
     
 
@@ -217,9 +217,9 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getServiceSkills()
+    public function getServiceIndustryProperties()
     {
-        return $this->hasMany(CsServiceSkills::className(), ['service_id' => 'id']);
+        return $this->hasMany(CsServiceIndustryProperties::className(), ['service_id' => 'id']);
     }
 
     /**
@@ -487,11 +487,11 @@ class CsServices extends \yii\db\ActiveRecord
      */
     public function getObjectModelsList()
     {
-        if($this->serviceObjectModels):
+        /*if($this->serviceObjectModels):
             $model_list = \yii\helpers\ArrayHelper::map($this->serviceObjectModels, 'model', 'sCaseModelName');
-        else:
-            $model_list = \yii\helpers\ArrayHelper::map($this->object->objectModels, 'model_id', 'sCaseName');
-        endif;
+        else:*/
+            $model_list = \yii\helpers\ArrayHelper::map($this->object->models, 'id', 'sCaseName');
+        /*endif;*/
 
         return $model_list;
     }

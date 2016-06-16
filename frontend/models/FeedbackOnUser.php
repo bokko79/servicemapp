@@ -9,7 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $feedback_id
- * @property string $agreement_id
+ * @property string $booking_id
  * @property string $provider_id
  * @property string $user_id
  * @property string $professionalism
@@ -40,8 +40,8 @@ class FeedbackOnUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['feedback_id', 'agreement_id', 'provider_id', 'user_id', 'time'], 'required'],
-            [['feedback_id', 'agreement_id', 'provider_id', 'user_id'], 'integer'],
+            [['feedback_id', 'booking_id', 'provider_id', 'user_id', 'time'], 'required'],
+            [['feedback_id', 'booking_id', 'provider_id', 'user_id'], 'integer'],
             [['professionalism', 'responsibility', 'concise', 'payment', 'nagging'], 'string'],
             [['time'], 'safe']
         ];
@@ -55,7 +55,7 @@ class FeedbackOnUser extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'feedback_id' => Yii::t('app', 'Feedback ID'),
-            'agreement_id' => Yii::t('app', 'Agreement ID'),
+            'booking_id' => Yii::t('app', 'Booking ID'),
             'provider_id' => Yii::t('app', 'Provider ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'professionalism' => Yii::t('app', 'Professionalism'),
@@ -94,8 +94,8 @@ class FeedbackOnUser extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAgreement()
+    public function getBooking()
     {
-        return $this->hasOne(Agreements::className(), ['id' => 'agreement_id']);
+        return $this->hasOne(Bookings::className(), ['id' => 'booking_id']);
     }
 }

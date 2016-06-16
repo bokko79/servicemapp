@@ -15,7 +15,7 @@ use yii\data\ActiveDataProvider;
  */
 class IndustriesController extends Controller
 {
-    public $layout='index_service';
+    public $layout='index';
 
     /**
      * @inheritdoc
@@ -55,6 +55,9 @@ class IndustriesController extends Controller
     public function actionView($title=null)
     {
         if (isset($title)) {
+            
+            $this->layout = '//index_service';
+
             $ind_tr = $this->findModelByTitle($title);
             // ako je našao ime usluge, renderuj stranicu - URL injection
             if ($ind_tr)

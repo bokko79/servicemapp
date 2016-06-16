@@ -44,21 +44,6 @@ class ObjectsController extends Controller
     }
 
     /**
-     * Lists all CsObjects models.
-     * @return mixed
-     */
-    public function actionAdd()
-    {
-        $searchModel = new ObjectsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('add', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
      * Displays a single CsObjects model.
      * @param integer $id
      * @return mixed

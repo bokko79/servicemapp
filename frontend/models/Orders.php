@@ -174,9 +174,9 @@ class Orders extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderSkills()
+    public function getOrderIndustryProperties()
     {
-        return $this->hasMany(OrderSkills::className(), ['order_id' => 'id']);
+        return $this->hasMany(OrderIndustryProperties::className(), ['order_id' => 'id']);
     }
 
     /**

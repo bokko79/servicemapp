@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsPropertyModels */
 
-$this->title = $model->name;
+$this->title = $model->value;
 $this->params['breadcrumbs'][] = ['label' => 'Cs Property Models', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -29,14 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'name',
-            'property_id',
-            'property_name',
+            'value',
+            'property.tName',
             'selected_value',
-            'hint',
+            'transl.hint',
             'image_id',
-            'entry_by',
-            'entry_time',
             'description',
         ],
     ]) ?>

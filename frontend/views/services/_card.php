@@ -30,7 +30,7 @@ $state = $session->get('state');
     <div class="action-area">
 		<div class="button float-right">
         <?php if($state==null or $state==''): ?>
-            <?php if($model->serviceObjectModels or $model->object->objectModels): ?>
+            <?php if($model->object->models): ?>
     			<?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Poruči'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-order-modal'.$model->id]) ?>
                 <?= Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-present-modal'.$model->id]) ?>
             <?php else: ?>
@@ -45,7 +45,7 @@ $state = $session->get('state');
                 ]) ?>
             <?php endif; ?>
         <?php else: ?>
-            <?php if($model->serviceObjectModels or $model->object->objectModels): ?>
+            <?php if($model->object->models): ?>
                 <?= $state=='order' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Poruči'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-order-modal'.$model->id]) : null ?>
                 <?= $state=='present' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-present-modal'.$model->id]) : null ?>
             <?php else: ?>

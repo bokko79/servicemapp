@@ -117,17 +117,23 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getObjectModelServices()
+    public function getModels()
     {
-        return $this->hasMany(CsServiceObjectModels::className(), ['object_model_id' => 'id']);
-    }
+        //return $this->hasMany(CsObjects::className(), ['object_id' => 'id']);
+        $models = [];
+        if ($objectProperties = $this->objectProperties){
+            foreach ($objectProperties as $key => $objectProperty) {
+                if($objectProperty->property_type=='model' and $objectPropertyValues = $objectProperty->objectPropertyValues){
+                    foreach ($objectPropertyValues as $objectPropertyValue){
+                        if($object = $objectPropertyValue->object){
+                            $models[] = $object;
+                        }                        
+                    }
+                }
+            }
+        }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getChildren()
-    {
-        return $this->hasMany(CsObjects::className(), ['object_id' => 'id']);
+        return $models;
     }
 
     /**
@@ -168,38 +174,6 @@ class CsObjects extends \yii\db\ActiveRecord
     public function getPresentationObjectModels()
     {
         return $this->hasMany(PresentationObjectModels::className(), ['object_model_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getObjectParts()
-    {
-        return $this->hasMany(CsObjectParts::className(), ['object_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getObjectContainers()
-    {
-        return $this->hasMany(CsObjectParts::className(), ['part_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getObjectModels()
-    {
-        return $this->hasMany(CsObjectModels::className(), ['object_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getObjectModelObjects()
-    {
-        return $this->hasMany(CsObjectModels::className(), ['model_id' => 'id']);
     }
 
     /**

@@ -52,7 +52,7 @@ $session = Yii::$app->session;
 
 
     <?php if($objectProperties!=null): // SERVICE OBJECT SPECIFICATIONS ?>
-        <?= $this->render('parts/specifications.php', ['form'=>$form, 'model'=>$model, 'service'=>$service, 'model_specs'=>$model_specs, 'userObjects'=>$userObjects, 'object_ownership'=>$object_ownership, 'serviceObjectProperties'=>$objectProperties, 'objects' => $objects]) ?>
+        <?= $this->render('parts/object_properties.php', ['form'=>$form, 'model'=>$model, 'service'=>$service, 'model_object_properties'=>$model_object_properties, 'userObjects'=>$userObjects, 'object_ownership'=>$object_ownership, 'serviceObjectProperties'=>$objectProperties, 'objects' => $objects]) ?>
     <?php endif; ?>
 
     <?php if($service->pic==1 && $object_ownership=='user'): // SERVICE OBJECT IMAGES ?>
@@ -67,9 +67,9 @@ $session = Yii::$app->session;
         <?= $this->render('parts/amount.php', ['model'=>$model, 'form'=>$form, 'service'=>$service]) ?>
     <?php endif; ?>   
 
-    <?php if($service->serviceMethods): // SERVICE ACTION METHODS ?>
-        <?= $this->render('parts/methods.php', ['form'=>$form, 'service'=>$service, 'model'=>$model, 'model_methods'=>$model_methods, 'object_ownership'=>$object_ownership, 'serviceMethods'=>$serviceMethods]) ?>
-    <?php endif; ?>
+    <?php  /*if($service->serviceActionProperties): // SERVICE ACTION METHODS ?>
+        <?= $this->render('parts/action_properties.php', ['form'=>$form, 'service'=>$service, 'model'=>$model, 'model_action_properties'=>$model_action_properties, 'object_ownership'=>$object_ownership, 'serviceActionProperties'=>$serviceActionProperties]) ?>
+    <?php endif; */ ?>
 
     <?php // ORDER NOTE AND TITLE ?>        
         <?= $this->render('parts/note.php', ['model'=>$model, 'form'=>$form, 'service'=>$service, 'objects' => $objects]) ?>

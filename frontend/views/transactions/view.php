@@ -9,6 +9,9 @@ use yii\widgets\DetailView;
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Transactions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->params['user'] = $model;
+
 ?>
 <div class="transactions-view">
 
@@ -30,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'user_id',
-            'agreement_id',
+            'booking_id',
             'transaction_type',
             'time',
         ],

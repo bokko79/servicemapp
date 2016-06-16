@@ -412,15 +412,15 @@ class Presentations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMethods()
+    public function getPresentationActionProperties()
     {
-        return $this->hasMany(PresentationMethods::className(), ['presentation_id' => 'id']);
+        return $this->hasMany(PresentationActionProperties::className(), ['presentation_id' => 'id']);
     }
 
-    public function getMethodModels() 
+    public function getPresentationActionPropertyValues() 
     {
-        return $this->hasMany(PresentationMethodModels::className(), ['presentation_method_id' => 'id'])
-          ->viaTable('presentation_methods', ['presentation_id' => 'id']);
+        return $this->hasMany(PresentationActionPropertyValues::className(), ['presentation_action_property_id' => 'id'])
+          ->viaTable('presentation_action_properties', ['presentation_id' => 'id']);
     }
 
     /**
@@ -452,15 +452,15 @@ class Presentations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSpecs()
+    public function getPresentationObjectProperties()
     {
-        return $this->hasMany(PresentationSpecs::className(), ['presentation_id' => 'id']);
+        return $this->hasMany(PresentationObjectProperties::className(), ['presentation_id' => 'id']);
     }
 
-    public function getSpecModels() 
+    public function getPresentationObjectPropertyValues() 
     {
-        return $this->hasMany(PresentationSpecModels::className(), ['presentation_spec_id' => 'id'])
-          ->viaTable('presentation_specs', ['presentation_id' => 'id']);
+        return $this->hasMany(PresentationObjectPropertyValues::className(), ['presentation_object_property_id' => 'id'])
+          ->viaTable('presentation_object_properties', ['presentation_id' => 'id']);
     }
 
     /**

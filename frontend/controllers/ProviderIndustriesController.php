@@ -43,28 +43,19 @@ class ProviderIndustriesController extends Controller
         }
 
         if($user) {
+            $this->layout = '//user_list';
+
             $searchModel = new ProviderIndustriesSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
+                'user' => $user,
             ]);
         } else {
             $this->redirect(Yii::$app->request->baseUrl.'/providers');
         }
-    }
-
-    /**
-     * Displays a single ProviderIndustries model.
-     * @param string $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
     }
 
     /**

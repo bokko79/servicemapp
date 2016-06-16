@@ -171,7 +171,7 @@ class CartForm extends Model
 
     public function checkIfMethods()
     {
-        return ($this->service->serviceMethods) ? 0 : 1;
+        return ($this->service->serviceActionProperties) ? 0 : 1;
     }
 
     public function checkIfSpecs()

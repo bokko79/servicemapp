@@ -10,7 +10,7 @@ use Yii;
  * @property string $id
  * @property string $activity_id
  * @property string $offer_id
- * @property string $agreement_id
+ * @property string $booking_id
  * @property string $description
  *
  * @property Activities $activity
@@ -35,8 +35,8 @@ class Feedback extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['activity_id', 'offer_id', 'agreement_id'], 'required'],
-            [['activity_id', 'offer_id', 'agreement_id'], 'integer'],
+            [['activity_id', 'offer_id', 'booking_id'], 'required'],
+            [['activity_id', 'offer_id', 'booking_id'], 'integer'],
             [['description'], 'string']
         ];
     }
@@ -50,7 +50,7 @@ class Feedback extends \yii\db\ActiveRecord
             'id' => 'ID',
             'activity_id' => 'Activity ID',
             'offer_id' => 'Offer ID',
-            'agreement_id' => 'Agreement ID',
+            'booking_id' => 'Booking ID',
             'description' => 'Description',
         ];
     }
@@ -74,9 +74,9 @@ class Feedback extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAgreement()
+    public function getBooking()
     {
-        return $this->hasOne(Agreements::className(), ['id' => 'agreement_id']);
+        return $this->hasOne(Bookings::className(), ['id' => 'booking_id']);
     }
 
     /**

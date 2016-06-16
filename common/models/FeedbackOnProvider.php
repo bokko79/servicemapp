@@ -9,7 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $feedback_id
- * @property string $agreement_id
+ * @property string $booking_id
  * @property string $user_id
  * @property string $provider_id
  * @property string $price
@@ -40,8 +40,8 @@ class FeedbackOnProvider extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['feedback_id', 'agreement_id', 'user_id', 'provider_id', 'time'], 'required'],
-            [['feedback_id', 'agreement_id', 'user_id', 'provider_id'], 'integer'],
+            [['feedback_id', 'booking_id', 'user_id', 'provider_id', 'time'], 'required'],
+            [['feedback_id', 'booking_id', 'user_id', 'provider_id'], 'integer'],
             [['price', 'quality', 'responsiveness', 'punctuality', 'professionalism'], 'string'],
             [['time'], 'safe']
         ];
@@ -55,7 +55,7 @@ class FeedbackOnProvider extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'feedback_id' => 'Feedback ID',
-            'agreement_id' => 'Dogovor na osnovu kojeg se vrši ocenjivanje.',
+            'booking_id' => 'Dogovor na osnovu kojeg se vrši ocenjivanje.',
             'user_id' => 'Korisnik koji ocenjuje pružaoca usluge.',
             'provider_id' => 'Pružalac usluge koji se ocenjuje.',
             'price' => 'Cena pružaoca usluge. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
@@ -94,9 +94,9 @@ class FeedbackOnProvider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAgreement()
+    public function getBooking()
     {
-        return $this->hasOne(Agreements::className(), ['id' => 'agreement_id']);
+        return $this->hasOne(Bookings::className(), ['id' => 'booking_id']);
     }
 
     /**

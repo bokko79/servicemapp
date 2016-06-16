@@ -29,29 +29,14 @@ class BidsController extends Controller
     }
 
     /**
-     * Lists all Bids models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new BidsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
      * Displays a single Bids model.
      * @param string $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $this->layout = '//product';
-
+        $this->layout = '//report';
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);

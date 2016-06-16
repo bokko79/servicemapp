@@ -18,7 +18,7 @@ class TransactionsSearch extends Transactions
     public function rules()
     {
         return [
-            [['id', 'user_id', 'agreement_id'], 'integer'],
+            [['id', 'user_id', 'booking_id'], 'integer'],
             [['transaction_type', 'time'], 'safe'],
         ];
     }
@@ -58,7 +58,7 @@ class TransactionsSearch extends Transactions
         $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'agreement_id' => $this->agreement_id,
+            'booking_id' => $this->booking_id,
             'time' => $this->time,
         ]);
 

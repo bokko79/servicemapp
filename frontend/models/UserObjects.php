@@ -18,7 +18,7 @@ use Yii;
  * @property string $update_time
  *
  * @property UserObjectImages[] $userObjectImages
- * @property UserObjectSpecs[] $userObjectSpecs
+ * @property UserObjectProperties[] $userObjectProperties
  * @property CsObjects $object
  * @property CsObjectTypes $objectType
  * @property Locations $loc
@@ -76,9 +76,9 @@ class UserObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserObjectSpecs()
+    public function getUserObjectProperties()
     {
-        return $this->hasMany(UserObjectSpecs::className(), ['user_object_id' => 'id']);
+        return $this->hasMany(UserObjectProperties::className(), ['user_object_id' => 'id']);
     }
 
     /**

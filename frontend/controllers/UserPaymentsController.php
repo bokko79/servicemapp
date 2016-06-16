@@ -72,6 +72,8 @@ class UserPaymentsController extends Controller
      */
     public function actionCreate()
     {
+        $this->layout = '//blank';
+        
         $model = new UserPayment();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

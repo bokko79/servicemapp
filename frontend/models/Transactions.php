@@ -9,7 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $user_id
- * @property string $agreement_id
+ * @property string $booking_id
  * @property string $transaction_type
  * @property string $time
  *
@@ -32,8 +32,8 @@ class Transactions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'agreement_id', 'transaction_type', 'time'], 'required'],
-            [['user_id', 'agreement_id'], 'integer'],
+            [['user_id', 'booking_id', 'transaction_type', 'time'], 'required'],
+            [['user_id', 'booking_id'], 'integer'],
             [['transaction_type'], 'string'],
             [['time'], 'safe']
         ];
@@ -47,7 +47,7 @@ class Transactions extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            'agreement_id' => Yii::t('app', 'Agreement ID'),
+            'booking_id' => Yii::t('app', 'Booking ID'),
             'transaction_type' => Yii::t('app', 'Transaction Type'),
             'time' => Yii::t('app', 'Time'),
         ];
@@ -64,8 +64,8 @@ class Transactions extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAgreement()
+    public function getBooking()
     {
-        return $this->hasOne(Agreements::className(), ['id' => 'agreement_id']);
+        return $this->hasOne(Bookings::className(), ['id' => 'booking_id']);
     }
 }

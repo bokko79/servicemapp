@@ -10,7 +10,7 @@ use Yii;
  * @property string $id
  * @property string $activity_id
  * @property string $offer_id
- * @property string $agreement_id
+ * @property string $booking_id
  * @property string $description
  *
  * @property Activities $activity
@@ -35,8 +35,8 @@ class Feedback extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['activity_id', 'offer_id', 'agreement_id'], 'required'],
-            [['activity_id', 'offer_id', 'agreement_id'], 'integer'],
+            [['activity_id', 'offer_id', 'booking_id'], 'required'],
+            [['activity_id', 'offer_id', 'booking_id'], 'integer'],
             [['description'], 'string']
         ];
     }
@@ -50,7 +50,7 @@ class Feedback extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'activity_id' => Yii::t('app', 'Activity ID'),
             'offer_id' => Yii::t('app', 'Offer ID'),
-            'agreement_id' => Yii::t('app', 'Agreement ID'),
+            'booking_id' => Yii::t('app', 'Booking ID'),
             'description' => Yii::t('app', 'Description'),
         ];
     }
@@ -74,9 +74,9 @@ class Feedback extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAgreement()
+    public function getBooking()
     {
-        return $this->hasOne(Agreements::className(), ['id' => 'agreement_id']);
+        return $this->hasOne(Bookings::className(), ['id' => 'booking_id']);
     }
 
     /**

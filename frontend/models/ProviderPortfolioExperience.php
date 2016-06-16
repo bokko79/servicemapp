@@ -61,4 +61,12 @@ class ProviderPortfolioExperience extends \yii\db\ActiveRecord
             'summary' => 'Summary',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProviderPortfolio()
+    {
+        return $this->hasOne(ProviderPortfolio::className(), ['provider_id' => 'provider_portfolio_id']);
+    }
 }

@@ -2,10 +2,13 @@
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
+
+//echo '<pre>';
+//print_r($model->providerService->service);die();
 ?>
 <tr>
     <td>
-        <div><?= $model->providerService->service->name ?></div>
+        <div><?= $model->providerService->service ? $model->providerService->service->name : null ?></div>
     </td>
     <td>
         <?= $model->price ?>
@@ -14,7 +17,7 @@ use yii\helpers\Url;
         <div><?= $model->activity->status ?></div>
     </td>
     <td class="">
-        <?= count($model->activity->orders) ?>              
+        <?= count($model->activity->order) ?>              
     </td>
     <td class="center">
         <?= count($model->activity->comments) ?>

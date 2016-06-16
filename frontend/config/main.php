@@ -31,6 +31,8 @@ return [
             ],
             'identityClass' => 'common\models\User',
             'class' => 'frontend\components\User',
+            'enableAutoLogin' => true,
+            'loginUrl' => ['login'],
         ],
         'session' => [
             'name' => 'FRONTENDSESSID',

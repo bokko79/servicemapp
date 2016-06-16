@@ -20,8 +20,9 @@ class OrdersSearch extends Orders
     public function rules()
     {
         return [
-            [['id', 'activity_id', 'loc_id', 'loc_id2', 'loc_within', 'registered_to', 'phone_contact', 'turn_key', 'process_id', 'success', 'hit_counter'], 'integer'],
-            [['delivery_starts', 'delivery_ends', 'validity', 'update_time', 'lang_code', 'class', 'order_type', 'success_time'], 'safe'],
+            [['activity_id'], 'required'],
+            [['activity_id', 'registered_to', 'process_id', 'loc_id', 'loc_id2', 'coverage', 'coverage_within', 'consumer', 'consumer_to', 'consumer_children', 'frequency', 'budget', 'currency_id', 'shipping', 'installation', 'support', 'turn_key', 'tools', 'phone_contact', 'success', 'hit_counter'], 'integer'],
+            [['delivery_starts', 'delivery_ends', 'validity', 'success_time', 'update_time'], 'safe'],
             [['service'], 'safe'],
         ];
     }

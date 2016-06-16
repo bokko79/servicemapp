@@ -25,6 +25,9 @@ use Yii;
  */
 class CsProperties extends \yii\db\ActiveRecord
 {
+    public $name_akk;
+    public $hint;
+
     /**
      * @inheritdoc
      */
@@ -41,8 +44,9 @@ class CsProperties extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['type', 'property_id', 'multiple_values', 'translatable_values'], 'integer'],
-            [['name'], 'string', 'max' => 64],
+            [['name', 'name_akk'], 'string', 'max' => 64],
             [['class', 'description'], 'string', 'max' => 32],
+            [['hint'], 'string', 'max' => 256],
         ];
     }
 
@@ -116,7 +120,7 @@ class CsProperties extends \yii\db\ActiveRecord
      */
     public function getTranslation()
     {
-        $property_translation = \frontend\models\CsPropertiesTranslation::find()->where('lang_code="SR" and property_id='.$this->id)->one();
+        $property_translation = \common\models\CsPropertiesTranslation::find()->where('lang_code="SR" and property_id='.$this->id)->one();
         if($property_translation) {
             return $property_translation;
         }

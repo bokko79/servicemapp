@@ -99,12 +99,12 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionBlank()
+    public function actionAlert()
     {
         $this->layout = '//blank';
         $title = Yii::t('user', 'Your account has been created');
 
-        return $this->render('blank', [
+        return $this->render('alert', [
                 'title' => $title,
             ]);
     }
@@ -114,7 +114,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionLogin()
+    /*public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -127,16 +127,16 @@ class SiteController extends Controller
             return $this->goHome();
             /*return $this->render('login', [
                 'model' => $model,
-            ]);*/
+            ]);
         }
-    }
+    }*/
 
     /**
      * Logs out the current user.
      *
      * @return mixed
      */
-    public function actionLogout()
+    /*public function actionLogout()
     {
         Yii::$app->user->logout();
 
@@ -210,18 +210,6 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionSearch()
-    {
-        $this->layout = '//search';
-
-        return $this->render('search');
-    }
-
-    /**
-     * Displays search result page.
-     *
-     * @return mixed
-     */
     public function actionDeposit()
     {
         $this->layout = '//blank';
@@ -242,11 +230,47 @@ class SiteController extends Controller
     }
 
     /**
+     * Displays search result page.
+     *
+     * @return mixed
+     */
+    public function actionTransfer()
+    {
+        $this->layout = '//blank';
+
+        return $this->render('transfer');
+    }
+
+    /**
+     * Displays search result page.
+     *
+     * @return mixed
+     */
+    public function actionSuggest()
+    {
+        $this->layout = '//blank';
+
+        return $this->render('suggest');
+    }
+
+    /**
+     * Displays search result page.
+     *
+     * @return mixed
+     */
+    public function actionCheckout()
+    {
+        $this->layout = '//blank';
+
+        return $this->render('checkout');
+    }
+
+    /**
      * Signs user up.
      *
      * @return mixed
      */
-    public function actionSignup()
+    /*public function actionSignup()
     {
         $model = new SignupForm();
         $location = new \frontend\models\Locations();
@@ -267,7 +291,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionRequestPasswordReset()
+    /*public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -292,7 +316,7 @@ class SiteController extends Controller
      * @return mixed
      * @throws BadRequestHttpException
      */
-    public function actionResetPassword($token)
+    /*public function actionResetPassword($token)
     {
         try {
             $model = new ResetPasswordForm($token);
@@ -309,7 +333,7 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
-    }
+    }*/
 
     /**
      * Displays search result page.

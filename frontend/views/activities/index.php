@@ -18,6 +18,9 @@ use dosamigos\google\maps\Map;
 
 $this->title = Yii::t('app', 'Market feed');
 $this->params['breadcrumbs'][] = $this->title;
+
+echo Yii::$app->user->role;
+//echo \Yii::$app->user->identity->role;
 ?>
 <div class="activities-index">
     <h1 class="padding-top-20 padding-bottom-20"><?= Html::encode($this->title) ?> <span class="float-right fs_12 bold">sort by <?= Html::dropDownList('sort', null, [

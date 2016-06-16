@@ -7,8 +7,8 @@ use frontend\models\User;
 use frontend\models\UserSearch;
 use frontend\models\Orders;
 use frontend\models\OrdersSearch;
-use frontend\models\Agreements;
-use frontend\models\AgreementsSearch;
+use frontend\models\Bookings;
+use frontend\models\BookingsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -140,7 +140,7 @@ class UsersController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionSavedOrders($username=null)
+    public function actionPreorders($username=null)
     {
         $this->layout = '//user_list';
 
@@ -152,7 +152,7 @@ class UsersController extends Controller
                 $searchModel = new OrdersSearch();
                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-                return $this->render('saved-orders', [
+                return $this->render('preorders', [
                     'model' => $user,
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
@@ -171,7 +171,7 @@ class UsersController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionArrangements($username=null)
+    public function actionBookings($username=null)
     {
         $this->layout = '//user_list';
 
@@ -179,10 +179,10 @@ class UsersController extends Controller
             $user = $this->findModelByUsername($username);
 
             if($user) {
-                $searchModel = new AgreementsSearch();
+                $searchModel = new BookingsSearch();
                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-                return $this->render('arrangements', [
+                return $this->render('bookings', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
                     'model' => $user,

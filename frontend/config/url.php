@@ -6,49 +6,69 @@ return [
     'baseUrl' => 'http://servicemapp/',
     'scriptUrl' => 'http://servicemapp/',
     'rules' => [
+        // DEKTRIUM USER
         '<module:user>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
         '<module:user>/<action:\w+>' => '<module>/<controller>/<action>',
-        'intro' => 'intro/main',
-        'index' => 'site/index',
-        'about-us' => 'site/about', // :page
-        'contact-us' => 'site/contact', // :page
-        'invite-friends' => 'site/invite', // :page
-        'membership' => 'site/membership', // :page
-        'search' => 'site/search', // :page
-        'blank' => 'site/blank', // :page
-        //'register' => 'site/signup',
-        'registerProvider' => 'site/signprovider',
 
-        // 2. POSTS             
+        'login' => 'user/security/login', // :page
+        'logout' => 'user/security/logout',
+        'register' => 'user/registration/register', // :page
+        'register-provider' => 'user/registration/register-provider', // :page
+        'recovery' => 'user/recovery/request', // :page  
+
+        // ACTIVITIES
+        'market' => 'activities/index', // :page
+        '' => 'activities/index', // :page
+
+        // BIDS
+        'new-bid' => 'bids/create', // :page
+        'bid/<id:\d+>' => 'bids/view', // :page
+        'bid-setup/<id:\d+>' => 'bids/update', // :page
+
+        // BOOKINGS
+        'new-booking' => 'bookings/create', // :page
+        'booking/<id:\d+>' => 'bookings/view', // :page
+        'booking-setup/<id:\d+>' => 'bookings/update', // :page
+
+        // FEEDBACK
+        'feedback' => 'feedback/create', // :page
+
+        // INDUSTRIES
+        'industries' => 'industries/index', // :page
+        'i/<title>' => 'industries/view', // :page
+
+        // INTRO
+        'intro' => 'intro/main', // :page
+
+        // MESSAGES
+        //'new-message' => 'message-threads/create', // :page
+        '<username:\w+>/inbox' => 'messages/index', // :page
+        //'message-thread/<id:\d+>' => 'message-threads/view', // :page
+
+        // NOTIFICATIONS
+        '<username:\w+>/notifications' => 'notifications/index', // :page
+
+        // OBJECTS
+        'objects' => 'objects/index', // :page
+        'o/<title>' => 'objects/view', // :page
+
+        // ORDERS
+        'choose-models' => 'orders/models', // :page
+        'add/<title>' => 'orders/add', // :page
+        'new-order' => 'orders/create', // :page
+        'order/<id:\d+>' => 'orders/view', // :page
+        'order-setup/<id:\d+>' => 'orders/update', // :page        
+        'empty-cart' => 'orders/empty-cart', // :action
+
+        // POSTS             
         'info' => 'posts/index', // :page
+        'new-post' => 'posts/create', // :page
         'post/<id:\d+>' => 'posts/view', // :page  
-        'how-it-works' => 'posts/how-it-works', // :page
-        'faq' => 'posts/faq', // :page
-        'blog' => 'posts/blog', // :page
+        'post-setup/<id:\d+>' => 'posts/update', // :page  
+        'info-categories' => 'posts/categories', // :page
+        'info-contents' => 'posts/contents', // :page
 
-        // 3. USER
-        //'users' => 'user/index',
-        '<username:\w+>/home' => 'users/view',
-        '<username:\w+>/setup' => 'users/update',
-        '<username:\w+>/account-setup' => 'users/account',
-        '<username:\w+>/orders' => 'users/orders',
-        '<username:\w+>/ready-orders' => 'users/saved-orders',
-        '<username:\w+>/arrangements' => 'users/arrangements',
-        '<username:\w+>/profile' => 'users/profile',
-        '<username:\w+>/finances' => 'users/finances',        
-
-        // 4 PROVIDER
-        'providers' => 'provider/index', // :page
-        'p/<username:\w+>' =>'provider/view', // :page
-        'recommend/<id:\d+>' =>'provider/recommend',
-        'review/<id:\d+>' =>'provider/review',
-        'rate/<id:\d+>' =>'provider/rate',
-        '<username:\w+>/portfolio-setup' => 'provider/update',
-        '<username:\w+>/bids' => 'provider/bids',
-        '<username:\w+>/presentations' => 'provider/presentations',
-        '<username:\w+>/promotions' => 'provider/promotions',
-
-        // 5 PRESENTATIONS
+        // PRESENTATIONS
         'new-presentation' => 'presentations/create', // :page
         'presentations' => 'presentations/index', // :page
         'presentation-setup/<id:\d+>' => 'presentations/update', // :page
@@ -57,60 +77,51 @@ return [
         'showThemSpecs' =>'presentations/show-them-specs', // ajax
         'showThemPics' =>'presentations/show-them-pics', // ajax
         'showThemMethods' =>'presentations/show-them-methods', // ajax
+        
+        // PRODUCTS
+        'products' => 'products/index', // :page
+        'product/<title>' => 'products/view', // :page
+        'product-compare/<title>-<title2>' => 'products/compare', // :page
 
-        // 6 USERLOCATIONS
-        'new-location' => 'user-locations/create', // S-16:page
-        '<username:\w+>/locations' => 'user-locations/index', // S-16:page
-        'location-setup/<id:\d+>' => 'user-locations/update', // S-16:page
+        // PROMOTIONS
+        'new-promotion' => 'promotions/create', // :page
+        'promotion/<id:\d+>' => 'promotions/view', // :page
+        'promotion-setup/<id:\d+>' => 'promotions/update', // :page
 
-        // 7 USEROBJECTS
-        'new-object' => 'user-objects/create', // S-16:page
-        '<username:\w+>/objects' => 'user-objects/index', // S-16:page
-        'object-setup/<id:\d+>' => 'user-objects/update', // S-16:page
+        // PROVIDER
+        'providers' => 'provider/index', // :page
+        'p/<username:\w+>' =>'provider/view', // :page
+        'recommend/<id:\d+>' =>'provider/recommend',
+        'review/<id:\d+>' =>'provider/review',
+        'rate/<id:\d+>' =>'provider/rate',
+        '<username:\w+>/portfolio-setup' => 'provider/update', // :page
+        '<username:\w+>/bids' => 'provider/bids', // :page
+        '<username:\w+>/presentations' => 'provider/presentations', // :page
+        '<username:\w+>/promotions' => 'provider/promotions', // :page
 
-        // 8 USER NOTIFICATIONS
-        '<username:\w+>/notifications-setup' => 'user-notifications/update', // S-16:page
-        '<username:\w+>/notifications' => 'notifications/index', // S-16:page
-
-        // 9 USER PAYMENTS
-        'new-payment' => 'user-payments/create', // S-16:page
-        'payment-setup/<id:\d+>' => 'user-payments/update', // S-16:page
-        '<username:\w+>/payments' => 'user-payments/index', // S-16:page
-
-        // 10 PROVIDER INDUSTRIES
+        // PROVIDER INDUSTRIES
         'new-industry' => 'provider-industries/create', // :page
         '<username:\w+>/industries' => 'provider-industries/index', // :page
         'industry-setup/<id:\d+>' => 'provider-industries/update', // :page
 
-        // 11 PROVIDER TERMS
-        '<username:\w+>/terms' => 'provider-terms/update', // :page
-
-        // 12 PROVIDER SERVICES
-        'new-service' => 'provider-services/create', // :page
+        // PROVIDER SERVICES
+        //'new-service' => 'provider-services/create', // :page
         '<username:\w+>/services' => 'provider-services/index', // :page
         'my-service-setup/<id:\d+>' => 'provider-services/update', // :page
         'provider-industries' => 'provider-services/industries', // :page
-        'provider-industry-skills' => 'provider-services/skills', // :page
-        'provider-industry-services' => 'provider-services/services', // :page
+        //'provider-industry-skills' => 'provider-services/skills', // :page
+        //'provider-industry-services' => 'provider-services/services', // :page
 
-        // 13 PROVIDER SKILLS
-        'new-skill' => 'provider-industry-skills/create', // :page
-        '<username:\w+>/skills' => 'provider-industry-skills/index', // :page
+        // PROVIDER SKILLS
+        'new-skill' => 'provider-skills/create', // :page
+        '<username:\w+>/skills' => 'provider-skills/index', // :page
+        'skill-setup/<id:\d+>' => 'provider-skills/update', // :page
 
-        // 14 TRANSACTIONS
-        'new-transaction' => 'transactions/create', // S-16:page
-        '<username:\w+>/transactions' => 'transactions/index', // S-16:page
-        'transaction/<id:\d+>' => 'transactions/view', // S-16:page
+         // PROVIDER TERMS
+        '<username:\w+>/terms' => 'provider-terms/index', // :page
+        '<username:\w+>/terms-setup' => 'provider-terms/update', // :page
 
-        // 15 USERSERVICES
-        '<username:\w+>/follow-services' => 'user-services/index', // S-16:page
-
-        // 16 MESSAGE THREADS
-        'new-message' => 'message-threads/create', // S-16:page
-        '<username:\w+>/inbox' => 'message-threads/index', // S-16:page
-        'message-thread/<id:\d+>' => 'message-threads/view', // S-16:page
-
-        // 17 SERVICES
+        // SERVICES
         'add-services' => 'services/add', // :page
         'services' => 'services/index', // :page
         'services/<entity>/<title>' => 'services/index', // :page
@@ -118,43 +129,56 @@ return [
         'objectModelsPresent' => 'services/object-models-present', // ajax
         'objectModelsOrder' => 'services/object-models-order', // ajax
 
+        // SITE
+        'index' => 'site/index',
+        //'about-us' => 'site/about', // :page
+        'alert' => 'site/alert', // :page
+        'checkout' => 'site/checkout', // :page
+        'contact-us' => 'site/contact', // :page
+        'deposit' => 'site/deposit', // :page
+        'referral' => 'site/invite', // :page
+        'membership' => 'site/membership', // :page
+        'suggest' => 'site/suggest', // :page
+        'transfer' => 'site/transfer', // :page
+        'withdraw' => 'site/withdraw', // :page
 
-        // 18 OBJECTS
-        'add-objects' => 'objects/add', // :page
-        'objects' => 'objects/index', // :page
-        'o/<title>' => 'objects/view', // :page
+        // TRANSACTIONS
+        'new-transaction' => 'transactions/create', // :page
+        '<username:\w+>/transactions' => 'transactions/index', // :page
+        'transaction/<id:\d+>' => 'transactions/view', // :page
 
-        // 19 ACTIVITIES AND FEEDBACK
-        'market' => 'activities/index', // E-31:page
-        '' => 'activities/index', // E-31:page
-        'new-feedback' => 'feedback/create', // :page
-        'feedback/<id:\d+>' => 'feedback/view', // :page
+        // USER
+        '<username:\w+>/home' => 'users/view',
+        '<username:\w+>/setup' => 'users/update',
+        '<username:\w+>/account-setup' => 'users/account',
+        '<username:\w+>/orders' => 'users/orders',
+        '<username:\w+>/preorders' => 'users/preorders',
+        '<username:\w+>/bookings' => 'users/bookings',
+        '<username:\w+>/profile' => 'users/profile',
+        '<username:\w+>/finances' => 'users/finances',
 
-        // 20 ORDERS
-        'choose-service' => 'orders/choose', // :page
-        'add/<title>' => 'orders/add', // :page
-        'new-order' => 'orders/create', // :page
-        'order/<id:\d+>' => 'orders/view', // :page
-        'order-setup/<id:\d+>' => 'orders/update', // :page
-        '<username:\w+>/saved-orders' => 'orders/saved', // :page
-        'empty-cart' => 'orders/empty-cart', // :action
+        // USER LOCATIONS
+        'new-location' => 'user-locations/create', // :page
+        '<username:\w+>/locations' => 'user-locations/index', // :page
+        'location-setup/<id:\d+>' => 'user-locations/update', // :page
 
-        // 21 BIDS
-        'new-bid' => 'bids/create', // S-16:page
-        'bid/<id:\d+>' => 'bids/view', // S-16:page
-        'bid-setup/<id:\d+>' => 'bids/update', // S-16:page
+        // USER OBJECTS
+        'new-object' => 'user-objects/create', // :page
+        '<username:\w+>/objects' => 'user-objects/index', // :page
+        'object-setup/<id:\d+>' => 'user-objects/update', // :page
 
-        // 22 PROMOTIONS
-        'new-promotion' => 'promotions/create', // S-16:page
-        'promotion/<id:\d+>' => 'promotions/view', // S-16:page
-        'promotion-setup/<id:\d+>' => 'promotions/update', // S-16:page
+        // USER NOTIFICATIONS
+        '<username:\w+>/notifications-setup' => 'user-notifications/update', // :page       
 
-        // 23 AGREEMENTS
-        'new-agreement' => 'agreements/create', // S-16:page
-        'agreement/<id:\d+>' => 'agreements/view', // S-16:page
-        'agreement-setup/<id:\d+>' => 'agreements/update', // S-16:page
+        // USER PAYMENTS
+        'new-payment' => 'user-payments/create', // :page
+        'payment-setup/<id:\d+>' => 'user-payments/update', // :page
+        '<username:\w+>/payments' => 'user-payments/index', // :page
 
-        // 24 GLOBAL-NAV
+        // USER SERVICES
+        '<username:\w+>/follow-services' => 'user-services/index', // :page
+
+        // GLOBAL-NAV
         'glob-ind-ser' => 'global-nav/glob-ind-ser',
         'glob-nav-events-body' => 'global-nav/glob-nav-events-body',
         'glob-nav-events-head' => 'global-nav/glob-nav-events-head',
@@ -171,7 +195,7 @@ return [
         'glob-nav-act-services' => 'global-nav/act-services',
         'glob-nav-ser-objects' => 'global-nav/service-objects',
 
-        // 25 AUTOCOMPLETE
+        // AUTOCOMPLETE
         'auto/list-act-services' => 'autocomplete/list-act-services',
         'auto/list-ind-actions' => 'autocomplete/list-ind-actions',
         'auto/list-services' => 'autocomplete/list-services',
@@ -186,15 +210,5 @@ return [
         'auto/list-actions-tags' => 'autocomplete/list-actions-tags',
         'auto/list-objects-tags' => 'autocomplete/list-objects-tags',
         'auto/index' => 'autocomplete/index',
-
-        // 26 PRODUCTS
-        'new-product' => 'products/create', // S-16:page
-        'products' => 'products/index', // S-16:page
-        'product/<title>' => 'products/view', // S-16:page
-        'product-setup/<id:\d+>' => 'products/update', // S-16:page
-
-        // 27 INDUSTRIES
-        'industries' => 'industries/index', // :page
-        'i/<title>' => 'industries/view', // :page
     ],
 ];

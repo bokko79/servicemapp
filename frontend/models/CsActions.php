@@ -18,7 +18,7 @@ use Yii;
  * @property CsIndustries $industry
  * @property User $addedBy
  * @property CsActionsTranslation[] $csActionsTranslations
- * @property CsMethods[] $csMethods
+ * @property CsActionProperties[] $csActionProperties
  * @property CsServices[] $csServices
  */
 class CsActions extends \yii\db\ActiveRecord
@@ -80,9 +80,9 @@ class CsActions extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMethods()
+    public function getActionProperties()
     {
-        return $this->hasMany(CsMethods::className(), ['action_id' => 'id']);
+        return $this->hasMany(CsActionProperties::className(), ['action_id' => 'id']);
     }
 
     /**

@@ -10,12 +10,12 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Request;
 use frontend\models\Activities;
-use frontend\models\OrderSkills;
+use frontend\models\OrderIndustryProperties;
 use frontend\models\OrderServices;
-use frontend\models\OrderServiceObjectmodels;
-use frontend\models\OrderServiceSpecs;
-use frontend\models\OrderServiceSpecModels;
-use frontend\models\OrderServiceMethods;
+use frontend\models\OrderServiceObjectModels;
+use frontend\models\OrderServiceObjectProperties;
+use frontend\models\OrderServiceObjectPropertyValues;
+use frontend\models\OrderServiceActionProperties;
 use frontend\models\OrderServiceImages;
 use frontend\models\OrderServiceIssues;
 use frontend\models\Log;
@@ -66,33 +66,53 @@ class OrdersController extends Controller
      * Adds a Service to an Order Cart.
      * @return mixed
      */
-    public function actionAdd($title=null)
+    public function actionModels($title=null)
     {
         if (isset($title) && ($ser_tr = $this->findServiceByTitle($title))) {
+            $service = $this->findService($ser_tr->service_id);
+            $key = (isset(Yii::$app->session['cart']['industry'][$service->industry_id]['data']) && Yii::$app->session['cart']['industry'][$service->industry_id]['data']!=null) ? count(Yii::$app->session['cart']['industry'][$service->industry_id]['data'])+1 : 1;
+                             
+            
+            return $this->render('models', [
+                'service' => $service,
+            ]);
+
+        } else {
+            return $this->redirect('/services');
+        }
+    }
+
+    /**
+     * Adds a Service to an Order Cart.
+     * @return mixed
+     */
+    public function actionAdd($title=null)
+    {
+        if (isset($title) and $service = $this->findServiceByTitle($title)) {
             $object_models = (Yii::$app->request->get('CsObjects')) ? Yii::$app->request->get('CsObjects')['id'] : null;
             $products = (Yii::$app->request->get('CsProducts')) ? Yii::$app->request->get('CsProducts')['id'] : null;
             $presentation = (Yii::$app->request->get('Presentations')) ? $this->findPresentation(Yii::$app->request->get('Presentations')['id']) : null;
-            $service = $this->findService($ser_tr->service_id);
+            //service = $this->findService($ser_tr->service_id);
             $key = (isset(Yii::$app->session['cart']['industry'][$service->industry_id]['data']) && Yii::$app->session['cart']['industry'][$service->industry_id]['data']!=null) ? count(Yii::$app->session['cart']['industry'][$service->industry_id]['data'])+1 : 1;
             
             $model = $this->loadCartFormModel($service, $object_models, $key, $products, $presentation);            
             // method model
-            $model_method = $this->loadServiceMethods($service, $key);
+            $model_action_properties = $this->loadServiceActionProperties($service, $key);
             // specification model
-            $model_spec = $this->loadServiceObjectProperties($service, $object_models, $products, $key);                                   
+            $model_object_properties = $this->loadServiceObjectProperties($service, $object_models, $products, $key);                                   
                     
             if($model->load(Yii::$app->request->post()) and $model->storeToCart()) {
-                if($model_method!=null){ // methods
-                    if(yii\base\Model::loadMultiple($model_method, Yii::$app->request->post()) and yii\base\Model::validateMultiple($model_method)) {
-                        foreach ($model_method as $m_method) {
-                            $m_method->store();
+                if($model_action_properties!=null){ // methods
+                    if(yii\base\Model::loadMultiple($model_action_properties, Yii::$app->request->post()) and yii\base\Model::validateMultiple($model_action_properties)) {
+                        foreach ($model_action_properties as $model_action_property) {
+                            $model_action_property->store();
                         }
                     }
                 }
-                if($model_spec!=null and ($model->user_object=='' || $model->user_object==null)){ // specifications
-                    if(yii\base\Model::loadMultiple($model_spec, Yii::$app->request->post()) and yii\base\Model::validateMultiple($model_spec)) {
-                        foreach ($model_spec as $m_spec) {
-                            $m_spec->store();
+                if($model_object_properties!=null and ($model->user_object=='' or $model->user_object==null)){ // specifications
+                    if(yii\base\Model::loadMultiple($model_object_properties, Yii::$app->request->post()) and yii\base\Model::validateMultiple($model_object_properties)) {
+                        foreach ($model_object_properties as $model_object_property) {
+                            $model_object_property->store();
                         }
                     }
                 }
@@ -100,7 +120,7 @@ class OrdersController extends Controller
                     $model->upload();
                 }
                 if(isset($_POST['searchPresentationIndex']) and $_POST['searchPresentationIndex']==''){                 
-                    return $this->redirect($this->addParamsForPresentationIndex($model_spec, $model_method, $model, $service));
+                    return $this->redirect($this->addParamsForPresentationIndex($model_object_properties, $model_action_properties, $model, $service));
                 }
                 if(isset($_POST['addMoreServices']) and $_POST['addMoreServices']==''){
                     return $this->redirect(['/services', 'i'=>$service->industry_id]);
@@ -109,18 +129,20 @@ class OrdersController extends Controller
             } else {
                 return $this->render('add', [
                     'model' => $model,
-                    'model_specs' => $model_spec,
-                    'model_methods' => $model_method,                    
+                    'model_object_properties' => $model_object_properties,
+                    'model_action_properties' => $model_action_properties,                    
                     'service' => $service,
                     'object_models' => $object_models,
                     'objects' => $this->getObjectModels($object_models),
                     'serviceObjectProperties' => $service->serviceObjectProperties,
                     'objectProperties' => $this->objectProperties($service, $object_models, $products),
                     'userObjects' => $this->checkUserObjectsExist($service, $object_models),
-                    'serviceMethods' => $service->serviceMethods,
+                    'serviceActionProperties' => $service->serviceActionProperties,
                 ]);
             }  
-        } else {return $this->redirect('/services');}
+        } else {
+            return $this->redirect('/services');
+        }
     }
 
     /**
@@ -316,7 +338,8 @@ class OrdersController extends Controller
     protected function findServiceByTitle($title)
     {
         if (($model = \common\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
-            return $model;
+            $service = $this->findService($model->service_id);
+            return $service;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
@@ -421,6 +444,7 @@ class OrdersController extends Controller
                 $container = $service->partContainer;
             }*/
             // if model: models properties + objects public/protected properties + inherited properties // filtered through services object properties
+            $objectProperties = [];
             if($object_models and count($object_models)==1){
                 foreach($object_models as $object_model) {
                     $object_m = \frontend\models\CsObjects::findOne($object_model);
@@ -475,60 +499,57 @@ class OrdersController extends Controller
         if($objectProperties!=null){
             /*echo '<pre>';
                 print_r($objectProperties); die();*/
-            foreach($objectProperties as $objectProperty) {
-                
-                if($objectProperty->property) {
-                    $property = $objectProperty->property;
-                    $model_spec[$property->id] = new \frontend\models\CartServiceObjectProperties();
-                    $model_spec[$property->id]->objectProperty = $objectProperty;
-                    $model_spec[$property->id]->property = $property;
-                    $model_spec[$property->id]->service = $service;
-                    $model_spec[$property->id]->key = $key;
-                    $model_spec[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 0 : 1;
-                    $model_spec[$property->id]->checkIfRequired = ($objectProperty->required==1) ? 1 : 0;
+            foreach($objectProperties as $objectProperty) {                
+                if($property = $objectProperty->property) {
+                    $model_object_property[$property->id] = new \frontend\models\CartServiceObjectProperties();
+                    $model_object_property[$property->id]->objectProperty = $objectProperty;
+                    $model_object_property[$property->id]->property = $property;
+                    $model_object_property[$property->id]->service = $service;
+                    $model_object_property[$property->id]->key = $key;
+                    $model_object_property[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_models)) ? 0 : 1;
+                    $model_object_property[$property->id]->checkIfRequired = ($objectProperty->required==1) ? 1 : 0;
                 }
             }
-            return (isset($model_spec)) ? $model_spec : null;
+            return (isset($model_object_property)) ? $model_object_property : null;
         }
         return null;        
     } 
 
-    protected function loadServiceMethods($service, $key)
+    protected function loadServiceActionProperties($service, $key)
     {
-        if($service->serviceMethods!=null) {
-            foreach($service->serviceMethods as $serviceMethod) {
-                if($serviceMethod->method) {
-                    if($serviceMethod->method->property) { 
-                        $property = $serviceMethod->method->property;
-                        $model_method[$property->id] = new \frontend\models\CartServiceActionMethod();
-                        $model_method[$property->id]->serviceMethod = $serviceMethod->method;
-                        $model_method[$property->id]->property = $property;
-                        $model_method[$property->id]->service = $service;
-                        $model_method[$property->id]->key = $key;
+        if($service->serviceActionProperties!=null) {
+            foreach($service->serviceActionProperties as $serviceActionProperty) {
+                if($actionProperty = $serviceActionProperty->actionProperty) {
+                    if($property = $actionProperty->property) { 
+                        $model_action_property[$property->id] = new \frontend\models\CartServiceActionProperties();
+                        $model_action_property[$property->id]->serviceActionProperty = $serviceActionProperty;
+                        $model_action_property[$property->id]->actionProperty = $actionProperty;
+                        $model_action_property[$property->id]->property = $property;
+                        $model_action_property[$property->id]->service = $service;
+                        $model_action_property[$property->id]->key = $key;
                     }
                 }           
             }
-            return $model_method;
+            return $model_action_property;
         }
         return null;
     }
 
-    protected function loadServiceSkills($service)
+    protected function loadServiceIndustryProperties($service)
     {
-        if($serviceSkills = $service->serviceSkills) {
-            foreach($serviceSkills as $serviceSkill) {
-                if($serviceSkill->skill) {
-                    if($serviceSkill->skill->property) { 
-                        $property = $serviceSkill->skill->property;
-                        $model_skill[$property->id] = new \frontend\models\OrderSkills();
-                        $model_skill[$property->id]->serviceSkill = $serviceSkill->skill;
-                        $model_skill[$property->id]->property = $property;
-                        $model_skill[$property->id]->service = $service;
-                        //$model_skill[$property->id]->key = $key;
+        if($serviceIndustryProperties = $service->serviceIndustryProperties) {
+            foreach($serviceIndustryProperties as $serviceIndustryProperty) {
+                if($industryProperty = $serviceIndustryProperty->industryProperty) {
+                    if($property = $industryProperty->property) { 
+                        $model_industryProperty[$property->id] = new \frontend\models\OrderIndustryProperties();
+                        $model_industryProperty[$property->id]->serviceIndustryProperty = $industryProperty;
+                        $model_industryProperty[$property->id]->property = $property;
+                        $model_industryProperty[$property->id]->service = $service;
+                        //$model_industryProperty[$property->id]->key = $key;
                     }
                 }           
             }
-            return $model_skill ? $model_skill : null;
+            return $model_industryProperty ? $model_industryProperty : null;
         }
         return null;
     }

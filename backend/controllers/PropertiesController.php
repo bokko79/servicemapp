@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\CsProperties;
+use common\models\CsPropertiesTranslation;
 use common\models\CsPropertiesSearch;
 use common\models\CsPropertyValues;
 use common\models\CsObjectProperties;
@@ -86,9 +87,18 @@ class PropertiesController extends Controller
     public function actionCreate()
     {
         $model = new CsProperties();
+        $model_trans = new CsPropertiesTranslation();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model_trans->property_id = $model->id;
+            $model_trans->lang_code = 'SR';
+            $model_trans->name = $model->name;
+            $model_trans->name_akk = $model->name_akk;
+            $model_trans->hint = $model->hint ? $model->hint : null;
+            $model_trans->orig_name = $model->name;
+            if($model_trans->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }            
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -105,9 +115,16 @@ class PropertiesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_trans = $model->translation;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model_trans->name = $model->name;
+            $model_trans->name_akk = $model->name_akk ? $model->name_akk : $model_trans->name_akk;
+            $model_trans->hint = $model->hint ? $model->hint : $model_trans->hint;
+            $model_trans->orig_name = $model->name;
+            if($model_trans->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,

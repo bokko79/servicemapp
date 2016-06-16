@@ -9,6 +9,9 @@ use yii\widgets\ListView;
 
 $this->title = Yii::t('app', 'Provider Industries');
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->params['user'] = $user;
+
 ?>
 <div class="provider-industries-index">
 

@@ -11,7 +11,7 @@ use yii\bootstrap\Modal;
         </div>
         <div class="title">
             <div class="head black"><?= c($model->industry->tName) ?></div>
-            <div class="subhead"><?= $model->industry->category->tName ?> | <?= ($model->main==1) ? '<b>Pretežna delatnost</b>' : Html::a(Yii::t('app', 'Postavi kao pretežnu delatnost'), ['/provider-industries/main', 'id'=>$model->id], ['class'=>'btn btn-link btn-sm', 'data'=>['method'=>'post'], 'style'=>'padding:0']) ?> | <?= ($model->industry->skills) ? Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesi veštine'), Url::to(), ['class'=>'btn btn-link btn-sm', 'style'=>'padding:0', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#industry-skills'.$model->id]) : null ?></div> 
+            <div class="subhead"><?= $model->industry->category->tName ?> | <?= ($model->main==1) ? '<b>Pretežna delatnost</b>' : Html::a(Yii::t('app', 'Postavi kao pretežnu delatnost'), ['/provider-industries/main', 'id'=>$model->id], ['class'=>'btn btn-link btn-sm', 'data'=>['method'=>'post'], 'style'=>'padding:0']) ?> | <?= ($model->industry->industryProperties) ? Html::a('<i class="fa fa-wrench"></i>&nbsp;'.Yii::t('app', 'Podesi veštine'), Url::to(), ['class'=>'btn btn-link btn-sm', 'style'=>'padding:0', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#industry-skills'.$model->id]) : null ?></div> 
         </div>
         <div class="subaction">
             <?= Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Dodaj nove usluge'), Url::to(), [
@@ -25,11 +25,11 @@ use yii\bootstrap\Modal;
         </div>
     </div>    
 
-    <?php if($model->industry->skills):
+    <?php if($model->industry->industryProperties):
         if($model->skills){
             echo '<div class="secondary-context avatar-padded gray">';
             foreach ($model->skills as $skill){
-                echo '<div class="label label-default fs_11 margin-right-10">'.$skill->model->tName.'</div>';
+                echo '<div class="label label-default fs_11 margin-right-10">'.$skill->propertyValue->tName.'</div>';
             }
             echo '</div>';
         }
@@ -51,7 +51,7 @@ use yii\bootstrap\Modal;
     </div>
 </div>
 <?php
-if($model->industry->skills) {
+if($model->industry->industryProperties) {
     Modal::begin([
         'id'=>'industry-skills'.$model->id,
         'size'=>Modal::SIZE_SMALL,
@@ -128,8 +128,8 @@ if($model->services){
         'id'=>'object-models-proservice-modal'.$proService->service->id,
         'size'=>Modal::SIZE_SMALL,
         //'options' => ['class'=>'overlay_modal fade'],
-        'header'=> $proService->service->object->isPart() ? ($proService->service->service_object!=1 ? '<h3>Izaberite kakve vrste '.$proService->service->object->parent->tNameGen.' imate u ponudi:</h3>' :
-        '<h3>Izaberite vrstu '. $proService->service->object->parent->tNameGen.'</h3>') : ($proService->service->service_object!=1 ? '<h3>Izaberite kakve vrste '.$proService->service->object->tNameGen.' imate u ponudi:</h3>' :
+        'header'=> $proService->service->object->isPart() ? ($proService->service->object_ownership!='provider' ? '<h3>Izaberite kakve vrste '.$proService->service->object->parent->tNameGen.' imate u ponudi:</h3>' :
+        '<h3>Izaberite vrstu '. $proService->service->object->parent->tNameGen.'</h3>') : ($proService->service->object_ownership!='provider' ? '<h3>Izaberite kakve vrste '.$proService->service->object->tNameGen.' imate u ponudi:</h3>' :
         '<h3>Izaberite vrstu '. $proService->service->object->tNameGen.'</h3>'),
     ]); ?>
     <div id="loading"><i class="fa fa-cog fa-spin fa-3x gray-color"></i></div>

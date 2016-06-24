@@ -649,10 +649,10 @@ class Presentations extends \yii\db\ActiveRecord
         $methodM = null;
         if($presentationActionProperties = $this->presentationActionProperties){
             foreach($presentationActionProperties as $presentationActionProperty){
-                if($presentationActionProperty->actionProperty->type=='types'){
-                   $methodM = ($presentationActionProperty->presentationActionPropertyValues) ? $presentationActionProperty->presentationActionPropertyValues[0]->actionPropertyValue->tname : null; 
+                //if($presentationActionProperty->actionProperty->type=='types'){
+                   $methodM = ($presentationActionProperty->presentationActionPropertyValues) ? $presentationActionProperty->presentationActionPropertyValues[0]->propertyValue->tname : null; 
                    break;
-                }
+                //}
             }
         }
         if($objectM == null and $methodM == null){            

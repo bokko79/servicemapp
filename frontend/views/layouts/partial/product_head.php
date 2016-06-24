@@ -12,20 +12,20 @@ use kartik\tabs\TabsX;
 $action = ['label'=>''];
 $spec = ['label'=>''];
 $issues = ['label'=>''];
-if($model->methods){
+if($model->presentationActionProperties){
 	$contentM = '<table class="table table-condensed" style="margin:10px 0">';
-	foreach($model->methods as $presenation_method){
-		if($mthd_models = $presenation_method->models or $presenation_method->value){
+	foreach($model->presentationActionProperties as $presentationActionProperty){
+		if($presentationActionPropertyValues = $presentationActionProperty->presentationActionPropertyValues or $presentationActionProperty->value){
 			$contentM .= '<tr>';
-			$contentM .= '<td style="width:30%; vertical-align:top; color:#999">'.c($presenation_method->method->property->tName).'</td><td>';
-			if($mthd_models){	
+			$contentM .= '<td style="width:30%; vertical-align:top; color:#999">'.c($presentationActionProperty->actionProperty->property->tName).'</td><td>';
+			if($presentationActionPropertyValues){	
 				$contentM .= '<ul class="column2">';								
-					foreach($mthd_models as $mthd_model){
-						$contentM .= '<li><b><i class="fa fa-check"></i> '.c($mthd_model->model->tName).'</b></li>';										
+					foreach($presentationActionPropertyValues as $presentationActionPropertyValue){
+						$contentM .= '<li><b><i class="fa fa-check"></i> '.c($presentationActionPropertyValue->propertyValue->tName).'</b></li>';										
 					}			
 				$contentM .= '</ul>';			
-			} else if($presenation_method->value){				
-				$contentM .= '<b>'.($presenation_method->value_operator=='exact' ? null : $presenation_method->value_operator).' ' .$presenation_method->value . ($presenation_method->method->property->unit ? ' '.$presenation_method->method->property->unit->oznaka : null). '</b>';			
+			} else if($presentationActionProperty->value){				
+				$contentM .= '<b>'.($presentationActionProperty->value_operator=='exact' ? null : $presentationActionProperty->value_operator).' ' .$presentationActionProperty->value . ($presentationActionProperty->actionProperty->property->unit ? ' '.$presentationActionProperty->actionProperty->property->unit->oznaka : null). '</b>';			
 			}
 			$contentM .= '</td></tr>';
 		}
@@ -37,20 +37,20 @@ if($model->methods){
     ];
 }
 
-if($model->specs){
+if($model->presentationObjectProperties){
 	$content = '<table class="table table-condensed" style="margin:10px 0">';
-	foreach($model->specs as $presenation_spec){
-		if($spcf_models = $presenation_spec->models or $presenation_spec->value){
+	foreach($model->presentationObjectProperties as $presentationObjectProperty){
+		if($presentationObjectPropertyValues = $presentationObjectProperty->presentationObjectPropertyValues or $presentationObjectProperty->value){
 			$content .= '<tr>';
-			$content .= '<td style="width:30%; vertical-align:top; color:#777">'.c($presenation_spec->spec->property->tName).'</td><td>';
-			if($spcf_models){	
+			$content .= '<td style="width:30%; vertical-align:top; color:#777">'.c($presentationObjectProperty->objectProperty->property->tName).'</td><td>';
+			if($presentationObjectPropertyValues){	
 				$content .= '<ul class="column2">';								
-					foreach($spcf_models as $spcf_model){
-						$content .= '<li><b><i class="fa fa-check"></i> '.c($spcf_model->model->tName).'</b></li>';										
+					foreach($presentationObjectPropertyValues as $presentationObjectPropertyValue){
+						$content .= '<li><b><i class="fa fa-check"></i> '.c($presentationObjectPropertyValue->propertyValue->tName).'</b></li>';										
 					}			
 				$content .= '</ul>';			
-			} else if($presenation_spec->value){				
-				$content .= '<b>'.($presenation_spec->value_operator=='exact' ? null : $presenation_spec->value_operator).' ' .$presenation_spec->value . ($presenation_spec->spec->property->unit ? ' '.$presenation_spec->spec->property->unit->oznaka : null). '</b>';			
+			} else if($presentationObjectProperty->value){				
+				$content .= '<b>'.($presentationObjectProperty->value_operator=='exact' ? null : $presentationObjectProperty->value_operator).' ' .$presentationObjectProperty->value . ($presentationObjectProperty->objectProperty->unit ? ' '.$presentationObjectProperty->objectProperty->property->unit->oznaka : null). '</b>';			
 			}
 			$content .= '</td></tr>';
 		}			
@@ -175,7 +175,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
                 <?= Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Prati prezentaciju'), Url::to(), ['class'=>'btn btn-link']); ?>
             </div>
         </div>
-	<?php if($model->pService->service_object==1 and $model->pService->location==5): ?>
+	<?php if($model->pService->object_ownership==1 and $model->pService->location==5): ?>
 		<div class="secondary-context avatar-padded">
 			<?= $this->render('quick-direct-order.php', ['presentation'=>$model]) ?>
 		</div>		
@@ -188,7 +188,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
         	<div class="head lower regular">Opis ponude</div>
         	<?= $model->description ?>                
         </div>
-        <?php if($model->methods): ?>
+        <?php if($model->presentationActionProperties): ?>
         <div class="secondary-context border-bottom">
         	<div class="head lower regular">Opcije usluge</div>
         	<?= $contentM ?>
@@ -201,7 +201,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
 			]); */ ?>			                
         </div>
         <?php endif; ?>
-        <?php if($model->specs): ?>
+        <?php if($model->presentationObjectProperties): ?>
         <div class="secondary-context border-bottom">
         	<div class="head lower regular">Karakteristike <?= $model->object->tNameGen ?></div>
         	<?= $content ?>			                
@@ -221,8 +221,8 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
         	Uobičajeno trajanje izvršenja usluge: <?= ($model->duration) ? $model->duration_operator.' '.$model->duration.$model->duration_unit : null ?><br>
         	Minimalan broj korisnika: <?= ($model->consumer_min) ? $model->consumer_min.' osoba' : null ?><br>
         	Makrimalan broj korisnika: <?= ($model->consumer_max) ? $model->consumer_max.' osoba' : null ?><br>
-        	Minimalna količina porudžbine: <?= ($model->quantity_min) ? $model->quantity_min.' '.$model->price_unit->unit->oznaka : null ?><br>
-        	Maksimalna količina porudžbine: <?= ($model->quantity_max) ? $model->quantity_max.' '.$model->price_unit->unit->oznaka : null ?><br>	                
+        	Minimalna količina porudžbine: <?php // ($model->quantity_min) ? $model->quantity_min.' '.$model->price_unit->unit->oznaka : null ?><br>
+        	Maksimalna količina porudžbine: <?php // ($model->quantity_max) ? $model->quantity_max.' '.$model->price_unit->unit->oznaka : null ?><br>	                
         </div>
 	</div>
 	

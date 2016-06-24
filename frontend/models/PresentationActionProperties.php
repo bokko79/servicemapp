@@ -20,11 +20,11 @@ use Yii;
 class PresentationActionProperties extends \yii\db\ActiveRecord
 {
     public $service;
-    public $csMethod;
+    public $theActionProperty;
     public $property;
-    public $method_models = [];
+    public $actionPropertyValues = [];
 
-    private $_method;
+    private $_actionProperty;
     
     /**
      * @inheritdoc
@@ -45,7 +45,7 @@ class PresentationActionProperties extends \yii\db\ActiveRecord
             [['value_operator'], 'string'],
             [['multiple_values', 'read_only'], 'boolean'],
             [['value', 'value_max'], 'string', 'max' => 64],
-            [['method_models'], 'safe'],
+            [['actionPropertyValues'], 'safe'],
             [['action_property_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsActionProperties::className(), 'targetAttribute' => ['action_property_id' => 'id']],
             [['presentation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Presentations::className(), 'targetAttribute' => ['presentation_id' => 'id']],
         ];
@@ -71,12 +71,12 @@ class PresentationActionProperties extends \yii\db\ActiveRecord
      *
      * @return CsServiceMethods|null
      */
-    public function getActionMethod()
+    public function getTheActionProperty()
     {
-        if ($this->_method === null) {
-            $this->_method = $this->csMethod;
+        if ($this->_actionProperty === null) {
+            $this->_actionProperty = $this->theActionProperty;
         }
-        return $this->_method;
+        return $this->_actionProperty;
     }
 
     /**

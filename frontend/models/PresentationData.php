@@ -12,12 +12,12 @@ class PresentationData extends Presentations
 {
     public function checkIfMethods()
     {
-        return ($this->service->serviceMethods) ? 0 : 1;
+        return ($this->service->serviceActionProperties) ? 0 : 1;
     }
 
     public function checkIfSpecs()
     {
-        return ($this->service->serviceSpecs!=null or ($this->service->object->isPart() && $this->service->object->parent->specs)) ? 0 : 1;
+        return ($this->service->serviceObjectProperties!=null or ($this->service->object->isPart() and $this->service->object->parent and $this->service->object->parent->objectProperties)) ? 0 : 1;
     }
 
      public function checkIfIssues()
@@ -32,7 +32,7 @@ class PresentationData extends Presentations
 
     public function checkIfAmount()
     {
-        return ($this->service->amount!=0 or $this->service->service_object!=1) ? 0 : 1;
+        return ($this->service->amount!=0 or $this->service->object_ownership!='provider') ? 0 : 1;
     }
 
     public function checkIfConsumer()
@@ -210,36 +210,36 @@ class PresentationData extends Presentations
     /**
      * Izlistava sve specifikacije izabranih predmeta usluga i modela predmeta.
      */
-    public function allObjectSpecifications($service, $object_model=null)
+    public function allObjectProperties($service, $object_model=null)
     {
         //$object_model = $this->objectModels;
         //$service = $this->pService;
-        if($object_model!=null || $service->serviceSpecs!=null) {
-            if($service->serviceSpecs!=null){
-               foreach($service->serviceSpecs as $serviceSpec) {
-                    if($serviceSpec->spec) {
-                        $objectSpecification[] = $serviceSpec->spec;
+        if($object_model!=null or $service->serviceObjectProperties!=null) {
+            if($serviceObjectProperties = $service->serviceObjectProperties){
+               foreach($serviceObjectProperties as $serviceObjectProperty) {
+                    if($objectProperty = $serviceObjectProperty->objectProperty) {
+                        $objectProperties[] = $objectProperty;
                     }           
                 } 
             }
-            if($service->object->isPart() && $service->object->parent->specs){
-               foreach($this->service->object->parent->specs as $parentSpec) {
-                    if($parentSpec) {
-                        $objectSpecification[] = $parentSpec;
+            if($service->object->isPart() && $parentObjectProperties = $service->object->parent->objectProperties){
+               foreach($parentObjectProperties as $parentObjectProperty) {
+                    if($parentObjectProperty) {
+                        $objectProperties[] = $parentObjectProperty;
                     }           
                 } 
             }
             if($object_model!=null && count($object_model)==1){
-                if ($objectSpecs = $object_model[0]->specs) {
+                if ($objectSpecs = $object_model[0]->objectProperties) {
                     foreach($objectSpecs as $objectSpec) {
-                        if(!in_array($objectSpec, $objectSpecification)){ 
-                            $objectSpecification[] = $objectSpec;                               
+                        if(!in_array($objectSpec, $objectProperties)){ 
+                            $objectProperties[] = $objectSpec;                               
                         }                                   
                     }
                 }           
             }          
         } 
-        return (isset($objectSpecification)) ? $objectSpecification : null;
+        return (isset($objectProperties)) ? $objectProperties : null;
     }
 
     public function checkUserObjectsExist($service, $object_model)
@@ -248,7 +248,7 @@ class PresentationData extends Presentations
             $user = \frontend\models\User::findOne(Yii::$app->user->id);
             if($user->userObjects){
                 foreach ($user->userObjects as $userObject){
-                    if($userObject->object_id==$service->object_id || $userObject->object_id==$object_model[0]->id){
+                    if($userObject->object_id==$service->object_id or $userObject->object_id==$object_model[0]->id){
                         $userObjects[] = $userObject;
                     }
                 }
@@ -264,20 +264,19 @@ class PresentationData extends Presentations
     /**
      * Kreira Modele PresentationSpecs za sve izabrane specifikacije.
      */
-    public function loadPresentationSpecifications($service, $object_model)
+    public function loadPresentationObjectProperties($service, $object_model)
     {
-        if($objectSpecs = $this->allObjectSpecifications($service, $object_model)){
-            foreach($objectSpecs as $objectSpec) {
-                if($objectSpec->property) {
-                    $property = $objectSpec->property;
-                    $model_spec[$property->id] = new PresentationSpecs();
-                    $model_spec[$property->id]->specification = $objectSpec;
-                    $model_spec[$property->id]->property = $property;
-                    $model_spec[$property->id]->service = $service;
-                    $model_spec[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_model)) ? 0 : 1;
+        if($objectProperties = $this->allObjectProperties($service, $object_model)){
+            foreach($objectProperties as $objectProperty) {
+                if($property = $objectProperty->property) {
+                    $model_object_properties[$property->id] = new PresentationObjectProperties();
+                    $model_object_properties[$property->id]->theObjectProperty = $objectProperty;
+                    $model_object_properties[$property->id]->property = $property;
+                    $model_object_properties[$property->id]->service = $service;
+                    $model_object_properties[$property->id]->checkUserObject = ($this->checkUserObjectsExist($service, $object_model)) ? 0 : 1;
                 }                                   
             }
-            return (isset($model_spec)) ? $model_spec : null;
+            return (isset($model_object_properties)) ? $model_object_properties : null;
         }
         return null;        
     }
@@ -285,17 +284,17 @@ class PresentationData extends Presentations
     /**
      * Kreira Modele PresentationSpecs za sve izabrane specifikacije.
      */
-    public function loadPresentationSpecificationsUpdate($model_specs)
+    public function loadPresentationObjectPropertiesUpdate($model_object_properties)
     {
-        if($model_specs){
-            foreach($model_specs as $model_spec){
-                $property = $model_spec->spec->property;
-                $model_spec->specification = $model_spec->spec;
-                $model_spec->property = $property;
-                $model_spec->service = $this->pService;
-                $model_spec->checkUserObject = ($this->checkUserObjectsExist($this->pService, $this->objectModels)) ? 0 : 1;
+        if($model_object_properties){
+            foreach($model_object_properties as $model_object_property){
+                $property = $model_object_property->objectProperty->property;
+                $model_object_property->objectProperty = $model_object_property->objectProperty;
+                $model_object_property->property = $property;
+                $model_object_property->service = $this->pService;
+                $model_object_property->checkUserObject = ($this->checkUserObjectsExist($this->pService, $this->objectModels)) ? 0 : 1;
             }
-            return $model_specs;
+            return $model_object_properties;
         }
         return null;        
     }
@@ -303,49 +302,49 @@ class PresentationData extends Presentations
     /**
      * Kreira Modele PresentationSpecs za sve izabrane specifikacije.
      */
-    public function loadPresentationSpecificationsIndex($model_specs)
+    public function loadPresentationSpecificationsIndex($model_object_properties)
     {
-        if($model_specs){
-            foreach($model_specs as $key=>$model_spec){
+        if($model_object_properties){
+            foreach($model_object_properties as $key=>$model_object_property){
                 $property = \frontend\models\CsProperties::findOne($key);
-                $model_spec->specification = $model_spec->spec;
-                $model_spec->property = $property;
-                $model_spec->service = $this->pService;
-                $model_spec->checkUserObject = ($this->checkUserObjectsExist($this->pService, $this->objectModels)) ? 0 : 1;
+                $model_object_property->theObjectProperty = $model_object_property->objectProperty;
+                $model_object_property->property = $property;
+                $model_object_property->service = $this->pService;
+                $model_object_property->checkUserObject = ($this->checkUserObjectsExist($this->pService, $this->objectModels)) ? 0 : 1;
             }
-            return $model_specs;
+            return $model_object_properties;
         }
         return null;         
     }
 
-    public function loadPresentationMethods($service)
+    public function loadPresentationActionProperties($service)
     {
-        if($service->serviceMethods!=null) {
-            foreach($service->serviceMethods as $serviceMethod) {
-                if($csMethod = $serviceMethod->method) {
-                    if($property = $csMethod->property) { 
-                        $model_methods[$property->id] = new \frontend\models\PresentationMethods();
-                        $model_methods[$property->id]->csMethod = $csMethod;
-                        $model_methods[$property->id]->property = $property;
-                        $model_methods[$property->id]->service = $service;
+        if($serviceActionProperties = $service->serviceActionProperties) {
+            foreach($serviceActionProperties as $serviceActionProperty) {
+                if($actionProperty = $serviceActionProperty->actionProperty) {
+                    if($property = $actionProperty->property) { 
+                        $model_action_properties[$property->id] = new \frontend\models\PresentationActionProperties();
+                        $model_action_properties[$property->id]->theActionProperty = $actionProperty;
+                        $model_action_properties[$property->id]->property = $property;
+                        $model_action_properties[$property->id]->service = $service;
                     }
                 }           
             }
-            return (isset($model_methods)) ? $model_methods : null;
+            return (isset($model_action_properties)) ? $model_action_properties : null;
         }
         return null;
     }
 
-    public function loadPresentationMethodsUpdate($model_methods)
+    public function loadPresentationActionPropertiesUpdate($model_action_properties)
     {
-        if($model_methods) {
-            foreach($model_methods as $model_method){
-                $property = $model_method->method->property;
-                $model_method->csMethod = $model_method->method;
-                $model_method->property = $property;
-                $model_method->service = $this->pService;
+        if($model_action_properties) {
+            foreach($model_action_properties as $model_action_property){
+                $property = $model_action_property->actionProperty->property;
+                $model_action_property->actionProperty = $model_action_property->actionProperty;
+                $model_action_property->property = $property;
+                $model_action_property->service = $this->pService;
             }
-            return $model_methods;
+            return $model_action_properties;
         }
         return null;
     }

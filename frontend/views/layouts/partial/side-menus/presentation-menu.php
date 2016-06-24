@@ -7,7 +7,7 @@ use yii\helpers\Url;
 use yii\widgets\Menu;
 
 // 1 SPECIFICATIONS AND OBJECT AVAILABILITY
-if($service->serviceSpecs!=null or ($service->object->isPart() && $service->object->parent->specs)):
+if($service->serviceObjectProperties!=null or ($service->object->isPart() && $service->object->parent->objectProperties)):
 	$menuItems[] = ['label' => '1. '. 'Karakteristike '.$service->object->tNameGen. '<span class="check01 float-right"><i class="fa"></i></span>', 'url' => '#specification', 'options'=>[]];   	   
 endif;
 // 2 PICS, DOCS AND MEDIA
@@ -17,7 +17,7 @@ if($service->service_type==6 && ($service->object->issues or (count($object_mode
 	$menuItems[] = ['label' => $data->noIssues.'. '. 'Problemi '.$service->object->tNameGen. '<span class="check03 float-right"><i class="fa"></i></span>', 'url' => '#issues', 'options'=>[]];
 endif;
 // 4 METHODS AND DURATION
-if($service->serviceMethods):
+if($service->serviceActionProperties):
 	$menuItems[] = ['label' => $data->noMethods.'. '.c($service->action->tName). '<span class="check04 float-right"><i class="fa"></i></span>', 'url' => '#action', 'options'=>[]];
 endif;
 // 5 TITLE & DESC
@@ -31,7 +31,7 @@ if($service->pricing!=0):
 	$menuItems[] = ['label' => $data->noPrice.'. '. 'Cena <span class="check07 float-right"><i class="fa"></i></span>', 'url' => '#price', 'options'=>[]];
 endif;
 // 8 PRICE AND PRICE CORRECTIONS
-if($service->amount!=0 or $service->service_object!=1):
+if($service->amount!=0 or $service->object_ownership!='provider'):
 	$menuItems[] = ['label' => $data->noAmount.'. '. 'Količina <span class="check08 float-right"><i class="fa"></i></span>', 'url' => '#amount', 'options'=>[]];
 endif;
 // 9 CONSUMER 

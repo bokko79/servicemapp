@@ -5,19 +5,33 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 
-$model_list = ArrayHelper::map($property->models, 'id', 'tNameWithHint');
-foreach($model_spec->models as $m_spec_model){
-    $model_spec->spec_models[] = $m_spec_model->spec_model;
+switch($objectProperty->property_type)
+{
+    case 'part':
+        $model_list = ArrayHelper::map($property->propertyValues, 'id', 'tNameWithMedia');
+
+    default:
+        //$model_list = ArrayHelper::map($objectProperty->objectParts, 'part_id', 'partDescription');
+        $model_list = ArrayHelper::map($property->propertyValues, 'id', 'tNameWithMedia');
+
+        foreach($property->propertyValues as $propertyValue){
+            if($propertyValue->selected_value==1){
+                $model_object_property->objectPropertyValues[] = $propertyValue->id;
+            }
+        }
+    break;
+        
 }
+
 ?>
-<div class="enclosedCheckboxes">    
+<div class="enclosedCheckboxes">
     <?= Form::widget([
-        'model'=>$model_spec,
+        'model'=>$model_object_property,
         'form'=>$form,
         'options'=>['tag'=>'div', 'style'=>'margin:10px 0;'],
         'contentBefore'=>'',
         'attributes'=> [
-        	'['.$index.']spec_models' => [
+        	'['.$index.']objectPropertyValues' => [
         		'type'=>Form::INPUT_CHECKBOX_LIST,
         		'label' => $property->label .'<br><div class="checkbox col-sm-offset-3"><label><input type="checkbox" id="ckbCheckAll'. $property->id .'"> <i>Izaberite/Poništite sve</i></label></div>',
         		'hint'=> $property->tHint,
@@ -26,7 +40,7 @@ foreach($model_spec->models as $m_spec_model){
     				'hintSettings' => ['onLabelClick' => false, 'onLabelHover' => true, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
                 ],	    		
         		'items' => $model_list,
-        		'options'=>['tag'=>'ul', 'class'=>'column2 multiselect', 'style'=>'padding:13px 20px 20px; background:#f8f8f8; border:1px solid #ddd; border-radius:4px;'],
+        		'options'=>['tag'=>'ul', 'class'=>'column3 multiselect', 'style'=>'padding:13px 20px 20px; background:#f8f8f8; border:1px solid #ddd; border-radius:4px;'],
         	]
         ]
     ]) ?>

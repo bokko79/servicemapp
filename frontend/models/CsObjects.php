@@ -361,4 +361,14 @@ class CsObjects extends \yii\db\ActiveRecord
         }
         return $properties;
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameWithMedia()
+    {
+        $image = yii\helpers\Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg', ['style'=>'width:100%; height:110px; margin: 5px 0 10px']);
+        
+        return c($this->tName) . $image;         
+    }
 }

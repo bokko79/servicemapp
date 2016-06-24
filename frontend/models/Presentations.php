@@ -102,10 +102,10 @@ class Presentations extends \yii\db\ActiveRecord
     public $quantityConstCheck;
     public $consumerConstCheck;
 
-    public $provider_presentation_specs;
+    public $provider_presentation_object_properties;
     public $provider_presentation_pics;
     public $provider_presentation_docs;
-    public $provider_presentation_methods;
+    public $provider_presentation_action_properties;
 
     public $calculated_Price;
 
@@ -154,7 +154,7 @@ class Presentations extends \yii\db\ActiveRecord
             }],
             ['consumer_price', 'default', 'value'=>0],
             ['fixed_price', 'default', 'value'=>1],
-            [['provider_presentation_specs', 'provider_presentation_pics', 'provider_presentation_docs', 'provider_presentation_methods'], 'safe'],
+            [['provider_presentation_object_properties', 'provider_presentation_pics', 'provider_presentation_docs', 'provider_presentation_action_properties'], 'safe'],
         ];
     }
 
@@ -221,10 +221,10 @@ class Presentations extends \yii\db\ActiveRecord
            'note' => Yii::t('app', 'Napomena'),
            'on_sale' => Yii::t('app', 'Na prodaju'),
            'status' => Yii::t('app', 'Status'),
-           'provider_presentation_specs' => Yii::t('app', 'Sačuvane ponude'),
+           'provider_presentation_object_properties' => Yii::t('app', 'Sačuvane ponude'),
            'provider_presentation_pics' => Yii::t('app', 'Sačuvane slike'),
            'provider_presentation_docs' => Yii::t('app', 'Sačuvani dokumenti'),
-           'provider_presentation_methods' => Yii::t('app', 'Sačuvane ponude'),
+           'provider_presentation_action_properties' => Yii::t('app', 'Sačuvane ponude'),
            'imageFiles' => Yii::t('app', 'Prikačite slike i/ili PDF'),
            'files' => Yii::t('app', 'Prikačite PDF dokumente'),
            'location_input' => Yii::t('app', 'Adresa Vašeg sedišta'),
@@ -346,9 +346,26 @@ class Presentations extends \yii\db\ActiveRecord
      *
      * @return CsService|null
      */
-    public function getObjectModels()
+    public function getPresentationObjectModels()
     {
         return $this->hasMany(PresentationObjectModels::className(), ['presentation_id' => 'id']);
+    }
+
+    /**
+     * Service to be added to cart
+     *
+     * @return CsService|null
+     */
+    public function getObjectModels()
+    {
+        $presentationObjectModels = $this->presentationObjectModels;
+        $objectModels = [];
+
+        foreach($presentationObjectModels as $presentationObjectModel){
+          $objectModels[] = $presentationObjectModel->object;
+        }
+
+        return $objectModels;
     }
 
     /**
@@ -627,19 +644,18 @@ class Presentations extends \yii\db\ActiveRecord
     {
         $objectM = null;
         if($objectModels = $this->objectModels){
-            $objectM = count($objectModels)==1 ? $objectModels[0]->object->tNameGen : null;
+            $objectM = count($objectModels)==1 ? $objectModels[0]->tNameGen : null;
         }
         $methodM = null;
-        if($methodModels = $this->methods){
-            $methodM = null;
-            foreach($methodModels as $methodModel){
-                if($methodModel->method->type=='types'){
-                   $methodM = ($methodModel->models) ? $methodModel->models[0]->model->tname : null; 
+        if($presentationActionProperties = $this->presentationActionProperties){
+            foreach($presentationActionProperties as $presentationActionProperty){
+                if($presentationActionProperty->actionProperty->type=='types'){
+                   $methodM = ($presentationActionProperty->presentationActionPropertyValues) ? $presentationActionProperty->presentationActionPropertyValues[0]->actionPropertyValue->tname : null; 
                    break;
                 }
             }
         }
-        if($objectM == null && $methodM == null){            
+        if($objectM == null and $methodM == null){            
             return ($this->pService) ? $this->pService->tName : $this->service->tName;
         } else {
             $act = ($this->pService) ? $this->pService->action->tName : $this->service->action->tName;

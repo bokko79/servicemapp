@@ -62,4 +62,12 @@ class PresentationObjectModels extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Presentations::className(), ['id' => 'presentation_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectProperties()
+    {
+        return $this->object->objectProperties;
+    }
 }

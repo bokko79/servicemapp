@@ -70,8 +70,11 @@ return [
 
         // PRESENTATIONS
         'new-presentation' => 'presentations/create', // :page
+        'presentation/<id:\d+>/object' => 'presentations/create-object', // :page
+        'presentation/<id:\d+>/action' => 'presentations/create-action', // :page
         'presentations' => 'presentations/index', // :page
-        'presentation-setup/<id:\d+>' => 'presentations/update', // :page
+        'presentation/<id:\d+>/summary' => 'presentations/summary', // :page
+        'presentation/<id:\d+>/setup' => 'presentations/update', // :page
         'presentation/<id:\d+>' => 'presentations/view', // :page
         'comment-presentation/<id:\d+>' =>'presentations/comment',
         'showThemSpecs' =>'presentations/show-them-specs', // ajax
@@ -126,7 +129,7 @@ return [
         'services' => 'services/index', // :page
         'services/<entity>/<title>' => 'services/index', // :page
         's/<title>' => 'services/view', // :page
-        'objectModelsPresent' => 'services/object-models-present', // ajax
+        'presentation-oms/<title>' => 'services/presentation-oms', // ajax
         'objectModelsOrder' => 'services/object-models-order', // ajax
 
         // SITE

@@ -32,7 +32,8 @@ print_r($model); die();*/
         <div class="action-area right">
             <?php if($model->object->models): ?>
             <?= $session['state']!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to(), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;', 'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#object-models-order-modal'.$model->id]) : null ?>
-            <?= $session['state']!='order' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-present-modal'.$model->id]) : null ?>
+            <?php // $session['state']!='order' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), Url::to(), ['class'=>'btn btn-warning', 'style'=>'', 'data-toggle'=>'modal', 'data-backdrop'=>false, 'data-target'=>'#object-models-present-modal'.$model->id]) : null ?>
+            <?= $session['state']!='order' ? Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), Url::to('/presentation-oms/'.slug($model->name)), ['class'=>'btn btn-warning', 'style'=>'']) : null ?>
         <?php else: ?>
             <?= $session['state']!='present' ? Html::a('<i class="fa fa-shopping-cart"></i>&nbsp;'.Yii::t('app', 'Naruči'), Url::to('/add/'.slug($model->name)), ['class'=>'btn btn-info order_service', 'style'=>'color:#fff;']) : Html::a('<i class="fa fa-plus-circle"></i>&nbsp;'.Yii::t('app', 'Ponudi'), ['/new-presentation'], [
                 'class'=>'btn btn-warning', 
@@ -48,7 +49,7 @@ print_r($model); die();*/
 </div>
 <?php Modal::begin([
         'id'=>'object-models-order-modal'.$model->id,
-        'size'=>Modal::SIZE_SMALL,
+        'size'=>Modal::SIZE_LARGE,
         'class'=>'overlay_modal',
         'header'=> $model->object->isPart() ? ($model->object_ownership=='provider' ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' Vas interesuju:</h3>' :
         '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->object_ownership=='provider' ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' Vas interesuju:</h3>' :
@@ -58,7 +59,7 @@ print_r($model); die();*/
 <?php Modal::end(); ?>
 <?php Modal::begin([
         'id'=>'object-models-present-modal'.$model->id,
-        'size'=>Modal::SIZE_SMALL,
+        'size'=>Modal::SIZE_LARGE,
         'class'=>'overlay_modal',
         'header'=> $model->object->isPart() ? ($model->object_ownership=='user' ? '<h3>Izaberite kakve vrste '.$model->object->parent->tNameGen.' imate u ponudi:</h3>' :
         '<h3>Izaberite vrstu '. $model->object->parent->tNameGen.'</h3>') : ($model->object_ownership=='user' ? '<h3>Izaberite kakve vrste '.$model->object->tNameGen.' imate u ponudi:</h3>' :

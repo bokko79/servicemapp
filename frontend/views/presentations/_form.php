@@ -20,8 +20,8 @@ use yii\bootstrap\Modal;
 ]); ?>
     <fieldset class="settings" style="margin:30px 0 !important;">    
     <?php // 1 SPECIFICATIONS AND OBJECT AVAILABILITY
-        if($service->serviceSpecs!=null or ($service->object->isPart() && $service->object->parent->specs)): ?>
-	       <?= $this->render('parts/specifications.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'model_specs' => $model_specs, 'object_model'=>$object_model, 'user' => $user]) ?>
+        if($service->serviceObjectProperties!=null or ($service->object->isPart() && $service->object->parent->objectProperties)): ?>
+	       <?= $this->render('parts/object_properties.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'model_object_properties' => $model_object_properties, 'object_model'=>$object_model, 'user' => $user]) ?>
     <?php endif; ?>
     <?php // 2 PICS, DOCS AND MEDIA ?>
             <?= $this->render('parts/pics.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'object_model'=>$object_model, 'user' => $user]) ?>
@@ -30,8 +30,8 @@ use yii\bootstrap\Modal;
             <?= $this->render('parts/issues.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'object_model'=>$object_model]) ?>
     <?php endif; ?>
     <?php // 4 METHODS AND DURATION
-        if($service->serviceMethods): ?>
-            <?= $this->render('parts/methods.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'model_methods'=>$model_methods, 'user' => $user]) ?>
+        if($service->serviceActionProperties): ?>
+            <?= $this->render('parts/action_properties.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'model_action_properties'=>$model_action_properties, 'user' => $user]) ?>
     <?php endif; ?>
     <?php // 5 TITLE & DESC ?>
             <?= $this->render('parts/title.php', ['form'=>$form, 'service' => $service, 'model'=>$model, 'object_model'=>$object_model]) ?>
@@ -42,7 +42,7 @@ use yii\bootstrap\Modal;
     <?php // 7 PRICE AND PRICE CORRECTIONS ?>        
             <?= $this->render('parts/price.php', ['form'=>$form, 'service' => $service, 'model'=>$model]) ?>    
     <?php // 8 QUANTITIES 
-        if($service->amount!=0 or $service->service_object!=1): ?>
+        if($service->amount!=0 or $service->object_ownership!='provider'): ?>
             <?= $this->render('parts/quantity.php', ['form'=>$form, 'service' => $service, 'model'=>$model]) ?>
     <?php endif; ?>
     <?php // 9 CONSUMER 

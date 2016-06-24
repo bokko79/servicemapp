@@ -5,19 +5,22 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 
-$model_list = ArrayHelper::map($property->models, 'id', 'tNameWithHint');
-foreach($model_method->models as $m_meth_model){
-    $model_method->method_models[] = $m_meth_model->method_model;
+$model_list = ArrayHelper::map($property->propertyValues, 'id', 'tNameWithHint');
+
+foreach($property->propertyValues as $propertyValue){
+    if($propertyValue->selected_value==1){
+        $model_object_property->objectPropertyValues[] = $propertyValue->id;
+    }
 }
 ?>
 <div class="enclosedCheckboxes">    
     <?= Form::widget([
-        'model'=>$model_method,
+        'model'=>$model_object_property,
         'form'=>$form,
         'options'=>['tag'=>'div', 'style'=>'margin:10px 0;'],
         'contentBefore'=>'',
         'attributes'=> [
-        	'['.$index.']method_models' => [
+        	'['.$index.']objectPropertyValues' => [
         		'type'=>Form::INPUT_CHECKBOX_LIST,
         		'label' => $property->label .'<br><div class="checkbox col-sm-offset-3"><label><input type="checkbox" id="ckbCheckAll'. $property->id .'"> <i>Izaberite/Poništite sve</i></label></div>',
         		'hint'=> $property->tHint,

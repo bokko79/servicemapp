@@ -198,6 +198,14 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getInitialService()
+    {
+        return $this->industries[0]->services[0];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getLanguages()
     {
         return $this->hasMany(ProviderLanguages::className(), ['provider_id' => 'id']);

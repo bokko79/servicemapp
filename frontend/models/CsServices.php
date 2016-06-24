@@ -490,7 +490,7 @@ class CsServices extends \yii\db\ActiveRecord
         /*if($this->serviceObjectModels):
             $model_list = \yii\helpers\ArrayHelper::map($this->serviceObjectModels, 'model', 'sCaseModelName');
         else:*/
-            $model_list = \yii\helpers\ArrayHelper::map($this->object->models, 'id', 'sCaseName');
+        $model_list = \yii\helpers\ArrayHelper::map($this->object->models, 'id', 'tNameWithMedia');
         /*endif;*/
 
         return $model_list;

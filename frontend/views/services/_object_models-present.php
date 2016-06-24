@@ -23,10 +23,10 @@ $new_presentation = new \frontend\models\ProviderServices;
 					<p class="hint">Možete izabrati više vrsta.</p>
 					<div class="enclosedCheckboxes">
 						<div class="checkbox"><label><input type="checkbox" id="ckbCheckAll<?= $model->id ?>"> <i>Izaberite/Poništite sve</i></label></div>
-						<?= $form->field($new_presentation,  'object_model[]')->checkboxList($model->objectModelsList, ['unselect'=>null])->label(false) ?>
+						<?= $form->field($new_presentation,  'object_model[]')->checkboxList($model->objectModelsList, ['unselect'=>null, 'class'=>'column3 multiselect'])->label(false) ?>
 					</div>
 			<?php else: ?>		
-					<?= $form->field($new_presentation, 'object_model[]')->radioList($model->objectModelsList, ['unselect'=>null])->label(false) ?>
+					<?= $form->field($new_presentation, 'object_model[]')->radioList($model->objectModelsList, ['unselect'=>null, 'class'=>'column3 multiselect'])->label(false) ?>
 			<?php endif; ?>
 					<?= $form->field($new_presentation, 'service_id')->hiddenInput(['value'=>$model->id])->label(false) ?>
 					<?= $form->field($new_presentation, 'id')->hiddenInput(['value'=>null])->label(false) ?>

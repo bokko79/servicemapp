@@ -190,12 +190,13 @@ class CsPropertyValues extends \yii\db\ActiveRecord
      */
     public function getTNameWithMedia()
     {
+        $image = yii\helpers\Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg', ['style'=>'width:100%; height:110px; margin: 5px 0 10px']);
         if ($this->hint!=null) {
             return $this->label . '<span data-container="body" data-toggle="popover" data-placement="top" data-content="'.$this->hint.'">
                  <i class="fa fa-question-circle gray-color"></i>
-                </span>' . yii\helpers\Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg', ['style'=>'width:100%; height:110px; margin: 5px 0 10px']); 
+                </span>' . $image; 
         } else {
-            return $this->label . yii\helpers\Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg', ['style'=>'width:100%; height:110px; margin: 5px 0 10px']);
+            return $this->label . $image;
         } 
     }
 }

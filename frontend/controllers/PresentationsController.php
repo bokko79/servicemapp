@@ -10,10 +10,10 @@ use frontend\models\ProviderIndustries;
 use frontend\models\Presentations;
 use frontend\models\PresentationData;
 use frontend\models\PresentationsSearch;
-use frontend\models\PresentationSpecs;
-use frontend\models\PresentationSpecModels;
-use frontend\models\PresentationMethods;
-use frontend\models\PresentationMethodModels;
+use frontend\models\PresentationObjectProperties;
+use frontend\models\PresentationObjectPropertyValues;
+use frontend\models\PresentationActionProperties;
+use frontend\models\PresentationActionPropertyValues;
 use frontend\models\PresentationObjectModels;
 use frontend\models\PresentationLocations;
 use frontend\models\PresentationIssues;
@@ -99,6 +99,20 @@ class PresentationsController extends Controller
      * @param string $id
      * @return mixed
      */
+    public function actionSummary($id=null)
+    {
+        $this->layout = '/basic';
+        
+        return $this->render('view', [
+            'model' => $id ? $this->findModel($id) : null,
+        ]);
+    }
+
+    /**
+     * Displays a single Presentations model.
+     * @param string $id
+     * @return mixed
+     */
     public function actionView($id)
     {
         $this->layout = '/product';
@@ -107,6 +121,71 @@ class PresentationsController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+
+    /**
+     * Creates a new Presentations model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateObject($id)
+    { 
+        $this->layout = '/forms';
+
+        $model = $this->findModel($id);
+
+        $service = $model->pService; // service
+        $model->service = $service;
+        $user = $model->user; // presenter
+        $object_model = $model->objectModels;
+
+        $model_object_properties = $model->loadPresentationObjectProperties($service, $object_model); // array of new presentationSpecs 
+                
+        if ($model->load(Yii::$app->request->post())) {                
+            if($this->savePresentationObjectProperties($model, $user, $service, $model_object_properties)){                                
+                return $this->redirect(['/presentation-action/'.$model->id]);
+            }       
+        } else {
+            return $this->render('createObject', [
+                'service' => $service,
+                'model' => $model,
+                'model_object_properties' => $model_object_properties,
+                'object_model' => $object_model,
+                'user' => $user,
+            ]);
+        }
+    }
+
+    /**
+     * Creates a new Presentations model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateAction($id)
+    { 
+        $this->layout = '/forms';
+
+        $model = $this->findModel($id);
+
+        $service = $model->pService; // service
+        $model->service = $service;
+        $user = $model->user; // presenter
+
+        $model_action_properties = $model->loadPresentationActionProperties($service); // array of new presentationSpecs 
+                
+        if ($model->load(Yii::$app->request->post())) {                
+            if($this->savePresentationActionProperties($model, $user, $service, $model_action_properties)){                                
+                return $this->redirect(['/presentation-title/'.$model->id]);
+            }       
+        } else {
+            return $this->render('createAction', [
+                'service' => $service,
+                'model' => $model,
+                'model_action_properties' => $model_action_properties,
+                'user' => $user,
+            ]);
+        }
+    }
+
 
     /**
      * Creates a new Presentations model.
@@ -132,8 +211,8 @@ class PresentationsController extends Controller
                 $model->object_models = $object_model; 
                 $model->location_control = $service->location;
                 $model->location_userControl = (Yii::$app->user->isGuest) ? 0 : 1;
-                $model_methods = $model->loadPresentationMethods($service); // array of new presentationMethods
-                $model_specs = $model->loadPresentationSpecifications($service, $object_model); // array of new presentationSpecs          
+                $model_action_properties = $model->loadPresentationActionProperties($service); // array of new presentationMethods
+                $model_object_properties = $model->loadPresentationObjectProperties($service, $object_model); // array of new presentationSpecs          
                 $locationHQ = $model->hasProviderLocation() ? $model->hasProviderLocation() : new Locations();           
                 $locationPresentation = new LocationPresentation();
                 $locationPresentationTo = new LocationPresentationTo();
@@ -145,9 +224,9 @@ class PresentationsController extends Controller
                 $model_termmilestones = new PresentationTermMilestones();
                 $model_termclauses = new PresentationTermClauses();
                 $new_provider = ($user==null) ? Yii::createObject(RegistrationProviderForm::className()) : null;  // register provider
-                $new_provider->scenario = 'presentation';
+                if($new_provider) $new_provider->scenario = 'presentation';
                 $returning_user = ($user==null) ? Yii::createObject(LoginForm::className()) : null; // login existing user
-                $returning_user->scenario = 'presentation';
+                if($returning_user) $returning_user->scenario = 'presentation';
                 if($user==null){
                     $this->performAjaxValidation($new_provider);
                     $this->performAjaxValidation($returning_user);
@@ -157,13 +236,13 @@ class PresentationsController extends Controller
                     if($user = $user==null ? $this->saveUser($new_provider, $returning_user) : $user){ // load user(presenter)
                         if($newProvider = $user->is_provider==0 ? true : false){
                             if($proserv = $this->saveProvider($user, $service)){
-                                if($this->savePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $proserv, $newUser, $newProvider, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours, $model_termexpenses, $model_termmilestones, $model_termclauses)){                                
+                                if($this->savePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $proserv, $newUser, $newProvider, $model_object_properties, $model_action_properties, $model_terms, $model_timetable, $model_notifications, $provider_openingHours, $model_termexpenses, $model_termmilestones, $model_termclauses)){                                
                                     return $this->redirect(['/presentation/'.$model->id]);
                                 }
                             }
                         }
                         if($proserv = $ps['id']==null ? $this->saveProviderService($user, $service, $newProvider) : $this->findProviderService($ps['id'])){
-                            if($this->savePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $proserv, $newUser, $newProvider, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours, $model_termexpenses, $model_termmilestones, $model_termclauses)){                                
+                            if($this->savePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $proserv, $newUser, $newProvider, $model_object_properties, $model_action_properties, $model_terms, $model_timetable, $model_notifications, $provider_openingHours, $model_termexpenses, $model_termmilestones, $model_termclauses)){                                
                                 return $newUser ? $this->redirect(['/blank']) : $this->redirect(['/presentation/'.$model->id]);
                             }
                         }                     
@@ -172,8 +251,8 @@ class PresentationsController extends Controller
                     return $this->render('create', [
                         'service' => $service,
                         'model' => $model,
-                        'model_methods' => $model_methods,
-                        'model_specs' => $model_specs,
+                        'model_action_properties' => $model_action_properties,
+                        'model_object_properties' => $model_object_properties,
                         'object_model' => $object_model,
                         'new_provider' => $new_provider,
                         'returning_user' => $returning_user,
@@ -461,6 +540,173 @@ class PresentationsController extends Controller
 
         if($user!=null){
             return $user;
+        }
+        return false;
+    }
+
+    protected function savePresentationObjectProperties($model, $user, $service, $model_object_properties)
+    {
+        if($model and $user and $service and $model_object_properties) {            
+            
+            $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
+
+            if($model->save()) {
+                       
+                // Presentation Object Properties
+                if($model_object_properties) {
+                    if($model->provider_presentation_object_properties && $model->provider_presentation_object_properties!='') {
+                        $existPres = $this->findModel($model->provider_presentation_object_properties);
+
+                        if($existPresentationObjectProperties = $existPres->presentationObjectProperties){
+                            foreach ($existPresentationObjectProperties as $existPresentationObjectProperty) {                                        
+                                $model_object_property = new PresentationObjectProperties();
+                                $model_object_property->presentation_id = $model->id;
+                                $model_object_property->spec_id = $existPresentationObjectProperty->spec_id;
+                                $model_object_property->value = $existPresentationObjectProperty->value;
+                                $model_object_property->value_max = $existPresentationObjectProperty->value_max;
+                                $model_object_property->value_operator = $existPresentationObjectProperty->value_operator;
+                                $model_object_property->multiple_values = $existPresentationObjectProperty->multiple_values;
+                                $model_object_property->read_only = $existPresentationObjectProperty->read_only;
+                                $model_object_property->save();
+                                        
+                                if($existPresentationObjectPropertyValues = $existPresentationObjectProperty->presentationObjectPropertyValues){                                        
+                                    foreach($existPresentationObjectPropertyValues as $key=>$existPresentationObjectPropertyValue){
+                                        $model_object_property_value[$key] = new PresentationObjectPropertyValues();
+                                        $model_object_property_value[$key]->presentation_object_property_id = $model_object_property->id;
+                                        $model_object_property_value[$key]->property_value_id = $existPresentationObjectPropertyValue->property_value_id;
+                                        $model_object_property_value[$key]->save();
+                                    }
+                                }                                 
+                            }
+                        }
+                    } else {
+                        if(Model::loadMultiple($model_object_properties, Yii::$app->request->post())) {
+                            foreach ($model_object_properties as $model_object_property) {
+                                $model_object_property->presentation_id = $model->id;
+                                $model_object_property->multiple_values = ($model_object_property['objectPropertyValues']!=null) ? 1 : 0;
+                                if($model_object_property->save()){
+                                    if($model_object_property['objectPropertyValues']!=null){                                                    
+                                        if(is_array($model_object_property['objectPropertyValues'])){                                            
+                                            foreach($model_object_property['objectPropertyValues'] as $key=>$spec_model){
+                                                $model_object_property_value[$key] = new PresentationObjectPropertyValues();
+                                                $model_object_property_value[$key]->presentation_object_property_id = $model_object_property->id;
+                                                $model_object_property_value[$key]->property_value_id = $spec_model;
+                                                $model_object_property_value[$key]->save();
+                                            }
+                                        } else {
+                                            $model_object_property_value = new PresentationObjectPropertyValues();
+                                            $model_object_property_value->presentation_object_property_id = $model_object_property->id;
+                                            $model_object_property_value->property_value_id = $model_object_property['objectPropertyValues'];
+                                            $model_object_property_value->save();
+                                        }
+                                    }
+                                }                               
+                            }
+                        } 
+                    } 
+                }                                
+                // Presentation Images             
+                if($model->provider_presentation_pics && $model->provider_presentation_pics!=''){
+                    $existPres = $this->findModel($model->provider_presentation_pics);
+                    if($existPresImages = $existPres->images){
+                        foreach($existPresImages as $existPresImage){
+                            $new_image = new PresentationImages();
+                            $new_image->presentation_id = $model->id;
+                            $new_image->image_id = $existPresImage->image_id;
+                            $new_image->save();
+                        }
+                    }
+                } else {
+                    if ($model->imageFiles) {
+                        $model->upload();
+                    }
+                }                                                
+                // Presentation Issues
+                if($model->issues){
+                    foreach($model->issues as $issue){
+                        $model_issue = new PresentationIssues();
+                        $model_issue->presentation_id = $model->id;
+                        $model_issue->issue = $issue;
+                        $model_issue->save();
+                    }
+                }
+
+                return true;
+                        
+            } else {
+                echo '<pre>';
+                print_r($model); die();
+            }
+        }
+        return false;
+    }
+
+    protected function savePresentationActionProperties($model, $user, $service, $model_action_properties)
+    {
+        if($model and $user and $service and $model_action_properties) {
+
+            if($model->save()) {
+                       
+                // Presentation Object Properties
+                if($model_action_properties) {
+
+                }
+                // Presentation Methods
+                if($model_action_properties){
+                    if($model->provider_presentation_action_properties && $model->provider_presentation_action_properties!=''){                            
+                        $existPres = $this->findModel($model->provider_presentation_action_properties);
+                        if($existPresentationActionProperties = $existPres->presentationActionProperties){
+                            foreach ($existPresentationActionProperties as $existPresentationActionProperty) {                                        
+                                $model_action_property = new PresentationActionProperties();
+                                $model_action_property->presentation_id = $model->id;
+                                $model_action_property->action_property_id = $existPresMethod->action_property_id;
+                                $model_action_property->value = $existPresMethod->value;
+                                $model_action_property->value_max = $existPresMethod->value_max;
+                                $model_action_property->value_operator = $existPresMethod->value_operator;
+                                $model_action_property->multiple_values = $existPresMethod->multiple_values;
+                                $model_action_property->read_only = $existPresMethod->read_only;
+                                $model_action_property->save();                                        
+                                if($existPresentationActionPropertyValues = $existPresentationActionProperty->presentationActionPropertyVaules){                                        
+                                    foreach($existPresentationActionPropertyValues as $key=>$existPresentationActionPropertyValue){
+                                        $new_meth_model[$key] = new PresentationActionPropertyValues();
+                                        $new_meth_model[$key]->presentation_action_property_id = $model_action_property->id;
+                                        $new_meth_model[$key]->property_value_id = $existPresentationActionPropertyValue->property_value_id;
+                                        $new_meth_model[$key]->save();
+                                    }
+                                }                                 
+                            }
+                        }
+                    } else {
+                        if(Model::loadMultiple($model_action_properties, Yii::$app->request->post())) {
+                            foreach ($model_action_properties as $model_action_property) {
+                                $model_action_property->presentation_id = $model->id;
+                                $model_action_property->multiple_values = ($model_action_property['actionPropertyValues']!=null) ? 1 : 0;
+                                if($model_action_property->save()){
+                                    if($model_action_property['actionPropertyValues']!=null){                                                    
+                                        if(is_array($model_action_property['actionPropertyValues'])){
+                                            foreach($model_action_property['actionPropertyValues'] as $key=>$model_action_property_value){
+                                                $new_method_model[$key] = new PresentationActionPropertyValues();
+                                                $new_method_model[$key]->presentation_action_property_id = $model_action_property->id;
+                                                $new_method_model[$key]->property_value_id = $model_action_property_value;
+                                                $new_method_model[$key]->save();
+                                            }
+                                        } else {
+                                            $new_method_model = new PresentationActionPropertyValues();
+                                            $new_method_model->presentation_action_property_id = $model_action_property->id;
+                                            $new_method_model->property_value_id = $model_action_property['actionPropertyValues'];
+                                            $new_method_model->save();
+                                        }
+                                    }
+                                }                                  
+                            }
+                        }
+                    } 
+                }
+                        
+            } else {
+                echo '<pre>';
+                print_r($model); die();
+            }
         }
         return false;
     }

@@ -29,16 +29,16 @@ $message = Yii::t('app', '{whatkind} {action} vršite?', ['whatkind'=>$whatkind,
 </div>
 <div class="wrapper body fadeIn animated" style="border-top:none;" id="sections03">
 <?= $this->render('../_hint.php', ['message'=>$message]) ?>
-<?= $this->render('method/_similar_methods.php', ['form'=>$form, 'model'=>$model, 'user'=>$user, 'service'=>$service]) ?>
-<?php foreach($model_methods as $index=>$model_method) {
-		$method = $model_method->csMethod;
-		$property = $model_method->property;	
-		echo $this->render('method/'.$property->formTypePresentation($service->service_object).'.php', ['form'=>$form, 'index'=>$index, 'model_method'=>$model_method, 'method'=>$method, 'property'=>$property, 'service'=>$service]);
-		echo Html::activeHiddenInput($model_method, '['.$index.']method_id', ['value'=>$method->id]);
+<?= $this->render('actionProperty/_similar_action_properties.php', ['form'=>$form, 'model'=>$model, 'user'=>$user, 'service'=>$service]) ?>
+<?php foreach($model_action_properties as $index=>$model_action_property) {
+		$actionProperty = $model_action_property->theActionProperty;
+		$property = $model_action_property->property;	
+		echo $this->render('actionProperty/'.$property->formTypePresentation($service->object_ownership).'.php', ['form'=>$form, 'index'=>$index, 'model_action_property'=>$model_action_property, 'actionProperty'=>$actionProperty, 'property'=>$property, 'service'=>$service]);
+		//echo Html::activeHiddenInput($model_action_property, '['.$index.']method_id', ['value'=>$actionProperty->id]);
 	} ?>
 <?php if($user and $user->provider && $user->provider->presWithSameAction($service->action_id)!=null and Yii::$app->controller->action->id=='create'){ ?>
     </div>
 <?php } ?>
-<?= $this->render('method/_duration.php', ['form'=>$form, 'model'=>$model, 'service'=>$service]) ?>
+<?= $this->render('actionProperty/_duration.php', ['form'=>$form, 'model'=>$model, 'service'=>$service]) ?>
 <?= $this->render('_submitButton.php') ?>
 </div>

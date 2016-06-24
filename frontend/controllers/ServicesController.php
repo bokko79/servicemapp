@@ -15,6 +15,8 @@ use yii\filters\VerbFilter;
 use yii\web\Request;
 use yii\web\Session;
 use yii\data\ActiveDataProvider;
+use frontend\models\Activities;
+use frontend\models\Offers;
 
 /**
  * ServicesController implements the CRUD actions for CsServices model.
@@ -112,16 +114,12 @@ class ServicesController extends Controller
         $this->layout = '//profile';
 
         if (isset($title)) {
-            $ser_tr = $this->findModelByTitle($title);
-            // ako je našao ime usluge, renderuj stranicu - URL injection
-            if ($ser_tr)
-            {
-                $model = $this->findModel($ser_tr->service_id);
+            $model = $this->findModelByTitle($title);            
 
-                return $this->render('view', [
-                    'model' => $model,
-                ]);
-            }        
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+                   
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }        
@@ -167,8 +165,13 @@ class ServicesController extends Controller
      */
     protected function findModelByTitle($title)
     {
-        if (($model = \frontend\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
-            return $model;
+        if (($model_tr = \frontend\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+            // ako je našao ime usluge, renderuj stranicu - URL injection
+            if ($model_tr and $model = $this->findModel($model_tr->service_id)) { 
+                return $model;
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
@@ -242,7 +245,7 @@ class ServicesController extends Controller
      * Lists all ProviderServices models.
      * @return mixed
      */
-    public function actionObjectModelsPresent($id=null)
+    /*public function actionObjectModelsPresent($id=null)
     {
         if($id){
             if($service = $this->findModel($id)) {
@@ -251,6 +254,52 @@ class ServicesController extends Controller
                     'object' => $service->object,
                 ]);
             }
+        }
+        return;            
+    }*/
+
+    /**
+     * Lists all ProviderServices models.
+     * @return mixed
+     */
+    public function actionPresentationOms($title=null)
+    {
+        $this->layout = '//basic';
+
+        if (isset($title)) {
+            $service = $this->findModelByTitle($title); // a service to be presented
+            //$new_presentation = new \frontend\models\ProviderServices;
+
+            // create draft Presentation
+            $model = new \frontend\models\PresentationData;
+
+            if($ps = Yii::$app->request->get('PresentationData')){
+                $current_user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // presenter
+
+                if($current_user == null) {
+                    $user = $this->currentUser();
+                    Yii::$app->user->login($user, Yii::$app->getModule('user')->rememberFor);
+                } else {
+                    if($current_user->provider){
+                        $user = $this->currentProvider($service);
+                    } else {
+                        $user = $current_user;
+                    }                
+                }
+
+                //echo '<pre>';
+                //print_r($ps); die();
+
+                if($this->savePresentation($model, $user, $service, $ps['object_models'], $user->provider->initialService)){
+                    return $this->redirect(['/presentation-object/'.$model->id]);
+                }                
+            }
+                
+            return $this->render('presentation-oms', [
+                'service' => $service,
+                'object' => $service->object,
+                'model' => $model,
+            ]);
         }
         return;            
     }
@@ -357,5 +406,117 @@ class ServicesController extends Controller
     public function countProductsResults($queryProducts) 
     {
         return $queryProducts ? $queryProducts->totalCount : 0;
+    }
+
+
+    public function currentUser() 
+    {        // create temoporary user
+        $t_user = Yii::createObject(RegistrationForm::className());
+
+        return $t_user->temoporary();       
+    }
+
+    public function currentProvider($model) 
+    { 
+        $user = \frontend\models\User::findOne(Yii::$app->user->id);
+
+        // create temp provider
+        $provider = new \frontend\models\Provider();
+        $provider->user_id = $user->id;
+        $provider->industry_id = $model->industry_id;
+        $provider->loc_id = 1;
+        $provider->legal_form = 'freelancer';
+        $provider->type = 'service_provider';
+        $provider->department_type = 'hq';
+        $provider->status = 'inactive';
+        $provider->is_active = 0;
+        $provider->registration_time = date('Y-m-d H:i:s');
+        $provider->save();
+
+        if($provider->save()){
+            // provider Industry
+            $providerIndustry = new \frontend\models\ProviderIndustries();
+            $providerIndustry->provider_id = $provider->id;
+            $providerIndustry->industry_id = $model->industry_id;
+            $providerIndustry->main = 1;
+            if($providerIndustry->save()) {
+                $proserv = new \frontend\models\ProviderServices();
+                $proserv->provider_industry_id = $providerIndustry->id;
+                $proserv->provider_id = $provider->id;
+                $proserv->industry_id = $model->industry_id;
+                $proserv->service_id = $model->id;
+                $proserv->is_set = 1;
+                $proserv->update_time = date('Y-m-d H:i:s');
+                $proserv->save();
+            }
+            // provider Industry Terms
+            $providerIndustryTerm = new \frontend\models\ProviderIndustryTerms();
+            $providerIndustryTerm->provider_industry_id = $providerIndustry->id;
+            $providerIndustryTerm->update_time = date('Y-m-d H:i:s');
+            $providerIndustryTerm->save();
+            // provider Language
+            $providerLanguage = new \frontend\models\ProviderLanguages();
+            $providerLanguage->provider_id = $provider->id;
+            $providerLanguage->lang_code = 'SR';
+            $providerLanguage->save();                                
+            // provider Portfolio
+            $providerPortfolio = new \frontend\models\ProviderPortfolio();
+            $providerPortfolio->provider_id = $provider->id;
+            $providerPortfolio->name = 'Moj portfolio';
+            $providerPortfolio->save();
+            // provider Terms
+            $providerTerms = new \frontend\models\ProviderTerms();
+            $providerTerms->provider_id = $provider->id;
+            $providerTerms->update_time = date('Y-m-d H:i:s');
+            $providerTerms->save();
+            // provider Notifications
+            $providerNotifications = new \frontend\models\ProviderNotifications();
+            $providerNotifications->provider_id = $provider->id;
+            $providerNotifications->notification_type = 'matching';
+            $providerNotifications->time = date('Y-m-d H:i:s');
+            $providerNotifications->save();
+        }
+
+        return $user;
+    }
+
+    protected function savePresentation($model, $user, $service, $object_model, $proserv)
+    {
+        if($model && $user && $service && $object_model && $proserv) {
+            $activity = Activities::loadActivity($user->id, 'presentation');
+            if($activity->save()){
+                $offer = Offers::loadOffer($activity->id);
+                if($offer->save()){
+                    $model->activity_id = $activity->id;
+                    $model->offer_id = $offer->id;
+                    $model->provider_service_id = $proserv->id;
+                    $model->provider_id = $proserv->provider_id;
+                    $model->service_id = $service->id;
+                    $model->object_id = $service->object_id;
+                    $model->price = 0;
+                    $model->loc_id = 1;
+                    $model->status = 'draft';  
+                    $model->save();
+
+                    if($model->save()){
+                        // Presentation Object Models
+                        if($object_model){
+                            foreach($object_model as $ob_model){
+                                $model_object_models = new \frontend\models\PresentationObjectModels();
+                                $model_object_models->presentation_id = $model->id;
+                                $model_object_models->object_model_id = $ob_model;
+                                $model_object_models->save();
+                            }
+                        }                        
+
+                        return true; 
+                    } else {
+                        echo '<pre>';
+                        print_r($model); die();
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

@@ -20,12 +20,12 @@ use Yii;
 class PresentationObjectProperties extends \yii\db\ActiveRecord
 {
     public $service;
-    public $specification;
+    public $theObjectProperty;
     public $property;
     public $objectPropertyValues = [];
     public $checkUserObject;
 
-    private $_specification;
+    private $_objectProperty;
     private $_property;
 
     /**
@@ -48,7 +48,7 @@ class PresentationObjectProperties extends \yii\db\ActiveRecord
             [['multiple_values', 'read_only'], 'boolean'],
             [['objectPropertyValues'], 'safe'],
             [['value', 'value_max'], 'string', 'max' => 32],
-            [['object_property_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsSpecs::className(), 'targetAttribute' => ['object_property_id' => 'id']],
+            [['object_property_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsObjectProperties::className(), 'targetAttribute' => ['object_property_id' => 'id']],
             [['presentation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Presentations::className(), 'targetAttribute' => ['presentation_id' => 'id']],
         ];
     }
@@ -73,12 +73,12 @@ class PresentationObjectProperties extends \yii\db\ActiveRecord
      *
      * @return CsSpecs|null
      */
-    public function getObjectSpecification()
+    public function getTheObjectProperty()
     {
-        if ($this->_specification === null) {
-            $this->_specification = $this->specification;
+        if ($this->_objectProperty === null) {
+            $this->_objectProperty = $this->theObjectProperty;
         }
-        return $this->_specification;
+        return $this->_objectProperty;
     }
 
     /**
@@ -122,14 +122,14 @@ class PresentationObjectProperties extends \yii\db\ActiveRecord
     /**
      * Izlistava sve specifikacije izabranih predmeta usluga i modela predmeta.
      */
-    public function objectSpecifications()
+    public function objectProperties()
     {
         $content = '';
-        if($spcf_models = $this->models or $this->value){
-            $content .= '<tr><td style="width:30%; vertical-align:top; color:#999">'.c($this->spec->property->tName).'</td><td>';
+        if($spcf_models = $this->objectPropertyValues or $this->value){
+            $content .= '<tr><td style="width:30%; vertical-align:top; color:#999">'.c($this->objectProperty->property->tName).'</td><td>';
             if($spcf_models){   
                 $content .= '<ul class="column2">'; 
-                foreach($model->object->specs as $ob_spec){
+                foreach($model->object->objectProperties as $ob_spec){
                     $chk = [];                  
                     foreach($spcf_models as $spcf_model){
                         if($spcf_model->id==$ob_spec->id){
@@ -138,17 +138,17 @@ class PresentationObjectProperties extends \yii\db\ActiveRecord
                         }                                       
                     }               
                 }
-                foreach($model->object->specs as $ob_spec){
+                foreach($model->object->objectProperties as $ob_spec){
                     if(in_array($ob_spec->id, $chk)){
-                        $content .= '<li><b><i class="fa fa-check"></i> '.c($ob_spec->property->model->tName).'</b></li>';  
+                        $content .= '<li><b><i class="fa fa-check"></i> '.c($ob_spec->property->propertyValue->tName).'</b></li>';  
                     } else {
-                        $content .= '<li><b><i class="fa fa-times"></i> '.c($ob_spec->property->model->tName).'</b></li>';  
+                        $content .= '<li><b><i class="fa fa-times"></i> '.c($ob_spec->property->propertyValue->tName).'</b></li>';  
                     }                                       
                 }                                   
                 $content .= '</ul>';
             } else {
                 if($this->value){
-                    $content .= '<b>'.($this->value_operator=='exact' ? null : $this->value_operator).' ' .$this->value . ($presenation_spec->spec->property->unit ? ' '.$this->spec->property->unit->oznaka : null). '</b>';
+                    $content .= '<b>'.($this->value_operator=='exact' ? null : $this->value_operator).' ' .$this->value . ($presenation_spec->objectProperty->property->unit ? ' '.$this->objectProperty->property->unit->oznaka : null). '</b>';
                 }           
             }
 

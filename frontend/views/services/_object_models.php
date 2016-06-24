@@ -21,10 +21,10 @@ $session = Yii::$app->session;
 				<p class="hint">Možete izabrati više vrsta.</p>
 				<div class="enclosedCheckboxes">
 					<div class="checkbox"><label><input type="checkbox" id="ckbCheckAll<?= $model->id ?>"> <i>Izaberite/Poništite sve</i></label></div>
-					<?= $form->field(new \frontend\models\CsObjects, 'id[]')->checkboxList($model->objectModelsList, ['unselect'=>null])->label(false) ?>
+					<?= $form->field(new \frontend\models\CsObjects, 'id[]')->checkboxList($model->objectModelsList, ['unselect'=>null, 'class'=>'column3 multiselect'])->label(false) ?>
 				</div>
 			<?php else: ?>
-					<?= $form->field(new \frontend\models\CsObjects, 'id[]')->radioList($model->objectModelsList, ['unselect'=>null])->label(false) ?>
+					<?= $form->field(new \frontend\models\CsObjects, 'id[]')->radioList($model->objectModelsList, ['unselect'=>null, 'class'=>'column3 multiselect'])->label(false) ?>
 			<?php endif; ?>
 			<div class="float-right">
 		            <?= Html::submitButton(Yii::t('app', 'Nastavi'), ['class' => 'btn btn-success shadow']) ?>
@@ -32,4 +32,4 @@ $session = Yii::$app->session;
 		<?php ActiveForm::end(); ?>
 		</div>
 	</div>
-</div>
+</div>  

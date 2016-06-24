@@ -28,8 +28,8 @@ class PresentationActionPropertyValues extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_method_id', 'property_value_id'], 'required'],
-            [['presentation_method_id', 'property_value_id'], 'integer'],
+            [['presentation_action_property_id', 'property_value_id'], 'required'],
+            [['presentation_action_property_id', 'property_value_id'], 'integer'],
             [['description'], 'string'],
         ];
     }
@@ -41,7 +41,7 @@ class PresentationActionPropertyValues extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'presentation_method_id' => Yii::t('app', 'Presentation Method ID'),
+            'presentation_action_property_id' => Yii::t('app', 'Presentation Method ID'),
             'property_value_id' => Yii::t('app', 'Method Model'),
             'description' => Yii::t('app', 'Description'),
         ];

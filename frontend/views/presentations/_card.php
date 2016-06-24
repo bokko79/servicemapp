@@ -29,8 +29,8 @@ $unit = $model->price_unit!=null ? $model->unit->oznaka : $model->pService->unit
     <div class="action-area">
         <div class="float-left">
             <?= $model->id ?> | 
-        <?= Yii::$app->formatter->asCurrency($model->price, $model->currency->code, [\NumberFormatter::MIN_FRACTION_DIGITS => 2]) . ($model->price_operator=='total' ? null : '<span class="gray-color" style="font-size:80%;">/'.$unit.'</span>') ?><br>
-        <b><?= Yii::$app->formatter->asCurrency(Yii::$app->operator->price($model->calculated_Price, $model->currency->code, Yii::$app->user->currency), 'RSD', [\NumberFormatter::MIN_FRACTION_DIGITS => 2]) . ($model->price_operator=='total' ? null : '<span class="gray-color" style="font-size:80%;">/'.$unit.'</span>') ?></b>
+        <?php // Yii::$app->formatter->asCurrency($model->price, $model->currency->code, [\NumberFormatter::MIN_FRACTION_DIGITS => 2]) . ($model->price_operator=='total' ? null : '<span class="gray-color" style="font-size:80%;">/'.$unit.'</span>') ?><br>
+        <b><?php // Yii::$app->formatter->asCurrency(Yii::$app->operator->price($model->calculated_Price, $model->currency->code, Yii::$app->user->currency), 'RSD', [\NumberFormatter::MIN_FRACTION_DIGITS => 2]) . ($model->price_operator=='total' ? null : '<span class="gray-color" style="font-size:80%;">/'.$unit.'</span>') ?></b>
         </div>
         
 		<div class="button float-right">

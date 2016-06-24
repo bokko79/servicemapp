@@ -5,7 +5,7 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 
 ?>
-<?= $form->field($model_spec, '['.$index.']value', [
+<?= $form->field($model_object_property, '['.$index.']value', [
 	'hintType' => ActiveField::HINT_SPECIAL,
 	'hintSettings' => ['onLabelClick' => true, 'onLabelHover' => false, 'title' => '<i class="glyphicon glyphicon-info-sign"></i> Napomena', ],
     ])->textarea()->label($property->label)->hint($property->tHint) ?>

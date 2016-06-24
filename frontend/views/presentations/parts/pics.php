@@ -42,7 +42,7 @@ $message = 'Jedna slika vredi više od hiljadu reči. Pokažite pružaocima uslu
        <?= $form->field($model, 'youtube_link')->textInput() ?> 
     </div>
 <?php
-if($user and $user->provider && $user->provider->presWithSameObject($object->id)!=null && $service->service_object!=1 and Yii::$app->controller->action->id=='create'){ // zaostali div iz _similar_pics ?>
+if($user and $user->provider && $user->provider->presWithSameObject($object->id)!=null && $service->object_ownership!='provider' and Yii::$app->controller->action->id=='create'){ // zaostali div iz _similar_pics ?>
     </div>
 <?php } ?>
 <?= $this->render('_submitButton.php') ?>

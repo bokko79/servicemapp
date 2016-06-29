@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use dektrium\user\models\RegistrationForm;
+use frontend\models\RegistrationUserForm;
 use frontend\models\Locations;
 use yii\bootstrap\Modal;
 
-$model = Yii::createObject(RegistrationForm::className());
+$model = new RegistrationUserForm();
 $location = new Locations();
 ?>
 <div class="container-fluid">
@@ -18,9 +18,9 @@ $location = new Locations();
             <div class="margin-top-20" onclick="initialize_reg_loc();">
             <?php 
                 $form = ActiveForm::begin([
-                    'id' => 'signup-form-vertical', 
+                    'id' => 'user-registration-form', 
                     'type' => ActiveForm::TYPE_VERTICAL,
-                    'action' => Url::to('/user/registration/register'),
+                    'action' => Url::to('/register'),
                     //'enableAjaxValidation'   => true,
                     //'enableClientValidation' => false,
                 ]); 

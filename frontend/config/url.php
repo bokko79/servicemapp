@@ -10,25 +10,25 @@ return [
         '<module:user>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
         '<module:user>/<action:\w+>' => '<module>/<controller>/<action>',
 
-        'login' => 'user/security/login', // :page
+        'login' => 'site/login', // :page
         'logout' => 'user/security/logout',
-        'register' => 'user/registration/register', // :page
-        'register-provider' => 'user/registration/register-provider', // :page
-        'recovery' => 'user/recovery/request', // :page  
+        'register' => 'site/register', // :page
+        'register-provider' => 'site/register-provider', // :page
+        'confirm/<id:\d+>/<code>' => 'registration/confirm', // :page
+        'recovery' => 'user/recovery/request', // :page
 
         // ACTIVITIES
-        'market' => 'activities/index', // :page
-        '' => 'activities/index', // :page
+        'market' => 'activities/index', // :page        
 
         // BIDS
         'new-bid' => 'bids/create', // :page
-        'bid/<id:\d+>' => 'bids/view', // :page
-        'bid-setup/<id:\d+>' => 'bids/update', // :page
+        'bid/<id:\d+>/view' => 'bids/view', // :page
+        'bid/<id:\d+>/setup' => 'bids/update', // :page
 
         // BOOKINGS
         'new-booking' => 'bookings/create', // :page
-        'booking/<id:\d+>' => 'bookings/view', // :page
-        'booking-setup/<id:\d+>' => 'bookings/update', // :page
+        'booking/<id:\d+>/view' => 'bookings/view', // :page
+        'booking/<id:\d+>/setup' => 'bookings/update', // :page
 
         // FEEDBACK
         'feedback' => 'feedback/create', // :page
@@ -52,31 +52,41 @@ return [
         'objects' => 'objects/index', // :page
         'o/<title>' => 'objects/view', // :page
 
-        // ORDERS
+        // ORDERS        
+        'new-order' => 'orders/create', // :page
         'choose-models' => 'orders/models', // :page
         'add/<title>' => 'orders/add', // :page
-        'new-order' => 'orders/create', // :page
-        'order/<id:\d+>' => 'orders/view', // :page
-        'order-setup/<id:\d+>' => 'orders/update', // :page        
+        'order/<id:\d+>/view' => 'orders/view', // :page
+        'order/<id:\d+>/setup' => 'orders/update', // :page        
         'empty-cart' => 'orders/empty-cart', // :action
 
         // POSTS             
         'info' => 'posts/index', // :page
+        'posts' => 'posts/index', // :page
         'new-post' => 'posts/create', // :page
-        'post/<id:\d+>' => 'posts/view', // :page  
-        'post-setup/<id:\d+>' => 'posts/update', // :page  
+        'post/<id:\d+>/view' => 'posts/view', // :page  
+        'post/<id:\d+>/setup' => 'posts/update', // :page  
         'info-categories' => 'posts/categories', // :page
         'info-contents' => 'posts/contents', // :page
 
-        // PRESENTATIONS
+        // PRESENTATIONS        
+        'presentations' => 'presentations/index', // :page
         'new-presentation' => 'presentations/create', // :page
+        'presentation/<title>' => 'presentations/intro', // :page
         'presentation/<id:\d+>/object' => 'presentations/create-object', // :page
         'presentation/<id:\d+>/action' => 'presentations/create-action', // :page
-        'presentations' => 'presentations/index', // :page
+        'presentation/<id:\d+>/industry' => 'presentations/create-industry', // :page
+        'presentation/<id:\d+>/title' => 'presentations/create-title', // :page
+        'presentation/<id:\d+>/location' => 'presentations/create-location', // :page
+        'presentation/<id:\d+>/time' => 'presentations/create-time', // :page
+        'presentation/<id:\d+>/pricing' => 'presentations/create-pricing', // :page
+        'presentation/<id:\d+>/general' => 'presentations/create-general', // :page        
         'presentation/<id:\d+>/summary' => 'presentations/summary', // :page
         'presentation/<id:\d+>/setup' => 'presentations/update', // :page
-        'presentation/<id:\d+>' => 'presentations/view', // :page
-        'comment-presentation/<id:\d+>' =>'presentations/comment',
+        'presentation/<id:\d+>/view' => 'presentations/view', // :page
+        'presentation/<id:\d+>/comment' =>'presentations/comment',
+        'presentation/<id:\d+>/follow' =>'presentations/follow',
+        'presentation/<id:\d+>/unfollow' =>'presentations/unfollow',
         'showThemSpecs' =>'presentations/show-them-specs', // ajax
         'showThemPics' =>'presentations/show-them-pics', // ajax
         'showThemMethods' =>'presentations/show-them-methods', // ajax
@@ -93,10 +103,10 @@ return [
 
         // PROVIDER
         'providers' => 'provider/index', // :page
-        'p/<username:\w+>' =>'provider/view', // :page
-        'recommend/<id:\d+>' =>'provider/recommend',
-        'review/<id:\d+>' =>'provider/review',
-        'rate/<id:\d+>' =>'provider/rate',
+        'p/<username:\w+>/profile' =>'provider/view', // :page
+        'p/<username:\w+>/recommend' =>'provider/recommend',
+        'p/<username:\w+>/review' =>'provider/review',
+        'p/<username:\w+>/rate' =>'provider/rate',
         '<username:\w+>/portfolio-setup' => 'provider/update', // :page
         '<username:\w+>/bids' => 'provider/bids', // :page
         '<username:\w+>/presentations' => 'provider/presentations', // :page
@@ -105,12 +115,12 @@ return [
         // PROVIDER INDUSTRIES
         'new-industry' => 'provider-industries/create', // :page
         '<username:\w+>/industries' => 'provider-industries/index', // :page
-        'industry-setup/<id:\d+>' => 'provider-industries/update', // :page
+        'industry/<id:\d+>/setup' => 'provider-industries/update', // :page
 
         // PROVIDER SERVICES
         //'new-service' => 'provider-services/create', // :page
         '<username:\w+>/services' => 'provider-services/index', // :page
-        'my-service-setup/<id:\d+>' => 'provider-services/update', // :page
+        'service/<id:\d+>/setup' => 'provider-services/update', // :page
         'provider-industries' => 'provider-services/industries', // :page
         //'provider-industry-skills' => 'provider-services/skills', // :page
         //'provider-industry-services' => 'provider-services/services', // :page
@@ -127,6 +137,7 @@ return [
         // SERVICES
         'add-services' => 'services/add', // :page
         'services' => 'services/index', // :page
+        '' => 'services/index', // :page
         'services/<entity>/<title>' => 'services/index', // :page
         's/<title>' => 'services/view', // :page
         'presentation-oms/<title>' => 'services/presentation-oms', // ajax
@@ -151,6 +162,7 @@ return [
         'transaction/<id:\d+>' => 'transactions/view', // :page
 
         // USER
+        '<username:\w+>' => 'users/view',
         '<username:\w+>/home' => 'users/view',
         '<username:\w+>/setup' => 'users/update',
         '<username:\w+>/account-setup' => 'users/account',
@@ -163,20 +175,20 @@ return [
         // USER LOCATIONS
         'new-location' => 'user-locations/create', // :page
         '<username:\w+>/locations' => 'user-locations/index', // :page
-        'location-setup/<id:\d+>' => 'user-locations/update', // :page
+        'location/<id:\d+>/setup' => 'user-locations/update', // :page
 
         // USER OBJECTS
         'new-object' => 'user-objects/create', // :page
         '<username:\w+>/objects' => 'user-objects/index', // :page
-        'object-setup/<id:\d+>' => 'user-objects/update', // :page
+        'object/<id:\d+>/setup' => 'user-objects/update', // :page
 
         // USER NOTIFICATIONS
         '<username:\w+>/notifications-setup' => 'user-notifications/update', // :page       
 
         // USER PAYMENTS
-        'new-payment' => 'user-payments/create', // :page
-        'payment-setup/<id:\d+>' => 'user-payments/update', // :page
+        'new-payment' => 'user-payments/create', // :page        
         '<username:\w+>/payments' => 'user-payments/index', // :page
+        'payment/<id:\d+>/setup' => 'user-payments/update', // :page
 
         // USER SERVICES
         '<username:\w+>/follow-services' => 'user-services/index', // :page

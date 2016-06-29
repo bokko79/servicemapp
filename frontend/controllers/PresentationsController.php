@@ -27,7 +27,9 @@ use frontend\models\PresentationTermClauses;
 use frontend\models\ProviderOpeningHours;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use frontend\models\Activities;
 use frontend\models\Offers;
 use frontend\models\Log;
@@ -57,6 +59,16 @@ class PresentationsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['updatePresentation'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -99,13 +111,75 @@ class PresentationsController extends Controller
      * @param string $id
      * @return mixed
      */
+    public function actionIntro($title=null)
+    {
+        $this->layout = '//forms';
+
+        if (isset($title)) {
+            $service = $this->findServiceByTitle($title); // a service to be presented
+            //$new_presentation = new \frontend\models\ProviderServices;
+
+            // create draft Presentation
+            $model = new \frontend\models\PresentationData;
+
+            if($trigger = Yii::$app->request->get('trigger')){
+                $current_user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // presenter
+
+                if($current_user == null) {
+                    $user = $this->currentUser();
+                    
+                    Yii::$app->user->login($user, Yii::$app->getModule('user')->rememberFor);
+                    $user = $this->currentProvider($service);
+                } else {
+                    if(!$current_user->provider){
+                        $user = $this->currentProvider($service);
+                    } else {
+                        $user = $current_user;
+                    }                
+                }                
+
+                if($this->savePresentation($model, $user, $service, /*$ps['object_models'], */$user->provider->initialService)){
+                    // the following three lines were added:
+                    $auth = Yii::$app->authManager;
+                    $authorRole = $auth->getRole('presenter');
+                    $auth->assign($authorRole, $user->id);
+                    return $this->redirect(['/presentation/'.$model->id.'/action']);
+                }
+            }                  
+                
+            return $this->render('intro', [
+                'service' => $service,
+                'object' => $service->object,
+                'model' => $model,
+            ]);
+        }
+        return;
+        
+        return $this->render('view', [
+            //'model' => $id ? $this->findModel($id) : null,
+        ]);
+    }
+
+    /**
+     * Displays a single Presentations model.
+     * @param string $id
+     * @return mixed
+     */
     public function actionSummary($id=null)
     {
         $this->layout = '/basic';
-        
-        return $this->render('view', [
-            'model' => $id ? $this->findModel($id) : null,
-        ]);
+
+        $model = $this->findModel($id);
+
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
+
+            return $this->render('summary', [
+                'model' => $model,
+            ]);
+
+        } else {
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        }   
     }
 
     /**
@@ -133,26 +207,32 @@ class PresentationsController extends Controller
 
         $model = $this->findModel($id);
 
-        $service = $model->pService; // service
-        $model->service = $service;
-        $user = $model->user; // presenter
-        $object_model = $model->objectModels;
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
 
-        $model_object_properties = $model->loadPresentationObjectProperties($service, $object_model); // array of new presentationSpecs 
-                
-        if ($model->load(Yii::$app->request->post())) {                
-            if($this->savePresentationObjectProperties($model, $user, $service, $model_object_properties)){                                
-                return $this->redirect(['/presentation-action/'.$model->id]);
-            }       
+            $service = $model->pService; // service
+            $model->service = $service;
+            $user = $model->user; // presenter
+            $object_model = $model->objectModels;
+
+            $model_object_properties = $model->loadPresentationObjectProperties($service, $object_model); // array of new presentationSpecs 
+                    
+            if ($model->load(Yii::$app->request->post())) {                
+                if($this->savePresentationObjectProperties($model, $user, $service, $model_object_properties)){                                
+                    return $this->redirect(['/presentation/'.$model->id.'/title']);
+                }       
+            } else {
+                return $this->render('createObject', [
+                    'service' => $service,
+                    'model' => $model,
+                    'model_object_properties' => $model_object_properties,
+                    'object_model' => $object_model,
+                    'user' => $user,
+                ]);
+            }
+
         } else {
-            return $this->render('createObject', [
-                'service' => $service,
-                'model' => $model,
-                'model_object_properties' => $model_object_properties,
-                'object_model' => $object_model,
-                'user' => $user,
-            ]);
-        }
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        } 
     }
 
     /**
@@ -164,26 +244,239 @@ class PresentationsController extends Controller
     { 
         $this->layout = '/forms';
 
+        $model = $this->findModel($id);            
+
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
+
+            $service = $model->pService; // service
+            $model->service = $service;
+            $user = $model->user; // presenter
+
+            $model_action_properties = $model->loadPresentationActionProperties($service); // array of new presentationSpecs 
+                    
+            if ($model->load(Yii::$app->request->post())) {                
+                if($this->savePresentationActionProperties($model, $user, $service, $model_action_properties)){                                
+                    return $this->redirect(['/presentation/'.$model->id.'/object']);
+                }       
+            } else {
+                return $this->render('createAction', [
+                    'service' => $service,
+                    'model' => $model,
+                    'model_action_properties' => $model_action_properties,
+                    'user' => $user,
+                ]);
+            }
+
+        } else {
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        } 
+    }
+
+    /**
+     * Creates a new Presentations model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateIndustry($id)
+    { 
+        $this->layout = '/forms';
+
         $model = $this->findModel($id);
 
-        $service = $model->pService; // service
-        $model->service = $service;
-        $user = $model->user; // presenter
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
 
-        $model_action_properties = $model->loadPresentationActionProperties($service); // array of new presentationSpecs 
-                
-        if ($model->load(Yii::$app->request->post())) {                
-            if($this->savePresentationActionProperties($model, $user, $service, $model_action_properties)){                                
-                return $this->redirect(['/presentation-title/'.$model->id]);
-            }       
+            $service = $model->pService; // service
+            $model->service = $service;
+            $user = $model->user; // presenter
+
+            $model_industry_properties = $model->loadProviderIndustryProperties($service); // array of new presentationSpecs 
+                    
+            if ($model->load(Yii::$app->request->post())) {                
+                if($this->saveProviderIndustryProperties($model, $user, $service, $model_industry_properties)){                                
+                    return $this->redirect(['/presentation/'.$model->id.'/action']);
+                }       
+            } else {
+                return $this->render('createIndustry', [
+                    'service' => $service,
+                    'model' => $model,
+                    'model_industry_properties' => $model_industry_properties,
+                    'user' => $user,
+                ]);
+            }
         } else {
-            return $this->render('createAction', [
-                'service' => $service,
-                'model' => $model,
-                'model_action_properties' => $model_action_properties,
-                'user' => $user,
-            ]);
-        }
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        } 
+    }
+
+    /**
+     * Creates a new Presentations model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateTitle($id)
+    { 
+        $this->layout = '/forms';
+
+        $model = $this->findModel($id);
+
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
+
+            $service = $model->pService; // service
+            $model->service = $service;
+            $user = $model->user; // presenter
+                    
+            if ($model->load(Yii::$app->request->post()) and $model->save()) {
+                return $this->redirect(['/presentation/'.$model->id.'/location']);
+            } else {
+                return $this->render('createTitle', [
+                    'service' => $service,
+                    'model' => $model,
+                    'user' => $user,
+                    'object_model' => $model->presentationObjectModels,
+                ]);
+            }
+        } else {
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        } 
+    }
+
+    /**
+     * Creates a new Presentations model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateLocation($id)
+    { 
+        $this->layout = '/forms';
+
+        $model = $this->findModel($id);
+
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
+
+            $service = $model->pService; // service
+            $model->service = $service;
+            $user = $model->user; // presenter
+
+            $locationHQ = $model->hasProviderLocation() ? $model->hasProviderLocation() : new Locations();           
+            $locationPresentation = new LocationPresentation();
+            $locationPresentationTo = new LocationPresentationTo();
+                    
+            if ($model->load(Yii::$app->request->post())) {                
+                if($this->savePresentationLocations($model, $user, $service)){                                
+                    return $this->redirect(['/presentation/'.$model->id.'/time']);
+                }       
+            } else {
+                return $this->render('createLocation', [
+                    'service' => $service,
+                    'model' => $model,
+                    'user' => $user,
+                    'locationHQ'=> $locationHQ,
+                    'locationPresentation'=> $locationPresentation,
+                    'locationPresentationTo'=> $locationPresentationTo,
+                ]);
+            }
+        } else {
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        } 
+    }
+
+    /**
+     * Creates a new Presentations model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateTime($id)
+    { 
+        $this->layout = '/forms';
+
+        $model = $this->findModel($id);
+
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
+
+            $service = $model->pService; // service
+            $model->service = $service;
+            $user = $model->user; // presenter
+                    
+            if ($model->load(Yii::$app->request->post())) {                
+                if($this->savePresentationTime($model, $user, $service)){                                
+                    return $this->redirect(['/presentation/'.$model->id.'/pricing']);
+                }       
+            } else {
+                return $this->render('createTime', [
+                    'service' => $service,
+                    'model' => $model,
+                    'user' => $user,
+                ]);
+            }
+        } else {
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        } 
+    }
+
+    /**
+     * Creates a new Presentations model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreatePricing($id)
+    { 
+        $this->layout = '/forms';
+
+        $model = $this->findModel($id);
+
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
+
+            $service = $model->pService; // service
+            $model->service = $service;
+            $user = $model->user; // presenter
+                    
+            if ($model->load(Yii::$app->request->post())) {                
+                if($this->savePresentationPricing($model, $user, $service)){                                
+                    return $this->redirect(['/presentation/'.$model->id.'/general']);
+                }       
+            } else {
+                return $this->render('createPricing', [
+                    'service' => $service,
+                    'model' => $model,
+                    'user' => $user,
+                ]);
+            }
+        } else {
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        } 
+    }
+
+    /**
+     * Creates a new Presentations model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateGeneral($id)
+    { 
+        $this->layout = '/forms';
+
+        $model = $this->findModel($id);
+
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
+
+            $service = $model->pService; // service
+            $model->service = $service;
+            $user = $model->user; // presenter
+                    
+            if ($model->load(Yii::$app->request->post())) {                
+                if($this->savePresentationGeneral($model, $user, $service)){                                
+                    return $this->redirect(['/presentation/'.$model->id]);
+                }       
+            } else {
+                return $this->render('createGeneral', [
+                    'service' => $service,
+                    'model' => $model,
+                    'user' => $user,
+                ]);
+            }
+        } else {
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        } 
     }
 
 
@@ -286,8 +579,9 @@ class PresentationsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $user = $model->user;
-        if(!Yii::$app->user->isGuest and Yii::$app->user->id==$user->id){
+
+        if (\Yii::$app->user->can('updateOwnPresentation', ['activity' => $model->activity])) {
+            $user = $model->user;
 
             $this->layout = '/user_presentation';
 
@@ -338,8 +632,8 @@ class PresentationsController extends Controller
                 ]);
             }
         } else {
-            return $this->redirect('/market');
-        }
+            throw new ForbiddenHttpException('Nemate dozvoljen pristup sadržaju ove stranice.');
+        } 
             
     }
 
@@ -383,6 +677,27 @@ class PresentationsController extends Controller
     {
         if (($model = \frontend\models\CsServices::findOne($id)) !== null) {
             return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the CsServicesTranslation model based on its translated title.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return CsServices the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findServiceByTitle($title)
+    {
+        if (($model_tr = \frontend\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+            // ako je našao ime usluge, renderuj stranicu - URL injection
+            if ($model_tr and $model = $this->findService($model_tr->service_id)) { 
+                return $model;
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
@@ -711,7 +1026,49 @@ class PresentationsController extends Controller
         return false;
     }
 
-    protected function savePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $proserv, $newUser, $newProvider, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours, $model_termexpenses, $model_termmilestones, $model_termclauses)
+    protected function savePresentation($model, $user, $service, /*$object_model,*/ $proserv)
+    {
+        if($model && $user && $service /*&& $object_model*/ && $proserv) {
+            $activity = Activities::loadActivity($user->id, 'presentation');
+            if($activity->save()){
+                $offer = Offers::loadOffer($activity->id);
+                if($offer->save()){
+                    $model->activity_id = $activity->id;
+                    $model->offer_id = $offer->id;
+                    $model->provider_service_id = $proserv->id;
+                    $model->provider_id = $proserv->provider_id;
+                    $model->service_id = $service->id;
+                    $model->object_id = $service->object_id;
+                    $model->price = 0;
+                    $model->loc_id = 1;
+                    $model->status = 'draft';  
+                    $model->save();
+
+                    return true; 
+
+                    /*if($model->save()){
+                        // Presentation Object Models
+                        if($object_model){
+                            foreach($object_model as $ob_model){
+                                $model_object_models = new \frontend\models\PresentationObjectModels();
+                                $model_object_models->presentation_id = $model->id;
+                                $model_object_models->object_model_id = $ob_model;
+                                $model_object_models->save();
+                            }
+                        }                        
+
+                        return true; 
+                    } else {
+                        echo '<pre>';
+                        print_r($model); die();
+                    }*/
+                }
+            }
+        }
+        return false;
+    }
+
+    /*protected function savePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $proserv, $newUser, $newProvider, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours, $model_termexpenses, $model_termmilestones, $model_termclauses)
     {
         if($model && $user && $service && $object_model && $proserv) {            
             $activity = Activities::loadActivity($user->id, 'presentation');
@@ -929,7 +1286,7 @@ class PresentationsController extends Controller
             }
         }
         return false;
-    }
+    } */
 
 
     protected function updatePresentation($model, $user, $service, $object_model, $locationHQ, $locationPresentation, $locationPresentationTo, $model_specs, $model_methods, $model_terms, $model_timetable, $model_notifications, $provider_openingHours)
@@ -1194,5 +1551,56 @@ class PresentationsController extends Controller
             }
         }
         return;            
+    }
+
+    public function currentUser() 
+    {
+        // create temoporary user
+        $t_user = new \frontend\models\RegistrationUserForm();
+
+        return $t_user->temporary();
+    }
+
+    public function currentProvider($model) 
+    { 
+        if($user = \frontend\models\User::findOne(Yii::$app->user->id)){
+
+            $user->is_provider = 1;
+            $user->member = 0;
+            $user->role = 'provider';
+
+            if($user->save()){
+                // create temp provider
+                $provider = new \frontend\models\Provider();
+                $provider->user_id = $user->id;
+                $provider->industry_id = $model->industry_id;
+                $provider->loc_id = 1;
+                $provider->legal_form = 'freelancer';
+                $provider->type = 'service_provider';
+                $provider->department_type = 'hq';
+                $provider->status = 'inactive';
+                $provider->is_active = 0;
+                $provider->registration_time = date('Y-m-d H:i:s');
+                //$provider->save();
+
+                if($provider->save()){
+                    // provider Industry
+                    if($providerIndustry = \frontend\models\ProviderIndustries::findOne($provider->initialIndustry->id)) {
+                        $proserv = new \frontend\models\ProviderServices();
+                        $proserv->provider_industry_id = $providerIndustry->id;
+                        $proserv->provider_id = $provider->id;
+                        $proserv->industry_id = $model->industry_id;
+                        $proserv->service_id = $model->id;
+                        $proserv->is_set = 1;
+                        $proserv->update_time = date('Y-m-d H:i:s');
+                        $proserv->save();
+                    }
+                }
+            } 
+
+            return $user;
+        }
+
+        return false;   
     }
 }

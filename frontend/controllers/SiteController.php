@@ -2,17 +2,19 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\LoginForm;
+//use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
-use common\models\SignupForm;
-use common\models\SignupProviderForm;
+//use common\models\SignupForm;
+//use common\models\SignupProviderForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use dektrium\user\models\LoginForm;
+use dektrium\user\traits\AjaxValidationTrait;
 
 /**
  * Site controller
@@ -20,6 +22,9 @@ use yii\filters\AccessControl;
 class SiteController extends Controller
 {
     public $layout = 'blank';
+
+    use AjaxValidationTrait;
+
     /**
      * @inheritdoc
      */
@@ -28,18 +33,18 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['login', 'register', 'register-provider', 'membership'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['login', 'register', 'register-provider'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['membership'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
+                    ],                    
                 ],
             ],
             'verbs' => [
@@ -87,7 +92,7 @@ class SiteController extends Controller
         $this->layout = '//settings';
 
         $user = \frontend\models\User::findOne(Yii::$app->user->id);
-        $role = $user->details->role;
+        $role = $user ? $user->details->role : null;
 
         return $this->render('membership', [
                 'role' => $role,
@@ -101,7 +106,6 @@ class SiteController extends Controller
      */
     public function actionAlert()
     {
-        $this->layout = '//blank';
         $title = Yii::t('user', 'Your account has been created');
 
         return $this->render('alert', [
@@ -110,26 +114,26 @@ class SiteController extends Controller
     }
 
     /**
-     * Logs in a user.
+     * Displays the login page.
      *
-     * @return mixed
+     * @return string|Response
      */
-    /*public function actionLogin()
+    public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+        /** @var LoginForm $model */
+        $model = Yii::createObject(LoginForm::className());
+
+        $this->performAjaxValidation($model);
+
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
+            return $this->goBack();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->goHome();
-            /*return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
-    }*/
+        return $this->render('login', [
+            'model'  => $model,
+            //'module' => $this->module,
+        ]);
+    }
 
     /**
      * Logs out the current user.
@@ -384,6 +388,181 @@ class SiteController extends Controller
             $user->save();
         }
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * Displays the registration page.
+     * After successful registration if enableConfirmation is enabled shows info message otherwise redirects to home page.
+     *
+     * @return string
+     * @throws \yii\web\HttpException
+     */
+    public function actionRegister()
+    {
+        /** @var RegistrationForm $model */
+        $model = new \frontend\models\RegistrationUserForm();
+
+        $this->performAjaxValidation($model);
+
+        if ($model->load(Yii::$app->request->post()) && ($user = $model->register())) {
+            Yii::$app->user->login($user, Yii::$app->getModule('user')->rememberFor);
+            return $this->redirect('/'.$user->username.'/home');
+        }
+
+        return $this->render('register', [
+            'model'  => $model,
+            'module' => $this->module,
+        ]);
+    }
+
+    /**
+     * Displays the registration page for providers.
+     * After successful registration if enableConfirmation is enabled shows info message otherwise redirects to home page.
+     *
+     * @return string
+     * @throws \yii\web\HttpException
+     */
+    public function actionRegisterProvider()
+    { 
+        /** @var RegistrationForm $model */
+        $model = new \frontend\models\RegistrationProviderForm();
+
+        $this->performAjaxValidation($model);
+
+        if ($model->load(Yii::$app->request->post()) && ($user = $model->register())) {
+            Yii::$app->user->login($user, Yii::$app->getModule('user')->rememberFor);
+            return $this->redirect('/'.$user->username.'/home');          
+        }
+
+        return $this->render('register-provider', [
+            'model'  => $model,
+            'module' => $this->module,
+        ]);
+    }
+
+    
+    /**
+     * Confirms user's account. If confirmation was successful logs the user and shows success message. Otherwise
+     * shows error message.
+     *
+     * @param int    $id
+     * @param string $code
+     *
+     * @return string
+     * @throws \yii\web\HttpException
+     */
+    public function actionConfirm($id, $code)
+    {
+        $user = $this->findUser($id);
+
+        /*if ($user === null || $this->module->enableConfirmation == false) {
+            throw new NotFoundHttpException();
+        }*/
+
+        if($user and $user->attemptConfirmation($code)){
+            switch ($user->type) {
+                case 2:
+                    $order = $this->findOrder($user->id);
+                    $order->status = 'active';
+                    $order->save();
+                    $this->redirect('/order/'.$order->id);
+                    break;
+                case 3:
+                    $agreement = $this->findAgreement($user->id);
+                    $agreement->status = 'active';
+                    $agreement->save();
+                    $this->redirect('/agreement/'.$agreement->id);
+                    break;
+                case 4:
+                    $presentation = $this->findPresentation($user->id);
+                    $presentation->status = 'active';
+                    $presentation->service = $this->findService($presentation->service_id);
+                    $presentation->save();
+                    $this->redirect('/presentation/'.$presentation->id);
+                    break;
+                case 5:
+                    $bid = $this->findBid($user->id);
+                    $bid->status = 'active';
+                    $bid->save();
+                    $this->redirect('/order/'.$bid->order_id);
+                    break;
+                
+                default:
+                    $this->redirect('/'.$user->username);
+                    break;
+            }            
+        }
+
+        $this->redirect('/'.$user->username);
+    }
+
+    /**
+     * Finds the Presentations model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string $id
+     * @return Presentations the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findUser($id)
+    {
+        if (($model = \frontend\models\User::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    
+   /**
+     * Finds the Presentations model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string $id
+     * @return Presentations the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findService($id)
+    {
+        if (($model = \frontend\models\CsServices::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function findOrder($id) {   
+        if($activity = \frontend\models\Activities::find()->where(['activity' => 'order', 'user_id' => $id])->one()){
+            if($order = \frontend\models\Orders::find()->where(['activity_id' => $activity->id])->one()){
+                return $order;
+            }
+        }
+        return null;
+    }
+
+    public function findAgreement($id) {
+        if($activity = \frontend\models\Activities::find()->where(['activity' => 'agreement', 'user_id' => $id])->one()){
+            if($agreement = \frontend\models\Agreements::find()->where(['activity_id' => $activity->id])->one()){
+                return $agreement;
+            }
+        }
+        return null;
+    }
+
+    public function findPresentation($id) {
+        if($activity = \frontend\models\Activities::find()->where(['activity' => 'presentation', 'user_id' => $id])->one()){
+            if($presentation = \frontend\models\Presentations::find()->where(['activity_id' => $activity->id])->one()){
+                return $presentation;
+            }
+        }
+        return null;
+    }
+
+    public function findBid($id) {
+        if($activity = \frontend\models\Activities::find()->where(['activity' => 'bid', 'user_id' => $id])->one()){
+            if($bid = \frontend\models\Bids::find()->where(['activity_id' => $activity->id])->one()){
+                return $bid;
+            }
+        }
+        return null;
     }
     
 }

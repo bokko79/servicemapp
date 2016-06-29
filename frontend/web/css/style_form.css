@@ -93,13 +93,13 @@ p.helps_hints.whitey {display: none; text-align: left !important; color:#fff; fo
 
 .shopping_steps .step.active:after { background: #fff !important;}
 
-.shopping_steps .step {font-size: 13px; position: relative; height: 80px; vertical-align: middle;width:30%;}
+.shopping_steps .step {font-size: 13px; position: relative; height: 80px; vertical-align: middle; /*width:30%;*/}
 .shopping_steps .step a {}
 .shopping_steps .step table {}
 .shopping_steps .step table td {padding: 0; }
 .shopping_steps .step table .icon {width:45px; padding:0 15px 0 30px; vertical-align: middle; font-size: 48px; text-align: center;}
 .shopping_steps .step table .icon span {width:45px;}
-.shopping_steps .step table .content {padding:0 10px 0 0;}
+.shopping_steps .step table .content {padding:0 10px 0 0; text-align: center;}
 .shopping_steps .step table .content td {text-align: left; padding: 3px 0px;}
 .shopping_steps .step table .content .main {font-size: 17px;}
 .shopping_steps .step table .content .main.hover {display:none;}

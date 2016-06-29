@@ -12,7 +12,7 @@ use frontend\assets\GoogleAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
-//GoogleAsset::register($this);
+GoogleAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

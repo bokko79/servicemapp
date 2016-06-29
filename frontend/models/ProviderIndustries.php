@@ -79,9 +79,9 @@ class ProviderIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSkills()
+    public function getIndustryProperties()
     {
-        return $this->hasMany(ProviderIndustrySkills::className(), ['provider_industry_id' => 'id']);
+        return $this->hasMany(ProviderIndustryProperties::className(), ['provider_industry_id' => 'id']);
     }
 
     /**
@@ -90,13 +90,5 @@ class ProviderIndustries extends \yii\db\ActiveRecord
     public function getServices()
     {
         return $this->hasMany(ProviderServices::className(), ['provider_industry_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTerms()
-    {
-        return $this->hasOne(ProviderIndustryTerms::className(), ['provider_industry_id' => 'id']);
     }
 }

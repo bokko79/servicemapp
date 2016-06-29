@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 ?>
 
-<?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
+<?php $this->beginContent('@app/views/layouts/html/html_materialize.php'); ?>
 
 <?php /* PROFILE HEADING */ ?>
 <div class="subnav-fixed">

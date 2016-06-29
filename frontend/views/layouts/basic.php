@@ -12,7 +12,7 @@
 
     <div class="grid-row">
         <div class="grid-full">
-            
+
             <?= $content ?>
             <?= $this->render('partial/footer.php') ?>
         

@@ -115,6 +115,47 @@ class Provider extends \yii\db\ActiveRecord
         ];
     }
 
+    /** @inheritdoc */ // USER PACK + PROVIDER PACK
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {            
+            // PROVIDER CONTACT
+            $providerContact = new \frontend\models\ProviderContact();
+            $providerContact->provider_id = $this->id;
+            $providerContact->contact_type = 'e-mail';
+            $providerContact->value = $this->user->email;
+            $providerContact->save();
+            // PROVIDER INDUSTRY
+            $providerIndustry = new \frontend\models\ProviderIndustries();
+            $providerIndustry->provider_id = $this->id;
+            $providerIndustry->industry_id = $this->industry_id;
+            $providerIndustry->main = 1;
+            $providerIndustry->save();
+            // PROVIDER LANGUAGES
+            $providerLanguage = new \frontend\models\ProviderLanguages();
+            $providerLanguage->provider_id = $this->id;
+            $providerLanguage->lang_code = 'SR';
+            $providerLanguage->save();                                
+            // PROVIDER PORTFOLIO
+            $providerPortfolio = new \frontend\models\ProviderPortfolio();
+            $providerPortfolio->provider_id = $this->id;
+            $providerPortfolio->name = 'Moj portfolio';
+            $providerPortfolio->save();
+            // PROVIDER TERMS
+            $providerTerms = new \frontend\models\ProviderTerms();
+            $providerTerms->provider_id = $this->id;
+            $providerTerms->update_time = date('Y-m-d H:i:s');
+            $providerTerms->save();
+            // PROVIDER NOTIFICATIONS
+            $providerNotifications = new \frontend\models\ProviderNotifications();
+            $providerNotifications->provider_id = $this->id;
+            $providerNotifications->notification_type = 'matching';
+            $providerNotifications->time = date('Y-m-d H:i:s');
+            $providerNotifications->save();
+        }
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -198,9 +239,17 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getInitialIndustry()
+    {
+        return $this->industries[0];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getInitialService()
     {
-        return $this->industries[0]->services[0];
+        return $this->initialIndustry->services[0];
     }
 
     /**

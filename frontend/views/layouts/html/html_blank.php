@@ -4,9 +4,11 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use frontend\assets\AppAsset;
+use frontend\assets\MaterialAsset;
+use frontend\assets\GoogleAsset;
 
-AppAsset::register($this);
+GoogleAsset::register($this);
+MaterialAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -20,11 +22,11 @@ AppAsset::register($this);
     <!-- FONTS -->  
     <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,700,400,500,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="http://maps.googleapis.com/maps/api/js?libraries=places&amp;language=hr"></script>
     <?php $this->head() ?>
 </head>
 <body>
     <?php $this->beginBody() ?>
-
 
         <?= $content ?>   
 

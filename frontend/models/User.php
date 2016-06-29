@@ -2,6 +2,8 @@
 
 namespace frontend\models;
 
+use dektrium\user\models\User as BaseUser;
+
 use yii\db\ActiveRecord;
 use Yii;
 use yii\helpers\Html;
@@ -79,10 +81,33 @@ use yii\helpers\Url;
  * @property UserRecent[] $userRecents
  * @property UserServices[] $userServices
  */
-class User extends \yii\db\ActiveRecord
+class User extends BaseUser
 {
     public $location_input;
     public $user_avatar;
+
+    public $role;
+
+    public $status;
+
+    public $member;
+
+    const ROLE_USER = 'user';
+    const ROLE_PROVIDER = 'provider';       
+    const ROLE_EDITOR = 'editor';
+    const ROLE_MODERATOR = 'moderator';
+    const ROLE_ADMIN = 'admin';
+    const ROLE_OWNER = 'owner';
+
+    const STATUS_GUEST = 0;
+    const STATUS_TEMPORARY = 10;
+    const STATUS_UNCONFIRMED = 20; 
+    const STATUS_REGISTERED = 30;
+
+    const MEMBER_FREE = 0;
+    const MEMBER_BASIC = 10;
+    const MEMBER_GOLD = 20;
+    const MEMBER_PREMIUM = 30;
 
     /**
      * @inheritdoc
@@ -92,28 +117,25 @@ class User extends \yii\db\ActiveRecord
         return 'user';
     }
 
+    /** @inheritdoc */
+    public function scenarios()
+    {
+        return [
+            'register' => ['username', 'email', 'password'],
+            'connect'  => ['username', 'email'],
+            'create'   => ['username', 'email', 'password'],
+            'update'   => ['username', 'email', 'password'],
+            'settings' => ['username', 'email', 'password'],
+            'default' => ['username', 'email'],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            /*[['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
-            [['email_reset_time', 'activation_time', 'last_login_time', 'phone_verification_time'], 'safe'],
-            [['is_provider', 'registered_by', 'type', 'login_count', 'online_status', 'last_activity', 'status'], 'integer'],
-            [['rememberme_token'], 'string'],
-            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
-            [['auth_key', 'email_reset_hash', 'fullname', 'activation_hash', 'invite_hash', 'login_hash'], 'string', 'max' => 32],
-            [['ip_address'], 'string', 'max' => 45],
-            [['phone'], 'string', 'max' => 24],
-            [['phone_verification_hash'], 'string', 'max' => 4],
-            [['role_code'], 'string', 'max' => 13],
-            [['username'], 'unique'],
-            [['email'], 'unique'],
-            [['password_reset_token'], 'unique'],
-            [['created_at', 'updated_at'], 'default', 'value' => function ($model, $attribute) {
-                return date('Y-m-d H:i:s');
-            }],*/
             [['username', 'auth_key', 'password_hash', 'email', 'updated_at', 'created_at'], 'required'],
             [['is_provider', 'registered_by', 'registered_from', 'type', 'logged_in_at', 'logged_in_from', 'login_count', 'last_activity', 'status', 'flags', 'recovery_sent_at', 'confirmation_sent_at', 'confirmed_at', 'blocked_at'], 'integer'],
             [['phone_verification_time', 'updated_at', 'created_at'], 'safe'],
@@ -128,6 +150,24 @@ class User extends \yii\db\ActiveRecord
             [['email'], 'unique'], 
             [['username'], 'unique'],
             [['password_reset_token'], 'unique'],
+
+            // username rules
+            'usernameRequired' => ['username', 'required', 'on' => ['register', 'create', 'connect', 'update']],
+            'usernameMatch'    => ['username', 'match', 'pattern' => static::$usernameRegexp],
+            'usernameLength'   => ['username', 'string', 'min' => 4, 'max' => 25],
+            'usernameUnique'   => ['username', 'unique', 'message' => Yii::t('user', 'Ovo korisničko ime je zauzeto')],
+            'usernameTrim'     => ['username', 'trim'],
+
+            // email rules
+            'emailRequired' => ['email', 'required', 'on' => ['register', 'connect', 'create', 'update']],
+            'emailPattern'  => ['email', 'email'],
+            'emailLength'   => ['email', 'string', 'max' => 255],
+            'emailUnique'   => ['email', 'unique', 'message' => Yii::t('user', 'Ova e-mail adresa je zauzeta')],
+            'emailTrim'     => ['email', 'trim'],
+
+            // password rules
+            'passwordRequired' => ['password', 'required', 'on' => ['register']],
+            'passwordLength'   => ['password', 'string', 'min' => 6, 'on' => ['register', 'create']],
         ];
     }
 
@@ -171,6 +211,134 @@ class User extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'created_at' => 'Created At',
         ];
+    }
+
+    /** @inheritdoc */
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            $this->setAttribute('auth_key', Yii::$app->security->generateRandomString());
+            if (Yii::$app instanceof WebApplication) {
+                $this->setAttribute('registration_ip', Yii::$app->request->userIP);
+            }
+        }
+
+        if (!empty($this->password)) {
+            $this->setAttribute('password_hash', \dektrium\user\helpers\Password::hash($this->password));
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    /** @inheritdoc */ // USER PACK + PROVIDER PACK
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+            $location = new \frontend\models\Locations();
+            //$location->scenario = \frontend\models\Locations::SCENARIO_REGISTER;
+            if($location->load(Yii::$app->request->post())){
+                $location->user_id = $this->id;
+                if($location->save()){
+                    // USER CREDIT
+                    $userCredit = new \frontend\models\UserCredit();
+                    $userCredit->user_id = $this->id;
+                    $userCredit->time = date('Y-m-d H:i:s');
+                    $userCredit->save();
+                    // USER DETAILS
+                    $userDetails = new \frontend\models\UserDetails();
+                    $userDetails->user_id = $this->id;
+                    $userDetails->loc_id = $location->id;
+                    $userDetails->image_id = 2;
+                    $userDetails->lang_code = 'SR';
+                    $userDetails->currency_id = 1;
+                    $userDetails->role_id = 1;
+                    $userDetails->time_role_set = date('Y-m-d H:i:s');
+                    $userDetails->update_time = date('Y-m-d H:i:s');
+                    $userDetails->save();
+                    // USER LOCATIONS
+                    $user_location = new \frontend\models\UserLocations();
+                    $user_location->loc_id=$location->id;
+                    $user_location->user_id=$this->id;
+                    $user_location->save();  
+                    // USER LOG
+                    $userLog = new \frontend\models\UserLog();
+                    $userLog->user_id = $this->id;
+                    $userLog->action = $this->is_provider==0 ? 'user_registered' : 'provider_registered';
+                    $userLog->alias = $this->id;
+                    $userLog->time = date('Y-m-d H:i:s');
+                    $userLog->save();                  
+                    // USER NOTIFICATONS
+                    $userNotifications = new \frontend\models\UserNotifications();
+                    $userNotifications->user_id = $this->id;
+                    $userNotifications->update_time = date('Y-m-d H:i:s');
+                    $userNotifications->save(); 
+
+                    // the following three lines were added:
+                    $auth = Yii::$app->authManager;
+
+                    if($this->is_provider==1){
+                        $model = new \frontend\models\RegistrationProviderForm();
+                        if($model->load(Yii::$app->request->post())){
+                            // PROVIDER
+                            $provider = new \frontend\models\Provider();
+                            $provider->user_id = $this->id;
+                            $provider->industry_id = $model->industry;
+                            $provider->loc_id = $location->id;
+                            $provider->legal_form = 'freelancer';
+                            $provider->type = 'service_provider';
+                            $provider->department_type = 'hq';
+                            $provider->status = 'active';
+                            $provider->registration_time = date('Y-m-d H:i:s');
+                            $provider->save();
+
+                            $userRole = $auth->getRole('provider');
+                            $auth->assign($userRole, $this->id);
+
+                            /*if($provider->save()){
+                                // PROVIDER CONTACT
+                                $providerContact = new \frontend\models\ProviderContact();
+                                $providerContact->provider_id = $provider->id;
+                                $providerContact->contact_type = 'e-mail';
+                                $providerContact->value = $this->email;
+                                $providerContact->save();
+                                // PROVIDER INDUSTRY
+                                $providerIndustry = new \frontend\models\ProviderIndustries();
+                                $providerIndustry->provider_id = $provider->id;
+                                $providerIndustry->industry_id = $model->industry;
+                                $providerIndustry->main = 1;
+                                $providerIndustry->save();
+                                // PROVIDER LANGUAGES
+                                $providerLanguage = new \frontend\models\ProviderLanguages();
+                                $providerLanguage->provider_id = $provider->id;
+                                $providerLanguage->lang_code = 'SR';
+                                $providerLanguage->save();                                
+                                // PROVIDER PORTFOLIO
+                                $providerPortfolio = new \frontend\models\ProviderPortfolio();
+                                $providerPortfolio->provider_id = $provider->id;
+                                $providerPortfolio->name = 'Moj portfolio';
+                                $providerPortfolio->save();
+                                // PROVIDER TERMS
+                                $providerTerms = new \frontend\models\ProviderTerms();
+                                $providerTerms->provider_id = $provider->id;
+                                $providerTerms->update_time = date('Y-m-d H:i:s');
+                                $providerTerms->save();
+                                // PROVIDER NOTIFICATIONS
+                                $providerNotifications = new \frontend\models\ProviderNotifications();
+                                $providerNotifications->provider_id = $provider->id;
+                                $providerNotifications->notification_type = 'matching';
+                                $providerNotifications->time = date('Y-m-d H:i:s');
+                                $providerNotifications->save();
+                            }*/
+                        }
+                    } else {
+
+                        $userRole = $auth->getRole('user');
+                        $auth->assign($userRole, $this->id);
+                    }
+                }
+            } 
+        }
     }
 
     /**
@@ -603,5 +771,76 @@ class User extends \yii\db\ActiveRecord
         }
 
         return $star;
+    }
+
+    /**
+     * This method is used to register new user account. If Module::enableConfirmation is set true, this method
+     * will generate new confirmation token and use mailer to send it to the user.
+     *
+     * @return bool
+     */
+    public function temporary()
+    {
+        if ($this->getIsNewRecord() == false) {
+            throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
+        }
+
+        $this->confirmed_at = $this->module->enableConfirmation ? null : time();
+        $this->password     = $this->module->enableGeneratingPassword ? \dektrium\user\helpers\Password::generate(8) : $this->password;
+
+        $this->trigger(self::BEFORE_REGISTER);
+
+       // echo '<pre>'; print_r($this); die();
+
+        if (!$this->save()) {
+            return false;
+        }
+
+        $this->trigger(self::AFTER_REGISTER);
+
+        return true;
+    }
+
+    /**
+     * Generates new password reset token
+     */
+    public function generatePasswordResetToken()
+    {
+        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+    }
+
+    /**
+     * Generates
+     */
+    public function generateInviteHash()
+    {
+        $this->invite_hash = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * Generates
+     */
+    public function generatePhoneVerificationHash()
+    {
+        $this->phone_verification_hash = substr(str_shuffle(str_repeat("0123456789", 4)), 0, 4);
+    }
+
+    /**
+     * Generates
+     */
+    public function generateRoleCode()
+    {
+        $this->role_code = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 13)), 0, 13);
+    }
+
+    /**
+     * Generates
+     */
+    public function registered_by()
+    {
+        $session = Yii::$app->session;
+        $inviter = ($session->get('invite')) ? $this->findIdentityByInviteHash($session->get('invite')) : null; 
+        
+        $this->registered_by = $inviter!=null ? $inviter->id : null;
     }
 }

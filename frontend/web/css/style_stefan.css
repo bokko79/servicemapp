@@ -1,0 +1,1208 @@
+:root {
+  font-size: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.tc-videoController {
+  display: none;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: 'Arimo', 'Helvetica Neue', sans-serif;
+  position: relative;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 1020px;
+  margin: 0 auto;
+}
+
+video {
+  min-width: 100%;
+  max-width: 100%;
+  width: auto;
+  min-height: 100%;
+  height: auto;
+  background-size: cover;
+  z-index: 0;
+  overflow-y: hidden;
+}
+
+.black-bg {
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+header.main-header {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  z-index: 3;
+  height: 83vh;
+  max-height: 100%;
+  max-width: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+}
+
+header.main-header .top-navbar {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  width: 100%;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 10%;
+}
+
+header.main-header .top-navbar .logo {
+  background-image: url(http://foundersfund.com/wp-content/uploads/2014/05/airbnb-logo.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 110px;
+  width: 110px;
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+header.main-header .top-navbar .main-nav {
+  list-style: none;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 15px;
+  height: 30px;
+}
+
+header.main-header .top-navbar .main-nav li {
+  margin: 0 11px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 13px 10px;
+}
+
+header.main-header .top-navbar .main-nav li a {
+  font-size: 0.9rem;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+header.main-header .top-navbar .main-nav li:first-child {
+  border: 2px solid #ffffff;
+}
+
+header.main-header .top-navbar .main-nav li:first-child:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+header.main-header .flex-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 70%;
+}
+
+header.main-header .flex-container h1, header.main-header .flex-container h3 {
+  color: #ffffff;
+}
+
+header.main-header .flex-container h1 {
+  margin: 0;
+  font-size: 3.85rem;
+  text-transform: uppercase;
+}
+
+header.main-header .flex-container h3 {
+  margin: 10px 0 20px 0;
+  font-size: 1.1rem;
+}
+
+header.main-header .flex-container a.btn {
+  padding: 12px 24px;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(192, 192, 192, 0.7);
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+header.main-header .flex-container a.btn:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+header.main-header .bottom-navbar {
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 1.5rem;
+}
+
+header.main-header .bottom-navbar > * {
+  outline: none;
+  border: none;
+}
+
+header.main-header .bottom-navbar input[placeholder] {
+  color: #a7a7a7;
+}
+
+header.main-header .bottom-navbar input {
+  padding: 0.5rem;
+  width: 19%;
+  border: 0 1px 0 0;
+  border-right: 1px solid lightgray;
+}
+
+header.main-header .bottom-navbar input[type="text"] {
+  width: 30%;
+}
+
+header.main-header .bottom-navbar input[type="date"] {
+  width: 10%;
+}
+
+header.main-header .bottom-navbar select {
+  color: #a7a7a7;
+  width: 8%;
+}
+
+header.main-header .bottom-navbar .submit-btn {
+  padding: 0.5rem 2rem;
+  background-color: #ff5a5f;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+}
+
+header.main-header .bottom-navbar .submit-btn:hover {
+  background-color: #ff7e82;
+}
+
+section.main-section {
+  width: 100%;
+  max-width: 100%;
+  background-color: #eee;
+  padding: 4rem 0;
+  z-index: 3;
+  position: absolute;
+  top: 597px;
+  height: 291vh;
+  margin-top: 20px;
+}
+
+section.main-section .hosting-section {
+  background: #ffffff;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 100%;
+  height: 45vh;
+}
+
+section.main-section .hosting-section .hosting-img {
+  background-image: url(../images/airbnb/airbnb-host.jpg);
+  background-position: center;
+  background-size: cover;
+  width: 65%;
+  max-width: 70%;
+  height: 100%;
+}
+
+section.main-section .hosting-section .hosting-description {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+  padding: 4rem 2.5rem;
+  width: 35%;
+}
+
+section.main-section .hosting-section .hosting-description h2 {
+  font-size: 1.5rem;
+}
+
+section.main-section .hosting-section .hosting-description .hosting-button {
+  padding: 12px 30px;
+  background: #007a87;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: .95rem;
+}
+
+section.main-section .hosting-section .hosting-description .hosting-button:hover {
+  background: #0091a1;
+}
+
+section.main-section .flex-container {
+  padding: 3rem 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section.main-section .flex-container h2 {
+  font-size: 2rem;
+  color: #5a5a5a;
+}
+
+section.main-section .flex-container p {
+  color: gray;
+  margin-top: 10px;
+}
+
+section.main-section .city-images {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+}
+
+section.main-section .city-images .new-york-city {
+  background: url(../images/airbnb/new-york.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: 100%;
+  width: 64%;
+  height: 50vh;
+  margin-right: 2%;
+  margin-bottom: 2%;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section.main-section .city-images .new-york-city h2 {
+  font-size: 2rem;
+  color: #ffffff;
+}
+
+section.main-section .city-images .stockholm-city {
+  background: url(../images/airbnb/stockholm-hostel.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: 100%;
+  width: 32%;
+  height: 50vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+section.main-section .city-images .stockholm-city .stockholm-host-img {
+  background: url(../images/airbnb/host-image.jpg);
+  background-position: center;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+section.main-section .city-images .stockholm-city h2, section.main-section .city-images .stockholm-city p {
+  color: #ffffff;
+}
+
+section.main-section .city-images .stockholm-city h2 {
+  font-size: 2rem;
+}
+
+section.main-section .city-images .stockholm-city .price {
+  -webkit-align-self: flex-start;
+      -ms-flex-item-align: start;
+          align-self: flex-start;
+  background: #5a5a5a;
+  padding: 0.5rem;
+  color: #ffffff;
+  font-size: 1.5rem;
+  position: absolute;
+  bottom: 30px;
+}
+
+section.main-section .city-images .hawaii-city {
+  background: url(../images/airbnb/hawaii.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: 100%;
+  width: 31%;
+  height: 50vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  margin-right: 2%;
+  margin-bottom: 2%;
+}
+
+section.main-section .city-images .hawaii-city h2 {
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+section.main-section .city-images .paris-city {
+  background: url(../images/airbnb/paris.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+  width: 31%;
+  height: 50vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  margin-right: 2%;
+  margin-bottom: 2%;
+}
+
+section.main-section .city-images .paris-city h2 {
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+section.main-section .city-images .barcelona-city {
+  background: url(../images/airbnb/barcelona.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+  width: 34%;
+  margin-bottom: 2%;
+  height: 50vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  margin-bottom: 10px;
+  transition: background 0.3s ease-in-out, 
+ background-position 0.1s ease-in-out;
+}
+
+section.main-section .city-images .barcelona-city h2 {
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+section.main-section .city-images .barcelona-city:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url(../images/airbnb/barcelona.jpg);
+  background-position: center right;
+}
+
+section.main-section .city-images .london-apartment {
+  background: url(../images/airbnb/london-apartment.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+  width: 31%;
+  margin-right: 2%;
+  margin-bottom: 2%;
+  height: 50vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+section.main-section .city-images .london-apartment .london-apartment-host {
+  background: url(../images/airbnb/london-apartment-host.jpg);
+  background-position: center;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+}
+
+section.main-section .city-images .london-apartment h2, section.main-section .city-images .london-apartment p {
+  color: #ffffff;
+}
+
+section.main-section .city-images .london-apartment h2 {
+  font-size: 2rem;
+}
+
+section.main-section .city-images .london-apartment .price {
+  -webkit-align-self: flex-start;
+      -ms-flex-item-align: start;
+          align-self: flex-start;
+  background: #5a5a5a;
+  padding: 0.5rem;
+  color: #ffffff;
+  font-size: 1.5rem;
+  position: absolute;
+  bottom: 30px;
+}
+
+section.main-section .city-images .london-city {
+  background: url(../images/airbnb/london.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+  width: 67%;
+  height: 50vh;
+  margin-bottom: 2%;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  transition: background 0.3s ease-in-out;
+}
+
+section.main-section .city-images .london-city h2 {
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+section.main-section .city-images .san-francisco-city {
+  background: url(../images/airbnb/san-francisco.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+  width: 31%;
+  margin-right: 2%;
+  height: 50vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section.main-section .city-images .san-francisco-city h2 {
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+section.main-section .city-images .berlin-city {
+  background: url(../images/airbnb/berlin.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+  width: 32%;
+  margin-right: 2%;
+  height: 50vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section.main-section .city-images .berlin-city h2 {
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+section.main-section .city-images .budapest-city {
+  background: url(../images/airbnb/budapest.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+  width: 33%;
+  height: 50vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section.main-section .city-images .budapest-city h2 {
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+section.main-banner {
+  background: url(../images/airbnb/host-welcomingjpg.jpg);
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  max-width: 100%;
+  padding: 4rem 0;
+  z-index: 3;
+  height: 75vh;
+  position: absolute;
+  top: 368vh;
+  background-color: lightblue;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section.main-banner h1, section.main-banner h2 {
+  color: #ffffff;
+  margin: 0;
+}
+
+section.main-banner h1 {
+  font-size: 4rem;
+  text-transform: uppercase;
+}
+
+section.main-banner h2 {
+  font-weight: 400;
+}
+
+section.main-banner .play-button {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  margin-top: 30px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+section.main-banner .play-button i {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 2rem;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+section.main-banner .play-button:hover {
+  background-color: white;
+}
+
+section.community-section {
+  max-width: 100%;
+  z-index: 3;
+  height: 90vh;
+  max-height: 100%;
+  position: absolute;
+  top: 443vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section.community-section .community-heading-lead {
+  font-size: 1.25rem;
+  color: #5a5a5a;
+  margin: 1rem;
+}
+
+section.community-section .community-services {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+  margin: 30px 0;
+  width: 100%;
+}
+
+section.community-section .community-services .creating {
+  background: #00D1C1;
+  width: 24%;
+  height: 65vh;
+  margin: 0 1%;
+  color: #ffffff;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+  padding: 3rem 0;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+section.community-section .community-services .creating:hover {
+  background: #009e92;
+}
+
+section.community-section .community-services .creating .create-logo {
+  background: url(../images/airbnb/create-logo.png);
+  background-repeat: no-repeat;
+  height: 45px;
+  width: 110px;
+}
+
+section.community-section .community-services .creating .create-img {
+  background: url(../images/airbnb/create-img.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 250px;
+  width: 250px;
+}
+
+section.community-section .community-services .creating .create-support-title {
+  text-align: center;
+}
+
+section.community-section .community-services .creating .create-support-title h3 {
+  font-size: 1.5rem;
+}
+
+section.community-section .community-services .creating .create-support-title p {
+  font-size: 0.95rem;
+}
+
+section.community-section .community-services .travelling {
+  background: url(../images/airbnb/travelling-couple.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 24%;
+  height: 65vh;
+  margin: 0 1%;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-bottom: 2rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+section.community-section .community-services .travelling:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url(../images/airbnb/travelling-couple.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section.community-section .community-services .travelling .travelling-header-label {
+  background: #007a87;
+  padding: 12px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+section.community-section .community-services .travelling .travelling-titles {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 30%;
+}
+
+section.community-section .community-services .travelling .travelling-titles .travelling-main-titles {
+  color: #ffffff;
+}
+
+section.community-section .community-services .travelling .travelling-titles .travelling-main-titles h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+section.community-section .community-services .travelling .travelling-titles .travelling-main-titles p {
+  font-size: 0.9rem;
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+  line-height: 140%;
+}
+
+section.community-section .community-services .travelling .travelling-titles .travelling-title-link a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+section.community-section .community-services .travelling .travelling-titles .travelling-title-link a:hover {
+  text-decoration: underline;
+}
+
+section.community-section .community-services .business-travelling {
+  background: url(../images/airbnb/business-travelling-couple.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 24%;
+  height: 65vh;
+  margin: 0 1%;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+section.community-section .community-services .business-travelling:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url(../images/airbnb/business-travelling-couple.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section.community-section .community-services .business-travelling .business-travelling-header-label {
+  background: #393c3d;
+  padding: 12px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+section.community-section .community-services .business-travelling .business-travelling-main-titles {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: #ffffff;
+  height: 45%;
+  text-align: center;
+}
+
+section.community-section .community-services .business-travelling .business-travelling-main-titles h2 {
+  font-size: 1.9rem;
+}
+
+section.community-section .community-services .business-travelling .business-travelling-main-titles p {
+  font-size: 0.9rem;
+}
+
+section.community-section .community-services .business-travelling .business-travelling-main-titles .business-travelling-sub-title-link {
+  margin-top: 2rem;
+}
+
+section.community-section .community-services .business-travelling .business-travelling-main-titles .business-travelling-sub-title-link a {
+  color: #ffffff;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+section.community-section .community-services .business-travelling .business-travelling-main-titles .business-travelling-sub-title-link a:hover {
+  text-decoration: underline;
+}
+
+section.community-section .community-services .hosting {
+  background: url(../images/airbnb/host-nina.jpg);
+  background-position: no-repeat;
+  background-size: cover;
+  width: 24%;
+  height: 65vh;
+  margin: 0 1%;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+section.community-section .community-services .hosting:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url(../images/airbnb/host-nina.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section.community-section .community-services .hosting .hosting-header-label {
+  background: #7b0051;
+  padding: 12px;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+section.community-section .community-services .hosting .hosting-main-titles {
+  color: #ffffff;
+  text-align: center;
+  height: 30%;
+}
+
+section.community-section .community-services .hosting .hosting-main-titles h2 {
+  font-size: 2rem;
+}
+
+section.community-section .community-services .hosting .hosting-main-titles p {
+  font-size: 0.9rem;
+}
+
+section.community-section .community-services .hosting .hosting-main-titles .hosting-sub-title-link {
+  margin-top: 1.5rem;
+}
+
+section.community-section .community-services .hosting .hosting-main-titles .hosting-sub-title-link a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+section.community-section .community-services .hosting .hosting-main-titles .hosting-sub-title-link a:hover {
+  text-decoration: underline;
+}
+
+footer.main-footer {
+  background: #2b2d2e url(../images/airbnb/footer-bg.png);
+  max-width: 100%;
+  width: 100%;
+  z-index: 3;
+  height: 66.5vh;
+  max-height: 100%;
+  position: absolute;
+  top: 528vh;
+  padding: 3rem 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+footer.main-footer .flex-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid rgba(192, 192, 192, 0.3);
+  padding: 3rem 0;
+  width: 100%;
+}
+
+footer.main-footer .flex-container .form-inputs {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 40%;
+}
+
+footer.main-footer .flex-container .form-inputs select {
+  width: 60%;
+  padding: 0.75rem;
+  background: rgba(128, 128, 128, 0.5);
+  color: #ffffff;
+  margin-bottom: 1rem;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+}
+
+footer.main-footer .flex-container .company-nav,
+footer.main-footer .flex-container .discover-nav,
+footer.main-footer .flex-container .hosting-nav {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 17%;
+}
+
+footer.main-footer .flex-container .company-nav h5, footer.main-footer .flex-container .company-nav a,
+footer.main-footer .flex-container .discover-nav h5,
+footer.main-footer .flex-container .discover-nav a,
+footer.main-footer .flex-container .hosting-nav h5,
+footer.main-footer .flex-container .hosting-nav a {
+  color: #ffffff;
+}
+
+footer.main-footer .flex-container .company-nav h5,
+footer.main-footer .flex-container .discover-nav h5,
+footer.main-footer .flex-container .hosting-nav h5 {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+footer.main-footer .flex-container .company-nav a,
+footer.main-footer .flex-container .discover-nav a,
+footer.main-footer .flex-container .hosting-nav a {
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 0.1rem 0;
+}
+
+footer.main-footer .flex-container .company-nav a:hover,
+footer.main-footer .flex-container .discover-nav a:hover,
+footer.main-footer .flex-container .hosting-nav a:hover {
+  color: lightgray;
+}
+
+footer.main-footer .flex-container .hosting-nav {
+  width: 26%;
+}
+
+footer.main-footer .flex-container2 {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  padding: 3rem 0;
+  text-align: center;
+  height: 220px;
+}
+
+footer.main-footer .flex-container2 h5, footer.main-footer .flex-container2 p, footer.main-footer .flex-container2 .social-links a {
+  color: #ffffff;
+  width: 100%;
+}
+
+footer.main-footer .flex-container2 h5 {
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+footer.main-footer .flex-container2 a {
+  text-decoration: none;
+}
+
+footer.main-footer .flex-container2 a i {
+  font-size: 1.25rem;
+  border: 1px solid rgba(192, 192, 192, 0.4);
+  margin: 0 0.5rem;
+  font-size: 1rem;
+  padding: .6rem;
+  border-radius: 50%;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 38px;
+}
+
+footer.main-footer .flex-container2 a:hover {
+  color: #cccccc;
+}
+
+footer.main-footer .flex-container2 p {
+  font-size: 0.8rem;
+  color: gray;
+  margin-top: 1rem;
+}
+
+footer.main-footer .flex-container2 p:last-child {
+  margin-top: 0;
+}

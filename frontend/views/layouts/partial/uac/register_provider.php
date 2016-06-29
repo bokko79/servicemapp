@@ -5,10 +5,10 @@ use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
-use dektrium\user\models\RegistrationProviderForm;
+use frontend\models\RegistrationProviderForm;
 use frontend\models\Locations;
 
-$model = Yii::createObject(RegistrationProviderForm::className());
+$model = new RegistrationProviderForm();
 $location = new Locations();
 ?>
 <div class="container-fluid">
@@ -18,9 +18,9 @@ $location = new Locations();
             <div class="margin-top-20" onclick="initialize_reg_pro_loc();">
             <?php 
                 $form = ActiveForm::begin([
-                    'id' => 'signupprovider-form-vertical', 
+                    'id' => 'provider-registration-form', 
                     'type' => ActiveForm::TYPE_VERTICAL,
-                    'action' => Url::to('/user/registration/register-provider'),
+                    'action' => Url::to('/register-provider'),
                     //'enableAjaxValidation'   => true,
                     //'enableClientValidation' => false,
                     //'validationUrl' => Url::to('/user/registration/validate-form'),
@@ -83,6 +83,8 @@ $location = new Locations();
                                     'allowClear' => true
                                 ],
                             ]) ?>
+
+                <?= $form->field($model, 'registration_type')->hiddenInput(['value'=>1])->label(false) ?>
                 <label>Klikom na dugme "Registracija provajdera", slažete se sa <a href="#">Uslovima korišćenja websajta.</a></label>
                 <div class="form-group">
                     <?= Html::submitButton('Registracija provajdera', ['class' => 'btn btn-primary', 'style'=>'width:100%']) ?>

@@ -595,7 +595,7 @@ function initialize_pres_loc2(){
 
 // register user uac modal
 function initialize_reg_loc(){
-  $("#signup-form-vertical #locations-name").geocomplete({
+  $("#user-registration-form #locations-name").geocomplete({
     map: "#my_map_register",
     mapOptions: {
       //zoom: 10,
@@ -613,14 +613,14 @@ function initialize_reg_loc(){
     markerOptions: {
       animation:google.maps.Animation.BOUNCE,
     },
-    details: "#signup-form-vertical",
+    details: "#user-registration-form",
     detailsAttribute: "data-geo",
     types: ['(cities)'],
   });  
 }
 // register provider uac modal
 function initialize_reg_pro_loc(){
-  $("#signupprovider-form-vertical #locations-name").geocomplete({
+  $("#provider-registration-form #locations-name").geocomplete({
     map: "#my_map_register_pro",
     mapOptions: {
       //zoom: 10,
@@ -638,7 +638,7 @@ function initialize_reg_pro_loc(){
     markerOptions: {
       animation:google.maps.Animation.BOUNCE,
     },
-    details: "#signupprovider-form-vertical",
+    details: "#provider-registration-form",
     detailsAttribute: "data-geo",
     types: ['(cities)'],
   });  

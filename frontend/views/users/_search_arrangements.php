@@ -17,7 +17,6 @@ use yii\widgets\ActiveForm;
         ],         
     ]); ?>
 
-    <?= $form->field($model, 'description')->input('text', ['placeholder' => 'Pretražite porudžbine pomoću naziva usluga...', 'style'=>'width:500px;'])->label(false) ?>
     <div class="form-group">
         <?= Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default']) ?>
     </div>

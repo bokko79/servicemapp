@@ -1,16 +1,23 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model backend\models\User */
-/* @var $form yii\widgets\ActiveForm */
+use yii\helpers\Url;
+use kartik\widgets\ActiveForm;
+use kartik\switchinput\SwitchInput;
+use kartik\widgets\DatePicker;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use kartik\widgets\FileInput;
 ?>
 
-<div class="user-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = kartik\widgets\ActiveForm::begin([
+    'id' => 'form-horizontal',
+    'type' => ActiveForm::TYPE_HORIZONTAL,
+    'fullSpan' => 7,      
+    'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
+    'options' => ['enctype' => 'multipart/form-data'],
+]); ?>
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
@@ -22,33 +29,27 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'email_reset_hash')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'email_reset_time')->textInput() ?>
+    <?= $form->field($model, 'unconfirmed_email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'fullname')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'is_provider')->textInput() ?>
 
-    <?= $form->field($model, 'ip_address')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'activation_hash')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'activation_time')->textInput() ?>
-
     <?= $form->field($model, 'invite_hash')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'registered_by')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'registered_from')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'registration_ip')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'type')->textInput() ?>
 
-    <?= $form->field($model, 'last_login_time')->textInput() ?>
+    <?= $form->field($model, 'logged_in_at')->textInput() ?>
+
+    <?= $form->field($model, 'logged_in_from')->textInput() ?>
 
     <?= $form->field($model, 'login_count')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'login_hash')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'online_status')->textInput() ?>
 
     <?= $form->field($model, 'last_activity')->textInput(['maxlength' => true]) ?>
 
@@ -64,6 +65,20 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status')->textInput() ?>
 
+    <?= $form->field($model, 'flags')->textInput() ?>
+
+    <?= $form->field($model, 'recovery_token')->textInput() ?>
+
+    <?= $form->field($model, 'recovery_sent_at')->textInput() ?>
+
+    <?= $form->field($model, 'confirmation_token')->textInput() ?>
+
+    <?= $form->field($model, 'confirmation_sent_at')->textInput() ?>
+
+    <?= $form->field($model, 'confirmed_at')->textInput() ?>
+
+    <?= $form->field($model, 'blocked_at')->textInput() ?>
+
     <?= $form->field($model, 'created_at')->textInput() ?>
 
     <?= $form->field($model, 'updated_at')->textInput() ?>
@@ -75,5 +90,3 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
-
-</div>

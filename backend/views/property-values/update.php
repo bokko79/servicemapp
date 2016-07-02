@@ -5,17 +5,15 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsPropertyModels */
 
-$this->title = 'Update Cs Property Models: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Cs Property Models', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->title = 'Update Property Value: ' . ' ' . $model->value;
+$this->params['breadcrumbs'][] = ['label' => 'Property Vaulues', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->value, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="cs-property-models-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?> <small>id: <?= $model->id ?></small></h2>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+<?= $this->render('_form', [
+    'model' => $model,
+    'model_trans' => $model_trans,
+]) ?>

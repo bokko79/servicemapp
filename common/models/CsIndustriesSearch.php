@@ -18,8 +18,8 @@ class CsIndustriesSearch extends CsIndustries
     public function rules()
     {
         return [
-            [['id', 'code', 'category_id', 'image_id', 'added_by', 'hit_counter'], 'integer'],
-            [['name', 'subtitle', 'status', 'added_time'], 'safe'],
+            [['id', 'category_id', 'image_id', 'hit_counter'], 'integer'],
+            [['name', 'status'], 'safe'],
         ];
     }
 
@@ -60,16 +60,12 @@ class CsIndustriesSearch extends CsIndustries
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'code' => $this->code,
             'category_id' => $this->category_id,
             'image_id' => $this->image_id,
-            'added_by' => $this->added_by,
-            'added_time' => $this->added_time,
             'hit_counter' => $this->hit_counter,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'subtitle', $this->subtitle])
             ->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;

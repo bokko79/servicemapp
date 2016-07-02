@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\imagine\Image;
 
 /**
  * This is the model class for table "cs_property_values".
@@ -18,6 +19,8 @@ use Yii;
  */
 class CsPropertyValues extends \yii\db\ActiveRecord
 {
+    public $imageFile;
+
     /**
      * @inheritdoc
      */
@@ -36,6 +39,7 @@ class CsPropertyValues extends \yii\db\ActiveRecord
             [['property_id', 'selected_value', 'image_id'], 'integer'],
             [['property_name', 'value'], 'string', 'max' => 128],
             [['hint', 'video_link'], 'string', 'max' => 256],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
         ];
     }
 
@@ -56,12 +60,58 @@ class CsPropertyValues extends \yii\db\ActiveRecord
         ];
     }
 
+    public function upload()
+    {
+        if ($this->validate()) {
+
+            if($this->image and $this->image_id != 2){
+                unlink(Yii::getAlias('images/property-values/thumbs/'.$this->image->ime));
+                unlink(Yii::getAlias('images/property-values/'.$this->image->ime));
+            }
+           
+            $fileName = $this->id . '_' . $this->name;
+            $this->imageFile->saveAs('images/property-values/' . $fileName . '1.' . $this->imageFile->extension);         
+            
+            $image = new \common\models\Images();
+            $image->ime = $fileName . '.' . $this->imageFile->extension;
+            $image->type = 'image';
+            $image->date = date('Y-m-d H:i:s');
+            
+            $thumb = 'images/property-values/'.$fileName.'1.'.$this->imageFile->extension;
+            Image::thumbnail($thumb, 400, 300)->save(Yii::getAlias('images/property-values/'.$fileName.'.'.$this->imageFile->extension), ['quality' => 80]);                
+            Image::thumbnail($thumb, 80, 64)->save(Yii::getAlias('images/property-values/thumbs/'.$fileName.'.'.$this->imageFile->extension), ['quality' => 80]); 
+            
+            $image->save();
+
+            if($image->save()){
+                $this->image_id = $image->id;
+                $this->imageFile = null;
+                $this->save();
+            }
+
+            unlink(Yii::getAlias($thumb));
+            
+            return;
+        } else {
+
+            return false;
+        }
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getProperty()
     {
         return $this->hasOne(CsProperties::className(), ['id' => 'property_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImage()
+    {
+        return $this->hasOne(Images::className(), ['id' => 'image_id']);
     }
 
     /**
@@ -147,6 +197,17 @@ class CsPropertyValues extends \yii\db\ActiveRecord
     {
         if($this->getTranslation()) {
             return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHint()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->hint;
         }       
         return false;   
     }

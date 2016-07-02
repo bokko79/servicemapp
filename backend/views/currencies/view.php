@@ -7,33 +7,29 @@ use yii\widgets\DetailView;
 /* @var $model common\models\CsCurrencies */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Cs Currencies', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Currencies', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-currencies-view">
+<h2><?= c(Html::encode($this->title)) ?> <small>code: <?= $model->code ?></small></h2>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'code',
-            'state_id',
-            'rate',
+<p>
+    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => 'Are you sure you want to delete this item?',
+            'method' => 'post',
         ],
     ]) ?>
+</p>
 
-</div>
+<?= DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+        'id',
+        'name',
+        'code',
+        'state_id',
+        'rate',
+    ],
+]) ?>

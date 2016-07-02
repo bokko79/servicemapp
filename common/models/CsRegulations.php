@@ -60,4 +60,38 @@ class CsRegulations extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CsServiceRegulations::className(), ['regulation_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $regulation_translation = CsRegulationsTranslation::find()->where('lang_code="SR" and regulation_id='.$this->id)->one();
+        if($regulation_translation) {
+            return $regulation_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBody()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->body;
+        }       
+        return false;   
+    }
 }

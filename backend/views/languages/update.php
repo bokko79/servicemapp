@@ -5,17 +5,13 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsLanguages */
 
-$this->title = 'Update Cs Languages: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Cs Languages', 'url' => ['index']];
+$this->title = 'Update Language: ' . ' ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Languages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="cs-languages-update">
+<h2><?= Html::encode($this->title) ?> <small>code: <?= $model->code ?></small></h2>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+<?= $this->render('_form', [
+    'model' => $model,
+]) ?>

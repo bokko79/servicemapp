@@ -91,12 +91,9 @@ class PropertiesController extends Controller
         $model = new CsProperties();
         $model_trans = new CsPropertiesTranslation();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post()) and $model->save()) {
             $model_trans->property_id = $model->id;
             $model_trans->lang_code = 'SR';
-            $model_trans->name = $model->name;
-            $model_trans->name_akk = $model->name_akk;
-            $model_trans->hint = $model->hint ? $model->hint : null;
             $model_trans->orig_name = $model->name;
             if($model_trans->save()){
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -120,17 +117,15 @@ class PropertiesController extends Controller
         $model = $this->findModel($id);
         $model_trans = $model->translation;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model_trans->name = $model->name;
-            $model_trans->name_akk = $model->name_akk ? $model->name_akk : $model_trans->name_akk;
-            $model_trans->hint = $model->hint ? $model->hint : $model_trans->hint;
-            $model_trans->orig_name = $model->name;
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post()) and $model->save()) {
+            
             if($model_trans->save()){
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }

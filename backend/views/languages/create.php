@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\CsLanguages */
 
 $this->title = 'Create New Language';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Languages', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Languages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

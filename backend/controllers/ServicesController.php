@@ -8,6 +8,7 @@ use common\models\CsServicesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ServicesController implements the CRUD actions for CsServices model.

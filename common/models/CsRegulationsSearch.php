@@ -19,7 +19,7 @@ class CsRegulationsSearch extends CsRegulations
     {
         return [
             [['id'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -62,8 +62,7 @@ class CsRegulationsSearch extends CsRegulations
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

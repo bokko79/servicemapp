@@ -18,7 +18,9 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'name_akk')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model_trans, 'name')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model_trans, 'name_akk')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'property_id')->widget(Select2::classname(), [
                                 'data' => ArrayHelper::map(\common\models\CsProperties::find()->all(), 'id', 'name'),
@@ -28,7 +30,7 @@ use yii\helpers\ArrayHelper;
                                 ],
                             ]) ?>
 
-    <?= $form->field($model, 'hint')->textArea(['maxlength' => true]) ?>
+    <?= $form->field($model_trans, 'hint')->textArea(['rows' => 4]) ?>
 
     <?= $form->field($model, 'type')->dropDownList([ 
                 '1' => 'number',

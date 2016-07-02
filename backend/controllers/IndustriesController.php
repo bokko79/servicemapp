@@ -5,9 +5,11 @@ namespace backend\controllers;
 use Yii;
 use common\models\CsIndustries;
 use common\models\CsIndustriesSearch;
+use common\models\CsIndustriesTranslation;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * IndustriesController implements the CRUD actions for CsIndustries model.
@@ -66,12 +68,25 @@ class IndustriesController extends Controller
     public function actionCreate()
     {
         $model = new CsIndustries();
+        $model_trans = new CsIndustriesTranslation();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+           
+            if($model->save()){
+                if ($model->imageFile) {
+                    $model->upload();
+                }
+                $model_trans->industry_id = $model->id;
+                $model_trans->orig_name = $model->name;
+                $model_trans->save();
+
+                    return $this->redirect(['view', 'id' => $model->id]);
+                //}
+            }            
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }
@@ -85,12 +100,25 @@ class IndustriesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_trans = $model->translation;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+            
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+            $model->save();
+
+            if ($model->imageFile and $image = $model->upload()) {
+                $model->image_id = $image->id;
+            }
+            $model_trans->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
+                
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }

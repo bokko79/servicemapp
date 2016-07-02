@@ -3,36 +3,48 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\CsObjectTypes */
-
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Cs Object Types', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Object Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-object-types-view">
+<h2><?= c(Html::encode($this->title)) ?> <small>id: <?= $model->id ?></small></h2>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'object_class_id',
-            'name',
-            'description',
+<p>
+    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => 'Are you sure you want to delete this item?',
+            'method' => 'post',
         ],
     ]) ?>
+</p>
 
-</div>
+<?php
+    if($objects = $model->objects){ ?>
+
+    <div class="card_container record-33 grid-item grid-item fadeInUp animated" id="card_container">
+        <div class="primary-context gray normal">
+            <div class="head major">Predmeti</div>
+        </div>
+        <div class="secondary-context">
+            <ul>
+            <?php
+                foreach ($objects as $object){
+                    echo '<li>'.Html::a(c($object->tName), ['/objects/view', 'id'=>$object->id]) . ' </li> ';
+                } ?>
+            </ul>
+        </div>
+    </div>
+
+<?php
+    } ?>
+
+<?= DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+        'id',
+        'name',
+    ],
+]) ?>
+

@@ -26,8 +26,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'object_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'object_model_relevance')->textInput() ?>
-
     <?= $form->field($model, 'service_type')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'unit_id')->textInput() ?>
@@ -54,7 +52,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'consumer_range_step')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'service_object')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'object_ownership')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'pic')->textInput(['maxlength' => true]) ?>
 
@@ -91,10 +89,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'terms')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status')->dropDownList([ 'approved' => 'Approved', 'submitted' => 'Submitted', 'rejected' => 'Rejected', 'to_finish' => 'To finish', 'updated' => 'Updated', ], ['prompt' => '']) ?>
-
-    <?= $form->field($model, 'added_by')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'added_time')->textInput() ?>
 
     <?= $form->field($model, 'hit_counter')->textInput(['maxlength' => true]) ?>
 

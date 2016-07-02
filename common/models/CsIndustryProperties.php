@@ -112,15 +112,6 @@ class CsIndustryProperties extends \yii\db\ActiveRecord
      */
     public function serviceIndustryProperty($service_id)
     {
-        return \common\models\CsServiceIndustryProperties::find()->where('industry_property_id='.$this->id.' AND service_id='.$service_id)->one();
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsSkillsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsSkillsQuery(get_called_class());
+        return CsServiceIndustryProperties::find()->where('industry_property_id='.$this->id.' AND service_id='.$service_id)->one();
     }
 }

@@ -10,7 +10,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <h2><?= Html::encode($this->title) ?> <small>Predmeti</small></h2>    
 
-<p><?= Html::a('Create Cs Objects', ['create'], ['class' => 'btn btn-success']) ?></p>
+<p>
+    <?= Html::a('Create New Objects', ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Object Properties', ['/object-properties/index'], ['class' => 'btn btn-info']) ?>
+    <?= Html::a('Object Types', ['/object-types/index'], ['class' => 'btn btn-danger']) ?>
+    <?= Html::a('Object Issues', ['/object-issues/index'], ['class' => 'btn btn-warning']) ?>
+</p>
+
 <?php Pjax::begin(); ?>    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

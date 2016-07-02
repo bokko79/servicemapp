@@ -1,22 +1,27 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\CsObjectTypes */
-/* @var $form yii\widgets\ActiveForm */
+use yii\helpers\Url;
+use kartik\widgets\ActiveForm;
+use kartik\switchinput\SwitchInput;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 ?>
 
-<div class="cs-object-types-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = kartik\widgets\ActiveForm::begin([
+    'id' => 'form-horizontal',
+    'type' => ActiveForm::TYPE_HORIZONTAL,
+    'fullSpan' => 7,      
+    'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
+    'options' => ['enctype' => 'multipart/form-data'],
+]); ?>
 
-    <?= $form->field($model, 'object_class_id')->textInput() ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textInput() ?>
+    <?= $form->field($model_trans, 'name')->input(['value' => $model->name]) ?>
+
 
     <div class="row" style="margin:20px;">
         <div class="col-md-offset-3">
@@ -25,5 +30,3 @@ use yii\widgets\ActiveForm;
     </div>
     
     <?php ActiveForm::end(); ?>
-
-</div>

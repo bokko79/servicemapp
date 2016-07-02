@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model common\models\CsObjects */
 
 $this->title = 'Podešavanje predmeta: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Cs Objects', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Objects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

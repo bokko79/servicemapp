@@ -8,7 +8,6 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="cs-industries-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,25 +16,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'code') ?>
-
     <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'category_id') ?>
 
     <?= $form->field($model, 'image_id') ?>
 
-    <?php // echo $form->field($model, 'subtitle') ?>
-
     <?php // echo $form->field($model, 'status') ?>
 
-    <?php // echo $form->field($model, 'added_by') ?>
-
-    <?php // echo $form->field($model, 'added_time') ?>
-
     <?php // echo $form->field($model, 'hit_counter') ?>
-
-    <?php // echo $form->field($model, 'description') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
@@ -44,4 +33,3 @@ use yii\widgets\ActiveForm;
 
     <?php ActiveForm::end(); ?>
 
-</div>

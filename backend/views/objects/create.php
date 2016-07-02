@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Create Object';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Objects', 'url' => ['index'], 'class'=>'breadcrumb'];
+$this->title = 'Create New Object';
+$this->params['breadcrumbs'][] = ['label' => 'Objects', 'url' => ['index'], 'class'=>'breadcrumb'];
 $this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => ['/'], 'class'=>'breadcrumb'];
 ?>        
 

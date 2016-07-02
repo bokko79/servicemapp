@@ -62,7 +62,7 @@ class CsObjectTypesSearch extends CsObjectTypes
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

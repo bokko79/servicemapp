@@ -68,6 +68,8 @@ class IndustryPropertiesController extends Controller
         $model = new CsIndustryProperties();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //$model->industry_name = $industry->name;
+            //$model->property_name = $property->name;
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

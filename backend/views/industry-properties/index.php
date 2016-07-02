@@ -3,21 +3,18 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\CsSkillsSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Industry Properties';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?= echo $this->render('_search', ['model' => $searchModel]); ?>
+<h2><?= Html::encode($this->title) ?> <small>Svojstva delatnosti</small></h2>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Industry Property', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create New Industry Property', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -26,13 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'industry_name',
             'property_id',
             'property_name',
-            // 'default_value',
-            // 'range_min',
-            // 'range_max',
-            // 'range_step',
-            // 'display_order',
-            // 'required',
-            // 'description',
+            //'value_default',
+            //'value_min',
+            //'value_max',
+            //'step',
+            //'display_order',
+            //'multiple_values',
+            //'read_only',
+            //'required',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

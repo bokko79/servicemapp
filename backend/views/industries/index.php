@@ -7,36 +7,29 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsIndustriesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Industries';
+$this->title = 'Industries';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-industries-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<h2><?= Html::encode($this->title) ?> <small>Delatnosti</small></h2>
+<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Cs Industries', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<p>
+    <?= Html::a('Create New Industry', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
-            'code',
             'name',
             'category_id',
             'image_id',
-            // 'subtitle',
             // 'status',
-            // 'added_by',
-            // 'added_time',
             // 'hit_counter',
-            // 'description',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

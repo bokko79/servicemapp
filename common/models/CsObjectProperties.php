@@ -160,6 +160,6 @@ class CsObjectProperties extends \yii\db\ActiveRecord
      */
     public function serviceObjectProperty($service_id)
     {
-        return \common\models\CsServiceObjectProperties::find()->where('object_property_id='.$this->id.' AND service_id='.$service_id)->one();
+        return CsServiceObjectProperties::find()->where('object_property_id='.$this->id.' AND service_id='.$service_id)->one();
     }
 }

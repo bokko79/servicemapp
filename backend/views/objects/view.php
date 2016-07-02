@@ -11,18 +11,18 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Objects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-    <h2><?= c(Html::encode($this->title)) ?> <small>class: <?= $model->class ?></small></h2>
+<h2><?= c(Html::encode($this->title)) ?> <small>class: <?= $model->class ?></small></h2>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+<p>
+    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => 'Are you sure you want to delete this item?',
+            'method' => 'post',
+        ],
+    ]) ?>
+</p>
 <?php
 // object models
 // object properties

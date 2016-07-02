@@ -6,16 +6,14 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsProcesses */
 
-$this->title = 'Create Cs Processes';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Processes', 'url' => ['index']];
+$this->title = 'Create New Process';
+$this->params['breadcrumbs'][] = ['label' => 'Processes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-processes-create">
+<h2><?= Html::encode($this->title) ?> <small>Novi proces</small></h2>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<?= $this->render('_form', [
+    'model' => $model,
+    'model_trans' => $model_trans,
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+]) ?>

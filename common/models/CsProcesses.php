@@ -75,4 +75,27 @@ class CsProcesses extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Orders::className(), ['process_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $process_translation = CsProcessesTranslation::find()->where('lang_code="SR" and process_id='.$this->id)->one();
+        if($process_translation) {
+            return $process_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
 }

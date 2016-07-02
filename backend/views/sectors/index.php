@@ -7,29 +7,23 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsSectorsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Sectors';
+$this->title = 'Sectors';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-sectors-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?> <small>Sektori delatnosti</small></h2>    
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Cs Sectors', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>   
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'name',
             'description:ntext',
             'info',
             'color',
-            // 'icon',
+            'icon',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

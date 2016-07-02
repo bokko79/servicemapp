@@ -2,20 +2,13 @@
 
 use yii\helpers\Html;
 
-
-/* @var $this yii\web\View */
-/* @var $model common\models\CsObjectTypes */
-
-$this->title = 'Create Cs Object Types';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Object Types', 'url' => ['index']];
+$this->title = 'Create New Object Type';
+$this->params['breadcrumbs'][] = ['label' => 'Object Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-object-types-create">
+<h2><?= Html::encode($this->title) ?> <small>Nova kategorija predmeta</small></h2>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+<?= $this->render('_form', [
+    'model' => $model,
+    'model_trans' => $model_trans,
+]) ?>

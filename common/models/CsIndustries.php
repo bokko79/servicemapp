@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\imagine\Image;
 
 /**
  * This is the model class for table "cs_industries".
@@ -30,6 +31,8 @@ use Yii;
  */
 class CsIndustries extends \yii\db\ActiveRecord
 {
+    public $imageFile;
+
     /**
      * @inheritdoc
      */
@@ -44,11 +47,11 @@ class CsIndustries extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'name'], 'required'],
-            [['code', 'category_id', 'image_id', 'added_by', 'hit_counter'], 'integer'],
-            [['subtitle', 'status', 'description'], 'string'],
-            [['added_time'], 'safe'],
-            [['name'], 'string', 'max' => 60]
+            [['name'], 'required'],
+            [['category_id', 'image_id', 'hit_counter'], 'integer'],
+            [['status'], 'string'],
+            [['name'], 'string', 'max' => 60],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
         ];
     }
 
@@ -59,17 +62,48 @@ class CsIndustries extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'Jedinstvena šifra delatnosti.',
             'name' => 'Ime delatnosti.',
             'category_id' => 'Kategorija uslužne delatnosti.',
             'image_id' => 'Slika delatnosti.',
-            'subtitle' => 'Podnaslov delatnosti.',
             'status' => 'Status',
-            'added_by' => 'Added By',
-            'added_time' => 'Added Time',
             'hit_counter' => 'Broj poseta delatnosti.',
-            'description' => 'Opis delatnosti.',
         ];
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+
+            if($this->image and $this->image_id != 2){
+                unlink(Yii::getAlias('images/industries/thumbs/'.$this->image->ime));
+                unlink(Yii::getAlias('images/industries/'.$this->image->ime));
+            }
+           
+            $fileName = $this->id . '_' . $this->name;
+            $this->imageFile->saveAs('images/industries/' . $fileName . '1.' . $this->imageFile->extension);         
+            
+            $image = new \common\models\Images();
+            $image->ime = $fileName . '.' . $this->imageFile->extension;
+            $image->type = 'image';
+            $image->date = date('Y-m-d H:i:s');
+            
+            $thumb = 'images/industries/'.$fileName.'1.'.$this->imageFile->extension;
+            Image::thumbnail($thumb, 400, 300)->save(Yii::getAlias('images/industries/'.$fileName.'.'.$this->imageFile->extension), ['quality' => 80]);                
+            Image::thumbnail($thumb, 80, 64)->save(Yii::getAlias('images/industries/thumbs/'.$fileName.'.'.$this->imageFile->extension), ['quality' => 80]); 
+            
+            $image->save();
+
+            if($image->save()){
+                $this->image_id = $image->id;
+                $this->imageFile = null;
+                $this->save();
+            }
+            unlink(Yii::getAlias($thumb));
+            
+            return;
+        } else {
+            return false;
+        }
     }
 
     /**

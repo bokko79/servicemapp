@@ -7,29 +7,22 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsLanguagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Languages';
+$this->title = 'Languages';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-languages-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<h2><?= c(Html::encode($this->title)) ?> <small>Jezici</small></h2>
 
     <p>
-        <?= Html::a('Create Cs Languages', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create New Language', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'name',
             'code',
-            'description',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

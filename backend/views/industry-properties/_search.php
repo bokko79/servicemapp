@@ -25,19 +25,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'property_name') ?>
 
-    <?php // echo $form->field($model, 'default_value') ?>
+    <?php // echo $form->field($model, 'value_default') ?>
 
-    <?php // echo $form->field($model, 'range_min') ?>
+    <?php // echo $form->field($model, 'value_min') ?>
 
-    <?php // echo $form->field($model, 'range_max') ?>
+    <?php // echo $form->field($model, 'value_max') ?>
 
-    <?php // echo $form->field($model, 'range_step') ?>
+    <?php // echo $form->field($model, 'step') ?>
 
     <?php // echo $form->field($model, 'display_order') ?>
 
-    <?php // echo $form->field($model, 'required') ?>
+    <?php // echo $form->field($model, 'multiple_values') ?>
 
-    <?php // echo $form->field($model, 'description') ?>
+    <?php // echo $form->field($model, 'read_only') ?>
+
+    <?php // echo $form->field($model, 'required') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

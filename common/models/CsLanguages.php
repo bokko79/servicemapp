@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property string $code
- * @property string $description
  *
  * @property CsActionsTranslation[] $csActionsTranslations
  * @property CsAttributeModelsTranslation[] $csAttributeModelsTranslations
@@ -50,7 +49,6 @@ class CsLanguages extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['description'], 'string'],
             [['name'], 'string', 'max' => 50],
             [['code'], 'string', 'max' => 2],
             [['code'], 'unique']
@@ -66,7 +64,6 @@ class CsLanguages extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Jezik.',
             'code' => 'Kod jezika.',
-            'description' => 'Opis jezika.',
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\imagine\Image;
 
 /**
  * This is the model class for table "cs_services".
@@ -72,6 +73,8 @@ use Yii;
  */
 class CsServices extends \yii\db\ActiveRecord
 {
+    public $imageFile;
+
     /**
      * @inheritdoc
      */
@@ -95,6 +98,7 @@ class CsServices extends \yii\db\ActiveRecord
             [['object_name'], 'string', 'max' => 60],
             [['service_type', 'amount', 'consumer', 'consumer_children', 'service_object', 'pic', 'location', 'time', 'duration', 'frequency', 'support', 'turn_key', 'tools', 'labour_type', 'coverage', 'availability', 'ordering', 'pricing', 'terms'], 'string', 'max' => 1],
             [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['unit_id' => 'id']],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
             
         ];
     }
@@ -147,6 +151,44 @@ class CsServices extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
             'hit_counter' => Yii::t('app', 'Hit Counter'),
         ];
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+
+            if($this->image and $this->image_id != 2){
+                unlink(Yii::getAlias('images/services/thumbs/'.$this->image->ime));
+                unlink(Yii::getAlias('images/services/'.$this->image->ime));
+            }
+           
+            $fileName = $this->id . '_' . $this->name;
+            $this->imageFile->saveAs('images/services/' . $fileName . '1.' . $this->imageFile->extension);         
+            
+            $image = new \common\models\Images();
+            $image->ime = $fileName . '.' . $this->imageFile->extension;
+            $image->type = 'image';
+            $image->date = date('Y-m-d H:i:s');
+            
+            $thumb = 'images/services/'.$fileName.'1.'.$this->imageFile->extension;
+            Image::thumbnail($thumb, 400, 300)->save(Yii::getAlias('images/services/'.$fileName.'.'.$this->imageFile->extension), ['quality' => 80]);                
+            Image::thumbnail($thumb, 80, 64)->save(Yii::getAlias('images/services/thumbs/'.$fileName.'.'.$this->imageFile->extension), ['quality' => 80]); 
+            
+            $image->save();
+
+            if($image->save()){
+                $this->image_id = $image->id;
+                $this->imageFile = null;
+                $this->save();
+            }
+
+            unlink(Yii::getAlias($thumb));
+            
+            return;
+        } else {
+
+            return false;
+        }
     }
 
     /**

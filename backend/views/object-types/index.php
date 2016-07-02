@@ -7,29 +7,25 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsObjectTypesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Object Types';
+$this->title = 'Object Types';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-object-types-index">
+<h2><?= Html::encode($this->title) ?> <small>Kategorije predmeta</small></h2>
+<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<p>
+    <?= Html::a('Create New Object Type', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
 
-    <p>
-        <?= Html::a('Create Cs Object Types', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
-            'object_class_id',
             'name',
-            'description',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

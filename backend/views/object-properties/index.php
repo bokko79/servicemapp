@@ -3,27 +3,19 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\CsObjectPropertiesSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Cs Object Properties');
+$this->title = Yii::t('app', 'Object Properties');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-object-properties-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?> <small>Svojstva predmeta</small></h2>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Cs Object Properties'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+    
+<p><?= Html::a(Yii::t('app', 'Create New Object Property'), ['create'], ['class' => 'btn btn-success']) ?></p>
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'object_id',
             'object_name',
@@ -44,9 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'specific_values',
             // 'read_only',
             // 'required',
-            // 'description',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

@@ -23,8 +23,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'class') ?>
 
-    <?php // echo $form->field($model, 'mark') ?>
-
     <?php // echo $form->field($model, 'description') ?>
 
     <div class="form-group">

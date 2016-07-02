@@ -6,16 +6,17 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsObjectProperties */
 
-$this->title = Yii::t('app', 'Create Cs Object Properties');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cs Object Properties'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Create New Object Property');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Object Properties'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-object-properties-create">
+<h2><?= Html::encode($this->title) ?> <small>Novo svojstvo predmeta</small></h2>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<p>
+    <?= Html::a('New Object', ['/objects/create'], ['class' => 'btn btn-warning']) ?>
+    <?= Html::a('New Property', ['/properties/create'], ['class' => 'btn btn-danger']) ?>
+</p>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+<?= $this->render('_form', [
+    'model' => $model,
+]) ?>

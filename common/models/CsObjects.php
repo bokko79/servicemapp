@@ -265,7 +265,7 @@ class CsObjects extends \yii\db\ActiveRecord
      */
     public function getTranslation()
     {
-        $object_translation = \common\models\CsObjectsTranslation::find()->where('lang_code="SR" and object_id='.$this->id)->one();
+        $object_translation = CsObjectsTranslation::find()->where('lang_code="SR" and object_id='.$this->id)->one();
         if($object_translation) {
             return $object_translation;
         }

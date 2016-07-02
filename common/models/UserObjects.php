@@ -18,7 +18,7 @@ use Yii;
  * @property string $update_time
  *
  * @property UserObjectImages[] $userObjectImages
- * @property UserObjectSpecs[] $userObjectSpecs
+ * @property UserObjectProperties[] $userObjectProperties
  * @property CsObjects $object
  * @property CsObjectTypes $objectType
  * @property Locations $loc
@@ -53,15 +53,15 @@ class UserObjects extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'object_id' => 'Predmet usluge.',
-            'object_type_id' => 'Vrsta predmeta usluge.',
-            'ime' => 'Ime predmeta usluge.',
-            'loc_id' => 'Lokacija predmeta usluge.',
-            'note' => 'Opis predmeta usluge.',
-            'is_set' => 'Da li je predmet usluge podešen. 0 - ne; 1 - da.',
-            'update_time' => 'Vreme podešavanja predmeta usluge.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'object_id' => Yii::t('app', 'Object ID'),
+            'object_type_id' => Yii::t('app', 'Object Type ID'),
+            'ime' => Yii::t('app', 'Ime'),
+            'loc_id' => Yii::t('app', 'Loc ID'),
+            'note' => Yii::t('app', 'Note'),
+            'is_set' => Yii::t('app', 'Is Set'),
+            'update_time' => Yii::t('app', 'Update Time'),
         ];
     }
 
@@ -76,9 +76,9 @@ class UserObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserObjectSpecs()
+    public function getUserObjectProperties()
     {
-        return $this->hasMany(UserObjectSpecs::className(), ['user_object_id' => 'id']);
+        return $this->hasMany(UserObjectProperties::className(), ['user_object_id' => 'id']);
     }
 
     /**
@@ -114,11 +114,10 @@ class UserObjects extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return UserObjectsQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getObjectName()
     {
-        return new UserObjectsQuery(get_called_class());
+        return c($this->object->tName);
     }
 }

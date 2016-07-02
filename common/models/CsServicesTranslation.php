@@ -77,13 +77,4 @@ class CsServicesTranslation extends \yii\db\ActiveRecord
     {
         return $this->hasOne(CsServices::className(), ['id' => 'service_id']);
     }
-
-    /**
-     * @inheritdoc
-     * @return CsServicesTranslationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsServicesTranslationQuery(get_called_class());
-    }
 }

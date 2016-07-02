@@ -11,25 +11,26 @@ use Yii;
  * @property string $user_id
  * @property integer $industry_id
  * @property string $legal_form
- * @property string $phone2
- * @property string $phone3
- * @property string $website
+ * @property string $type
+ * @property string $loc_id
+ * @property string $parent
+ * @property string $department_name
+ * @property string $department_type
+ * @property string $legal_name
+ * @property string $image_id
+ * @property integer $coverage
+ * @property string $coverage_within
+ * @property string $name
  * @property string $VAT_ID
- * @property string $company_no
- * @property string $bank_acc_no
- * @property string $work_time_start
- * @property string $work_time_end
+ * @property string $company_no 
  * @property string $registration_time
  * @property string $status
  * @property integer $is_active
  * @property string $del_upd_time
  * @property string $service_upd_time
  * @property integer $score
- * @property integer $rate
- * @property integer $rating
- * @property string $licence_no
- * @property string $licence_hash
- * @property string $licence_upd_time
+ * @property string $rate
+ * @property string $rating
  * @property string $hit_counter
  *
  * @property Banners[] $banners
@@ -39,11 +40,13 @@ use Yii;
  * @property User $user
  * @property CsIndustries $industry
  * @property ProviderComments[] $providerComments
+ * @property ProviderIndustries[] $providerIndustries
  * @property ProviderLanguages[] $providerLanguages
  * @property ProviderLocations[] $providerLocations
  * @property ProviderPortfolio $providerPortfolio
  * @property ProviderRecommendation[] $providerRecommendations
  * @property ProviderServices[] $providerServices
+ * @property ProviderTerms $providerTerms
  */
 class Provider extends \yii\db\ActiveRecord
 {
@@ -61,15 +64,20 @@ class Provider extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'legal_form', 'registration_time'], 'required'],
-            [['user_id', 'industry_id', 'is_active', 'score', 'rate', 'rating', 'hit_counter'], 'integer'],
-            [['legal_form', 'status'], 'string'],
-            [['work_time_start', 'work_time_end', 'registration_time', 'del_upd_time', 'service_upd_time', 'licence_upd_time'], 'safe'],
-            [['phone2', 'phone3', 'VAT_ID', 'company_no'], 'string', 'max' => 20],
-            [['website'], 'string', 'max' => 50],
-            [['bank_acc_no', 'licence_no'], 'string', 'max' => 30],
-            [['licence_hash'], 'string', 'max' => 13],
-            [['user_id'], 'unique']
+            [['user_id', 'legal_form', 'loc_id', 'registration_time'], 'required'],
+           [['user_id', 'industry_id', 'loc_id', 'parent', 'image_id', 'coverage', 'is_active', 'score', 'hit_counter'], 'integer'],
+           [['legal_form', 'type', 'department_type', 'status'], 'string'],
+           [['coverage_within', 'rate', 'rating'], 'number'],
+           [['registration_time', 'del_upd_time', 'service_upd_time'], 'safe'],
+           [['department_name', 'legal_name'], 'string', 'max' => 80],
+           [['name'], 'string', 'max' => 64],
+           [['VAT_ID', 'company_no'], 'string', 'max' => 20],
+           [['user_id'], 'unique'],
+           [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+           [['industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsIndustries::className(), 'targetAttribute' => ['industry_id' => 'id']],
+           [['registration_time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 
@@ -79,31 +87,73 @@ class Provider extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'industry_id' => 'Pretežna uslužna delatnost pružaoca usluge.',
-            'legal_form' => 'Pravni oblik pružaoca usluge. fizičko - fizičko lice; pravno - pravno lice.',
-            'phone2' => 'Alternativni telefon 2.',
-            'phone3' => 'Alternativni telefon 3.',
-            'website' => 'Website pružaoca usluge.',
-            'VAT_ID' => 'Poreski identifikacioni broj pružaoca usluge (PIB).',
-            'company_no' => 'Matični broj preduzeća pružaoca usluge. ',
-            'bank_acc_no' => 'Broj primarnog bankovnog računa.',
-            'work_time_start' => 'Početak radnog vremena.',
-            'work_time_end' => 'Kraj radnog vremena.',
-            'registration_time' => 'Datum registracije pružaoca usluge.',
-            'status' => 'Status pružaoca usluge. aktivan, banovan, neaktivan, u mirovanju. ',
-            'is_active' => 'Aktivnost pružaoca usluge. 0 - ne; 1 - da.',
-            'del_upd_time' => 'Datum i vreme izmene pretežne delatnosti.',
-            'service_upd_time' => 'Datum i vreme izmene pružajućih usluga.',
-            'score' => 'Score pružaoca usluge.',
-            'rate' => 'Ocena pružaoca usluge.',
-            'rating' => 'Rejting pružaoca usluge.',
-            'licence_no' => 'Broj licence ili dozvole pružaoca usluge.',
-            'licence_hash' => 'Kod za potvrdu licence ili dozvole pružaoca usluge.',
-            'licence_upd_time' => 'Datum i vreme unosa licence pružaoca usluge.',
-            'hit_counter' => 'Broj poseta profila pružaoca usluge.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'industry_id' => Yii::t('app', 'Industry ID'),
+            'legal_form' => Yii::t('app', 'Legal Form'),
+            'type' => Yii::t('app', 'Type'),
+           'loc_id' => Yii::t('app', 'Loc ID'),
+           'parent' => Yii::t('app', 'Parent'),
+           'department_name' => Yii::t('app', 'Department Name'),
+           'department_type' => Yii::t('app', 'Department Type'),
+           'legal_name' => Yii::t('app', 'Legal Name'),
+           'image_id' => Yii::t('app', 'Image ID'),
+           'coverage' => Yii::t('app', 'Coverage'),
+           'coverage_within' => Yii::t('app', 'Coverage Within'),
+           'name' => Yii::t('app', 'Name'),
+            'VAT_ID' => Yii::t('app', 'Vat  ID'),
+            'company_no' => Yii::t('app', 'Company No'),            
+            'registration_time' => Yii::t('app', 'Registration Time'),
+            'status' => Yii::t('app', 'Status'),
+            'is_active' => Yii::t('app', 'Is Active'),
+            'del_upd_time' => Yii::t('app', 'Del Upd Time'),
+            'service_upd_time' => Yii::t('app', 'Service Upd Time'),
+            'score' => Yii::t('app', 'Score'),
+            'rate' => Yii::t('app', 'Rate'),
+            'rating' => Yii::t('app', 'Rating'),           
+            'hit_counter' => Yii::t('app', 'Hit Counter'),
         ];
+    }
+
+    /** @inheritdoc */ // USER PACK + PROVIDER PACK
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {            
+            // PROVIDER CONTACT
+            $providerContact = new \common\models\ProviderContact();
+            $providerContact->provider_id = $this->id;
+            $providerContact->contact_type = 'e-mail';
+            $providerContact->value = $this->user->email;
+            $providerContact->save();
+            // PROVIDER INDUSTRY
+            $providerIndustry = new \common\models\ProviderIndustries();
+            $providerIndustry->provider_id = $this->id;
+            $providerIndustry->industry_id = $this->industry_id;
+            $providerIndustry->main = 1;
+            $providerIndustry->save();
+            // PROVIDER LANGUAGES
+            $providerLanguage = new \common\models\ProviderLanguages();
+            $providerLanguage->provider_id = $this->id;
+            $providerLanguage->lang_code = 'SR';
+            $providerLanguage->save();                                
+            // PROVIDER PORTFOLIO
+            $providerPortfolio = new \common\models\ProviderPortfolio();
+            $providerPortfolio->provider_id = $this->id;
+            $providerPortfolio->name = 'Moj portfolio';
+            $providerPortfolio->save();
+            // PROVIDER TERMS
+            $providerTerms = new \common\models\ProviderTerms();
+            $providerTerms->provider_id = $this->id;
+            $providerTerms->update_time = date('Y-m-d H:i:s');
+            $providerTerms->save();
+            // PROVIDER NOTIFICATIONS
+            $providerNotifications = new \common\models\ProviderNotifications();
+            $providerNotifications->provider_id = $this->id;
+            $providerNotifications->notification_type = 'matching';
+            $providerNotifications->time = date('Y-m-d H:i:s');
+            $providerNotifications->save();
+        }
     }
 
     /**
@@ -149,6 +199,22 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getLocation()
+    {
+        return $this->hasOne(Locations::className(), ['id' => 'loc_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAvatar()
+    {
+        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getIndustry()
     {
         return $this->hasOne(CsIndustries::className(), ['id' => 'industry_id']);
@@ -157,7 +223,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderComments()
+    public function getComments()
     {
         return $this->hasMany(ProviderComments::className(), ['provider_id' => 'id']);
     }
@@ -165,7 +231,31 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderLanguages()
+    public function getIndustries()
+    {
+        return $this->hasMany(ProviderIndustries::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getInitialIndustry()
+    {
+        return $this->industries[0];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getInitialService()
+    {
+        return $this->initialIndustry->services[0];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLanguages()
     {
         return $this->hasMany(ProviderLanguages::className(), ['provider_id' => 'id']);
     }
@@ -173,15 +263,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderLocations()
-    {
-        return $this->hasMany(ProviderLocations::className(), ['provider_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderPortfolio()
+    public function getPortfolio()
     {
         return $this->hasOne(ProviderPortfolio::className(), ['provider_id' => 'id']);
     }
@@ -189,7 +271,7 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderRecommendations()
+    public function getRecommendations()
     {
         return $this->hasMany(ProviderRecommendation::className(), ['provider_id' => 'id']);
     }
@@ -197,17 +279,113 @@ class Provider extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServices()
+    public function getServices()
     {
         return $this->hasMany(ProviderServices::className(), ['provider_id' => 'id']);
     }
 
     /**
-     * @inheritdoc
-     * @return ProviderQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getTerms()
     {
-        return new ProviderQuery(get_called_class());
+        return $this->hasOne(ProviderTerms::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentations()
+    {
+        return $this->hasMany(Presentations::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccounts()
+    {
+        return $this->hasMany(ProviderAccounts::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getContact()
+    {
+        return $this->hasMany(ProviderContact::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLicences()
+    {
+        return $this->hasMany(ProviderLicences::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMembers()
+    {
+        return $this->hasMany(ProviderMembers::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNotifications()
+    {
+        return $this->hasMany(ProviderNotifications::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOpeningHours()
+    {
+        return $this->hasMany(ProviderOpeningHours::className(), ['provider_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuickCounts()
+    {
+        return '<i class="fa fa-thumbs-o-up"></i> '.count($this->recommendations). ' | 
+                <i class="fa fa-comment-o"></i> '.count($this->comments);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function presWithSameObject($object_id)
+    {
+        $objContainer = [];
+        if($presentations = $this->presentations){
+            foreach($presentations as $presentation){
+                if($presentation->object_id==$object_id){
+                    $objContainer[] = $presentation;
+                }
+            }            
+        }
+        return $objContainer;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function presWithSameAction($action_id)
+    {
+        $actContainer = [];
+        if($presentations = $this->presentations){
+            foreach($presentations as $presentation){
+                if($presentation->pService->action_id==$action_id){
+                    $actContainer[] = $presentation;
+                }
+            }            
+        }
+        return $actContainer;
     }
 }

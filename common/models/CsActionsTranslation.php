@@ -77,13 +77,4 @@ class CsActionsTranslation extends \yii\db\ActiveRecord
     {
         return $this->hasOne(CsLanguages::className(), ['code' => 'lang_code']);
     }
-
-    /**
-     * @inheritdoc
-     * @return CsActionsTranslationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsActionsTranslationQuery(get_called_class());
-    }
 }

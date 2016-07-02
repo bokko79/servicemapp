@@ -3,7 +3,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use frontend\models\CsSectors;
+use common\models\CsSectors;
 ?>
 <p class="paragraph" style="text-align:center; margin:0 0 20px 0; color:#aaa; font-size:11px;"><?= Yii::t('app', 'Choose category by clicking on the colored boxes and then select one of the service industry from the list below.') ?></p>
 

@@ -14,6 +14,8 @@ use yii\filters\VerbFilter;
  */
 class PropertyValuesController extends Controller
 {
+    public $layout = '/admin';
+    
     /**
      * @inheritdoc
      */

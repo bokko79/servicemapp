@@ -23,7 +23,6 @@ use Yii;
  * @property string $country
  * @property string $status
  * @property string $time
- * @property string $opis
  *
  * @property User $user
  */
@@ -45,7 +44,7 @@ class UserPayment extends \yii\db\ActiveRecord
         return [
             [['user_id', 'payment_type', 'card_no', 'exp_mnth', 'exp_year', 'scc', 'first_name', 'last_name', 'country', 'time'], 'required'],
             [['user_id'], 'integer'],
-            [['payment_type', 'exp_mnth', 'status', 'opis'], 'string'],
+            [['payment_type', 'exp_mnth', 'status'], 'string'],
             [['exp_year', 'time'], 'safe'],
             [['details', 'first_name'], 'string', 'max' => 20],
             [['card_no'], 'string', 'max' => 16],
@@ -61,23 +60,22 @@ class UserPayment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'payment_type' => 'Vrsta plaćanja.',
-            'details' => 'Detalji kartice/računa.',
-            'card_no' => 'Broj kreditne kartice.',
-            'exp_mnth' => 'Mesec kada ističe kartica.',
-            'exp_year' => 'Godina kada ističe kartica.',
-            'scc' => 'Security Code',
-            'first_name' => 'Ime vlasnika kartice.',
-            'last_name' => 'Prezime vlasnika kartice.',
-            'street' => 'Ulica vlasnika kartice.',
-            'city' => 'Grad vlasnika kartice.',
-            'zip' => 'Poštanski broj vl kartice.',
-            'country' => 'Država vlasnika kartice.',
-            'status' => 'Status kartice/načina plaćanja. active - aktivan; inactive - neaktivan; banned - zabranjen.',
-            'time' => 'Datum i vreme unosa načina plaćanja.',
-            'opis' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'payment_type' => Yii::t('app', 'Payment Type'),
+            'details' => Yii::t('app', 'Details'),
+            'card_no' => Yii::t('app', 'Card No'),
+            'exp_mnth' => Yii::t('app', 'Exp Mnth'),
+            'exp_year' => Yii::t('app', 'Exp Year'),
+            'scc' => Yii::t('app', 'Scc'),
+            'first_name' => Yii::t('app', 'First Name'),
+            'last_name' => Yii::t('app', 'Last Name'),
+            'street' => Yii::t('app', 'Street'),
+            'city' => Yii::t('app', 'City'),
+            'zip' => Yii::t('app', 'Zip'),
+            'country' => Yii::t('app', 'Country'),
+            'status' => Yii::t('app', 'Status'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -87,14 +85,5 @@ class UserPayment extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserPaymentQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserPaymentQuery(get_called_class());
     }
 }

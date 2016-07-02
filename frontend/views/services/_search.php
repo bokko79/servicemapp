@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
     ]); ?>
 
         <?= $form->field($model, 'industry_id')->widget(Select2::classname(), [
-                                'data' => ArrayHelper::map(\frontend\models\CsIndustries::find()->all(), 'id', 'name'),
+                                'data' => ArrayHelper::map(\common\models\CsIndustries::find()->all(), 'id', 'name'),
                                 'options' => ['placeholder' => 'Izaberi uslužnu delatnost ...'],
                                 'pluginOptions' => [
                                     'allowClear' => true,
@@ -29,7 +29,7 @@ use yii\helpers\ArrayHelper;
                             ]) ?>
 
         <?= $form->field($model, 'object_id')->widget(Select2::classname(), [
-                                'data' => ArrayHelper::map(\frontend\models\CsObjects::find()->all(), 'id', 'name'),
+                                'data' => ArrayHelper::map(\common\models\CsObjects::find()->all(), 'id', 'name'),
                                 'options' => ['placeholder' => 'Izaberi predmet usluge ...'],
                                 'pluginOptions' => [
                                     'allowClear' => true,

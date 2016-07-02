@@ -11,7 +11,7 @@ use kartik\checkbox\CheckboxX;
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
 use yii\data\Pagination;
-use frontend\models\CsServices;
+use common\models\CsServices;
 use frontend\widgets\ServiceBox;
 
 use dosamigos\google\maps\LatLng;
@@ -20,8 +20,8 @@ use dosamigos\google\maps\overlays\Marker;
 use dosamigos\google\maps\Map;
 use dosamigos\google\maps\overlays\Circle;
 
-$model = frontend\models\User::findOne(1);
-$model2 = frontend\models\User::findOne(22);
+$model = common\models\User::findOne(1);
+$model2 = common\models\User::findOne(22);
 $coord = new LatLng(['lat' => $model->location->lat, 'lng' => $model->location->lng]);
 $map = new Map([
     'center' => $coord,
@@ -671,7 +671,7 @@ echo distance($model->location->lat, $model->location->lng, $model2->location->l
         </a>
     </div>
     <?php 
-        $query = \frontend\models\CsServices::find();
+        $query = \common\models\CsServices::find();
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
         $models = $query->offset($pages->offset)

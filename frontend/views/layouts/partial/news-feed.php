@@ -6,14 +6,14 @@ use yii\helpers\Url;
 <?php 
 		// TICKER se podešava u javascript easy-ticker.js, a vidljivost u _javascript.php
 		// izvuci sve logove (poslednjih deset)
-		$logs = \frontend\models\UserLog::find()->orderBy('id DESC')->limit(10)->all(); ?>		
+		$logs = \common\models\UserLog::find()->orderBy('id DESC')->limit(10)->all(); ?>		
 
 	    <div id="live_feed">
 
 		    <ul>				
 			<?php 
 		    	foreach ($logs as $log) {
-		    		$user = \frontend\models\User::findOne($log->user_id);
+		    		$user = \common\models\User::findOne($log->user_id);
 		    		$detail = $user->details;					    									    		
 
 		    		// ubaci _log.php
@@ -56,11 +56,11 @@ use yii\helpers\Url;
 // provider_recommended--+++
 
         // korisnik o kojem se radi u logu
-        $user = \frontend\models\User::findOne($log->user_id);
+        $user = \common\models\User::findOne($log->user_id);
 
         // korisnik kojem je LOG Korisnik nešto uradio
         if ($log->alias!=null) {
-             $user1 = \frontend\models\User::findOne($log->alias);
+             $user1 = \common\models\User::findOne($log->alias);
         }
        
         // ako je na srpskom ili hrvatskom, dodaj sufix
@@ -166,7 +166,7 @@ use yii\helpers\Url;
 
     if ($log->alias!=null) 
     {
-        $bid = \frontend\models\Bids::findOne($log->alias);
+        $bid = \common\models\Bids::findOne($log->alias);
 
         // bid_sent
         if ($log->action=='bid_sent') 
@@ -308,7 +308,7 @@ use yii\helpers\Url;
                 $icon = '<i class="fa fa-star-o fa-lg"></i>'; 
                 $color = '#a8518a;'; 
                 $pre = ''; 
-                $pro = \frontend\models\Provider::findOne($log->alias);
+                $pro = \common\models\Provider::findOne($log->alias);
                 $log_text = Yii::t('app', 'rated').$suff.' <a href="'.Url::to('provider/'.$pro->user->username.'/i').'"><i class="fa fa-users"></i> '.Yii::t('app', 'a service provider').'</a>';
             } // if ($log->action=='provider_rated') 
 
@@ -332,7 +332,7 @@ use yii\helpers\Url;
                 $icon = '<i class="fa fa-thumbs-o-up fa-lg"></i>'; 
                 $color = '#e66021;'; 
                 $pre = ''; 
-                $pro = \frontend\models\Provider::findOne($log->alias);
+                $pro = \common\models\Provider::findOne($log->alias);
                 $log_text = Yii::t('app', 'recommended').$suff.' <a href="'.Url::to('provider/'.$pro->user->username.'/i').'"><i class="fa fa-users"></i> '.Yii::t('app', 'a service provider').'</a>';
             } // if ($log->action=='provider_recommended') 
       

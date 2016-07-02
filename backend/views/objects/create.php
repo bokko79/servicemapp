@@ -2,20 +2,14 @@
 
 use yii\helpers\Html;
 
+$this->title = 'Create Object';
+$this->params['breadcrumbs'][] = ['label' => 'Cs Objects', 'url' => ['index'], 'class'=>'breadcrumb'];
+$this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => ['/'], 'class'=>'breadcrumb'];
+?>        
 
-/* @var $this yii\web\View */
-/* @var $model common\models\CsObjects */
+<h2><?= Html::encode($this->title) ?> <small>Novi Predmet</small></h2>
 
-$this->title = 'Create Cs Objects';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Objects', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="cs-objects-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+<?= $this->render('_form', [
+    'model' => $model,
+    'model_trans' => $model_trans,
+]) ?>

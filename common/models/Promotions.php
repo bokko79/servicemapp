@@ -25,7 +25,6 @@ use Yii;
  * @property string $active_from
  * @property string $validity
  * @property string $time
- * @property string $description
  *
  * @property PromotionImages[] $promotionImages
  * @property PromotionServices[] $promotionServices
@@ -53,7 +52,7 @@ class Promotions extends \yii\db\ActiveRecord
         return [
             [['activity_id', 'offer_id', 'presentation_id', 'title', 'promo_text', 'old_price', 'new_price', 'currency_id', 'validity', 'time'], 'required'],
             [['activity_id', 'offer_id', 'presentation_id', 'old_price', 'new_price', 'currency_id', 'discount', 'voucher', 'max_subscribers', 'scheduling'], 'integer'],
-            [['promo_text', 'description'], 'string'],
+            [['promo_text'], 'string'],
             [['active_from', 'validity', 'time'], 'safe'],
             [['title'], 'string', 'max' => 64],
             [['subtitle'], 'string', 'max' => 150],
@@ -67,25 +66,24 @@ class Promotions extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'activity_id' => 'Stavka.',
-            'offer_id' => 'Ponuda.',
-            'presentation_id' => 'Presentation ID',
-            'title' => 'Naslov promocije.',
-            'subtitle' => 'Podnaslov promocije.',
-            'promo_text' => 'Tekst promocije usluga.',
-            'old_price' => 'Redovna cena izvršenja usluge.',
-            'new_price' => 'Nova promotivna cena izvršenja usluge.',
-            'currency_id' => 'Valuta u kojoj se obračunava cena.',
-            'discount' => 'Popust.',
-            'voucher' => 'Vaučer za promociju usluge. 0 - nepotreban; 1 - potreban.',
-            'max_subscribers' => 'Maksimalna broj kupaca promocije usluge.',
-            'scheduling' => 'Broj potrebnih dana pre kojih se mora prijaviti za izvršenje usluge.',
-            'not_valid_for' => 'Spisak onih za koje ova promocija ne važi.',
-            'active_from' => 'Datum od kada je promocija važeća.',
-            'validity' => 'Vreme do kada važi promocija usluge.',
-            'time' => 'Datum i vreme promocije usluga.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'activity_id' => Yii::t('app', 'Activity ID'),
+            'offer_id' => Yii::t('app', 'Offer ID'),
+            'presentation_id' => Yii::t('app', 'Presentation ID'),
+            'title' => Yii::t('app', 'Title'),
+            'subtitle' => Yii::t('app', 'Subtitle'),
+            'promo_text' => Yii::t('app', 'Promo Text'),
+            'old_price' => Yii::t('app', 'Old Price'),
+            'new_price' => Yii::t('app', 'New Price'),
+            'currency_id' => Yii::t('app', 'Currency ID'),
+            'discount' => Yii::t('app', 'Discount'),
+            'voucher' => Yii::t('app', 'Voucher'),
+            'max_subscribers' => Yii::t('app', 'Max Subscribers'),
+            'scheduling' => Yii::t('app', 'Scheduling'),
+            'not_valid_for' => Yii::t('app', 'Not Valid For'),
+            'active_from' => Yii::t('app', 'Active From'),
+            'validity' => Yii::t('app', 'Validity'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -145,12 +143,16 @@ class Promotions extends \yii\db\ActiveRecord
         return $this->hasMany(UserOrder::className(), ['promo_id' => 'id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return PromotionsQuery the active query used by this AR class.
-     */
-    public static function find()
+    public function afterSave($insert, $changedAttributes)
     {
-        return new PromotionsQuery(get_called_class());
+        // user log
+        $userLog = new \common\models\UserLog();
+        $userLog->user_id = Yii::$app->user->id;
+        $userLog->action = $insert ? 'promotion_created' : 'promotion_updated';
+        $userLog->alias = $this->id;
+        $userLog->time = date('Y-m-d H:i:s');
+        $userLog->save();
+        
+        parent::afterSave($insert, $changedAttributes);     
     }
 }

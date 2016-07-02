@@ -28,7 +28,7 @@ use yii\helpers\ArrayHelper;
                         ]
                     ],
                 ])->widget(Select2::classname(), [
-                        'data' => ArrayHelper::map(\frontend\models\CsObjects::find()->all(), 'id', 'name'),
+                        'data' => ArrayHelper::map(\common\models\CsObjects::find()->all(), 'id', 'name'),
                         'options' => ['placeholder' => 'Select object type ...'],
                         'pluginOptions' => [
                             'allowClear' => true

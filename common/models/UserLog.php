@@ -35,7 +35,10 @@ class UserLog extends \yii\db\ActiveRecord
             [['user_id', 'action', 'time'], 'required'],
             [['user_id', 'alias', 'alias2'], 'integer'],
             [['action'], 'string'],
-            [['time'], 'safe']
+            [['time'], 'safe'],
+            [['time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 
@@ -45,12 +48,12 @@ class UserLog extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'action' => 'Akcija/događaj koji se loguje.',
-            'alias' => 'Pomoćni alias za logovanje akcija/događaja.',
-            'alias2' => 'Pomoćni alias2 za logovanje akcija/događaja.',
-            'time' => 'Datum i vreme loga.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'action' => Yii::t('app', 'Action'),
+            'alias' => Yii::t('app', 'Alias'),
+            'alias2' => Yii::t('app', 'Alias2'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -60,14 +63,5 @@ class UserLog extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserLogQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserLogQuery(get_called_class());
     }
 }

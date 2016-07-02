@@ -10,7 +10,6 @@ use Yii;
  * @property string $id
  * @property string $provider_portfolio_id
  * @property string $image_id
- * @property string $description
  *
  * @property Images $image
  * @property ProviderPortfolio $providerPortfolio
@@ -33,7 +32,6 @@ class ProviderPortfolioImages extends \yii\db\ActiveRecord
         return [
             [['provider_portfolio_id', 'image_id'], 'required'],
             [['provider_portfolio_id', 'image_id'], 'integer'],
-            [['description'], 'string']
         ];
     }
 
@@ -43,10 +41,9 @@ class ProviderPortfolioImages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'provider_portfolio_id' => 'Portfolio pružaoca usluge.',
-            'image_id' => 'Slika/dokument.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'provider_portfolio_id' => Yii::t('app', 'Provider Portfolio ID'),
+            'image_id' => Yii::t('app', 'Image ID'),
         ];
     }
 
@@ -64,14 +61,5 @@ class ProviderPortfolioImages extends \yii\db\ActiveRecord
     public function getProviderPortfolio()
     {
         return $this->hasOne(ProviderPortfolio::className(), ['provider_id' => 'provider_portfolio_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return ProviderPortfolioImagesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ProviderPortfolioImagesQuery(get_called_class());
     }
 }

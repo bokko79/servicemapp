@@ -35,8 +35,8 @@ use yii\widgets\Breadcrumbs;
     <div class="grid-row">
         <div class="grid-left" style="margin-top:20px;">
             <?php // Filters ?>            
-            <?= $this->render('../provider/filters/location.php', ['model' => new \frontend\models\Activities]) ?>
-            <?= $this->render('../provider/filters/industry.php', ['model' => new \frontend\models\Activities]) ?>
+            <?= $this->render('../provider/filters/location.php', ['model' => new \common\models\Activities]) ?>
+            <?= $this->render('../provider/filters/industry.php', ['model' => new \common\models\Activities]) ?>
         
         </div>
 

@@ -39,7 +39,7 @@ use PetraBarus\Yii2\GooglePlacesAutoComplete\GooglePlacesAutoComplete;
 
 
                 <?= $form->field($model, 'object_type_id')->widget(Select2::classname(), [
-                                'data' => ArrayHelper::map(\frontend\models\CsObjectTypes::find()->all(), 'id', 'name'),
+                                'data' => ArrayHelper::map(\common\models\CsObjectTypes::find()->all(), 'id', 'name'),
                                 'options' => ['placeholder' => 'Select object type ...'],
                                 'pluginOptions' => [
                                     'allowClear' => true

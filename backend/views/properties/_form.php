@@ -6,20 +6,15 @@ use kartik\checkbox\CheckboxX;
 use kartik\widgets\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\CsProperties */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="cs-properties-form">
 
-    <?php $form = kartik\widgets\ActiveForm::begin([
-        'id' => 'login-form-horizontal',
-        'type' => ActiveForm::TYPE_HORIZONTAL,
-        'fullSpan' => 7,      
-        'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
-    ]); ?>
+<?php $form = kartik\widgets\ActiveForm::begin([
+    'id' => 'login-form-horizontal',
+    'type' => ActiveForm::TYPE_HORIZONTAL,
+    'fullSpan' => 7,      
+    'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
+]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -87,10 +82,10 @@ use yii\helpers\ArrayHelper;
 
             ], ['prompt' => '']) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="row" style="margin:20px;">
+        <div class="col-md-offset-3">
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>        
     </div>
 
-    <?php ActiveForm::end(); ?>
-
-</div>
+<?php ActiveForm::end(); ?>

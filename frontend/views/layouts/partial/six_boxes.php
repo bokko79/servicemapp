@@ -4,7 +4,7 @@
 /* @var $content string */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use frontend\models\CsSectors;
+use common\models\CsSectors;
 ?>
 <div class="six_boxes_container_industries fadeInDown animated" style="display:none;">
 	<span class="turn_off_glob" onclick="close_six_boxes();"><i class="fa fa-times"></i></span>

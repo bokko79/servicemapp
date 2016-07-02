@@ -6,16 +6,14 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsIndustries */
 
-$this->title = 'Create Cs Industries';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Industries', 'url' => ['index']];
+$this->title = 'Create New Industry';
+$this->params['breadcrumbs'][] = ['label' => 'Industries', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-industries-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?> <small>Nova delatnost</small></h2>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+<?= $this->render('_form', [
+    'model' => $model,
+    'model_trans' => $model_trans,
+]) ?>

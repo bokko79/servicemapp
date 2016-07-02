@@ -64,13 +64,4 @@ class ActivityTracking extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-
-    /**
-     * @inheritdoc
-     * @return ActivityTrackingQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ActivityTrackingQuery(get_called_class());
-    }
 }

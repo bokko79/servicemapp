@@ -18,8 +18,8 @@ class CsObjectTypesSearch extends CsObjectTypes
     public function rules()
     {
         return [
-            [['id', 'object_class_id'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['id'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -60,11 +60,9 @@ class CsObjectTypesSearch extends CsObjectTypes
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'object_class_id' => $this->object_class_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

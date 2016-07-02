@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Transactions;
-use frontend\models\TransactionsSearch;
+use common\models\Transactions;
+use common\models\TransactionsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class TransactionsController extends Controller
     public function actionIndex($username=null)
     {
         if (isset($username)) {
-            $user = \frontend\models\User::find()->where(['username'=>$username])->one();
+            $user = \common\models\User::find()->where(['username'=>$username])->one();
 
             if($user) {
                 $searchModel = new TransactionsSearch();

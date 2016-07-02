@@ -48,14 +48,14 @@ class MsgThread extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'sender' => 'Inicijator razgovora. Pošiljalac prve poruke.',
-            'receiver' => 'Drugi učesnik u razgovoru. Primalac prve poruke.',
-            'is_read' => 'Inicijator razgovora je pročitao primljenu poruku. 0 - nije; 1 - jeste.',
-            'is_read_rec' => 'Drugi učesnik u razgovoru je pročitao primljenu poruku. 0 - nije; 1 - jeste.',
-            'del' => 'Inicijator razgovora je obrisao razgovor. 0 - nije; 1 - jeste.',
-            'delbyrec' => 'Drugi učesnik u razgovoru je obrisao razgovor. 0 - nije; 1 - jeste.',
-            'time' => 'Datum i vreme početka razgovora.',
+            'id' => Yii::t('app', 'ID'),
+            'sender' => Yii::t('app', 'Sender'),
+            'receiver' => Yii::t('app', 'Receiver'),
+            'is_read' => Yii::t('app', 'Is Read'),
+            'is_read_rec' => Yii::t('app', 'Is Read Rec'),
+            'del' => Yii::t('app', 'Del'),
+            'delbyrec' => Yii::t('app', 'Delbyrec'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -81,14 +81,5 @@ class MsgThread extends \yii\db\ActiveRecord
     public function getReceiver0()
     {
         return $this->hasOne(User::className(), ['id' => 'receiver']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return MsgThreadQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new MsgThreadQuery(get_called_class());
     }
 }

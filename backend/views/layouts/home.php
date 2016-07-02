@@ -1,25 +1,41 @@
-<?php
-/* @var $this \yii\web\View */
-/* @var $content string */
 
-?>
 
 <?php $this->beginContent('@app/views/layouts/html/html_simple.php'); ?>
 
-<?php /* PROFILE HEADING */ ?>
-
-<div class="grid-container">
-
-    <div class="grid-row">
-        <div class="grid-leftacross">
-            <?php // Title Widget ?>
-            <?= $content ?>
-        </div>
-                
-        <div class="grid-right media_right_sidebar">
-            <?= $this->render('partial/footer.php') ?>
-        </div>
+<!-- Start Page Loading -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>        
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
     </div>
-</div>
+<!-- End Page Loading -->
+	
+	<?= $this->render('partial/left_sidebar.php') ?>
+
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+    <!-- START MAIN -->
+    <div id="main">
+        <!-- START WRAPPER -->
+        <div class="wrapper">   
+
+            <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+            <!-- START CONTENT -->
+            <section id="content">
+
+                <!--start container-->
+                <div class="container">	
+
+					<?= $content ?>
+
+				</div>
+			</section>
+
+			<?= $this->render('partial/right_sidebar.php') ?>
+		</div>
+	</div>
+
+	<?= $this->render('partial/footer.php') ?>
 
 <?php $this->endContent(); // HTML ?>

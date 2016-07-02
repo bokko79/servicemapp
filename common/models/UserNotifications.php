@@ -54,7 +54,10 @@ class UserNotifications extends \yii\db\ActiveRecord
         return [
             [['user_id', 'update_time'], 'required'],
             [['user_id', 'new_req', 'upd_req', 'del_req', 'exp_req', 'succ_req', 'new_bid', 'upd_bid', 'del_bid', 'rej_bid', 'rep_bid', 'awa_bid', 'exp_bid', 'new_rev', 'new_rate', 'new_comm', 'new_rcmnd', 'new_deal', 'subs_deal', 'upd_deal', 'exp_deal', 'del_deal', 'upd_memb', 'exp_memb', 'jubilee'], 'integer'],
-            [['update_time'], 'safe']
+            [['update_time'], 'safe'],
+            [['update_time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 
@@ -64,32 +67,32 @@ class UserNotifications extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => 'Korisnik.',
-            'new_req' => 'Notifikacija za novi zahtev za uslugu.',
-            'upd_req' => 'Notifikacija za izmenu zahteva za uslugu.',
-            'del_req' => 'Notifikacija za brisanje zahteva za uslugu.',
-            'exp_req' => 'Notifikacija za isticanje zahteva za uslugu.',
-            'succ_req' => 'Notifikacija za uspešan zahtev za uslugu.',
-            'new_bid' => 'Notifikacija za novu ponudu na zahtev.',
-            'upd_bid' => 'Notifikacija za izmenu ponude na zahtev.',
-            'del_bid' => 'Notifikacija za brisanje ponude na zahtev.',
-            'rej_bid' => 'Notifikacija za odbacivanje ponude na zahtev.',
-            'rep_bid' => 'Notifikacija za prijavu ponude na zahtev.',
-            'awa_bid' => 'Awa Bid',
-            'exp_bid' => 'Notifikacija za isticanje ponude na zahtev.',
-            'new_rev' => 'Notifikacija za novu recenziju.',
-            'new_rate' => 'Notifikacija za novu ocenu.',
-            'new_comm' => 'Notifikacija za novi komentar.',
-            'new_rcmnd' => 'Notifikacija za novu preporuku.',
-            'new_deal' => 'Notifikacija za novu promociju usluga.',
-            'subs_deal' => 'Notifikacija za kupovinu promocije usluga.',
-            'upd_deal' => 'Notifikacija za izmenu promocije usluga.',
-            'exp_deal' => 'Notifikacija za isticanje promocije usluge.',
-            'del_deal' => 'Notifikacija za brisanje promocije usluga.',
-            'upd_memb' => 'Notifikacija za unapređenje članstva.',
-            'exp_memb' => 'Notifikacija za isticanje članstva.',
-            'jubilee' => 'Notifikacija za jubilej.',
-            'update_time' => 'Datum i vreme izmene podešavanja za notifikacije.',
+            'user_id' => Yii::t('app', 'User ID'),
+            'new_req' => Yii::t('app', 'New Req'),
+            'upd_req' => Yii::t('app', 'Upd Req'),
+            'del_req' => Yii::t('app', 'Del Req'),
+            'exp_req' => Yii::t('app', 'Exp Req'),
+            'succ_req' => Yii::t('app', 'Succ Req'),
+            'new_bid' => Yii::t('app', 'New Bid'),
+            'upd_bid' => Yii::t('app', 'Upd Bid'),
+            'del_bid' => Yii::t('app', 'Del Bid'),
+            'rej_bid' => Yii::t('app', 'Rej Bid'),
+            'rep_bid' => Yii::t('app', 'Rep Bid'),
+            'awa_bid' => Yii::t('app', 'Awa Bid'),
+            'exp_bid' => Yii::t('app', 'Exp Bid'),
+            'new_rev' => Yii::t('app', 'New Rev'),
+            'new_rate' => Yii::t('app', 'New Rate'),
+            'new_comm' => Yii::t('app', 'New Comm'),
+            'new_rcmnd' => Yii::t('app', 'New Rcmnd'),
+            'new_deal' => Yii::t('app', 'New Deal'),
+            'subs_deal' => Yii::t('app', 'Subs Deal'),
+            'upd_deal' => Yii::t('app', 'Upd Deal'),
+            'exp_deal' => Yii::t('app', 'Exp Deal'),
+            'del_deal' => Yii::t('app', 'Del Deal'),
+            'upd_memb' => Yii::t('app', 'Upd Memb'),
+            'exp_memb' => Yii::t('app', 'Exp Memb'),
+            'jubilee' => Yii::t('app', 'Jubilee'),
+            'update_time' => Yii::t('app', 'Update Time'),
         ];
     }
 
@@ -99,14 +102,5 @@ class UserNotifications extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserNotificationsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserNotificationsQuery(get_called_class());
     }
 }

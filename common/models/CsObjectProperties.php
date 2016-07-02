@@ -27,7 +27,6 @@ use Yii;
  * @property integer $specific_values
  * @property integer $read_only
  * @property integer $required
- * @property string $description
  */
 class CsObjectProperties extends \yii\db\ActiveRecord
 {
@@ -47,7 +46,7 @@ class CsObjectProperties extends \yii\db\ActiveRecord
         return [
             [['object_id', 'property_id'], 'required'],
             [['object_id', 'property_id', 'property_unit_id', 'property_unit_imperial_id', 'input_type', 'value_min', 'value_max', 'display_order', 'multiple_values', 'specific_values', 'read_only', 'required'], 'integer'],
-            [['property_class', 'property_type', 'description'], 'string'],
+            [['property_class', 'property_type'], 'string'],
             [['step'], 'number'],
             [['object_name', 'property_name'], 'string', 'max' => 64],
             [['value_default'], 'string', 'max' => 128],
@@ -81,20 +80,18 @@ class CsObjectProperties extends \yii\db\ActiveRecord
             'specific_values' => Yii::t('app', 'Specific Values'),
             'read_only' => Yii::t('app', 'Read Only'),
             'required' => Yii::t('app', 'Required'),
-            'description' => Yii::t('app', 'Description'),
         ];
     }
 
     /**
-     * @inheritdoc
-     * @return CsObjectPropertiesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getServiceObjectProperties()
     {
-        return new CsObjectPropertiesQuery(get_called_class());
+        return $this->hasMany(CsServiceObjectProperties::className(), ['object_property_id' => 'id']);
     }
 
-     /**
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getObjectPropertyValues()
@@ -132,5 +129,37 @@ class CsObjectProperties extends \yii\db\ActiveRecord
     public function getUnitImperial()
     {
         return $this->hasOne(CsUnits::className(), ['id' => 'property_unit_imperial_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderServiceObjectProperties()
+    {
+        return $this->hasMany(OrderServiceObjectProperties::className(), ['object_property_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationObjectProperties()
+    {
+        return $this->hasMany(PresentationObjectProperties::className(), ['object_property_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserObjectProperties()
+    {
+        return $this->hasMany(UserObjectProperties::className(), ['object_property_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function serviceObjectProperty($service_id)
+    {
+        return \common\models\CsServiceObjectProperties::find()->where('object_property_id='.$this->id.' AND service_id='.$service_id)->one();
     }
 }

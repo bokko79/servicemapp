@@ -19,7 +19,7 @@ class CsActionsTranslationSearch extends CsActionsTranslation
     {
         return [
             [['id', 'action_id'], 'integer'],
-            [['lang_code', 'name', 'name_akk', 'name_inst', 'name_gender', 'orig_name', 'description'], 'safe'],
+            [['lang_code', 'name', 'name_akk', 'name_inst', 'name_gender', 'orig_name'], 'safe'],
         ];
     }
 
@@ -68,8 +68,7 @@ class CsActionsTranslationSearch extends CsActionsTranslation
             ->andFilterWhere(['like', 'name_akk', $this->name_akk])
             ->andFilterWhere(['like', 'name_inst', $this->name_inst])
             ->andFilterWhere(['like', 'name_gender', $this->name_gender])
-            ->andFilterWhere(['like', 'orig_name', $this->orig_name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'orig_name', $this->orig_name]);
 
         return $dataProvider;
     }

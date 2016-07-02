@@ -10,7 +10,6 @@ use Yii;
  * @property string $id
  * @property integer $service_id
  * @property integer $rcmd_service_id
- * @property string $description
  *
  * @property CsServices $service
  * @property CsServices $rcmdService
@@ -33,7 +32,6 @@ class CsRecommendedServices extends \yii\db\ActiveRecord
         return [
             [['service_id', 'rcmd_service_id'], 'required'],
             [['service_id', 'rcmd_service_id'], 'integer'],
-            [['description'], 'string']
         ];
     }
 
@@ -46,7 +44,6 @@ class CsRecommendedServices extends \yii\db\ActiveRecord
             'id' => 'ID',
             'service_id' => 'Usluga.',
             'rcmd_service_id' => 'Preporučena, slična, srodna ili povezana usluga usluzi iz kolone service_id.',
-            'description' => 'Opis stavke.',
         ];
     }
 
@@ -64,14 +61,5 @@ class CsRecommendedServices extends \yii\db\ActiveRecord
     public function getRcmdService()
     {
         return $this->hasOne(CsServices::className(), ['id' => 'rcmd_service_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsRecommendedServicesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsRecommendedServicesQuery(get_called_class());
     }
 }

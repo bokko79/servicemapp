@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\MsgThread;
-use frontend\models\MsgThreadSearch;
+use common\models\MsgThread;
+use common\models\MsgThreadSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -148,7 +148,7 @@ class MessagesController extends Controller
      */
     protected function findUserByUsername($username)
     {
-        if (($model = \frontend\models\User::find()->where('username=:username', [':username'=>$username])->one()) !== null) {
+        if (($model = \common\models\User::find()->where('username=:username', [':username'=>$username])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

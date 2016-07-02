@@ -3,7 +3,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use frontend\models\Provider;
+use common\models\Provider;
 use frontend\widgets\ProviderBox;
 ?>
 <div class="featured cards">

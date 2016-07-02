@@ -5,15 +5,19 @@ namespace backend\controllers;
 use Yii;
 use common\models\CsObjects;
 use common\models\CsObjectsSearch;
+use common\models\CsObjectsTranslation;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ObjectsController implements the CRUD actions for CsObjects model.
  */
 class ObjectsController extends Controller
 {
+    public $layout = '/admin';
+    
     /**
      * @inheritdoc
      */
@@ -35,12 +39,14 @@ class ObjectsController extends Controller
      */
     public function actionIndex()
     {
+        $model = new CsObjects();
         $searchModel = new CsObjectsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
@@ -64,12 +70,26 @@ class ObjectsController extends Controller
     public function actionCreate()
     {
         $model = new CsObjects();
+        $model_trans = new CsObjectsTranslation();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+            $parent = $this->findModel($model->object_id);
+            $model->level = $parent->level + 1;
+            if($model->save()){
+                if ($model->imageFile) {
+                    $model->upload();
+                }
+                $model_trans->object_id = $model->id;
+                $model_trans->orig_name = $model->name;
+                $model_trans->save();
+                //if($model_trans->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
+                //}
+            }            
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }
@@ -83,12 +103,34 @@ class ObjectsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_trans = $model->translation;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+
+            $parent = $this->findModel($model->object_id);
+            $model->level = $parent->level + 1;
+
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+            $model->save();
+
+            if ($model->imageFile and $image = $model->upload()) {
+                $model->image_id = $image->id;
+                //$model->save();
+            }
+
+            $model_trans->save();
+
+            //echo '<pre>';
+            //print_r($model);
+            //echo '</pre>'; die();
+
             return $this->redirect(['view', 'id' => $model->id]);
+                
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }

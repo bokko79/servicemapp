@@ -53,17 +53,17 @@ class FeedbackOnProvider extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'feedback_id' => 'Feedback ID',
-            'booking_id' => 'Dogovor na osnovu kojeg se vrši ocenjivanje.',
-            'user_id' => 'Korisnik koji ocenjuje pružaoca usluge.',
-            'provider_id' => 'Pružalac usluge koji se ocenjuje.',
-            'price' => 'Cena pružaoca usluge. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'quality' => 'Kvalitet izvršenja usluge. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'responsiveness' => 'Odazivanje na izvršenje usluge. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'punctuality' => 'Tačnost pri izvršenju usluge. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'professionalism' => 'Profesionalnost. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'time' => 'Datum i vreme ocene pružaoca usluge.',
+            'id' => Yii::t('app', 'ID'),
+            'feedback_id' => Yii::t('app', 'Feedback ID'),
+            'booking_id' => Yii::t('app', 'Booking ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'provider_id' => Yii::t('app', 'Provider ID'),
+            'price' => Yii::t('app', 'Price'),
+            'quality' => Yii::t('app', 'Quality'),
+            'responsiveness' => Yii::t('app', 'Responsiveness'),
+            'punctuality' => Yii::t('app', 'Punctuality'),
+            'professionalism' => Yii::t('app', 'Professionalism'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -97,14 +97,5 @@ class FeedbackOnProvider extends \yii\db\ActiveRecord
     public function getBooking()
     {
         return $this->hasOne(Bookings::className(), ['id' => 'booking_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return FeedbackOnProviderQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new FeedbackOnProviderQuery(get_called_class());
     }
 }

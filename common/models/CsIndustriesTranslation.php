@@ -72,13 +72,4 @@ class CsIndustriesTranslation extends \yii\db\ActiveRecord
     {
         return $this->hasOne(CsIndustries::className(), ['id' => 'industry_id']);
     }
-
-    /**
-     * @inheritdoc
-     * @return CsIndustriesTranslationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsIndustriesTranslationQuery(get_called_class());
-    }
 }

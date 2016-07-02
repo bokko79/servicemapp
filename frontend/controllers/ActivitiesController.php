@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Activities;
-use frontend\models\ActivitiesSearch;
+use common\models\Activities;
+use common\models\ActivitiesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -60,7 +60,7 @@ class ActivitiesController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         /*if (isset($_REQUEST['CsServices']['industry_id']) && isset($_REQUEST['CsServices']['action_id']) && isset($_REQUEST['CsServices']['object_id'])){
-            $service = \frontend\models\CsServices::find()->where('industry_id='.$_REQUEST['CsServices']['industry_id'].' and action_id='.$_REQUEST['CsServices']['action_id'].' and object_id='.$_REQUEST['CsServices']['object_id'])->one();
+            $service = \common\models\CsServices::find()->where('industry_id='.$_REQUEST['CsServices']['industry_id'].' and action_id='.$_REQUEST['CsServices']['action_id'].' and object_id='.$_REQUEST['CsServices']['object_id'])->one();
             //print_r($service); die();
             return $this->redirect('/add/'.mb_strtolower(str_replace(' ', '-', $service->name)));
         }  */      

@@ -19,7 +19,7 @@ class CsIndustriesSearch extends CsIndustries
     {
         return [
             [['id', 'code', 'category_id', 'image_id', 'added_by', 'hit_counter'], 'integer'],
-            [['name', 'subtitle', 'status', 'added_time', 'description'], 'safe'],
+            [['name', 'subtitle', 'status', 'added_time'], 'safe'],
         ];
     }
 
@@ -70,8 +70,7 @@ class CsIndustriesSearch extends CsIndustries
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'subtitle', $this->subtitle])
-            ->andFilterWhere(['like', 'status', $this->status])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;
     }

@@ -6,16 +6,13 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsLanguages */
 
-$this->title = 'Create Cs Languages';
+$this->title = 'Create New Language';
 $this->params['breadcrumbs'][] = ['label' => 'Cs Languages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-languages-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?> <small>Novi jezik</small></h2>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+<?= $this->render('_form', [
+    'model' => $model,
+]) ?>

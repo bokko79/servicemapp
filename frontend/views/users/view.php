@@ -13,7 +13,7 @@ use kartik\widgets\Alert;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\DepDrop;
 use kartik\widgets\Select2;
-use frontend\models\CsSectors;
+use common\models\CsSectors;
 use yii\web\Session;
 
 use dosamigos\google\maps\LatLng;

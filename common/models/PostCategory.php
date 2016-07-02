@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property string $ime
  * @property string $sub_cat
- * @property string $opis
  *
  * @property PostCategoryTranslation[] $postCategoryTranslations
  * @property Posts[] $posts
@@ -32,7 +31,6 @@ class PostCategory extends \yii\db\ActiveRecord
     {
         return [
             [['ime'], 'required'],
-            [['opis'], 'string'],
             [['ime'], 'string', 'max' => 64],
             [['sub_cat'], 'string', 'max' => 100]
         ];
@@ -44,10 +42,9 @@ class PostCategory extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'ime' => 'Kategorija postova.',
-            'sub_cat' => 'Podkategorija postova.',
-            'opis' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'ime' => Yii::t('app', 'Ime'),
+            'sub_cat' => Yii::t('app', 'Sub Cat'),
         ];
     }
 
@@ -65,14 +62,5 @@ class PostCategory extends \yii\db\ActiveRecord
     public function getPosts()
     {
         return $this->hasMany(Posts::className(), ['post_category_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return PostCategoryQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PostCategoryQuery(get_called_class());
     }
 }

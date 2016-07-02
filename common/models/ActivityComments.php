@@ -68,13 +68,4 @@ class ActivityComments extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-
-    /**
-     * @inheritdoc
-     * @return ActivityCommentsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ActivityCommentsQuery(get_called_class());
-    }
 }

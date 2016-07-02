@@ -13,7 +13,6 @@ use Yii;
  * @property string $lang_code
  * @property string $tag
  * @property string $orig_name
- * @property string $description
  *
  * @property CsLanguages $langCode
  */
@@ -34,7 +33,7 @@ class CsTags extends \yii\db\ActiveRecord
     {
         return [
             [['entity', 'entity_id', 'lang_code', 'tag', 'orig_name'], 'required'],
-            [['entity', 'description'], 'string'],
+            [['entity'], 'string'],
             [['entity_id'], 'integer'],
             [['lang_code'], 'string', 'max' => 2],
             [['tag', 'orig_name'], 'string', 'max' => 64]
@@ -47,13 +46,12 @@ class CsTags extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'entity' => 'Entitet koji se taguje.',
-            'entity_id' => 'ID entiteta koji se taguje.',
-            'lang_code' => 'Jezik.',
-            'tag' => 'Prevod taga (sinonima) entiteta.',
-            'orig_name' => 'Originalno ime entiteta.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'entity' => Yii::t('app', 'Entity'),
+            'entity_id' => Yii::t('app', 'Entity ID'),
+            'lang_code' => Yii::t('app', 'Lang Code'),
+            'tag' => Yii::t('app', 'Tag'),
+            'orig_name' => Yii::t('app', 'Orig Name'),
         ];
     }
 
@@ -63,14 +61,5 @@ class CsTags extends \yii\db\ActiveRecord
     public function getLangCode()
     {
         return $this->hasOne(CsLanguages::className(), ['code' => 'lang_code']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsTagsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsTagsQuery(get_called_class());
     }
 }

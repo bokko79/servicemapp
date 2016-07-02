@@ -13,7 +13,6 @@ use Yii;
  * @property string $action
  * @property integer $marketed
  * @property string $time
- * @property string $opis
  *
  * @property Activities $activity
  * @property User $user
@@ -36,7 +35,7 @@ class Log extends \yii\db\ActiveRecord
         return [
             [['activity_id', 'user_id', 'action', 'time'], 'required'],
             [['activity_id', 'user_id', 'marketed'], 'integer'],
-            [['action', 'opis'], 'string'],
+            [['action'], 'string'],
             [['time'], 'safe']
         ];
     }
@@ -47,13 +46,12 @@ class Log extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'activity_id' => 'Stavka loga.',
-            'user_id' => 'Korisnik loga.',
-            'action' => 'Akcija loga.',
-            'marketed' => 'Log prikazan na marketu: 0 - ne, 1 - da.',
-            'time' => 'Vreme loga.',
-            'opis' => 'Opis stavke loga.',
+            'id' => Yii::t('app', 'ID'),
+            'activity_id' => Yii::t('app', 'Activity ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'action' => Yii::t('app', 'Action'),
+            'marketed' => Yii::t('app', 'Marketed'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -71,14 +69,5 @@ class Log extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return LogQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new LogQuery(get_called_class());
     }
 }

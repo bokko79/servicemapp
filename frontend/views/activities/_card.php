@@ -8,19 +8,19 @@ use yii\helpers\Url;
 <?php 
     switch ($model->activity) {
         case 'order':
-            echo $this->render('/orders/_card_compact.php', ['model'=>\frontend\models\Orders::find('activity='.$model->id)->one()]);
+            echo $this->render('/orders/_card_compact.php', ['model'=>\common\models\Orders::find('activity='.$model->id)->one()]);
             break;
 
         case 'promotion':
-            echo $this->render('/promotions/_card_compact.php', ['model'=>\frontend\models\Promotions::find('activity='.$model->id)->one()]);
+            echo $this->render('/promotions/_card_compact.php', ['model'=>\common\models\Promotions::find('activity='.$model->id)->one()]);
             break;
 
         case 'presentation':
-            echo $this->render('/presentations/_card_compact.php', ['model'=>\frontend\models\Presentations::find('activity='.$model->id)->one()]);
+            echo $this->render('/presentations/_card_compact.php', ['model'=>\common\models\Presentations::find('activity='.$model->id)->one()]);
             break;
         
         default:
-            //echo $this->render('/orders/_card_compact.php', ['model'=>\frontend\models\Orders::findOne('activity='.$model->id)]);
+            //echo $this->render('/orders/_card_compact.php', ['model'=>\common\models\Orders::findOne('activity='.$model->id)]);
             break;
     } ?>
 <?php if($model->activity=='order' && $model->bid): ?>
@@ -33,13 +33,13 @@ use yii\helpers\Url;
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
-<?php if($model->comments): ?>
+<?php if($model->activityComments): ?>
     <div class="action-area normal-case">
         <?= Html::a(Yii::t('app', 'Comments').'&nbsp;<i class="fa fa-caret-down"></i>', null, ['class'=>'btn btn-link comment-link']); ?>
     </div>
 
     <div class="comments-area animated fadeIn closed">
-        <?php foreach($model->comments as $comment): ?>
+        <?php foreach($model->activityComments as $comment): ?>
             <?= $this->render('_comment.php', ['comment'=>$comment, 'class'=>'']) ?>
         <?php endforeach; ?>                              
     </div> 

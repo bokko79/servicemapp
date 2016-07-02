@@ -77,6 +77,14 @@ class CsCurrencies extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPresentations()
+    {
+        return $this->hasMany(Presentations::className(), ['currency_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPromotions()
     {
         return $this->hasMany(Promotions::className(), ['currency_id' => 'id']);
@@ -104,14 +112,5 @@ class CsCurrencies extends \yii\db\ActiveRecord
     public function getUserOrders()
     {
         return $this->hasMany(UserOrder::className(), ['currency_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsCurrenciesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsCurrenciesQuery(get_called_class());
     }
 }

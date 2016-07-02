@@ -2,7 +2,7 @@
  
 namespace frontend\components;
  
-use frontend\models\User;
+use common\models\User;
 
 class AccessRule extends \yii\filters\AccessRule {
  

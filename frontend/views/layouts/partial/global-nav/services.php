@@ -3,7 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use frontend\models\CsSectors;
+use common\models\CsSectors;
 ?>
 <span class="turn_off_glob" onclick="close_category();"><i class="fa fa-times"></i></span>
 			

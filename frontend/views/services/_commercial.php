@@ -2,8 +2,8 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use frontend\models\CsServices;
-use frontend\models\Presentations;
+use common\models\CsServices;
+use common\models\Presentations;
 ?>
 <!-- PRESENTATIONS -->
 <hr style="margin-top:0">

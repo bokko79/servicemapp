@@ -4,7 +4,7 @@ use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
-use frontend\models\CsCurrencies;
+use common\models\CsCurrencies;
 use kartik\switchinput\SwitchInput;
 
 $message = 'Odredite cenu za uslugu koju pružate.';

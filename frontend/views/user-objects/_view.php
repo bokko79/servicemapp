@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
-use frontend\models\Objects;
+use common\models\Objects;
 use yii\helpers\Url;
 ?>
       

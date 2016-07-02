@@ -14,6 +14,8 @@ use yii\filters\VerbFilter;
  */
 class ServiceProcessesController extends Controller
 {
+    public $layout = '/admin';
+    
     /**
      * @inheritdoc
      */

@@ -5,39 +5,39 @@ namespace frontend\controllers;
 use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
-use frontend\models\ProviderServices;
-use frontend\models\ProviderIndustries;
-use frontend\models\Presentations;
+use common\models\ProviderServices;
+use common\models\ProviderIndustries;
+use common\models\Presentations;
 use frontend\models\PresentationData;
-use frontend\models\PresentationsSearch;
-use frontend\models\PresentationObjectProperties;
-use frontend\models\PresentationObjectPropertyValues;
-use frontend\models\PresentationActionProperties;
-use frontend\models\PresentationActionPropertyValues;
-use frontend\models\PresentationObjectModels;
-use frontend\models\PresentationLocations;
-use frontend\models\PresentationIssues;
-use frontend\models\PresentationImages;
-use frontend\models\PresentationTimetables;
-use frontend\models\PresentationNotifications;
-use frontend\models\PresentationTerms;
-use frontend\models\PresentationTermMilestones;
-use frontend\models\PresentationTermExpenses;
-use frontend\models\PresentationTermClauses;
-use frontend\models\ProviderOpeningHours;
+use common\models\PresentationsSearch;
+use common\models\PresentationObjectProperties;
+use common\models\PresentationObjectPropertyValues;
+use common\models\PresentationActionProperties;
+use common\models\PresentationActionPropertyValues;
+use common\models\PresentationObjectModels;
+use common\models\PresentationLocations;
+use common\models\PresentationIssues;
+use common\models\PresentationImages;
+use common\models\PresentationTimetables;
+use common\models\PresentationNotifications;
+use common\models\PresentationTerms;
+use common\models\PresentationTermMilestones;
+use common\models\PresentationTermExpenses;
+use common\models\PresentationTermClauses;
+use common\models\ProviderOpeningHours;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use frontend\models\Activities;
-use frontend\models\Offers;
-use frontend\models\Log;
-use frontend\models\UserLog;
-use frontend\models\Notifications;
-use frontend\models\Locations;
-use frontend\models\LocationPresentation;
-use frontend\models\LocationPresentationTo;
+use common\models\Activities;
+use common\models\Offers;
+use common\models\Log;
+use common\models\UserLog;
+use common\models\Notifications;
+use common\models\Locations;
+use common\models\LocationPresentation;
+use common\models\LocationPresentationTo;
 use dektrium\user\models\User;
 use dektrium\user\models\LoginForm;
 use dektrium\user\models\RegistrationForm;
@@ -92,7 +92,7 @@ class PresentationsController extends Controller
         $searchModel->service = $service;
         $model_specs = $searchModel->loadPresentationSpecifications($service, null);
         $model_methods = $searchModel->loadPresentationMethods($service);
-        $location = (Yii::$app->user->location) ? Yii::$app->user->location : new \frontend\models\Locations();
+        $location = (Yii::$app->user->location) ? Yii::$app->user->location : new Locations();
         //print_r(Yii::$app->request->queryParams); die();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
 
@@ -117,13 +117,13 @@ class PresentationsController extends Controller
 
         if (isset($title)) {
             $service = $this->findServiceByTitle($title); // a service to be presented
-            //$new_presentation = new \frontend\models\ProviderServices;
+            //$new_presentation = new ProviderServices;
 
             // create draft Presentation
-            $model = new \frontend\models\PresentationData;
+            $model = new PresentationData;
 
             if($trigger = Yii::$app->request->get('trigger')){
-                $current_user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // presenter
+                $current_user = (!Yii::$app->user->isGuest) ? \common\models\User::findOne(Yii::$app->user->id) : null; // presenter
 
                 if($current_user == null) {
                     $user = $this->currentUser();
@@ -141,7 +141,7 @@ class PresentationsController extends Controller
                 if($this->savePresentation($model, $user, $service, /*$ps['object_models'], */$user->provider->initialService)){
                     // the following three lines were added:
                     $auth = Yii::$app->authManager;
-                    $authorRole = $auth->getRole('presenter');
+                    $authorRole = $auth->getRole('provider');
                     $auth->assign($authorRole, $user->id);
                     return $this->redirect(['/presentation/'.$model->id.'/action']);
                 }
@@ -498,7 +498,7 @@ class PresentationsController extends Controller
                         $object_model[] = $this->findObjectModel($pso);
                     }
                 }
-                $user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // presenter
+                $user = (!Yii::$app->user->isGuest) ? \common\models\User::findOne(Yii::$app->user->id) : null; // presenter
                 $model = new PresentationData(); // new presentation
                 $model->service = $service; 
                 $model->object_models = $object_model; 
@@ -675,7 +675,7 @@ class PresentationsController extends Controller
      */
     protected function findService($id)
     {
-        if (($model = \frontend\models\CsServices::findOne($id)) !== null) {
+        if (($model = \common\models\CsServices::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -691,7 +691,7 @@ class PresentationsController extends Controller
      */
     protected function findServiceByTitle($title)
     {
-        if (($model_tr = \frontend\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+        if (($model_tr = \common\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
             // ako je našao ime usluge, renderuj stranicu - URL injection
             if ($model_tr and $model = $this->findService($model_tr->service_id)) { 
                 return $model;
@@ -712,7 +712,7 @@ class PresentationsController extends Controller
      */
     protected function findObjectModel($id)
     {
-        if (($model = \frontend\models\CsObjects::findOne($id)) !== null) {
+        if (($model = \common\models\CsObjects::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -728,7 +728,7 @@ class PresentationsController extends Controller
      */
     protected function findProviderService($id)
     {
-        if (($model = \frontend\models\ProviderServices::findOne($id)) !== null) {
+        if (($model = \common\models\ProviderServices::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -744,7 +744,7 @@ class PresentationsController extends Controller
      */
     protected function findPresentationImages($id)
     {
-        if (($model = \frontend\models\PresentationImages::findOne($id)) !== null) {
+        if (($model = \common\models\PresentationImages::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -757,7 +757,7 @@ class PresentationsController extends Controller
             if(!$newProvider and $user->provider and $prs = ProviderServices::find()->where('provider_id='.$user->provider->id.' AND service_id='.$service->id)->all()){
                 return $prs[0];
             } else {
-                $proserv = new \frontend\models\ProviderServices();
+                $proserv = new ProviderServices();
                 $proserv->provider_industry_id = $user->provider->industries[0]->id;
                 $proserv->provider_id = $user->provider->id;
                 $proserv->industry_id = $service->industry_id;
@@ -776,7 +776,7 @@ class PresentationsController extends Controller
     protected function saveProvider($user=null, $service=null)
     {
         if($user and $service) {
-            $provider = new \frontend\models\Provider();
+            $provider = new Provider();
             $provider->user_id = $user->id;
             $provider->industry_id = $service->industry_id;
             $provider->loc_id = $user->details->loc_id;
@@ -789,18 +789,18 @@ class PresentationsController extends Controller
                 $user->is_provider = 1;
                 $user->save();               
                 // provider Contact
-                $providerContact = new \frontend\models\ProviderContact();
+                $providerContact = new \common\models\ProviderContact();
                 $providerContact->provider_id = $provider->id;
                 $providerContact->contact_type = 'e-mail';
                 $providerContact->value = $user->email;
                 $providerContact->save();
                 // provider Industry
-                $providerIndustry = new \frontend\models\ProviderIndustries();
+                $providerIndustry = new \common\models\ProviderIndustries();
                 $providerIndustry->provider_id = $provider->id;
                 $providerIndustry->industry_id = $service->industry_id;
                 $providerIndustry->main = 1;
                 if($providerIndustry->save()){
-                    $proserv = new \frontend\models\ProviderServices();
+                    $proserv = new \common\models\ProviderServices();
                     $proserv->provider_industry_id = $providerIndustry->id;
                     $proserv->provider_id = $provider->id;
                     $proserv->industry_id = $service->industry_id;
@@ -810,27 +810,27 @@ class PresentationsController extends Controller
                     $proserv->save();
                 }
                 // provider Industry Terms
-                $providerIndustryTerm = new \frontend\models\ProviderIndustryTerms();
+                $providerIndustryTerm = new \common\models\ProviderIndustryTerms();
                 $providerIndustryTerm->provider_industry_id = $providerIndustry->id;
                 $providerIndustryTerm->update_time = date('Y-m-d H:i:s');
                 $providerIndustryTerm->save();
                 // provider Language
-                $providerLanguage = new \frontend\models\ProviderLanguages();
+                $providerLanguage = new \common\models\ProviderLanguages();
                 $providerLanguage->provider_id = $provider->id;
                 $providerLanguage->lang_code = 'SR';
                 $providerLanguage->save();
                 // provider Portfolio
-                $providerPortfolio = new \frontend\models\ProviderPortfolio();
+                $providerPortfolio = new \common\models\ProviderPortfolio();
                 $providerPortfolio->provider_id = $provider->id;
                 $providerPortfolio->name = 'Moj portfolio';
                 $providerPortfolio->save();
                 // provider Terms
-                $providerTerms = new \frontend\models\ProviderTerms();
+                $providerTerms = new \common\models\ProviderTerms();
                 $providerTerms->provider_id = $provider->id;
                 $providerTerms->update_time = date('Y-m-d H:i:s');
                 $providerTerms->save();
                 // provider Notifications
-                $providerNotifications = new \frontend\models\ProviderNotifications();
+                $providerNotifications = new \common\models\ProviderNotifications();
                 $providerNotifications->provider_id = $provider->id;
                 $providerNotifications->notification_type = 'matching';
                 $providerNotifications->time = date('Y-m-d H:i:s');
@@ -846,11 +846,11 @@ class PresentationsController extends Controller
     {
         if ($new_provider->load(Yii::$app->request->post())) {                         
             if ($dektuser = $new_provider->register()) {
-                $user = \frontend\models\User::findOne($dektuser->id);
+                $user = \common\models\User::findOne($dektuser->id);
             }
         }
         if ($returning_user->load(Yii::$app->getRequest()->post()) && $returning_user->login()) {
-            $user = \frontend\models\User::findOne(Yii::$app->user->id);
+            $user = \common\models\User::findOne(Yii::$app->user->id);
         }
 
         if($user!=null){
@@ -1050,7 +1050,7 @@ class PresentationsController extends Controller
                         // Presentation Object Models
                         if($object_model){
                             foreach($object_model as $ob_model){
-                                $model_object_models = new \frontend\models\PresentationObjectModels();
+                                $model_object_models = new \common\models\PresentationObjectModels();
                                 $model_object_models->presentation_id = $model->id;
                                 $model_object_models->object_model_id = $ob_model;
                                 $model_object_models->save();
@@ -1563,7 +1563,7 @@ class PresentationsController extends Controller
 
     public function currentProvider($model) 
     { 
-        if($user = \frontend\models\User::findOne(Yii::$app->user->id)){
+        if($user = \common\models\User::findOne(Yii::$app->user->id)){
 
             $user->is_provider = 1;
             $user->member = 0;
@@ -1571,7 +1571,7 @@ class PresentationsController extends Controller
 
             if($user->save()){
                 // create temp provider
-                $provider = new \frontend\models\Provider();
+                $provider = new \common\models\Provider();
                 $provider->user_id = $user->id;
                 $provider->industry_id = $model->industry_id;
                 $provider->loc_id = 1;
@@ -1585,8 +1585,8 @@ class PresentationsController extends Controller
 
                 if($provider->save()){
                     // provider Industry
-                    if($providerIndustry = \frontend\models\ProviderIndustries::findOne($provider->initialIndustry->id)) {
-                        $proserv = new \frontend\models\ProviderServices();
+                    if($providerIndustry = \common\models\ProviderIndustries::findOne($provider->initialIndustry->id)) {
+                        $proserv = new \common\models\ProviderServices();
                         $proserv->provider_industry_id = $providerIndustry->id;
                         $proserv->provider_id = $provider->id;
                         $proserv->industry_id = $model->industry_id;

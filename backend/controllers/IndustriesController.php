@@ -14,6 +14,8 @@ use yii\filters\VerbFilter;
  */
 class IndustriesController extends Controller
 {
+    public $layout = '/admin';
+    
     /**
      * @inheritdoc
      */

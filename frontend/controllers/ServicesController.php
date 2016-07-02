@@ -3,20 +3,20 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\CsServices;
-use frontend\models\CsServicesSearch;
-use frontend\models\CsObjects;
-use frontend\models\CsIndustries;
-use frontend\models\CsActions;
-use frontend\models\CsProducts;
+use common\models\CsServices;
+use common\models\CsServicesSearch;
+use common\models\CsObjects;
+use common\models\CsIndustries;
+use common\models\CsActions;
+use common\models\CsProducts;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Request;
 use yii\web\Session;
 use yii\data\ActiveDataProvider;
-use frontend\models\Activities;
-use frontend\models\Offers;
+use common\models\Activities;
+use common\models\Offers;
 
 /**
  * ServicesController implements the CRUD actions for CsServices model.
@@ -165,7 +165,7 @@ class ServicesController extends Controller
      */
     protected function findModelByTitle($title)
     {
-        if (($model_tr = \frontend\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+        if (($model_tr = \common\models\CsServicesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
             // ako je našao ime usluge, renderuj stranicu - URL injection
             if ($model_tr and $model = $this->findModel($model_tr->service_id)) { 
                 return $model;
@@ -186,7 +186,7 @@ class ServicesController extends Controller
      */
     protected function findObjectByTitle($title)
     {
-        if (($model = \frontend\models\CsObjectsTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+        if (($model = \common\models\CsObjectsTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
             return $model->object;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -202,7 +202,7 @@ class ServicesController extends Controller
      */
     protected function findActionByTitle($title)
     {
-        if (($model = \frontend\models\CsActionsTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+        if (($model = \common\models\CsActionsTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
             return $model->action;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -218,7 +218,7 @@ class ServicesController extends Controller
      */
     protected function findIndustryByTitle($title)
     {
-        if (($model = \frontend\models\CsIndustriesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+        if (($model = \common\models\CsIndustriesTranslation::find()->where('name=:name and lang_code="SR"', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
             return $model->industry;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -234,7 +234,7 @@ class ServicesController extends Controller
      */
     protected function findProductByTitle($title)
     {
-        if (($model = \frontend\models\CsProducts::find()->where('name=:name', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+        if (($model = \common\models\CsProducts::find()->where('name=:name', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -268,13 +268,13 @@ class ServicesController extends Controller
 
         if (isset($title)) {
             $service = $this->findModelByTitle($title); // a service to be presented
-            //$new_presentation = new \frontend\models\ProviderServices;
+            //$new_presentation = new \common\models\ProviderServices;
 
             // create draft Presentation
             $model = new \frontend\models\PresentationData;
 
             if($ps = Yii::$app->request->get('PresentationData')){
-                $current_user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // presenter
+                $current_user = (!Yii::$app->user->isGuest) ? \common\models\User::findOne(Yii::$app->user->id) : null; // presenter
 
                 if($current_user == null) {
                     $user = $this->currentUser();
@@ -324,7 +324,7 @@ class ServicesController extends Controller
     public function suggested_word($result, &$p = null, &$percent = null) 
     {
         
-        $actions = \frontend\models\CsIndustriesTranslation::find()->all();        
+        $actions = \common\models\CsIndustriesTranslation::find()->all();        
         $data = [];
         foreach ($actions as $key=>$word) {
             $string = explode(' ',$word->name);
@@ -418,10 +418,10 @@ class ServicesController extends Controller
 
     public function currentProvider($model) 
     { 
-        $user = \frontend\models\User::findOne(Yii::$app->user->id);
+        $user = \common\models\User::findOne(Yii::$app->user->id);
 
         // create temp provider
-        $provider = new \frontend\models\Provider();
+        $provider = new \common\models\Provider();
         $provider->user_id = $user->id;
         $provider->industry_id = $model->industry_id;
         $provider->loc_id = 1;
@@ -435,12 +435,12 @@ class ServicesController extends Controller
 
         if($provider->save()){
             // provider Industry
-            $providerIndustry = new \frontend\models\ProviderIndustries();
+            $providerIndustry = new \common\models\ProviderIndustries();
             $providerIndustry->provider_id = $provider->id;
             $providerIndustry->industry_id = $model->industry_id;
             $providerIndustry->main = 1;
             if($providerIndustry->save()) {
-                $proserv = new \frontend\models\ProviderServices();
+                $proserv = new \common\models\ProviderServices();
                 $proserv->provider_industry_id = $providerIndustry->id;
                 $proserv->provider_id = $provider->id;
                 $proserv->industry_id = $model->industry_id;
@@ -450,27 +450,27 @@ class ServicesController extends Controller
                 $proserv->save();
             }
             // provider Industry Terms
-            $providerIndustryTerm = new \frontend\models\ProviderIndustryTerms();
+            $providerIndustryTerm = new \common\models\ProviderIndustryTerms();
             $providerIndustryTerm->provider_industry_id = $providerIndustry->id;
             $providerIndustryTerm->update_time = date('Y-m-d H:i:s');
             $providerIndustryTerm->save();
             // provider Language
-            $providerLanguage = new \frontend\models\ProviderLanguages();
+            $providerLanguage = new \common\models\ProviderLanguages();
             $providerLanguage->provider_id = $provider->id;
             $providerLanguage->lang_code = 'SR';
             $providerLanguage->save();                                
             // provider Portfolio
-            $providerPortfolio = new \frontend\models\ProviderPortfolio();
+            $providerPortfolio = new \common\models\ProviderPortfolio();
             $providerPortfolio->provider_id = $provider->id;
             $providerPortfolio->name = 'Moj portfolio';
             $providerPortfolio->save();
             // provider Terms
-            $providerTerms = new \frontend\models\ProviderTerms();
+            $providerTerms = new \common\models\ProviderTerms();
             $providerTerms->provider_id = $provider->id;
             $providerTerms->update_time = date('Y-m-d H:i:s');
             $providerTerms->save();
             // provider Notifications
-            $providerNotifications = new \frontend\models\ProviderNotifications();
+            $providerNotifications = new \common\models\ProviderNotifications();
             $providerNotifications->provider_id = $provider->id;
             $providerNotifications->notification_type = 'matching';
             $providerNotifications->time = date('Y-m-d H:i:s');
@@ -502,7 +502,7 @@ class ServicesController extends Controller
                         // Presentation Object Models
                         if($object_model){
                             foreach($object_model as $ob_model){
-                                $model_object_models = new \frontend\models\PresentationObjectModels();
+                                $model_object_models = new \common\models\PresentationObjectModels();
                                 $model_object_models->presentation_id = $model->id;
                                 $model_object_models->object_model_id = $ob_model;
                                 $model_object_models->save();

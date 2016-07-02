@@ -19,7 +19,7 @@ class CsObjectsSearch extends CsObjects
     {
         return [
             [['object_type_id', 'object_id', 'favour', 'image_id', ], 'integer'],
-            [['class', 'description', 'name'], 'string'],
+            [['class', 'name'], 'string'],
         ];
     }
 

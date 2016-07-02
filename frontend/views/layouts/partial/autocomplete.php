@@ -78,7 +78,7 @@ $template_tag = '<div class="capitalize">{{name}} <i class="fa fa-caret-right"><
     	//'method' => 'get',
     	'id' => 'autocomplete-search-form',
 	]); ?>
-	<?php echo $form->field(new \frontend\models\CsServicesSearch, 'name', [				
+	<?php echo $form->field(new \common\models\CsServicesSearch, 'name', [				
 				'options' => ['class'=>($renderIndex ? 'form-group-lg' : '')],
 				'addon' => [
 					//'prepend' => ['content'=>'Usluge'],
@@ -235,11 +235,11 @@ $template_tag = '<div class="capitalize">{{name}} <i class="fa fa-caret-right"><
 				    	}",
 				]
 			])->label(false) ?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'id')?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'industry_id')?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'action_id')?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'object_id')?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'product_id')?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'tag_id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'industry_id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'action_id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'object_id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'product_id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'tag_id')?>
 	<?php ActiveForm::end(); ?>
 </div>

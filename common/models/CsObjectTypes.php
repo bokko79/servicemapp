@@ -8,11 +8,8 @@ use Yii;
  * This is the model class for table "cs_object_types".
  *
  * @property integer $id
- * @property integer $object_class_id
  * @property string $name
- * @property string $description
  *
- * @property CsObjectClasses $objectClass
  * @property CsObjectTypesTranslation[] $csObjectTypesTranslations
  * @property CsObjects[] $csObjects
  * @property UserObjects[] $userObjects
@@ -33,9 +30,7 @@ class CsObjectTypes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['object_class_id', 'name'], 'required'],
-            [['object_class_id'], 'integer'],
-            [['description'], 'string'],
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 50]
         ];
     }
@@ -47,18 +42,8 @@ class CsObjectTypes extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'object_class_id' => 'Klasa predmeta usluga kojoj ova Vrsta predmeta usluge pripada.',
             'name' => 'Ime Vrste predmeta usluge.',
-            'description' => 'Opis Vrste predmeta usluge.',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getObjectClass()
-    {
-        return $this->hasOne(CsObjectClasses::className(), ['id' => 'object_class_id']);
     }
 
     /**
@@ -67,6 +52,29 @@ class CsObjectTypes extends \yii\db\ActiveRecord
     public function getT()
     {
         return $this->hasMany(CsObjectTypesTranslation::className(), ['object_type_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $object_translation = \common\models\CsObjectTypesTranslation::find()->where('lang_code="SR" and object_type_id='.$this->id)->one();
+        if($object_translation) {
+            return $object_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
     }
 
     /**
@@ -83,14 +91,5 @@ class CsObjectTypes extends \yii\db\ActiveRecord
     public function getUserObjects()
     {
         return $this->hasMany(UserObjects::className(), ['object_type_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsObjectTypesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsObjectTypesQuery(get_called_class());
     }
 }

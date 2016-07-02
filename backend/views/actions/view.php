@@ -7,35 +7,34 @@ use yii\widgets\DetailView;
 /* @var $model common\models\CsActions */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Cs Actions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Actions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-actions-view">
+<h2><?= c(Html::encode($this->title)) ?> <small>Action: <?= $model->status ?></small></h2>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'object_mode',
-            'status',
-            'added_by',
-            'added_time',
-            'description',
+<p>
+    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => 'Are you sure you want to delete this item?',
+            'method' => 'post',
         ],
     ]) ?>
+</p>
 
-</div>
+<p>Services</p>
+<p>Industries</p>
+<p>Properties</p>
+<p>Objects</p>
+
+<?= DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+        'id',
+        'name',
+        'object_mode',
+        'status',
+    ],
+]) ?>
+

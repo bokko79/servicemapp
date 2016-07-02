@@ -13,7 +13,6 @@ use Yii;
  * @property string $status
  * @property string $added_by
  * @property string $added_time
- * @property string $description
  *
  * @property User $addedBy
  * @property CsActionsTranslation[] $csActionsTranslations
@@ -38,7 +37,7 @@ class CsActions extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['object_mode', 'added_by'], 'integer'],
-            [['status', 'description'], 'string'],
+            [['status'], 'string'],
             [['added_time'], 'safe'],
             [['name'], 'string', 'max' => 64]
         ];
@@ -56,16 +55,7 @@ class CsActions extends \yii\db\ActiveRecord
             'status' => 'Status aktivnosti.',
             'added_by' => 'Korisnik koji je uneo aktivnost.',
             'added_time' => 'Vreme unošenja aktivnosti.',
-            'description' => 'Opis akcije.',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAddedBy()
-    {
-        return $this->hasOne(User::className(), ['id' => 'added_by']);
     }
 
     /**
@@ -79,25 +69,111 @@ class CsActions extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsMethods()
+    public function getActionProperties()
     {
-        return $this->hasMany(CsMethods::className(), ['action_id' => 'id']);
+        return $this->hasMany(CsActionProperties::className(), ['action_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServices()
+    public function getServices()
     {
         return $this->hasMany(CsServices::className(), ['action_id' => 'id']);
     }
 
     /**
-     * @inheritdoc
-     * @return CsActionsQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getIndustries()
     {
-        return new CsActionsQuery(get_called_class());
+        // uraditi da lista sve delatnosti u kojima se pojavljuje akcija
+        return false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $action_translation = CsActionsTranslation::find()->where('lang_code="SR" and action_id='.$this->id)->one();
+        if($action_translation) {
+            return $action_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameGen()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_gen;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameDat()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_dat;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameAkk()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_akk;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameInst()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_inst;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTGender()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_gender;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSCaseName()
+    {
+        return Yii::$app->operator->sentenceCase($this->tName); 
     }
 }

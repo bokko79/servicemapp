@@ -11,7 +11,6 @@ use Yii;
  * @property string $user_id
  * @property string $loc_id
  * @property string $ime
- * @property string $opis
  *
  * @property Locations $loc
  * @property User $user
@@ -34,7 +33,6 @@ class UserLocations extends \yii\db\ActiveRecord
         return [
             [['user_id', 'loc_id'], 'required'],
             [['user_id', 'loc_id'], 'integer'],
-            [['opis'], 'string'],
             [['ime'], 'string', 'max' => 25]
         ];
     }
@@ -45,11 +43,10 @@ class UserLocations extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'loc_id' => 'Lokacija.',
-            'ime' => 'Ime lokacije.',
-            'opis' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'loc_id' => Yii::t('app', 'Loc ID'),
+            'ime' => Yii::t('app', 'Ime'),
         ];
     }
 
@@ -67,14 +64,5 @@ class UserLocations extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserLocationsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserLocationsQuery(get_called_class());
     }
 }

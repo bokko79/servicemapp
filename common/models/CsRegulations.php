@@ -9,7 +9,6 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
- * @property string $description
  *
  * @property CsRegulationsTranslation[] $csRegulationsTranslations
  * @property CsServiceRegulations[] $csServiceRegulations
@@ -31,7 +30,6 @@ class CsRegulations extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['description'], 'string'],
             [['name'], 'string', 'max' => 32]
         ];
     }
@@ -44,7 +42,6 @@ class CsRegulations extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Zakonska regulativa.',
-            'description' => 'Opis stavke.',
         ];
     }
 
@@ -59,17 +56,8 @@ class CsRegulations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServiceRegulations()
+    public function getServiceRegulations()
     {
         return $this->hasMany(CsServiceRegulations::className(), ['regulation_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsRegulationsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsRegulationsQuery(get_called_class());
     }
 }

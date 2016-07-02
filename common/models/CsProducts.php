@@ -67,11 +67,134 @@ class CsProducts extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return CsProductsQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getObject()
     {
-        return new CsProductsQuery(get_called_class());
+        return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectProperty()
+    {
+        return $this->hasOne(CsObjectProperties::className(), ['id' => 'object_property_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(CsProducts::className(), ['id' => 'product_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBaseProduct()
+    {
+        return $this->hasOne(CsProducts::className(), ['id' => 'base_product_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPredecessor()
+    {
+        return $this->hasOne(CsProducts::className(), ['id' => 'predecessor_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSuccessor()
+    {
+        return $this->hasOne(CsProducts::className(), ['id' => 'successor_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductProperties()
+    {
+        return $this->hasMany(CsProductProperties::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductIssues()
+    {
+        return $this->hasMany(CsProductIssues::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPath($object)
+    {
+        $path = [];
+        $level = $object->level;
+        $parent = $object->parent;
+        
+        if ($level>1)
+        {            
+            $path[$level-1] = $parent;     
+            $path = array_merge($this->getpath($parent), $path);
+        }
+
+        return $path;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProperties($product)
+    {
+        $properties = [];
+        $object = $product->object;
+        if($productProperties = $product->productProperties){
+            foreach($productProperties as $productProperty){
+                if(!in_array($productProperty->objectProperty, $properties)){
+                    $properties[] = $productProperty->objectProperty;
+                }
+            }
+        }
+            
+        if($product->getPath($product)){
+            foreach ($product->getPath($product) as $key => $productpp) {
+                if($productPropertiespp = $productpp->productProperties){
+                    foreach($productPropertiespp as $productPropertypp){
+                        if($productPropertypp->objectProperty->property_class!='private' and !in_array($productPropertypp->objectProperty, $properties)){
+                            $properties[] = $productPropertypp->objectProperty;
+                        }
+                    }
+                }                    
+            }
+        }
+
+        if($objectProperties = $object->objectProperties){
+            foreach($objectProperties as $objectProperty){
+                if(!in_array($objectProperty, $properties)){
+                    $properties[] = $objectProperty;
+                }
+            }
+        }
+            
+        if($object->getPath($object)){
+            foreach ($this->getPath($this) as $key => $objectpp) {
+                if($objectPropertiespp = $objectpp->objectProperties){
+                    foreach($objectPropertiespp as $objectPropertypp){
+                        if($objectPropertypp->property_class!='private' and !in_array($objectPropertypp, $properties)){
+                            $properties[] = $objectPropertypp;
+                        }
+                    }
+                }                    
+            }
+        }
+
+        return $properties;
     }
 }

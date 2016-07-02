@@ -3,8 +3,9 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\CsIndustries;
-use frontend\models\CsIndustriesSearch;
+use common\models\CsIndustries;
+use common\models\CsIndustriesSearch;
+use common\models\CsServices;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -65,23 +66,23 @@ class IndustriesController extends Controller
                 $model = $this->findModel($ind_tr->industry_id);
 
                 $dataProvider_services = new ActiveDataProvider([
-                    'query' => \frontend\models\CsServices::find()
+                    'query' => CsServices::find()
                                 ->where('industry_id='.$model->id),
                 ]);
                 $dataProvider_presentations = new ActiveDataProvider([
-                    'query' => \frontend\models\CsServices::find()
+                    'query' => CsServices::find()
                                 ->where('industry_id='.$model->id),
                 ]);
                 $dataProvider_promotions = new ActiveDataProvider([
-                    'query' => \frontend\models\CsServices::find()
+                    'query' => CsServices::find()
                                 ->where('industry_id='.$model->id),
                 ]);
                 $dataProvider_orders = new ActiveDataProvider([
-                    'query' => \frontend\models\CsServices::find()
+                    'query' => CsServices::find()
                                 ->where('industry_id='.$model->id),
                 ]);
                 $dataProvider_providers = new ActiveDataProvider([
-                    'query' => \frontend\models\CsServices::find()
+                    'query' => CsServices::find()
                                 ->where('industry_id='.$model->id),
                 ]);
 

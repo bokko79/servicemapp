@@ -3,7 +3,11 @@
 namespace common\models;
 
 use Yii;
-
+use dosamigos\google\maps\LatLng;
+use dosamigos\google\maps\overlays\InfoWindow;
+use dosamigos\google\maps\overlays\Marker;
+use dosamigos\google\maps\Map;
+use dosamigos\google\maps\overlays\Circle;
 /**
  * This is the model class for table "locations".
  *
@@ -11,33 +15,41 @@ use Yii;
  * @property integer $is_fav
  * @property string $user_id
  * @property integer $def
- * @property string $ime
+ * @property string $name
  * @property string $country
  * @property string $state
  * @property string $district
  * @property string $city
  * @property string $zip
  * @property string $mz
- * @property string $ulica
- * @property string $broj
- * @property integer $sprat
- * @property integer $stan
+ * @property string $street
+ * @property string $no
+ * @property integer $floor
+ * @property integer $apt
  * @property string $lat
  * @property string $lng
- * @property string $ime_lokacije
+ * @property string $location_name
  *
  * @property Bids[] $bids
  * @property User $user
  * @property Orders[] $orders
  * @property Orders[] $orders0
+ * @property Presentations[] $presentations
  * @property ProviderLocations[] $providerLocations
- * @property ProviderServices[] $providerServices
  * @property UserDetails[] $userDetails
  * @property UserLocations[] $userLocations
  * @property UserObjects[] $userObjects
  */
 class Locations extends \yii\db\ActiveRecord
 {
+    public $control;
+    public $userControl;
+
+    /*const SCENARIO_DEFAULT = 'default';
+    const SCENARIO_REGISTER = 'register';
+    const SCENARIO_ORDER = 'order';
+    const SCENARIO_PRESENTATION = 'presentation'; */
+
     /**
      * @inheritdoc
      */
@@ -52,15 +64,28 @@ class Locations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['is_fav', 'user_id', 'def', 'zip', 'sprat', 'stan'], 'integer'],
-            [['user_id', 'ime'], 'required'],
+            [['is_fav', 'user_id', 'def', 'zip', 'floor', 'apt'], 'integer'],
+            //[['user_id'], 'required'],
+            //[['lat', 'lng'], 'required', 'message'=>'Nepravilno uneta lokacija.'],
             [['lat', 'lng'], 'number'],
-            [['ime'], 'string', 'max' => 100],
-            [['country', 'state', 'district', 'city', 'mz', 'ulica'], 'string', 'max' => 64],
-            [['broj'], 'string', 'max' => 4],
-            [['ime_lokacije'], 'string', 'max' => 128]
+            [['name'], 'safe'],
+            [['country', 'state', 'district', 'city', 'mz', 'street'], 'string', 'max' => 64],
+            [['no'], 'string', 'max' => 4],
+            [['buzzer'], 'string', 'max' => 32],
+            [['location_name'], 'string', 'max' => 128],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
+
+    /*public function scenarios()
+    {
+        return [
+            self::SCENARIO_PRESENTATION => ['location_name', 'zip', 'floor', 'apt', 'no', 'name', 'lat', 'lng', 'city', 'country', 'state', 'district', 'mz', 'street'],
+            self::SCENARIO_REGISTER => ['location_name', 'zip', 'floor', 'apt', 'no', 'name', 'lat', 'lng', 'city', 'country', 'state', 'district', 'mz', 'street'],
+            self::SCENARIO_DEFAULT => ['location_name', 'zip', 'floor', 'apt', 'no', 'name', 'lat', 'lng', 'city', 'country', 'state', 'district', 'mz', 'street'],
+
+        ];
+    }*/
 
     /**
      * @inheritdoc
@@ -69,23 +94,24 @@ class Locations extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'is_fav' => 'Lokacija je smeštena u \"omiljene\". 0 - ne; 1 - da.',
-            'user_id' => 'Korisnik.',
-            'def' => 'Korisnikova default lokacija. 0 - ne; 1 - da.',
-            'ime' => 'Ime omiljene adrese (npr. Kuća, Posao, Roditelji...)',
-            'country' => 'Država.',
-            'state' => 'Region/Pokrajina.',
-            'district' => 'Okrug.',
-            'city' => 'Grad.',
-            'zip' => 'Poštanski broj.',
-            'mz' => 'Mesna zajednica.',
-            'ulica' => 'Ulica.',
-            'broj' => 'Broj.',
-            'sprat' => 'Sprat.',
-            'stan' => 'Broj stana ili jedinice',
-            'lat' => 'Geografska širina. Kod za postavljanje markera na google maps',
-            'lng' => 'Geografska dužina.',
-            'ime_lokacije' => 'Naziv lokacije, objekta (npr. stadion JNA)',
+            'is_fav' => 'Is Fav',
+            'user_id' => 'User ID',
+            'def' => 'Def',
+            'name' => 'Lokacija',
+            'country' => 'Country',
+            'state' => 'State',
+            'district' => 'District',
+            'city' => 'City',
+            'zip' => 'Zip',
+            'mz' => 'Mz',
+            'street' => 'Ulica',
+            'no' => 'Broj',
+            'floor' => 'Sprat',
+            'apt' => 'Stan',
+            'buzzer' => 'Interfon',
+            'lat' => 'Lat',
+            'lng' => 'Lng',
+            'location_name' => 'Ime Lokacije',
         ];
     }
 
@@ -124,17 +150,9 @@ class Locations extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderLocations()
+    public function getPresentations()
     {
-        return $this->hasMany(ProviderLocations::className(), ['loc_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServices()
-    {
-        return $this->hasMany(ProviderServices::className(), ['loc_id' => 'id']);
+        return $this->hasMany(Presentations::className(), ['loc_id' => 'id']);
     }
 
     /**
@@ -161,12 +179,75 @@ class Locations extends \yii\db\ActiveRecord
         return $this->hasMany(UserObjects::className(), ['loc_id' => 'id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return LocationsQuery the active query used by this AR class.
-     */
-    public static function find()
+    public function map($width = 400, $height = 420, $lw = null, $m = true)
+    {        
+        $coord = new LatLng(['lat' => $this->lat, 'lng' => $this->lng]);
+        $map = new Map([
+            'center' => $coord,
+            'zoom' => $this->mapZoom($lw),    
+        ]);
+
+        $map->width = $width;
+        $map->height = $height;
+
+        if($m){
+            // Lets add a marker now
+            $marker = new Marker([
+                'position' => $coord,
+                'title' => 'Mesto gde vršimo uslugu',
+            ]);
+
+            // Add marker to the map
+            $map->addOverlay($marker);
+        }            
+
+        if($lw){
+            // Lets add a marker now
+            $circle = new Circle([
+                'center' => $coord,
+                'radius' => $lw*1000,
+                /*'strokeWeight' => '5px',
+                'strokeOpacity' => .0,*/
+                'strokeColor' => '#2196F3',
+                'strokeWeight' => 1,
+                'fillOpacity' => 0.08,
+                //'editable' => true,
+            ]);
+            $map->addOverlay($circle);
+        }
+        return $map;        
+    }
+
+    public function mapZoom($lw)
     {
-        return new LocationsQuery(get_called_class());
+        if($w = $lw){
+            if($w<1){return 14;}
+            else if($w>=1 && $w<3){return 13;}
+            else if($w>=3 && $w<6){return 12;}
+            else if($w>=6 && $w<11){return 11;}
+            else if($w>=11 && $w<22){return 10;}
+            else if($w>=22 && $w<45){return 9;}  
+            else if($w>=45 && $w<90){return 8;}
+            else if($w>=90 && $w<180){return 7;}
+            else if($w>=180 && $w<300){return 6;}
+            else if($w>=300){return 5;}
+        } else {
+            return 14;
+        }
+    }
+
+    public function getCityLocation()
+    {        
+        return ($this->city && $this->country) ? $this->city . ', ' .$this->country : null;
+    }
+
+    public function getStreetLocation()
+    {        
+        return $this->street . ', ' . $this->city . ', ' . $this->country;
+    }
+
+    public function distanceTo(Locations $location_to)
+    {        
+        return round(distance($this->lat, $this->lng, $location_to->lat, $location_to->lng), 2);
     }
 }

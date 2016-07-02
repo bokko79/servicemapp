@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 
 
 $model_list = ArrayHelper::map($model->industry->services, 'id', 'tName');
-$new_provider_service = new \frontend\models\ProviderServices();
+$new_provider_service = new \common\models\ProviderServices();
 
 foreach($model->services as $model_service){	
 	$new_provider_service->selection[] = $model_service->service_id;

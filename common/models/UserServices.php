@@ -11,7 +11,6 @@ use Yii;
  * @property string $user_id
  * @property integer $service_id
  * @property integer $industry_id
- * @property string $description
  *
  * @property CsServices $service
  * @property CsIndustries $industry
@@ -35,7 +34,6 @@ class UserServices extends \yii\db\ActiveRecord
         return [
             [['user_id', 'service_id', 'industry_id'], 'required'],
             [['user_id', 'service_id', 'industry_id'], 'integer'],
-            [['description'], 'string']
         ];
     }
 
@@ -45,11 +43,10 @@ class UserServices extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'service_id' => 'Usluga.',
-            'industry_id' => 'Delatnost usluge.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'service_id' => Yii::t('app', 'Service ID'),
+            'industry_id' => Yii::t('app', 'Industry ID'),
         ];
     }
 
@@ -75,14 +72,5 @@ class UserServices extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserServicesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserServicesQuery(get_called_class());
     }
 }

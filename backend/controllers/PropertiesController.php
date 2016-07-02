@@ -8,8 +8,8 @@ use common\models\CsPropertiesTranslation;
 use common\models\CsPropertiesSearch;
 use common\models\CsPropertyValues;
 use common\models\CsObjectProperties;
-//use common\models\CsActionProperties;
-//use common\models\CsIndustryProperties;
+use common\models\CsActionProperties;
+use common\models\CsIndustryProperties;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +20,8 @@ use yii\data\ActiveDataProvider;
  */
 class PropertiesController extends Controller
 {
+    public $layout = '/admin';
+    
     /**
      * @inheritdoc
      */
@@ -102,6 +104,7 @@ class PropertiesController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }

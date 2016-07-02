@@ -3,12 +3,12 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\User;
-use frontend\models\UserSearch;
-use frontend\models\Orders;
-use frontend\models\OrdersSearch;
-use frontend\models\Bookings;
-use frontend\models\BookingsSearch;
+use common\models\User;
+use common\models\UserSearch;
+use common\models\Orders;
+use common\models\OrdersSearch;
+use common\models\Bookings;
+use common\models\BookingsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -58,7 +58,7 @@ class UsersController extends Controller
             $model = $this->findModelByUsername($username);
 
             if($model and !Yii::$app->user->isGuest and $model->id==Yii::$app->user->id) {
-                $csSectors = \frontend\models\CsSectors::find()->all();
+                $csSectors = \common\models\CsSectors::find()->all();
 
                 return $this->render('view', [
                     'model' => $model,
@@ -85,7 +85,7 @@ class UsersController extends Controller
             $model = $this->findModelByUsername($username);
 
             if($model) {
-                $csSectors = \frontend\models\CsSectors::find()->all();
+                $csSectors = \common\models\CsSectors::find()->all();
 
                 return $this->render('profile', [
                     'model' => $model,
@@ -209,7 +209,7 @@ class UsersController extends Controller
             $model = $this->findModelByUsername($username);
 
             if($model) {
-                $csSectors = \frontend\models\CsSectors::find()->all();
+                $csSectors = \common\models\CsSectors::find()->all();
 
                 return $this->render('finances', [
                     'model' => $model,
@@ -239,9 +239,9 @@ class UsersController extends Controller
 
             if($model) {               
                 
-                $details = ($model->details) ? $model->details : new \frontend\models\UserDetails;
-                $filters = ($model->filters) ? $model->filters : new \frontend\models\UserFilters;
-                $images = ($model->images) ? $model->images : new \frontend\models\UserImages;
+                $details = ($model->details) ? $model->details : new \common\models\UserDetails;
+                $filters = ($model->filters) ? $model->filters : new \common\models\UserFilters;
+                $images = ($model->images) ? $model->images : new \common\models\UserImages;
                 $notifications = $model->userNotifications;
                 $locationHQ = $model->location;
 
@@ -280,7 +280,7 @@ class UsersController extends Controller
             if($model) {               
                 
                 $details = $model->details;
-                $filters = ($model->filters) ? $model->filters : new \frontend\models\UserFilters;
+                $filters = ($model->filters) ? $model->filters : new \common\models\UserFilters;
                 $images = $model->images;
                 $notifications = $model->userNotifications;
 

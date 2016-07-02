@@ -19,7 +19,6 @@ use Yii;
  * @property string $validity
  * @property string $time
  * @property string $update_time
- * @property string $description
  *
  * @property BannerMedia[] $bannerMedia
  * @property Provider $provider
@@ -44,7 +43,7 @@ class Banners extends \yii\db\ActiveRecord
         return [
             [['provider_id', 'type', 'media', 'industry_id', 'priority', 'status', 'time'], 'required'],
             [['provider_id', 'image_id', 'industry_id', 'priority'], 'integer'],
-            [['type', 'media', 'status', 'description'], 'string'],
+            [['type', 'media', 'status'], 'string'],
             [['validity', 'time', 'update_time'], 'safe'],
             [['alt_image'], 'string', 'max' => 250]
         ];
@@ -68,7 +67,6 @@ class Banners extends \yii\db\ActiveRecord
             'validity' => 'Datum i vreme do kada je baner aktivan. Posle toga prelazi u status \"expired\" - istekao.',
             'time' => 'Datum i vreme unosa banera.',
             'update_time' => 'Datum i vreme izmene banera.',
-            'description' => 'Opis stavke.',
         ];
     }
 
@@ -102,14 +100,5 @@ class Banners extends \yii\db\ActiveRecord
     public function getIndustry()
     {
         return $this->hasOne(CsIndustries::className(), ['id' => 'industry_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return BannersQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new BannersQuery(get_called_class());
     }
 }

@@ -45,13 +45,4 @@ class CsServiceUnits extends \yii\db\ActiveRecord
             'default_unit' => Yii::t('app', 'Default Unit'),
         ];
     }
-
-    /**
-     * @inheritdoc
-     * @return CsServiceUnitsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsServiceUnitsQuery(get_called_class());
-    }
 }

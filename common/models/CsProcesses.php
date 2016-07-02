@@ -11,7 +11,6 @@ use Yii;
  * @property string $name
  * @property string $type
  * @property integer $service_count
- * @property string $description
  *
  * @property CsProcessesTranslation[] $csProcessesTranslations
  * @property CsServiceProcesses[] $csServiceProcesses
@@ -34,7 +33,7 @@ class CsProcesses extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'service_count'], 'required'],
-            [['type', 'description'], 'string'],
+            [['type'], 'string'],
             [['service_count'], 'integer'],
             [['name'], 'string', 'max' => 64]
         ];
@@ -50,7 +49,6 @@ class CsProcesses extends \yii\db\ActiveRecord
             'name' => 'Ime procesa.',
             'type' => 'Vrsta procesa. process - raznorodne delatnosti i predmeti usluge; operation - raznorodne delatnosti nad istim predmetom usluge.',
             'service_count' => 'Broj usluga u okviru procesa.',
-            'description' => 'Opis stavke.',
         ];
     }
 
@@ -76,14 +74,5 @@ class CsProcesses extends \yii\db\ActiveRecord
     public function getOrders()
     {
         return $this->hasMany(Orders::className(), ['process_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsProcessesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsProcessesQuery(get_called_class());
     }
 }

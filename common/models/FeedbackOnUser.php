@@ -53,17 +53,17 @@ class FeedbackOnUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'feedback_id' => 'Feedback ID',
-            'booking_id' => 'Dogovor na osnovu kojeg se vrši ocenjivanje.',
-            'provider_id' => 'Pružalac usluge koji ocenjuje korisnika.',
-            'user_id' => 'Korisnik koji se ocenjuje.',
-            'professionalism' => 'Profesionalnost korisnika. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'responsibility' => 'Odgovornost korisnika. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'concise' => 'Jasnoća zahtevanja korisnika. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'payment' => 'Plaćanje korisnika. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'nagging' => 'Zanovetanje korisnika. 1 - nedovoljno; 2 - dovoljno; 3 - dobro; 4 - vrlo dobro; 5 - odlično.',
-            'time' => 'Datum i vreme ocene korisnika.',
+            'id' => Yii::t('app', 'ID'),
+            'feedback_id' => Yii::t('app', 'Feedback ID'),
+            'booking_id' => Yii::t('app', 'Booking ID'),
+            'provider_id' => Yii::t('app', 'Provider ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'professionalism' => Yii::t('app', 'Professionalism'),
+            'responsibility' => Yii::t('app', 'Responsibility'),
+            'concise' => Yii::t('app', 'Concise'),
+            'payment' => Yii::t('app', 'Payment'),
+            'nagging' => Yii::t('app', 'Nagging'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -97,14 +97,5 @@ class FeedbackOnUser extends \yii\db\ActiveRecord
     public function getBooking()
     {
         return $this->hasOne(Bookings::className(), ['id' => 'booking_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return FeedbackOnUserQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new FeedbackOnUserQuery(get_called_class());
     }
 }

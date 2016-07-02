@@ -19,7 +19,7 @@ class CsProcessesSearch extends CsProcesses
     {
         return [
             [['id', 'service_count'], 'integer'],
-            [['name', 'type', 'description'], 'safe'],
+            [['name', 'type'], 'safe'],
         ];
     }
 
@@ -64,8 +64,7 @@ class CsProcessesSearch extends CsProcesses
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'type', $this->type]);
 
         return $dataProvider;
     }

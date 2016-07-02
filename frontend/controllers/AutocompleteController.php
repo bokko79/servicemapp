@@ -3,9 +3,14 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\CsServices;
-use frontend\models\CsServicesSearch;
-use frontend\models\CsServicesTranslation;
+use common\models\CsServices;
+use common\models\CsServicesSearch;
+use common\models\CsServicesTranslation;
+use common\models\CsIndustries;
+use common\models\CsTags;
+use common\models\CsActions;
+use common\models\CsObjects;
+use common\models\CsProducts;
 use yii\web\Request;
 use yii\web\Session;
 
@@ -221,32 +226,32 @@ class AutocompleteController extends \yii\web\Controller
         $post = $request->post('CsServicesSearch');        
         // industry
         if(isset($post['industry_id']) && $post['industry_id']!=null && $post['industry_id']!=''){
-            $industry = \frontend\models\CsIndustries::findOne($post['industry_id']);
+            $industry = CsIndustries::findOne($post['industry_id']);
             return $this->redirect(['/services/i/'.slug($industry->tName)]);
         }
         // object
         if(isset($post['object_id']) && $post['object_id']!=null && $post['object_id']!=''){
-            $object = \frontend\models\CsObjects::findOne($post['object_id']);
+            $object = CsObjects::findOne($post['object_id']);
             return $this->redirect(['/services/o/'.slug($object->tName)]);
         }
         // product
         if(isset($post['product_id']) && $post['product_id']!=null && $post['product_id']!=''){
-            $product = \frontend\models\CsProducts::findOne($post['product_id']);
+            $product = CsProducts::findOne($post['product_id']);
             return $this->redirect(['/services/p/'.slug($product->name)]);
         }
         // action
         if(isset($post['action_id']) && $post['action_id']!=null && $post['action_id']!=''){
-            $action = \frontend\models\CsActions::findOne($post['action_id']);
+            $action = CsActions::findOne($post['action_id']);
             return $this->redirect(['/services/a/'.slug($action->tName)]);
         }
         // service
         if(isset($post['id']) && $post['id']!=null && $post['id']!=''){
-            $service = \frontend\models\CsServices::findOne($post['id']);
+            $service = CsServices::findOne($post['id']);
             return $this->redirect(['/s/'.slug($service->tName)]);
         }
         // tags
         if(isset($post['tag_id']) && $post['tag_id']!=null && $post['tag_id']!=''){
-            $tag = \frontend\models\CsTags::findOne($post['tag_id']);
+            $tag = CsTags::findOne($post['tag_id']);
             switch ($tag->entity) {
                 case 'action':
                     return $this->redirect(['/services', 'a'=>$tag->entity_id]);
@@ -258,7 +263,7 @@ class AutocompleteController extends \yii\web\Controller
                     return $this->redirect(['/services', 'i'=>$tag->entity_id]);
                     break;
                 case 'service':
-                    $service = \frontend\models\CsServices::findOne($tag->entity_id);
+                    $service = CsServices::findOne($tag->entity_id);
                     return $this->redirect(['/s/'.slug($service->tName)]);
                     break;                
                 default:

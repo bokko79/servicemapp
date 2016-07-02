@@ -15,7 +15,6 @@ use Yii;
  * @property integer $status
  * @property integer $published
  * @property string $time
- * @property string $description
  *
  * @property PostComment[] $postComments
  * @property PostTranslation[] $postTranslations
@@ -39,7 +38,7 @@ class Posts extends \yii\db\ActiveRecord
         return [
             [['post_category_id', 'title', 'body', 'time'], 'required'],
             [['post_category_id', 'status', 'published'], 'integer'],
-            [['body', 'description'], 'string'],
+            [['body'], 'string'],
             [['time'], 'safe'],
             [['title'], 'string', 'max' => 128],
             [['subtitle'], 'string', 'max' => 256]
@@ -52,15 +51,14 @@ class Posts extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'post_category_id' => 'Kategorija posta.',
-            'title' => 'Naslov posta.',
-            'subtitle' => 'Podnaslov posta.',
-            'body' => 'Tekst posta.',
-            'status' => 'Status posta. 0 - neaktivan; 1 - aktivan.',
-            'published' => 'Prikazivanje posta. 0 - neobjavljen; 1 - objavljen.',
-            'time' => 'Datum i vreme posta.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'post_category_id' => Yii::t('app', 'Post Category ID'),
+            'title' => Yii::t('app', 'Title'),
+            'subtitle' => Yii::t('app', 'Subtitle'),
+            'body' => Yii::t('app', 'Body'),
+            'status' => Yii::t('app', 'Status'),
+            'published' => Yii::t('app', 'Published'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -86,27 +84,5 @@ class Posts extends \yii\db\ActiveRecord
     public function getPostCategory()
     {
         return $this->hasOne(PostCategory::className(), ['id' => 'post_category_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return PostsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PostsQuery(get_called_class());
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getT($lang_code)
-    {
-        $translation = $this->postTranslations()->where('lang_code="'.$lang_code.'"')->one();
-        if($translation){
-            return $translation->name;
-        } else {
-            return false;
-        }
     }
 }

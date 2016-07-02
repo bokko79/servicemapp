@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property string $promotion_id
  * @property string $image_id
- * @property string $description
  *
  * @property Images $image
  * @property Promotions $promotion
@@ -33,7 +32,6 @@ class PromotionImages extends \yii\db\ActiveRecord
         return [
             [['promotion_id', 'image_id'], 'required'],
             [['promotion_id', 'image_id'], 'integer'],
-            [['description'], 'string']
         ];
     }
 
@@ -43,10 +41,9 @@ class PromotionImages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'promotion_id' => 'Promocija usluge.',
-            'image_id' => 'Slika/dokument.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'promotion_id' => Yii::t('app', 'Promotion ID'),
+            'image_id' => Yii::t('app', 'Image ID'),
         ];
     }
 
@@ -64,14 +61,5 @@ class PromotionImages extends \yii\db\ActiveRecord
     public function getPromotion()
     {
         return $this->hasOne(Promotions::className(), ['id' => 'promotion_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return PromotionImagesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PromotionImagesQuery(get_called_class());
     }
 }

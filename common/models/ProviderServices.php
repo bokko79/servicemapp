@@ -8,41 +8,26 @@ use Yii;
  * This is the model class for table "provider_services".
  *
  * @property string $id
- * @property string $presentation_id
  * @property string $provider_id
+ * @property string $provider_industry_id
  * @property integer $service_id
  * @property integer $industry_id
- * @property string $loc_id
- * @property string $name
- * @property string $description
- * @property integer $period
- * @property integer $period_unit
- * @property string $price
- * @property string $price_max
- * @property integer $currency_id
- * @property integer $fixed_price
- * @property integer $warranty
- * @property string $note
- * @property integer $on_sale
  * @property integer $is_set
  * @property string $update_time
  *
  * @property OrderServices[] $orderServices
+ * @property Presentations[] $presentations
  * @property PromotionServices[] $promotionServices
- * @property ProviderServiceImages[] $providerServiceImages
- * @property ProviderServiceMethods[] $providerServiceMethods
- * @property ProviderServiceSpecs[] $providerServiceSpecs
- * @property ProviderServiceTerms $providerServiceTerms
  * @property Provider $provider
  * @property CsServices $service
- * @property CsUnits $periodUnit
- * @property CsCurrencies $currency
- * @property Locations $loc
- * @property Presentations $presentation
  * @property CsIndustries $industry
+ * @property ProviderIndustries $providerIndustry
  */
 class ProviderServices extends \yii\db\ActiveRecord
-{
+{   
+    public $selection = [];
+    public $object_model;
+
     /**
      * @inheritdoc
      */
@@ -57,11 +42,15 @@ class ProviderServices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_id', 'provider_id', 'service_id', 'industry_id', 'update_time'], 'required'],
-            [['presentation_id', 'provider_id', 'service_id', 'industry_id', 'loc_id', 'period', 'period_unit', 'price', 'price_max', 'currency_id', 'fixed_price', 'warranty', 'on_sale', 'is_set'], 'integer'],
-            [['description', 'note'], 'string'],
-            [['update_time'], 'safe'],
-            [['name'], 'string', 'max' => 32]
+            [['provider_id', 'provider_industry_id', 'service_id', 'industry_id', 'update_time'], 'required'],
+            [['provider_id', 'provider_industry_id', 'service_id', 'industry_id', 'is_set'], 'integer'],
+            [['update_time'], 'safe'], 
+            [['selection'], 'safe'],  
+            [['object_model'], 'safe'],          
+            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Provider::className(), 'targetAttribute' => ['provider_id' => 'id']],
+            [['service_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsServices::className(), 'targetAttribute' => ['service_id' => 'id']],
+            [['industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsIndustries::className(), 'targetAttribute' => ['industry_id' => 'id']],
+            [['provider_industry_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProviderIndustries::className(), 'targetAttribute' => ['provider_industry_id' => 'id']],
         ];
     }
 
@@ -72,24 +61,12 @@ class ProviderServices extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'presentation_id' => 'Presentation ID',
-            'provider_id' => 'Pružalac usluge.',
-            'service_id' => 'Usluga kojom se pružalac usluge bavi.',
-            'industry_id' => 'Delatnost usluge.',
-            'loc_id' => 'Lokacija na kojoj pružalac usluge izvršava uslugu.',
-            'name' => 'Ime usluge (ako ima više sličnih npr. izdavanje soba, ime svake sobe).',
-            'description' => 'Opis načina izvršenja usluge.',
-            'period' => 'Vreme za koje se usluga uobičajeno izvršava.',
-            'period_unit' => 'Jedinica vremena u kojoj se izražava uobičajeno vreme izvršenja usluge.',
-            'price' => 'Uobičajena cena izvršenja usluge po jedinici mere.',
-            'price_max' => 'Gornja cena.',
-            'currency_id' => 'Valuta u kojoj je izražena cena izvršenja usluge iz kolone price.',
-            'fixed_price' => 'Promenljivost cene izvršenja usluge. 0 - cena se može promeniti; 1 - cena je fiksna.',
-            'warranty' => 'Garancije pružaoca usluge na izvršenu uslugu. 0 - ne; 1 - da.',
-            'note' => 'Napomena na izvršenje usluge.',
-            'on_sale' => 'Usluga je na prodaju za M-Credit. 0 - ne; 1 - da.',
-            'is_set' => 'Usluga je podešena. 0 - ne; 1 - da.',
-            'update_time' => 'Datum i vreme izmene usluge.',
+            'provider_id' => 'Provider ID',
+            'provider_industry_id' => 'Provider Industry ID',
+            'service_id' => 'Service ID',
+            'industry_id' => 'Industry ID',
+            'is_set' => 'Is Set',
+            'update_time' => 'Update Time',
         ];
     }
 
@@ -104,41 +81,17 @@ class ProviderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPresentations()
+    {
+        return $this->hasMany(Presentations::className(), ['provider_service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPromotionServices()
     {
         return $this->hasMany(PromotionServices::className(), ['provider_service_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceImages()
-    {
-        return $this->hasMany(ProviderServiceImages::className(), ['provider_service_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceMethods()
-    {
-        return $this->hasMany(ProviderServiceMethods::className(), ['provider_service_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceSpecs()
-    {
-        return $this->hasMany(ProviderServiceSpecs::className(), ['provider_service_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceTerms()
-    {
-        return $this->hasOne(ProviderServiceTerms::className(), ['provider_service_id' => 'id']);
     }
 
     /**
@@ -160,49 +113,16 @@ class ProviderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPeriodUnit()
-    {
-        return $this->hasOne(CsUnits::className(), ['id' => 'period_unit']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCurrency()
-    {
-        return $this->hasOne(CsCurrencies::className(), ['id' => 'currency_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getLoc()
-    {
-        return $this->hasOne(Locations::className(), ['id' => 'loc_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPresentation()
-    {
-        return $this->hasOne(Presentations::className(), ['id' => 'presentation_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getIndustry()
     {
         return $this->hasOne(CsIndustries::className(), ['id' => 'industry_id']);
     }
 
     /**
-     * @inheritdoc
-     * @return ProviderServicesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getProviderIndustry()
     {
-        return new ProviderServicesQuery(get_called_class());
+        return $this->hasOne(ProviderIndustries::className(), ['id' => 'provider_industry_id']);
     }
 }

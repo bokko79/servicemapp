@@ -49,7 +49,7 @@ class Cart extends Widget
 	        </div>
 	        <?php 
 	        	foreach ($this->cart['session'] as $s){
-	        		$service = \frontend\models\CsServices::findOne($s['service']); ?>
+	        		$service = \common\models\CsServices::findOne($s['service']); ?>
 			        <div class="secondary-context tease">
 			            <p><?= c($service->tName) ?></p>
 			        </div>

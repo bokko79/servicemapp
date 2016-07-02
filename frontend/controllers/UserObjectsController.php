@@ -3,9 +3,9 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\UserObjects;
-use frontend\models\UserObjectsSearch;
-use frontend\models\User;
+use common\models\UserObjects;
+use common\models\UserObjectsSearch;
+use common\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

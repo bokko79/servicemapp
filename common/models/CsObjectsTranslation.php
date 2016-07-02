@@ -81,13 +81,4 @@ class CsObjectsTranslation extends \yii\db\ActiveRecord
     {
         return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
     }
-
-    /**
-     * @inheritdoc
-     * @return CsObjectsTranslationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsObjectsTranslationQuery(get_called_class());
-    }
 }

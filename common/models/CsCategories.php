@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property integer $sector_id
  * @property string $name
- * @property string $description
  *
  * @property CsSectors $sector
  * @property CsCategoriesTranslation[] $csCategoriesTranslations
@@ -34,7 +33,6 @@ class CsCategories extends \yii\db\ActiveRecord
         return [
             [['sector_id', 'name'], 'required'],
             [['sector_id'], 'integer'],
-            [['description'], 'string'],
             [['name'], 'string', 'max' => 50]
         ];
     }
@@ -47,8 +45,7 @@ class CsCategories extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'sector_id' => 'Sektor usluga kojem kategorija uslužnih delatnosti priprada.',
-            'name' => 'Ime kategorije uslužnih delatnosti.',
-            'description' => 'Opis kategorije uslužnih delatnosti.',
+            'name' => 'Ime kategorije uslužnih delatnosti.',            
         ];
     }
 
@@ -63,7 +60,7 @@ class CsCategories extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsCategoriesTranslations()
+    public function getT()
     {
         return $this->hasMany(CsCategoriesTranslation::className(), ['category_id' => 'id']);
     }
@@ -71,17 +68,31 @@ class CsCategories extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsIndustries()
+    public function getIndustries()
     {
         return $this->hasMany(CsIndustries::className(), ['category_id' => 'id']);
     }
 
     /**
-     * @inheritdoc
-     * @return CsCategoriesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getTranslation()
     {
-        return new CsCategoriesQuery(get_called_class());
+        $category_translation = \common\models\CsCategoriesTranslation::find()->where('lang_code="SR" and category_id='.$this->id)->one();
+        if($category_translation) {
+            return $category_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
     }
 }

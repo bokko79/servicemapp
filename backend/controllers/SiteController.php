@@ -4,7 +4,8 @@ namespace backend\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use common\models\LoginForm;
+use dektrium\user\models\LoginForm;
+use dektrium\user\traits\AjaxValidationTrait;
 use yii\filters\VerbFilter;
 
 /**
@@ -12,6 +13,8 @@ use yii\filters\VerbFilter;
  */
 class SiteController extends Controller
 {    
+    use AjaxValidationTrait;
+
     /**
      * @inheritdoc
      */
@@ -55,6 +58,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $this->layout = '/home';
         return $this->render('index');
     }
 
@@ -64,7 +68,11 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
+        /** @var LoginForm $model */
+        $model = Yii::createObject(LoginForm::className());
+
+        $this->performAjaxValidation($model);
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
@@ -79,5 +87,11 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionError()
+    {
+        $this->layout = '/post';
+        return $this->render('error');
     }
 }

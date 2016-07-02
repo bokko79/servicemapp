@@ -28,15 +28,15 @@ use kartik\widgets\Select2;?>
             </div>
             <div class="secondary-context cont">
                 
-                <?= $form->field(new \frontend\models\CsServices, 'industry_id')->widget(Select2::classname(), [
-                    'data' => ArrayHelper::map(\frontend\models\CsIndustries::find()->all(), 'id', 'name'),
+                <?= $form->field(new \common\models\CsServices, 'industry_id')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map(\common\models\CsIndustries::find()->all(), 'id', 'name'),
                     'options' => ['placeholder' => 'Izaberi delatnost ...', 'id'=>'ind_id'],
                     'pluginOptions' => [
                         'allowClear' => true
                     ],
                 ]) ?>
 
-                <?= $form->field(new \frontend\models\CsServices, 'action_id')->widget(DepDrop::classname(), [
+                <?= $form->field(new \common\models\CsServices, 'action_id')->widget(DepDrop::classname(), [
                     'options'=>['id'=>'act_id'],
                     'pluginOptions'=>[
                         'depends'=>['ind_id'],
@@ -44,7 +44,7 @@ use kartik\widgets\Select2;?>
                         'url'=>Url::to(['/glob-nav-act-services'])
                     ],
                 ]) ?>
-                <?= $form->field(new \frontend\models\CsServices, 'object_id')->widget(DepDrop::classname(), [
+                <?= $form->field(new \common\models\CsServices, 'object_id')->widget(DepDrop::classname(), [
                     'options'=>['id'=>'obj_id'],
                     'pluginOptions'=>[
                         'depends'=>['act_id'],

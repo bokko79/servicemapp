@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
-use frontend\models\CsCurrencies;
+use common\models\CsCurrencies;
 
 $message = 'Koliko ste spremni da izdvojite novca za izvršenje usluga koje naručujete? Kada podesite svoj budžet, povećavate šansu da pronađete pravog pružaoca usluge za svoje potrebe.';
 ?>

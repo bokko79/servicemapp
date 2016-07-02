@@ -2,20 +2,15 @@
 
 use yii\helpers\Html;
 
-
-/* @var $this yii\web\View */
-/* @var $model common\models\CsActions */
-
-$this->title = 'Create Cs Actions';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Actions', 'url' => ['index']];
+$this->title = 'Create New Action';
+$this->params['breadcrumbs'][] = ['label' => 'Action', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-actions-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?> <small>Nova akcija</small></h2>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+<?= $this->render('_form', [
+    'model' => $model,
+    'model_trans' => $model_trans,
+]) ?>
 
-</div>

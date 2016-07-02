@@ -14,7 +14,6 @@ use Yii;
  * @property string $name_akk 
  * @property string $hint
  * @property string $orig_name
- * @property string $description
  *
  * @property CsProperties $property
  * @property CsLanguages $langCode
@@ -37,7 +36,6 @@ class CsPropertiesTranslation extends \yii\db\ActiveRecord
         return [
             [['property_id', 'lang_code', 'name', 'name_akk'], 'required'],
             [['property_id'], 'integer'],
-            [['description'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
             [['name'], 'string', 'max' => 100],
             [['name_akk', 'orig_name'], 'string', 'max' => 64],
@@ -59,7 +57,6 @@ class CsPropertiesTranslation extends \yii\db\ActiveRecord
             'name_akk' => Yii::t('app', 'Name Akk'), 
             'hint' => Yii::t('app', 'Hint'),
             'orig_name' => 'Originalno ime svojstva (iz tabele cs_properties).',
-            'description' => 'Opis stavke.',
         ];
     }
 
@@ -77,14 +74,5 @@ class CsPropertiesTranslation extends \yii\db\ActiveRecord
     public function getLangCode()
     {
         return $this->hasOne(CsLanguages::className(), ['code' => 'lang_code']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsPropertiesTranslationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsPropertiesTranslationQuery(get_called_class());
     }
 }

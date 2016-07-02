@@ -3,13 +3,13 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\ProviderIndustries;
-use frontend\models\ProviderIndustriesSearch;
-use frontend\models\ProviderServices;
-use frontend\models\ProviderServicesSearch;
-use frontend\models\ProviderIndustrySkills;
-use frontend\models\ProviderTerms;
-use frontend\models\User;
+use common\models\ProviderIndustries;
+use common\models\ProviderIndustriesSearch;
+use common\models\ProviderServices;
+use common\models\ProviderServicesSearch;
+use common\models\ProviderIndustrySkills;
+use common\models\ProviderTerms;
+use common\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

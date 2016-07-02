@@ -170,7 +170,7 @@ class RegistrationController extends \dektrium\user\controllers\RegistrationCont
      */
     protected function findUser($id)
     {
-        if (($model = \frontend\models\User::findOne($id)) !== null) {
+        if (($model = \common\models\User::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -187,7 +187,7 @@ class RegistrationController extends \dektrium\user\controllers\RegistrationCont
      */
     protected function findService($id)
     {
-        if (($model = \frontend\models\CsServices::findOne($id)) !== null) {
+        if (($model = \common\models\CsServices::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -195,8 +195,8 @@ class RegistrationController extends \dektrium\user\controllers\RegistrationCont
     }
 
     public function findOrder($id) {   
-        if($activity = \frontend\models\Activities::find()->where(['activity' => 'order', 'user_id' => $id])->one()){
-            if($order = \frontend\models\Orders::find()->where(['activity_id' => $activity->id])->one()){
+        if($activity = \common\models\Activities::find()->where(['activity' => 'order', 'user_id' => $id])->one()){
+            if($order = \common\models\Orders::find()->where(['activity_id' => $activity->id])->one()){
                 return $order;
             }
         }
@@ -204,8 +204,8 @@ class RegistrationController extends \dektrium\user\controllers\RegistrationCont
     }
 
     public function findAgreement($id) {
-        if($activity = \frontend\models\Activities::find()->where(['activity' => 'agreement', 'user_id' => $id])->one()){
-            if($agreement = \frontend\models\Agreements::find()->where(['activity_id' => $activity->id])->one()){
+        if($activity = \common\models\Activities::find()->where(['activity' => 'agreement', 'user_id' => $id])->one()){
+            if($agreement = \common\models\Agreements::find()->where(['activity_id' => $activity->id])->one()){
                 return $agreement;
             }
         }
@@ -213,8 +213,8 @@ class RegistrationController extends \dektrium\user\controllers\RegistrationCont
     }
 
     public function findPresentation($id) {
-        if($activity = \frontend\models\Activities::find()->where(['activity' => 'presentation', 'user_id' => $id])->one()){
-            if($presentation = \frontend\models\Presentations::find()->where(['activity_id' => $activity->id])->one()){
+        if($activity = \common\models\Activities::find()->where(['activity' => 'presentation', 'user_id' => $id])->one()){
+            if($presentation = \common\models\Presentations::find()->where(['activity_id' => $activity->id])->one()){
                 return $presentation;
             }
         }
@@ -222,8 +222,8 @@ class RegistrationController extends \dektrium\user\controllers\RegistrationCont
     }
 
     public function findBid($id) {
-        if($activity = \frontend\models\Activities::find()->where(['activity' => 'bid', 'user_id' => $id])->one()){
-            if($bid = \frontend\models\Bids::find()->where(['activity_id' => $activity->id])->one()){
+        if($activity = \common\models\Activities::find()->where(['activity' => 'bid', 'user_id' => $id])->one()){
+            if($bid = \common\models\Bids::find()->where(['activity_id' => $activity->id])->one()){
                 return $bid;
             }
         }

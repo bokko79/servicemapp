@@ -5,14 +5,14 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\CsServices;
-use frontend\models\CsObjects;
-use frontend\models\CsIndustries;
-use frontend\models\CsActions;
-use frontend\models\CsTags;
+use common\models\CsServices;
+use common\models\CsObjects;
+use common\models\CsIndustries;
+use common\models\CsActions;
+use common\models\CsTags;
 
 /**
- * CsServicesSearch represents the model behind the search form about `frontend\models\CsServices`.
+ * CsServicesSearch represents the model behind the search form about `common\models\CsServices`.
  */
 class CsAutoServicesSearch extends CsServices
 {

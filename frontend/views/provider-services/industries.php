@@ -5,7 +5,7 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 
-$new_provider_industry = new \frontend\models\ProviderIndustries();
+$new_provider_industry = new \common\models\ProviderIndustries();
 foreach($user->provider->industries as $provider_industry){		
 	$new_provider_industry->selection[] = $provider_industry->industry_id;
 }
@@ -21,7 +21,7 @@ foreach($user->provider->industries as $provider_industry){
 			]); ?>
 				<p class="hint">Možete izabrati više vrsta.</p>
 				<hr>
-				<?php foreach(\frontend\models\CsCategories::find()->all() as $category) { 
+				<?php foreach(\common\models\CsCategories::find()->all() as $category) { 
 					$models_list = ArrayHelper::map($category->industries, 'id', 'sCaseName'); ?>					
 					<h3><?= $category->tName ?></h3>
 					<div class="enclosedCheckboxes" style="padding:20px 30px;">

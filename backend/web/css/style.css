@@ -87,10 +87,10 @@ article,aside,details,dialog,figcaption,figure,footer,header,hgroup,menu,nav,sec
 
 html { margin:0; padding:0; border:none; height: 100%; -webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }
 
-body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-serif; font-size: 13px; font-weight: 400; text-align: left;  position:absolute; padding-top:60px; top:0px; bottom:0; right:0; left:0;  overflow-y: scroll; z-index: -1;}
+body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-serif; font-size: 13px; font-weight: 400; text-align: left; /*position:absolute; padding-top:60px;*/ top:0px; bottom:0; right:0; left:0;  overflow-y: scroll; z-index: -1;}
 
 /* grid system for layouts*/
-.grid-container {margin:0 auto;padding: 0 15px;width:1200px; display: table;}
+.grid-container {margin:0 auto;padding: 0 15px;width:90%; display: table;}
 .grid-row {width:100%;}
 .grid-left, .grid-right, .grid-center, .grid-leftacross, .grid-rightacross, .grid-full {min-height: 1px;float:left;/*position: relative;z-index: 1;*/ display: table-row;}
 .grid-full {width:1170px;}
@@ -99,6 +99,11 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 .grid-center {width:650px;}
 .grid-leftacross {width:875px;}
 .grid-rightacross {width:945px;}
+
+#left-sidebar-nav {position: fixed; background: #238263; padding: 20px; min-height: 100vh; overflow: auto;}
+#left-sidebar-nav a {color: #ccc;}
+
+form{margin: 40px 20px;}
 
 /* general */
 .first {margin-left:0;padding-left:0}
@@ -829,7 +834,7 @@ img.card-image {width:200px; height:200px; box-shadow: 0px 0px 6px #444;}
 
 /* ----------------- 34.1. MAIN CONTENT: BREADCRUMBS */
 
-.breadcrumb {padding:15px 20px; background-color:#F6F7F8;text-transform: uppercase; font-size: 11px; font-weight: 700; border-left:1px solid #ddd; border-right:1px solid #ddd; margin:0;}
+.breadcrumb {padding:15px 20px; background-color:#F6F7F8;text-transform: uppercase; font-size: 11px; font-weight: 700; margin:20px 0;}
 .breadcrumb.inverted {color:white;}
 .breadcrumb.inverted li, .breadcrumb.inverted li.active {color:#bbb !important;}
 .breadcrumb.inverted li a {color:#90CAF9 !important;}

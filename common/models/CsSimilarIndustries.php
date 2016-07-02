@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property integer $industry_id
  * @property integer $similar_industry_id
- * @property string $description
  *
  * @property CsIndustries $industry
  * @property CsIndustries $similarIndustry
@@ -33,7 +32,6 @@ class CsSimilarIndustries extends \yii\db\ActiveRecord
         return [
             [['industry_id', 'similar_industry_id'], 'required'],
             [['industry_id', 'similar_industry_id'], 'integer'],
-            [['description'], 'string']
         ];
     }
 
@@ -43,10 +41,9 @@ class CsSimilarIndustries extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'industry_id' => 'Uslužna delatnost.',
-            'similar_industry_id' => 'Slična uslužna delatnost (onoj iz kolone delatnost_id).',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'industry_id' => Yii::t('app', 'Industry ID'),
+            'similar_industry_id' => Yii::t('app', 'Similar Industry ID'),
         ];
     }
 
@@ -64,14 +61,5 @@ class CsSimilarIndustries extends \yii\db\ActiveRecord
     public function getSimilarIndustry()
     {
         return $this->hasOne(CsIndustries::className(), ['id' => 'similar_industry_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsSimilarIndustriesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsSimilarIndustriesQuery(get_called_class());
     }
 }

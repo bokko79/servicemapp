@@ -11,7 +11,6 @@ use Yii;
  * @property string $user_id
  * @property string $image_id
  * @property string $image_type
- * @property string $opis
  *
  * @property Images $image
  * @property User $user
@@ -34,7 +33,7 @@ class UserImages extends \yii\db\ActiveRecord
         return [
             [['user_id', 'image_id'], 'required'],
             [['user_id', 'image_id'], 'integer'],
-            [['image_type', 'opis'], 'string']
+            [['image_type'], 'string']
         ];
     }
 
@@ -44,11 +43,10 @@ class UserImages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'image_id' => 'Slika/dokument.',
-            'image_type' => 'Vrsta slike. cover - cover slika; avatar - profilna; slika predmeta usluge; personal - ostalo. ',
-            'opis' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'image_id' => Yii::t('app', 'Image ID'),
+            'image_type' => Yii::t('app', 'Image Type'),
         ];
     }
 
@@ -66,14 +64,5 @@ class UserImages extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserImagesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserImagesQuery(get_called_class());
     }
 }

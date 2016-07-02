@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use dektrium\user\models\RegistrationForm;
-use frontend\models\Locations;
+use common\models\Locations;
 use yii\bootstrap\Modal;
 
 $model = Yii::createObject(RegistrationForm::className());

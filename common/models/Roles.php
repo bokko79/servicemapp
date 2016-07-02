@@ -41,9 +41,9 @@ class Roles extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Uloga.',
-            'time' => 'Vreme postavke uloge.',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -53,14 +53,5 @@ class Roles extends \yii\db\ActiveRecord
     public function getUserDetails()
     {
         return $this->hasMany(UserDetails::className(), ['role_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return RolesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new RolesQuery(get_called_class());
     }
 }

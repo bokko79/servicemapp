@@ -19,7 +19,7 @@ class CsPropertiesSearch extends CsProperties
     {
         return [
             [['id', 'type', 'property_id', 'multiple_values', 'translatable_values'], 'integer'],
-            [['name', 'class', 'description'], 'safe'],
+            [['name', 'class'], 'safe'],
         ];
     }
 
@@ -64,8 +64,7 @@ class CsPropertiesSearch extends CsProperties
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'class', $this->class])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'class', $this->class]);
 
         return $dataProvider;
     }

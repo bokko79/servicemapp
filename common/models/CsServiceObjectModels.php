@@ -9,8 +9,8 @@ use Yii;
  *
  * @property string $id
  * @property integer $service_id
- * @property string $object_id
- * @property string $description
+ * @property string $object_model_id
+ * @property integer $requirement
  */
 class CsServiceObjectModels extends \yii\db\ActiveRecord
 {
@@ -28,9 +28,8 @@ class CsServiceObjectModels extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['service_id', 'object_id'], 'required'],
-            [['service_id', 'object_id'], 'integer'],
-            [['description'], 'string'],
+            [['service_id', 'object_model_id'], 'required'],
+            [['service_id', 'object_model_id', 'requirement'], 'integer'],
         ];
     }
 
@@ -42,17 +41,40 @@ class CsServiceObjectModels extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'service_id' => Yii::t('app', 'Service ID'),
-            'object_id' => Yii::t('app', 'Object ID'),
-            'description' => Yii::t('app', 'Description'),
+            'object_model_id' => Yii::t('app', 'Object Model ID'),
+            'requirement' => Yii::t('app', 'Requirement'),
         ];
     }
 
     /**
-     * @inheritdoc
-     * @return CsServiceObjectModelsQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getService()
     {
-        return new CsServiceObjectModelsQuery(get_called_class());
+        return $this->hasOne(CsServices::className(), ['id' => 'service_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectModel()
+    {
+        return $this->hasOne(CsObjectModels::className(), ['id' => 'object_model_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getModel()
+    {
+        return $this->objectModel->model_id;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSCaseModelName()
+    {
+        return c($this->objectModel->tName); 
     }
 }

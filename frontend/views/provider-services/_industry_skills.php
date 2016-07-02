@@ -6,7 +6,7 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 
 $model_list = ArrayHelper::map($industry->industryProperties[0]->property->propertyValues, 'id', 'tName');
-$new_provider_industry_skill = new \frontend\models\ProviderIndustrySkills();
+$new_provider_industry_skill = new \common\models\ProviderIndustryProperties();
 foreach($model->skills as $model_skill){	
 	$new_provider_industry_skill->selection[] = $model_skill->property_value_id;
 }

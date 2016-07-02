@@ -3,35 +3,34 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Orders;
-use frontend\models\OrdersSearch;
+use common\models\Orders;
+use common\models\OrdersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Request;
-use frontend\models\Activities;
-use frontend\models\OrderIndustryProperties;
-use frontend\models\OrderServices;
-use frontend\models\OrderServiceObjectModels;
-use frontend\models\OrderServiceObjectProperties;
-use frontend\models\OrderServiceObjectPropertyValues;
-use frontend\models\OrderServiceActionProperties;
-use frontend\models\OrderServiceImages;
-use frontend\models\OrderServiceIssues;
-use frontend\models\Log;
-use frontend\models\UserLog;
-use frontend\models\UserLocations;
-use frontend\models\UserObjects;
-use frontend\models\UserObjectImages;
-use frontend\models\UserObjectSpecs;
-use frontend\models\UserObjectSpecModels;
-use frontend\models\Locations;
-use frontend\models\Images;
-use frontend\models\Notifications;
+use common\models\Activities;
+use common\models\OrderIndustryProperties;
+use common\models\OrderServices;
+use common\models\OrderServiceObjectModels;
+use common\models\OrderServiceObjectProperties;
+use common\models\OrderServiceObjectPropertyValues;
+use common\models\OrderServiceActionProperties;
+use common\models\OrderServiceImages;
+use common\models\OrderServiceIssues;
+use common\models\Log;
+use common\models\UserLog;
+use common\models\UserLocations;
+use common\models\UserObjects;
+use common\models\UserObjectImages;
+use common\models\UserObjectSpecs;
+use common\models\UserObjectSpecModels;
+use common\models\Locations;
+use common\models\Images;
+use common\models\Notifications;
 //use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use common\models\SignupForm;
+use common\models\PasswordResetRequestForm;
+use common\models\ResetPasswordForm;
 use yii\web\UploadedFile;
 use dektrium\user\models\User;
 use dektrium\user\models\LoginForm;
@@ -176,9 +175,9 @@ class OrdersController extends Controller
                     $cart[$key] = $ind;
                 }                
             }
-            $service = \frontend\models\CsServices::findOne($cart[$industry]['data'][1]['service']);
+            $service = \common\models\CsServices::findOne($cart[$industry]['data'][1]['service']);
             $objects = $this->getObjectModels($cart[$industry]['data'][1]['object_models']);
-            $user = (!Yii::$app->user->isGuest) ? \frontend\models\User::findOne(Yii::$app->user->id) : null; // orderer
+            $user = (!Yii::$app->user->isGuest) ? \common\models\User::findOne(Yii::$app->user->id) : null; // orderer
             $model = new Orders();
             $model->service = $service;
             // skill model
@@ -286,7 +285,7 @@ class OrdersController extends Controller
                 foreach($cart['industry'] as $ki=>$industry){                    
                     if(isset($industry[$ki]['data']['images']) && $industry[$ki]['data']['images']!=null){
                         foreach ($industry[$ki]['data']['images'] as $key_im => $image) {
-                            $imageInstance = \frontend\models\Images::getImageByBaseEncode($image->name);
+                            $imageInstance = \common\models\Images::getImageByBaseEncode($image->name);
                             if($imageInstance){
                                 $thumb = '@webroot/images/orders/thumbs/'.$imageInstance->ime;
                                 $full = '@webroot/images/orders/full/'.$imageInstance->ime;
@@ -354,7 +353,7 @@ class OrdersController extends Controller
      */
     protected function findService($id)
     {
-        if (($model = \frontend\models\CsServices::findOne($id)) !== null) {
+        if (($model = \common\models\CsServices::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -370,7 +369,7 @@ class OrdersController extends Controller
      */
     protected function findObject($id)
     {
-        if (($model = \frontend\models\CsObjects::findOne($id)) !== null) {
+        if (($model = \common\models\CsObjects::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -386,7 +385,7 @@ class OrdersController extends Controller
      */
     protected function findPresentation($id)
     {
-        if (($model = \frontend\models\Presentations::findOne($id)) !== null) {
+        if (($model = \common\models\Presentations::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -401,7 +400,7 @@ class OrdersController extends Controller
         if($object_models!=null){
             $object_container = [];
             foreach($object_models as $object_model) {
-                $object = \frontend\models\CsObjects::findOne($object_model);
+                $object = \common\models\CsObjects::findOne($object_model);
                 if ($object) {
                     $object_container[] = $object;          
                 }       
@@ -419,7 +418,7 @@ class OrdersController extends Controller
         if($products!=null){
             $product_container = [];
             foreach($products as $product_m) {
-                $product = \frontend\models\CsProducts::findOne($product_m);
+                $product = \common\models\CsProducts::findOne($product_m);
                 if ($product) {
                     $product_container[] = $product;          
                 }       
@@ -447,7 +446,7 @@ class OrdersController extends Controller
             $objectProperties = [];
             if($object_models and count($object_models)==1){
                 foreach($object_models as $object_model) {
-                    $object_m = \frontend\models\CsObjects::findOne($object_model);
+                    $object_m = \common\models\CsObjects::findOne($object_model);
                     if ($object_m and $object_m->objectProperties) {
                         foreach($object_m->objectProperties as $object_mProperty) {
                             //if(!in_array($object_mProperty->id, $objectSpecification)){ 
@@ -542,7 +541,7 @@ class OrdersController extends Controller
             foreach($serviceIndustryProperties as $serviceIndustryProperty) {
                 if($industryProperty = $serviceIndustryProperty->industryProperty) {
                     if($property = $industryProperty->property) { 
-                        $model_industryProperty[$property->id] = new \frontend\models\OrderIndustryProperties();
+                        $model_industryProperty[$property->id] = new \common\models\OrderIndustryProperties();
                         $model_industryProperty[$property->id]->serviceIndustryProperty = $industryProperty;
                         $model_industryProperty[$property->id]->property = $property;
                         $model_industryProperty[$property->id]->service = $service;
@@ -679,7 +678,7 @@ class OrdersController extends Controller
                     }
                     if(isset($data['images']) && $data['images']!=null){
                         foreach ($data['images'] as $key_im => $image) {
-                            $imageInstance = \frontend\models\Images::getImageByName($image->name);
+                            $imageInstance = \common\models\Images::getImageByName($image->name);
                             if($imageInstance!=null){
                                 $model_service_images[$key_im] = new OrderServiceImages();
                                 $model_service_images[$key_im]->order_service_id = $model_services[$keyd]->id;
@@ -780,7 +779,7 @@ class OrdersController extends Controller
     protected function checkUserObjectsExist($service, $object_models)
     {
         if(!Yii::$app->user->isGuest && $object_models){
-            $user = \frontend\models\User::findOne(Yii::$app->user->id);
+            $user = \common\models\User::findOne(Yii::$app->user->id);
             if($user->userObjects){
                 foreach ($user->userObjects as $userObject){
                     if($userObject->object_id==$service->object_id || in_array($userObject->object_id, $object_models)){

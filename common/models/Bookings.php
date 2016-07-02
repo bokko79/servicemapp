@@ -15,7 +15,6 @@ use Yii;
  * @property string $transaction_id
  * @property integer $voucher_issued
  * @property string $time
- * @property string $description
  *
  * @property Activities $activity
  * @property Offers $offer
@@ -42,7 +41,7 @@ class Bookings extends \yii\db\ActiveRecord
         return [
             [['activity_id', 'offer_id', 'time'], 'required'],
             [['activity_id', 'offer_id', 'transaction_id', 'voucher_issued'], 'integer'],
-            [['type', 'description'], 'string'],
+            [['type'], 'string'],
             [['validity', 'time'], 'safe']
         ];
     }
@@ -61,7 +60,6 @@ class Bookings extends \yii\db\ActiveRecord
             'transaction_id' => 'Transakcija',
             'voucher_issued' => 'Voucher Issued',
             'time' => 'Time',
-            'description' => 'Description',
         ];
     }
 
@@ -111,14 +109,5 @@ class Bookings extends \yii\db\ActiveRecord
     public function getTransactions()
     {
         return $this->hasMany(Transactions::className(), ['booking_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return AgreementsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new BookingsQuery(get_called_class());
     }
 }

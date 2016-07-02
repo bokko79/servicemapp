@@ -11,7 +11,6 @@ use Yii;
  * @property string $promotion_id
  * @property string $provider_service_id
  * @property integer $service_id
- * @property string $description
  *
  * @property CsServices $service
  * @property ProviderServices $providerService
@@ -35,7 +34,6 @@ class PromotionServices extends \yii\db\ActiveRecord
         return [
             [['promotion_id', 'provider_service_id', 'service_id'], 'required'],
             [['promotion_id', 'provider_service_id', 'service_id'], 'integer'],
-            [['description'], 'string']
         ];
     }
 
@@ -45,11 +43,10 @@ class PromotionServices extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'promotion_id' => 'Promocija usluge.',
-            'provider_service_id' => 'Provider Service ID',
-            'service_id' => 'Usluga.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'promotion_id' => Yii::t('app', 'Promotion ID'),
+            'provider_service_id' => Yii::t('app', 'Provider Service ID'),
+            'service_id' => Yii::t('app', 'Service ID'),
         ];
     }
 
@@ -75,14 +72,5 @@ class PromotionServices extends \yii\db\ActiveRecord
     public function getPromotion()
     {
         return $this->hasOne(Promotions::className(), ['id' => 'promotion_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return PromotionServicesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PromotionServicesQuery(get_called_class());
     }
 }

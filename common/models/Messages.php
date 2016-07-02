@@ -46,12 +46,12 @@ class Messages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'thread_id' => 'Razgovor.',
-            'sender' => 'Pošiljalac poruke.',
-            'body' => 'Tekst poruke.',
-            'counter' => 'Broj poruke.',
-            'time' => 'Datum i vreme poruke.',
+            'id' => Yii::t('app', 'ID'),
+            'thread_id' => Yii::t('app', 'Thread ID'),
+            'sender' => Yii::t('app', 'Sender'),
+            'body' => Yii::t('app', 'Body'),
+            'counter' => Yii::t('app', 'Counter'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -69,14 +69,5 @@ class Messages extends \yii\db\ActiveRecord
     public function getSender0()
     {
         return $this->hasOne(User::className(), ['id' => 'sender']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return MessagesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new MessagesQuery(get_called_class());
     }
 }

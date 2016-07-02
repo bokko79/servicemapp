@@ -11,7 +11,6 @@ use Yii;
  * @property string $activity_id
  * @property string $type
  * @property string $update_time
- * @property string $description
  *
  * @property Agreements[] $agreements
  * @property Bids[] $bids
@@ -38,7 +37,7 @@ class Offers extends \yii\db\ActiveRecord
         return [
             [['activity_id', 'type', 'update_time'], 'required'],
             [['activity_id'], 'integer'],
-            [['type', 'description'], 'string'],
+            [['type'], 'string'],
             [['update_time'], 'safe']
         ];
     }
@@ -49,11 +48,10 @@ class Offers extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'activity_id' => 'Stavka.',
-            'type' => 'Vrsta ponude.',
-            'update_time' => 'Vreme promene ponude.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'activity_id' => Yii::t('app', 'Activity ID'),
+            'type' => Yii::t('app', 'Type'),
+            'update_time' => Yii::t('app', 'Update Time'),
         ];
     }
 
@@ -106,11 +104,19 @@ class Offers extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return OffersQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function loadOffer($activity, $type='presentation')
     {
-        return new OffersQuery(get_called_class());
+        $offer = new Offers();
+        $offer->activity_id = $activity;
+        $offer->type = $type;
+        $offer->update_time = date('Y-m-d H:i:s');
+
+        if($offer){
+            return $offer;
+        } else {
+            return false; 
+        }
     }
 }

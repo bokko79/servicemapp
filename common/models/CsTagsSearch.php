@@ -19,7 +19,7 @@ class CsTagsSearch extends CsTags
     {
         return [
             [['id', 'entity_id'], 'integer'],
-            [['entity', 'lang_code', 'tag', 'orig_name', 'description'], 'safe'],
+            [['entity', 'lang_code', 'tag', 'orig_name'], 'safe'],
         ];
     }
 
@@ -66,8 +66,7 @@ class CsTagsSearch extends CsTags
         $query->andFilterWhere(['like', 'entity', $this->entity])
             ->andFilterWhere(['like', 'lang_code', $this->lang_code])
             ->andFilterWhere(['like', 'tag', $this->tag])
-            ->andFilterWhere(['like', 'orig_name', $this->orig_name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'orig_name', $this->orig_name]);
 
         return $dataProvider;
     }

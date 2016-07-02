@@ -12,7 +12,6 @@ use Yii;
  * @property string $lang_code
  * @property string $ime
  * @property string $orig_ime
- * @property string $opis
  *
  * @property PostCategory $postCategory
  * @property CsLanguages $langCode
@@ -35,7 +34,6 @@ class PostCategoryTranslation extends \yii\db\ActiveRecord
         return [
             [['post_category_id', 'lang_code', 'ime', 'orig_ime'], 'required'],
             [['post_category_id'], 'integer'],
-            [['opis'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
             [['ime', 'orig_ime'], 'string', 'max' => 64]
         ];
@@ -47,12 +45,11 @@ class PostCategoryTranslation extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'post_category_id' => 'Kategorija postova.',
-            'lang_code' => 'Jezik.',
-            'ime' => 'Prevod imena kategorije postova.',
-            'orig_ime' => 'Originalno ime kategorije postova.',
-            'opis' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'post_category_id' => Yii::t('app', 'Post Category ID'),
+            'lang_code' => Yii::t('app', 'Lang Code'),
+            'ime' => Yii::t('app', 'Ime'),
+            'orig_ime' => Yii::t('app', 'Orig Ime'),
         ];
     }
 
@@ -70,14 +67,5 @@ class PostCategoryTranslation extends \yii\db\ActiveRecord
     public function getLangCode()
     {
         return $this->hasOne(CsLanguages::className(), ['code' => 'lang_code']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return PostCategoryTranslationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PostCategoryTranslationQuery(get_called_class());
     }
 }

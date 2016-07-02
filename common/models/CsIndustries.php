@@ -8,16 +8,11 @@ use Yii;
  * This is the model class for table "cs_industries".
  *
  * @property integer $id
- * @property string $code
  * @property string $name
  * @property integer $category_id
  * @property string $image_id
- * @property string $subtitle
  * @property string $status
- * @property string $added_by
- * @property string $added_time
  * @property string $hit_counter
- * @property string $description
  *
  * @property Banners[] $banners
  * @property CsActions[] $csActions
@@ -88,7 +83,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsActions()
+    public function getActions()
     {
         return $this->hasMany(CsActions::className(), ['industry_id' => 'id']);
     }
@@ -112,15 +107,32 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAddedBy()
+    public function getSector()
     {
-        return $this->hasOne(User::className(), ['id' => 'added_by']);
+        return $this->category->sector;
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsIndustriesTranslations()
+    public function getIcon()
+    {
+        return $this->sector->icon;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getColor()
+    {
+        return $this->sector->color;
+    }
+    
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getT()
     {
         return $this->hasMany(CsIndustriesTranslation::className(), ['industry_id' => 'id']);
     }
@@ -128,7 +140,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsServices()
+    public function getServices()
     {
         return $this->hasMany(CsServices::className(), ['industry_id' => 'id']);
     }
@@ -136,7 +148,62 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSimilarIndustries()
+    public function getPresentations()
+    {
+        $cont = [];
+        if($services = $this->services){
+            foreach($services as $service){
+                if($presentations = $service->presentations){
+                    foreach($presentations as $presentation){
+                        $cont[] = $presentation;
+                    }
+                }
+            }
+        }
+        return $cont;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrders()
+    {
+        $cont = [];
+        if($services = $this->services){
+            foreach($services as $service){
+                if($orders = $service->orders){
+                    foreach($orders as $order){
+                        $cont[] = $order;
+                    }
+                }
+            }
+        }
+        return $cont;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPromotions()
+    {
+        $cont = [];
+        if($services = $this->services){
+            foreach($services as $service){
+                if($promotions = $service->promotionServices){
+                    foreach($promotions as $promotion){
+                        $cont[] = $promotion;
+                    }
+                }
+            }
+        }
+        return $cont;
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSimilarIndustries()
     {
         return $this->hasMany(CsSimilarIndustries::className(), ['industry_id' => 'id']);
     }
@@ -144,7 +211,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSimilarIndustries0()
+    public function getSimilarIndustries0()
     {
         return $this->hasMany(CsSimilarIndustries::className(), ['similar_industry_id' => 'id']);
     }
@@ -152,9 +219,9 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCsSkills()
+    public function getIndustryProperties()
     {
-        return $this->hasMany(CsSkills::className(), ['industry_id' => 'id']);
+        return $this->hasMany(CsIndustryProperties::className(), ['industry_id' => 'id']);
     }
 
     /**
@@ -182,11 +249,88 @@ class CsIndustries extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return CsIndustriesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getTranslation()
     {
-        return new CsIndustriesQuery(get_called_class());
+        $industry_translation = \common\models\CsIndustriesTranslation::find()->where('lang_code="SR" and industry_id='.$this->id)->one();
+        if($industry_translation) {
+            return $industry_translation;
+        }
+        return false;        
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameGen()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_gen;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameAkk()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_akk;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSCaseName()
+    {
+        if($this->tName) {
+            return c($this->tName);
+        }       
+        return false;   
+    }
+
+    public static function getAllIndustriesByCategories() {
+        $options = [];
+         
+        $parents = CsCategories::find()->all();
+        foreach($parents as $key => $p) {
+            $children = self::find()->where("category_id=:parent_id", [":parent_id"=>$p->id])->all();
+            $children = self::find()->where("category_id=:parent_id", [":parent_id"=>$p->id])->all(); 
+            $options[$p->name] = yii\helpers\ArrayHelper::map($children, 'id', 'tName');
+
+            /*$child_options = [];
+            foreach($children as $child) {
+                $child_options[$child->id] = $child->tName;
+            }
+            $options[$p->tName] = $child_options;*/
+        }
+        return $options;
+    }
+
+    // count services    
+    public function getCountServices() {
+        return $this->services ? count($this->services) : 0;
+    }
+    // orders, active orders, successful orders
+    // providers, active providers
+    // presentations, active presentations
+    // promotions, active promotions,
+    // by location, by language, by time, by status
+    // images, avatars, formats
+    // special functions.. TBD
 }

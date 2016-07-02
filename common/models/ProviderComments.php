@@ -46,12 +46,12 @@ class ProviderComments extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'provider_id' => 'Korisnik (pružalac usluge) koji je recenzionisan.',
-            'reviewer' => 'Korisnik koji piše recenziju.',
-            'text' => 'Tekst recenzije.',
-            'status' => 'Status recenzije.',
-            'time' => 'Datum i vreme recenzije.',
+            'id' => Yii::t('app', 'ID'),
+            'provider_id' => Yii::t('app', 'Provider ID'),
+            'reviewer' => Yii::t('app', 'Reviewer'),
+            'text' => Yii::t('app', 'Text'),
+            'status' => Yii::t('app', 'Status'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -69,14 +69,5 @@ class ProviderComments extends \yii\db\ActiveRecord
     public function getProvider()
     {
         return $this->hasOne(Provider::className(), ['id' => 'provider_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return ProviderCommentsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ProviderCommentsQuery(get_called_class());
     }
 }

@@ -49,8 +49,6 @@ use Yii;
  * @property string $pricing 
  * @property string $terms 
  * @property string $status
- * @property string $added_by
- * @property string $added_time
  * @property string $hit_counter
  *
  * @property CsRecommendedServices[] $csRecommendedServices
@@ -92,13 +90,12 @@ class CsServices extends \yii\db\ActiveRecord
             [['image_id', 'industry_id', 'action_id', 'object_id', 'object_model_relevance', 'unit_id', 'amount_default', 'amount_range_min', 'amount_range_max', 'consumer_default', 'consumer_range_min', 'consumer_range_max', 'geospecific', 'process', 'added_by', 'hit_counter'], 'integer'],
             [['amount_range_step', 'consumer_range_step'], 'number'], 
             [['dat', 'status'], 'string'],
-            [['added_time'], 'safe'],
             [['name'], 'string', 'max' => 90],
             [['action_name'], 'string', 'max' => 80],
             [['object_name'], 'string', 'max' => 60],
             [['service_type', 'amount', 'consumer', 'consumer_children', 'service_object', 'pic', 'location', 'time', 'duration', 'frequency', 'support', 'turn_key', 'tools', 'labour_type', 'coverage', 'availability', 'ordering', 'pricing', 'terms'], 'string', 'max' => 1],
             [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['unit_id' => 'id']],
-            [['added_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['added_by' => 'id']],
+            
         ];
     }
 
@@ -148,8 +145,6 @@ class CsServices extends \yii\db\ActiveRecord
             'pricing' => Yii::t('app', 'Pricing'), 
             'terms' => Yii::t('app', 'Terms'), 
             'status' => Yii::t('app', 'Status'),
-            'added_by' => Yii::t('app', 'Added By'),
-            'added_time' => Yii::t('app', 'Added Time'),
             'hit_counter' => Yii::t('app', 'Hit Counter'),
         ];
     }
@@ -189,9 +184,33 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getServiceSpecs()
+    public function getServiceObjectModels()
     {
-        return $this->hasMany(CsServiceSpecs::className(), ['service_id' => 'id']);
+        return $this->hasMany(CsServiceObjectModels::className(), ['service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServiceIndustryProperties()
+    {
+        return $this->hasMany(CsServiceIndustryProperties::className(), ['service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServiceActionProperties()
+    {
+        return $this->hasMany(CsServiceActionProperties::className(), ['service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServiceObjectProperties()
+    {
+        return $this->hasMany(CsServiceObjectProperties::className(), ['service_id' => 'id']);
     }
 
     /**
@@ -205,9 +224,25 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPartContainer()
+    {
+        return $this->hasOne(CsObjects::className(), ['id' => 'object_container_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUnit()
     {
         return $this->hasOne(CsUnits::className(), ['id' => 'unit_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUnits()
+    {
+        return $this->hasMany(CsServiceUnits::className(), ['service_id' => 'id']);
     }
 
     /**
@@ -224,14 +259,6 @@ class CsServices extends \yii\db\ActiveRecord
     public function getIndustry()
     {
         return $this->hasOne(CsIndustries::className(), ['id' => 'industry_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAddedBy()
-    {
-        return $this->hasOne(User::className(), ['id' => 'added_by']);
     }
 
     /**
@@ -269,6 +296,14 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPresentations()
+    {
+        return $this->hasMany(Presentations::className(), ['service_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getPromotionServices()
     {
         return $this->hasMany(PromotionServices::className(), ['service_id' => 'id']);
@@ -285,7 +320,7 @@ class CsServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getComments()
+    public function getServiceComments()
     {
         return $this->hasMany(ServiceComments::className(), ['service_id' => 'id']);
     }
@@ -299,11 +334,140 @@ class CsServices extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return CsServicesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getAvatar()
     {
-        return new CsServicesQuery(get_called_class());
+        return ($this->object->image) ? $this->object->image->ime : false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAveragePrice()
+    {
+        return '2.499,99&nbsp;RSD/m<sup>2</sup>';
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $service_translation = CsServicesTranslation::find()->where('lang_code="SR" and service_id='.$this->id)->one();
+        if($service_translation) {
+            return $service_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameGen()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_gen;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameDat()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_dat;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameAkk()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_akk;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSCaseName()
+    {
+        return c($this->tName); 
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNote()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->note;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTSubnote()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->note;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTHintOrder()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->hint_order;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTHintPresentation()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->hint_presentation;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObjectModelsList()
+    {
+        /*if($this->serviceObjectModels):
+            $model_list = \yii\helpers\ArrayHelper::map($this->serviceObjectModels, 'model', 'sCaseModelName');
+        else:*/
+        $model_list = \yii\helpers\ArrayHelper::map($this->object->models, 'id', 'tNameWithMedia');
+        /*endif;*/
+
+        return $model_list;
     }
 }

@@ -22,7 +22,7 @@ $state = $session->get('state');
         </div>
     </div>
     <div class="secondary-context tease">
-    	<span><i class="fa fa-globe"></i>&nbsp;<?= count($model->orders) ?></span>
+    	<span><i class="fa fa-globe"></i>&nbsp;<?= count($model->orderServices) ?></span>
 		<span>&nbsp;<i class="fa fa-users"></i>&nbsp;<?= count($model->providerServices) ?></span>
 		<span>&nbsp;<i class="fa fa-rss fa-rotate-270"></i>&nbsp;<?= count($model->presentations)  ?></span>
         <p><?= c($model->industry->tName) ?></p>

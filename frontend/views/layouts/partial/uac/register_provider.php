@@ -6,7 +6,7 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use frontend\models\RegistrationProviderForm;
-use frontend\models\Locations;
+use common\models\Locations;
 
 $model = new RegistrationProviderForm();
 $location = new Locations();
@@ -77,7 +77,7 @@ $location = new Locations();
                     <?= yii\helpers\Html::activeHiddenInput($location, 'no', ['data-geo'=>'street_number', 'id'=>'hidden-geo-input']) ?>
                     <?= yii\helpers\Html::activeHiddenInput($location, 'location_name', ['data-geo'=>'formatted_address', 'id'=>'hidden-geo-input']) ?>
                 <?= $form->field($model, 'industry')->widget(Select2::classname(), [
-                                'data' => frontend\models\CsIndustries::getAllIndustriesByCategories(),
+                                'data' => common\models\CsIndustries::getAllIndustriesByCategories(),
                                 'options' => ['placeholder' => 'Izaberite delatnost ...'],
                                 'pluginOptions' => [
                                     'allowClear' => true

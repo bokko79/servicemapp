@@ -3,40 +3,40 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\CsObjectsSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Objects';
+$this->title = 'Objects';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-objects-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<h2><?= Html::encode($this->title) ?> <small>Predmeti</small></h2>    
 
-    <p>
-        <?= Html::a('Create Cs Objects', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<p><?= Html::a('Create Cs Objects', ['create'], ['class' => 'btn btn-success']) ?></p>
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'name',
             'object_type_id',
             'object_id',
-            // 'type',
-            // 'favour',
-            // 'image_id',
-            // 'status',
-            // 'added_by',
-            // 'added_time',
-            // 'description',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                /*'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('<i class="material-icons">remove_red_eye</i>', ['view', 'id' => $model->id], ['class' => '']);
+                    },
 
-            ['class' => 'yii\grid\ActionColumn'],
+                    'update' => function ($url, $model, $key) {
+                        return \Yii::$app->user->can('manageCoreDatabase') ? Html::a('<i class="material-icons">edit</i>', ['update', 'id' => $model->id], ['class' => '']) : '';
+                    },
+
+                    'delete' => function ($url, $model, $key) {
+                        return \Yii::$app->user->can('manageCoreDatabase') ? Html::a('<i class="material-icons">delete</i>', ['delete', 'id' => $model->id], ['class' => '', 'data' => [
+                                'confirm' => 'Are you sure you want to delete this item?','method' => 'post']]) : '';
+                    },
+                ],   */                     
+            ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

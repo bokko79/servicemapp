@@ -15,7 +15,6 @@ use Yii;
  * @property string $hint
  * @property string $image_id
  * @property string $video_link
- * @property string $description
  */
 class CsPropertyValues extends \yii\db\ActiveRecord
 {
@@ -35,7 +34,6 @@ class CsPropertyValues extends \yii\db\ActiveRecord
         return [
             [['property_id', 'value'], 'required'],
             [['property_id', 'selected_value', 'image_id'], 'integer'],
-            [['description'], 'string'],
             [['property_name', 'value'], 'string', 'max' => 128],
             [['hint', 'video_link'], 'string', 'max' => 256],
         ];
@@ -55,7 +53,6 @@ class CsPropertyValues extends \yii\db\ActiveRecord
             'hint' => Yii::t('app', 'Hint'),
             'image_id' => Yii::t('app', 'Image ID'),
             'video_link' => Yii::t('app', 'Video Link'),
-            'description' => Yii::t('app', 'Description'),
         ];
     }
 
@@ -70,13 +67,57 @@ class CsPropertyValues extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTranslation()
+    public function getParentPropertyValue()
     {
-        $property_translation = \common\models\CsPropertyValuesTranslation::find()->where('lang_code="SR" and property_value_id='.$this->id)->one();
-        if($property_translation) {
-            return $property_translation;
-        }
-        return false;        
+        return $this->hasOne(CsPropertyValues::className(), ['property_value_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getChildrenPropertyModels()
+    {
+        return $this->hasMany(CsPropertyValues::className(), ['id' => 'property_value_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderServiceObjectPropertyValues()
+    {
+        return $this->hasMany(OrderServiceObjectPropertyValues::className(), ['id' => 'property_value_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationObjectPropertyValues()
+    {
+        return $this->hasMany(PresentationObjectPropertyValues::className(), ['id' => 'property_value_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPresentationActionPropertyValues()
+    {
+        return $this->hasMany(PresentationActionPropertyValues::className(), ['id' => 'property_value_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserObjectPropertyValues()
+    {
+        return $this->hasMany(UserObjectPropertyValues::className(), ['id' => 'property_value_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProviderIndustryProperties()
+    {
+        return $this->hasMany(ProviderIndustryProperties::className(), ['id' => 'property_value_id']);
     }
 
     /**
@@ -85,6 +126,18 @@ class CsPropertyValues extends \yii\db\ActiveRecord
     public function getT()
     {
         return $this->hasMany(CsPropertyValuesTranslation::className(), ['property_value_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslation()
+    {
+        $property_model_translation = CsPropertyValuesTranslation::find()->where('lang_code="SR" and property_value_id='.$this->id)->one();
+        if($property_model_translation) {
+            return $property_model_translation;
+        }
+        return false;        
     }
 
     /**
@@ -101,21 +154,40 @@ class CsPropertyValues extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransl()
+    public function getLabel()
     {
-        $property_translation = \common\models\CsPropertyValuesTranslation::find()->where('lang_code="SR" and property_value_id='.$this->id);
-        if($property_translation) {
-            return $property_translation;
-        }
-        return false;        
+        if($this->getTranslation()) {
+            return Yii::$app->operator->sentenceCase($this->getTranslation()->name);
+        }       
+        return false;   
+    } 
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameWithHint()
+    {
+        if ($this->hint!=null) {
+            return $this->label . '<span data-container="body" data-toggle="popover" data-placement="top" data-content="'.$this->hint.'">
+                 <i class="fa fa-question-circle gray-color"></i>
+                </span>'; 
+        } else {
+            return $this->label;
+        }               
     }
 
     /**
-     * @inheritdoc
-     * @return CsPropertyValuesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getTNameWithMedia()
     {
-        return new CsPropertyValuesQuery(get_called_class());
+        $image = yii\helpers\Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg', ['style'=>'width:100%; height:110px; margin: 5px 0 10px']);
+        if ($this->hint!=null) {
+            return $this->label . '<span data-container="body" data-toggle="popover" data-placement="top" data-content="'.$this->hint.'">
+                 <i class="fa fa-question-circle gray-color"></i>
+                </span>' . $image; 
+        } else {
+            return $this->label . $image;
+        } 
     }
 }

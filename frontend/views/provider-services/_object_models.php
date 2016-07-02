@@ -6,7 +6,7 @@ use kartik\widgets\ActiveField;
 use yii\helpers\ArrayHelper;
 
 $o_models = $object->models;
-$new_presentation = new \frontend\models\ProviderServices;
+$new_presentation = new \common\models\ProviderServices;
 $model_list = ArrayHelper::map($o_models, 'id', 'sCaseName');
 ?>
 <?php $form = kartik\widgets\ActiveForm::begin([

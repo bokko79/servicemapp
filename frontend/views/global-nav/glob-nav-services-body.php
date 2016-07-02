@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use frontend\models\CsServices;
+use common\models\CsServices;
 use frontend\widgets\ServiceBox;
 ?>
 <!-- VIEWED SERVICES -->

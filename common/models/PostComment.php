@@ -13,7 +13,6 @@ use Yii;
  * @property string $text
  * @property string $status
  * @property string $time
- * @property string $opis
  *
  * @property Posts $post
  * @property User $user
@@ -36,7 +35,7 @@ class PostComment extends \yii\db\ActiveRecord
         return [
             [['user_id', 'post_id', 'text', 'time'], 'required'],
             [['user_id', 'post_id'], 'integer'],
-            [['text', 'status', 'opis'], 'string'],
+            [['text', 'status'], 'string'],
             [['time'], 'safe']
         ];
     }
@@ -47,13 +46,12 @@ class PostComment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'post_id' => 'Post.',
-            'text' => 'Tekst komentara na post.',
-            'status' => 'Status komentara na post. active - aktivan; banned - ukinut; deleted - obrisan; edited - izmenjen.',
-            'time' => 'Datum i vreme komentara na post.',
-            'opis' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'post_id' => Yii::t('app', 'Post ID'),
+            'text' => Yii::t('app', 'Text'),
+            'status' => Yii::t('app', 'Status'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -71,14 +69,5 @@ class PostComment extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return PostCommentQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PostCommentQuery(get_called_class());
     }
 }

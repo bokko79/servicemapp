@@ -52,7 +52,7 @@ class GlobalNavController extends \yii\web\Controller
 
     public function actionInd($id)
     {
-        $sek = \frontend\models\CsSectors::findOne($id);
+        $sek = \common\models\CsSectors::findOne($id);
         return $this->renderPartial('industry-popup', ['sek'=>$sek]);
     }
 

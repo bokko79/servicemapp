@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
 
-$service = frontend\models\CsServices::findOne($order_service['service']);
+$service = common\models\CsServices::findOne($order_service['service']);
 ?>          
 <div class="card_container record-full no-shadow transparent fadeIn animated" id="card_container" style="float:none;">   
     <table class="main-context"> 

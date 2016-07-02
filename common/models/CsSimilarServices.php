@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property integer $service_id
  * @property integer $sim_service_id
- * @property string $description
  *
  * @property CsServices $service
  * @property CsServices $simService
@@ -33,7 +32,6 @@ class CsSimilarServices extends \yii\db\ActiveRecord
         return [
             [['service_id', 'sim_service_id'], 'required'],
             [['service_id', 'sim_service_id'], 'integer'],
-            [['description'], 'string']
         ];
     }
 
@@ -43,10 +41,9 @@ class CsSimilarServices extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'service_id' => 'Usluga.',
-            'sim_service_id' => 'Slična usluga onoj iz kolone service_id.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'service_id' => Yii::t('app', 'Service ID'),
+            'sim_service_id' => Yii::t('app', 'Sim Service ID'),
         ];
     }
 
@@ -64,14 +61,5 @@ class CsSimilarServices extends \yii\db\ActiveRecord
     public function getSimService()
     {
         return $this->hasOne(CsServices::className(), ['id' => 'sim_service_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsSimilarServicesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsSimilarServicesQuery(get_called_class());
     }
 }

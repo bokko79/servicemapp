@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property integer $service_id
  * @property integer $regulation_id
- * @property string $description
  *
  * @property CsServices $service
  * @property CsRegulations $regulation
@@ -33,7 +32,6 @@ class CsServiceRegulations extends \yii\db\ActiveRecord
         return [
             [['service_id', 'regulation_id'], 'required'],
             [['service_id', 'regulation_id'], 'integer'],
-            [['description'], 'string']
         ];
     }
 
@@ -43,10 +41,9 @@ class CsServiceRegulations extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'service_id' => 'Usluga',
-            'regulation_id' => 'Zakonska regulativa',
-            'description' => 'Opis stavke',
+            'id' => Yii::t('app', 'ID'),
+            'service_id' => Yii::t('app', 'Service ID'),
+            'regulation_id' => Yii::t('app', 'Regulation ID'),
         ];
     }
 
@@ -64,14 +61,5 @@ class CsServiceRegulations extends \yii\db\ActiveRecord
     public function getRegulation()
     {
         return $this->hasOne(CsRegulations::className(), ['id' => 'regulation_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsServiceRegulationsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsServiceRegulationsQuery(get_called_class());
     }
 }

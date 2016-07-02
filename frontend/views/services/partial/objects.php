@@ -15,7 +15,7 @@ use kartik\tabs\TabsX;
         </div>
         <div class="title">
             <div class="head grand"><?= c($object->tName) ?> <?= ($object->parent) ? '<span class="head major thin">['.c($object->parent->tName).']</span>' : null ?></div>
-            <div class="subhead"><?= c($object->oType->tName) ?> <i class="fa fa-caret-right"></i> <?= c($object->oType->class->tName) ?></div>
+            <div class="subhead"><?= c($object->oType->tName) ?></div>
         </div>          
     </div>
     <div class="secondary-context avatar-padded cont col-md-6">

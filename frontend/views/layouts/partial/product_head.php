@@ -245,7 +245,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
 <?php endif; ?>
 	<div class="maps margin-top-20 margin-bottom-20">
     	
-    	<?php  $user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
+    	<?php  $user = \common\models\User::findOne(Yii::$app->user->id); ?>
     	<?php //print_r($user); die();  ?>
     	<?php /* Rastojanje od vas <?= $model->loc->distanceTo($user->location) ?>km */ ?>
     </div>

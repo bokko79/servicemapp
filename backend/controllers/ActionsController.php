@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\CsActions;
+use common\models\CsActionsTranslation;
 use common\models\CsActionsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -13,7 +14,9 @@ use yii\filters\VerbFilter;
  * ActionsController implements the CRUD actions for CsActions model.
  */
 class ActionsController extends Controller
-{    
+{ 
+    public $layout = '/admin';
+    
     /**
      * @inheritdoc
      */
@@ -64,12 +67,20 @@ class ActionsController extends Controller
     public function actionCreate()
     {
         $model = new CsActions();
+        $model_trans = new CsActionsTranslation();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+            if($model->save()){
+                $model_trans->action_id = $model->id;
+                $model_trans->orig_name = $model->name;
+                $model_trans->save();
+                
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }
@@ -83,12 +94,18 @@ class ActionsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_trans = $model->translation;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+            
+            $model->save();
+            $model_trans->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }

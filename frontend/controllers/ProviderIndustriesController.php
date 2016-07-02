@@ -3,9 +3,9 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\ProviderIndustries;
-use frontend\models\ProviderIndustriesSearch;
-use frontend\models\User;
+use common\models\ProviderIndustries;
+use common\models\ProviderIndustriesSearch;
+use common\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

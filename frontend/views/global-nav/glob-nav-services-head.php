@@ -40,7 +40,7 @@ use yii\helpers\ArrayHelper;
 			'action' => ['/services'],
         	'method' => 'get',
 		]); ?>
-			<?= $form->field(new \frontend\models\CsServicesSearch, 'name', [				
+			<?= $form->field(new \common\models\CsServicesSearch, 'name', [				
 				'options' => ['placeholder' => 'Pretražite usluge pomoću ključih reči...',],
 				'addon' => [
 					'prepend' => ['content'=>'Usluge'],

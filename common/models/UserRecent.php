@@ -44,11 +44,11 @@ class UserRecent extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'recent_type' => 'Stavka koja je posećena. request - zahtev za uslugu; service - usluga; deal - promocija za uslugu; industry - uslužna delatnost; provider - pružalac usluge; object - predmet usluge; ',
-            'recent_id' => 'ID stavke iz kolone recent_type',
-            'time' => 'Datum i vreme posete stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'recent_type' => Yii::t('app', 'Recent Type'),
+            'recent_id' => Yii::t('app', 'Recent ID'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -58,14 +58,5 @@ class UserRecent extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserRecentQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserRecentQuery(get_called_class());
     }
 }

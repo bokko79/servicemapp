@@ -3,10 +3,10 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\UserNotifications;
-use frontend\models\UserNotificationsSms;
-use frontend\models\UserNotificationsSearch;
-use frontend\models\User;
+use common\models\UserNotifications;
+use common\models\UserNotificationsSms;
+use common\models\UserNotificationsSearch;
+use common\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,7 +32,7 @@ class UserNotificationsController extends Controller
     public function actionUpdate($username=null)
     {
         if (isset($username)) {
-            $user = \frontend\models\User::find()->where(['username'=>$username])->one();
+            $user = User::find()->where(['username'=>$username])->one();
         }
 
         if($user) {

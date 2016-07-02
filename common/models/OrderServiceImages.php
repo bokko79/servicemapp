@@ -31,7 +31,10 @@ class OrderServiceImages extends \yii\db\ActiveRecord
     {
         return [
             [['order_service_id', 'image_id'], 'required'],
-            [['order_service_id', 'image_id'], 'integer']
+            [['order_service_id', 'image_id'], 'integer'],
+            [['type'], 'string'],
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],
+            [['order_service_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrderServices::className(), 'targetAttribute' => ['order_service_id' => 'id']],
         ];
     }
 
@@ -41,9 +44,9 @@ class OrderServiceImages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'order_service_id' => 'Usluga zahteva.',
-            'image_id' => 'Slika/dokument.',
+            'id' => Yii::t('app', 'ID'),
+            'order_service_id' => Yii::t('app', 'Order Service ID'),
+            'image_id' => Yii::t('app', 'Image ID'),
         ];
     }
 
@@ -61,14 +64,5 @@ class OrderServiceImages extends \yii\db\ActiveRecord
     public function getOrderService()
     {
         return $this->hasOne(OrderServices::className(), ['id' => 'order_service_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return OrderServiceImagesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new OrderServiceImagesQuery(get_called_class());
     }
 }

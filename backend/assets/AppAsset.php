@@ -21,19 +21,11 @@ class AppAsset extends AssetBundle
         'css/style.css',
         'css/style_box.css',
         'css/style_form.css',
-        'css/style_home.css',
-        'css/style_index.css',
-        'css/style_profile.css',
-        'css/style_view.css',
-        'css/style_uac.css',
         'css/animate.css',
     ];
     public $js = [
         'js/masonry.pkgd.min.js',
         'js/app.js',
-        'js/service_index.js',
-        'js/cards.js',
-        'js/easy-ticker.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

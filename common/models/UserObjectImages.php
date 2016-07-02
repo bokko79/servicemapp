@@ -41,9 +41,9 @@ class UserObjectImages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_object_id' => 'Korisnikov predmet usluge.',
-            'image_id' => 'Slika/dokument.',
+            'id' => Yii::t('app', 'ID'),
+            'user_object_id' => Yii::t('app', 'User Object ID'),
+            'image_id' => Yii::t('app', 'Image ID'),
         ];
     }
 
@@ -61,14 +61,5 @@ class UserObjectImages extends \yii\db\ActiveRecord
     public function getImage()
     {
         return $this->hasOne(Images::className(), ['id' => 'image_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserObjectImagesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserObjectImagesQuery(get_called_class());
     }
 }

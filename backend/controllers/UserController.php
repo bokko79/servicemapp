@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\User;
-use backend\models\UserSearch;
+use common\models\User;
+use common\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,6 +14,8 @@ use yii\filters\VerbFilter;
  */
 class UserController extends Controller
 {
+    public $layout = '/admin';
+    
     public function behaviors()
     {
         return [

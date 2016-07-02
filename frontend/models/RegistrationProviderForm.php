@@ -148,7 +148,7 @@ class RegistrationProviderForm extends BaseForm
         }
 
         /** @var User $user */
-        $user = new \frontend\models\User();
+        $user = new \common\models\User();
         $user->setScenario('register');
         $this->loadAttributes($user);
 

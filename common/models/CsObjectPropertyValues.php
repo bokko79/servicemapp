@@ -11,8 +11,8 @@ use Yii;
  * @property string $object_property_id
  * @property string $property_value_id
  * @property integer $selected_value
- * @property string $description
  */
+
 class CsObjectPropertyValues extends \yii\db\ActiveRecord
 {
     /**
@@ -31,7 +31,6 @@ class CsObjectPropertyValues extends \yii\db\ActiveRecord
         return [
             [['object_property_id', 'property_value_id'], 'required'],
             [['object_property_id', 'property_value_id', 'selected_value'], 'integer'],
-            [['description'], 'string'],
         ];
     }
 
@@ -45,16 +44,38 @@ class CsObjectPropertyValues extends \yii\db\ActiveRecord
             'object_property_id' => Yii::t('app', 'Object Property ID'),
             'property_value_id' => Yii::t('app', 'Property Value ID'),
             'selected_value' => Yii::t('app', 'Selected Value'),
-            'description' => Yii::t('app', 'Description'),
         ];
     }
 
     /**
-     * @inheritdoc
-     * @return CsObjectPropertyValuesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getObjectProperty()
     {
-        return new CsObjectPropertyValuesQuery(get_called_class());
+        return $this->hasOne(CsObjectProperties::className(), ['id' => 'object_property_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPropertyValue()
+    {
+        return $this->hasOne(CsPropertyValues::className(), ['id' => 'property_value_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getObject()
+    {
+        return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServiceObjectPropertyValues()
+    {
+        return $this->hasMany(CsServiceObjectPropertyValues::className(), ['object_property_value_id' => 'id']);
     }
 }

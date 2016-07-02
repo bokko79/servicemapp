@@ -25,7 +25,6 @@ use Yii;
  * @property string $status
  * @property string $time
  * @property string $update_time
- * @property string $opis
  *
  * @property CsCurrencies $currency
  * @property Promotions $promo
@@ -49,7 +48,7 @@ class UserOrder extends \yii\db\ActiveRecord
         return [
             [['user_id', 'order_no', 'item', 'item_title', 'quantity', 'price', 'currency_id', 'tax_rate', 'discount', 'total_price', 'invoice_location', 'bank_account', 'status', 'time'], 'required'],
             [['user_id', 'order_no', 'promo_id', 'quantity', 'price', 'currency_id', 'tax_rate', 'discount', 'total_price'], 'integer'],
-            [['item', 'status', 'opis'], 'string'],
+            [['item', 'status'], 'string'],
             [['time', 'update_time'], 'safe'],
             [['invoice_no'], 'string', 'max' => 11],
             [['item_title'], 'string', 'max' => 250],
@@ -64,25 +63,24 @@ class UserOrder extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'invoice_no' => 'Broj računa/fakture.',
-            'order_no' => 'Broj porudžbenice.',
-            'item' => 'Proizvod koji se kupuje. Promocija usluge. Članstvo. Baner.',
-            'item_title' => 'Naslov stavke (proizvoda).',
-            'promo_id' => 'Promocija usluge (ukoliko se ona kupuje).',
-            'quantity' => 'Količina.',
-            'price' => 'Cena.',
-            'currency_id' => 'Valuta.',
-            'tax_rate' => 'Porez u %.',
-            'discount' => 'Popust u %.',
-            'total_price' => 'Ukupna cena (TOTAL).',
-            'invoice_location' => 'Mesto plaćanja.',
-            'bank_account' => 'Račun plaćanja.',
-            'status' => 'Status porudžbenice. payed - plaćeno; unpayed - neplaćeno; rejected - odbačeno; suspended - zamrznuto; refunded - vraćen novac; other - ostalo. ',
-            'time' => 'Datum i vreme porudžbenice.',
-            'update_time' => 'Datum i vreme izmene porudžbenice.',
-            'opis' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'invoice_no' => Yii::t('app', 'Invoice No'),
+            'order_no' => Yii::t('app', 'Order No'),
+            'item' => Yii::t('app', 'Item'),
+            'item_title' => Yii::t('app', 'Item Title'),
+            'promo_id' => Yii::t('app', 'Promo ID'),
+            'quantity' => Yii::t('app', 'Quantity'),
+            'price' => Yii::t('app', 'Price'),
+            'currency_id' => Yii::t('app', 'Currency ID'),
+            'tax_rate' => Yii::t('app', 'Tax Rate'),
+            'discount' => Yii::t('app', 'Discount'),
+            'total_price' => Yii::t('app', 'Total Price'),
+            'invoice_location' => Yii::t('app', 'Invoice Location'),
+            'bank_account' => Yii::t('app', 'Bank Account'),
+            'status' => Yii::t('app', 'Status'),
+            'time' => Yii::t('app', 'Time'),
+            'update_time' => Yii::t('app', 'Update Time'),
         ];
     }
 
@@ -108,14 +106,5 @@ class UserOrder extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserOrderQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserOrderQuery(get_called_class());
     }
 }

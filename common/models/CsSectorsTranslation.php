@@ -12,7 +12,6 @@ use Yii;
  * @property string $lang_code
  * @property string $name
  * @property string $orig_name
- * @property string $description
  *
  * @property CsLanguages $langCode
  * @property CsSectors $sector
@@ -35,7 +34,6 @@ class CsSectorsTranslation extends \yii\db\ActiveRecord
         return [
             [['sector_id', 'lang_code', 'name'], 'required'],
             [['sector_id'], 'integer'],
-            [['description'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
             [['name'], 'string', 'max' => 100],
             [['orig_name'], 'string', 'max' => 50]
@@ -53,7 +51,6 @@ class CsSectorsTranslation extends \yii\db\ActiveRecord
             'lang_code' => 'Jezik.',
             'name' => 'Prevod imena sektora usluga.',
             'orig_name' => 'Originalno ime sektora usluga (iz tabele sektor_usluga).',
-            'description' => 'Opis stavke.',
         ];
     }
 
@@ -71,14 +68,5 @@ class CsSectorsTranslation extends \yii\db\ActiveRecord
     public function getSector()
     {
         return $this->hasOne(CsSectors::className(), ['id' => 'sector_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsSectorsTranslationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsSectorsTranslationQuery(get_called_class());
     }
 }

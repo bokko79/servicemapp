@@ -10,24 +10,18 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
-    'modules' => [
-        'user' => [
-            // following line will restrict access to profile, recovery, registration and settings controllers from backend
-            'as backend' => 'dektrium\user\filters\BackendFilter',
-        ],
-    ],
+    'bootstrap' => ['log'],    
     'components' => [
-        /*'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-        ],*/
         'user' => [
             'identityCookie' => [
                 'name'     => '_backendIdentity',
                 'path'     => '/',
                 'httpOnly' => true,
             ],
+            'identityClass' => 'common\models\User',
+            'class' => 'common\components\User',
+            'enableAutoLogin' => true,
+            'loginUrl' => ['site/login'],
         ],
         'session' => [
             'name' => 'BACKENDSESSID',
@@ -47,6 +41,12 @@ return [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+    ],
+    'modules' => [
+        'user' => [
+            // following line will restrict access to profile, recovery, registration and settings controllers from backend
+            'as backend' => 'dektrium\user\filters\BackendFilter',
         ],
     ],
     'params' => $params,

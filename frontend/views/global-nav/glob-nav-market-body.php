@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use frontend\models\Activities;
+use common\models\Activities;
 use frontend\widgets\ActivityBox;
 ?>
 <!-- MY EVENTS -->

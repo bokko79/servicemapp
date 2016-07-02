@@ -7,30 +7,27 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsPropertiesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Properties';
+$this->title = 'Properties';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-properties-index">
 
-    <h1><?php echo Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<h2><?= Html::encode($this->title) ?> <small>Properties</small></h2>
+<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Cs Properties', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+<p>
+    <?= Html::a('Create a Property', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
+<?php Pjax::begin(); ?>    
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        'id',
+        'name',
+        'type',
+        'multiple_values',
 
-            'id',
-            'name',
-            'type',
-            'multiple_values',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+        ['class' => 'yii\grid\ActionColumn'],
+    ],
+]); ?>
 <?php Pjax::end(); ?>
-</div>

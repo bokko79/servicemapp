@@ -91,7 +91,7 @@ class SiteController extends Controller
     {
         $this->layout = '//settings';
 
-        $user = \frontend\models\User::findOne(Yii::$app->user->id);
+        $user = \common\models\User::findOne(Yii::$app->user->id);
         $role = $user ? $user->details->role : null;
 
         return $this->render('membership', [
@@ -277,7 +277,7 @@ class SiteController extends Controller
     /*public function actionSignup()
     {
         $model = new SignupForm();
-        $location = new \frontend\models\Locations();
+        $location = new \common\models\Locations();
         if ($model->load(Yii::$app->request->post()) && ($user = $model->signup())) {      
             if($this->saveUser($location, $user, $model)){
                 if (Yii::$app->getUser()->login($user)) {
@@ -357,7 +357,7 @@ class SiteController extends Controller
         Yii::$app->response->cookies->add($languageCookie);
 
         if(!Yii::$app->user->isGuest){
-            $user = \frontend\models\User::findOne(Yii::$app->user->id);
+            $user = \common\models\User::findOne(Yii::$app->user->id);
             $user->details->lang_code = $language;
             $user->save();
         }
@@ -383,7 +383,7 @@ class SiteController extends Controller
         Yii::$app->response->cookies->add($currencyCookie);
 
         if(!Yii::$app->user->isGuest){
-            $user = \frontend\models\User::findOne(Yii::$app->user->id);
+            $user = \common\models\User::findOne(Yii::$app->user->id);
             $user->details->currency_id = $currency;
             $user->save();
         }
@@ -505,7 +505,7 @@ class SiteController extends Controller
      */
     protected function findUser($id)
     {
-        if (($model = \frontend\models\User::findOne($id)) !== null) {
+        if (($model = \common\models\User::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -522,7 +522,7 @@ class SiteController extends Controller
      */
     protected function findService($id)
     {
-        if (($model = \frontend\models\CsServices::findOne($id)) !== null) {
+        if (($model = \common\models\CsServices::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -530,8 +530,8 @@ class SiteController extends Controller
     }
 
     public function findOrder($id) {   
-        if($activity = \frontend\models\Activities::find()->where(['activity' => 'order', 'user_id' => $id])->one()){
-            if($order = \frontend\models\Orders::find()->where(['activity_id' => $activity->id])->one()){
+        if($activity = \common\models\Activities::find()->where(['activity' => 'order', 'user_id' => $id])->one()){
+            if($order = \common\models\Orders::find()->where(['activity_id' => $activity->id])->one()){
                 return $order;
             }
         }
@@ -539,8 +539,8 @@ class SiteController extends Controller
     }
 
     public function findAgreement($id) {
-        if($activity = \frontend\models\Activities::find()->where(['activity' => 'agreement', 'user_id' => $id])->one()){
-            if($agreement = \frontend\models\Agreements::find()->where(['activity_id' => $activity->id])->one()){
+        if($activity = \common\models\Activities::find()->where(['activity' => 'agreement', 'user_id' => $id])->one()){
+            if($agreement = \common\models\Agreements::find()->where(['activity_id' => $activity->id])->one()){
                 return $agreement;
             }
         }
@@ -548,8 +548,8 @@ class SiteController extends Controller
     }
 
     public function findPresentation($id) {
-        if($activity = \frontend\models\Activities::find()->where(['activity' => 'presentation', 'user_id' => $id])->one()){
-            if($presentation = \frontend\models\Presentations::find()->where(['activity_id' => $activity->id])->one()){
+        if($activity = \common\models\Activities::find()->where(['activity' => 'presentation', 'user_id' => $id])->one()){
+            if($presentation = \common\models\Presentations::find()->where(['activity_id' => $activity->id])->one()){
                 return $presentation;
             }
         }
@@ -557,8 +557,8 @@ class SiteController extends Controller
     }
 
     public function findBid($id) {
-        if($activity = \frontend\models\Activities::find()->where(['activity' => 'bid', 'user_id' => $id])->one()){
-            if($bid = \frontend\models\Bids::find()->where(['activity_id' => $activity->id])->one()){
+        if($activity = \common\models\Activities::find()->where(['activity' => 'bid', 'user_id' => $id])->one()){
+            if($bid = \common\models\Bids::find()->where(['activity_id' => $activity->id])->one()){
                 return $bid;
             }
         }

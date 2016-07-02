@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\CsObjects;
-use frontend\models\CsObjectsSearch;
+use common\models\CsObjects;
+use common\models\CsObjectsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

@@ -110,13 +110,4 @@ class BidTerms extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Bids::className(), ['id' => 'bid_id']);
     }
-
-    /**
-     * @inheritdoc
-     * @return BidTermsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new BidTermsQuery(get_called_class());
-    }
 }

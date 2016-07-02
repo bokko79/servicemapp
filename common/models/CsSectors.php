@@ -73,11 +73,25 @@ class CsSectors extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return CsSectorsQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getTranslation()
     {
-        return new CsSectorsQuery(get_called_class());
+        $sector_translation = CsSectorsTranslation::find()->where('lang_code="SR" and sector_id='.$this->id)->one();
+        if($sector_translation) {
+            return $sector_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
     }
 }

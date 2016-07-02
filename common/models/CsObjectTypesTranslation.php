@@ -12,7 +12,6 @@ use Yii;
  * @property string $lang_code
  * @property string $name
  * @property string $orig_name
- * @property string $description
  *
  * @property CsObjectTypes $objectType
  * @property CsLanguages $langCode
@@ -35,7 +34,6 @@ class CsObjectTypesTranslation extends \yii\db\ActiveRecord
         return [
             [['object_type_id', 'lang_code', 'name'], 'required'],
             [['object_type_id'], 'integer'],
-            [['description'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
             [['name'], 'string', 'max' => 100],
             [['orig_name'], 'string', 'max' => 50]
@@ -53,7 +51,6 @@ class CsObjectTypesTranslation extends \yii\db\ActiveRecord
             'lang_code' => 'Jezik.',
             'name' => 'Prevod imena Vrste predmeta usluge.',
             'orig_name' => 'Originalno ime Vrste predmeta usluge (iz tabele object_types).',
-            'description' => 'Opis stavke.',
         ];
     }
 
@@ -71,14 +68,5 @@ class CsObjectTypesTranslation extends \yii\db\ActiveRecord
     public function getLangCode()
     {
         return $this->hasOne(CsLanguages::className(), ['code' => 'lang_code']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CsObjectTypesTranslationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsObjectTypesTranslationQuery(get_called_class());
     }
 }

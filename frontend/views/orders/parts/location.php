@@ -21,7 +21,7 @@ $message = 'Lokacija za izvršenje usluga.';
 <?php 
 	if($service->location==1 or $service->location==3){
 		if(!Yii::$app->user->isGuest) { 
-			$user = \frontend\models\User::findOne(Yii::$app->user->id); ?>
+			$user = \common\models\User::findOne(Yii::$app->user->id); ?>
 			<?= $form->field($model, 'loc_id', [])->dropDownList(ArrayHelper::map($user->locations, 'id', 'location_name'), ['prompt'=>'Izaberite jednu od sačuvanih lokacija', 'class'=>'input-lg']) ?>
 			<div class="form-group">
 	            <div class="col-md-offset-3 col-md-9" style="">	                

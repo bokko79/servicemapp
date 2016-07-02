@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
     ]); ?>
 
     <?= $form->field($model, 'post_category_id', ['options' =>['style'=>'width:220px; float:left;']])->widget(Select2::classname(), [
-                                'data' => ArrayHelper::map(\frontend\models\PostCategory::find()->all(), 'id', 'ime'),
+                                'data' => ArrayHelper::map(\common\models\PostCategory::find()->all(), 'id', 'ime'),
                                 'options' => ['placeholder' => 'Select object type ...'],
                                 'pluginOptions' => [
                                     'allowClear' => true

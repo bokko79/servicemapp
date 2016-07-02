@@ -13,7 +13,7 @@ use Yii;
  * @property string $type
  * @property string $status
  * @property string $time
- * @property string $description
+ * @property string $update_time
  *
  * @property User $user
  * @property ActivityComments[] $activityComments
@@ -44,9 +44,16 @@ class Activities extends \yii\db\ActiveRecord
     {
         return [
             [['activity', 'user_id', 'time'], 'required'],
-            [['activity', 'type', 'status', 'description'], 'string'],
+            [['activity', 'type', 'status'], 'string'],
             [['user_id'], 'integer'],
-            [['time'], 'safe']
+            [['activity'], 'default', 'value'=>'order'],
+            [['user_id'], 'default', 'value'=>Yii::$app->user->id],
+            [['type'], 'default', 'value'=>'normal'],
+            [['status'], 'default', 'value'=>'active'],
+            [['time', 'update_time'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
+            //[['time'], 'default', 'value'=>date('Y-m-d H:i:s')],
         ];
     }
 
@@ -56,13 +63,12 @@ class Activities extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'activity' => 'Stavka.',
-            'user_id' => 'Kreator stavke.',
-            'type' => 'Vrsta stavke.',
-            'status' => 'Status stavke.',
-            'time' => 'Vreme kreiranja stavke.',
-            'description' => 'Opis stavke.',
+            'id' => Yii::t('app', 'ID'),
+            'activity' => Yii::t('app', 'Activity'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'type' => Yii::t('app', 'Type'),
+            'status' => Yii::t('app', 'Status'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -93,25 +99,25 @@ class Activities extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAgreements()
+    public function getAgreement()
     {
-        return $this->hasMany(Agreements::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Agreements::className(), ['activity_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBids()
+    public function getBid()
     {
-        return $this->hasMany(Bids::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Bids::className(), ['activity_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFeedbacks()
+    public function getFeedback()
     {
-        return $this->hasMany(Feedback::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Feedback::className(), ['activity_id' => 'id']);
     }
 
     /**
@@ -125,41 +131,97 @@ class Activities extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOffers()
+    public function getOffer()
     {
-        return $this->hasMany(Offers::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Offers::className(), ['activity_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrder()
+    {
+        return $this->hasOne(Orders::className(), ['activity_id' => 'id']);
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getOrderServices()
     {
-        return $this->hasMany(OrderServices::className(), ['activity_id' => 'id']);
+        return $this->order->services;
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentations()
+    public function getPresentation()
     {
-        return $this->hasMany(Presentations::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Presentations::className(), ['activity_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPromotions()
+    public function getPromotion()
     {
-        return $this->hasMany(Promotions::className(), ['activity_id' => 'id']);
+        return $this->hasOne(Promotions::className(), ['id' => 'activity_id']);
     }
 
     /**
-     * @inheritdoc
-     * @return ActivitiesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function FeedText()
     {
-        return new ActivitiesQuery(get_called_class());
+        switch ($this->activity) {
+            case 'order':
+                return Yii::t('app', 'poručuje uslugu');
+                break;
+
+            case 'promotion':
+                return Yii::t('app', 'promoviše uslugu');
+                break;
+
+            case 'bid':
+                return Yii::t('app', 'daje ponudu na poručene usluge');
+                break;
+
+            case 'agreement':
+                return Yii::t('app', 'je izabrao pružaoca usluge');
+                break;
+
+            case 'feedback':
+                return Yii::t('app', 'je ocenio pružaoca usluge');
+                break;
+
+            case 'comment_order':
+                return Yii::t('app', 'komentariše na porudžbinu usluge');
+                break;
+            
+            default:
+                return Yii::t('app', 'promoviše uslugu');
+                break;
+        }
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function loadActivity($user, $action='order', $type='normal', $status='active')
+    {
+        $activity = new Activities();
+        $activity->activity = $action;
+        $activity->user_id = $user;
+        $activity->type = $type;
+        $activity->status = $status;
+        $activity->time = date('Y-m-d H:i:s');
+        $activity->update_time = date('Y-m-d H:i:s');
+
+        if($activity){
+            return $activity;
+        } else {
+            return false; 
+        }
     }
 }

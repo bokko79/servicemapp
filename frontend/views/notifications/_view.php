@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
-use frontend\models\Notifications;
+use common\models\Notifications;
 use yii\helpers\Url;
 ?>
 <?php

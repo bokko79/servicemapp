@@ -62,13 +62,4 @@ class BidTermMilestones extends \yii\db\ActiveRecord
     {
         return $this->hasOne(BidTerms::className(), ['bid_id' => 'bid_term_id']);
     }
-
-    /**
-     * @inheritdoc
-     * @return BidTermMilestonesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new BidTermMilestonesQuery(get_called_class());
-    }
 }

@@ -3,9 +3,9 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\UserLocations;
-use frontend\models\UserLocationsSearch;
-use frontend\models\User;
+use common\models\UserLocations;
+use common\models\UserLocationsSearch;
+use common\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

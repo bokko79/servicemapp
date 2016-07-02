@@ -7,10 +7,10 @@ use kartik\widgets\ActiveForm;
 use kartik\select2\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use yii\helpers\ArrayHelper;
-use frontend\models\CsServices;
+use common\models\CsServices;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\ProviderSearch */
+/* @var $searchModel common\models\ProviderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Provajderi');

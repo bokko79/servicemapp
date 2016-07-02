@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\imagine\Image;
 
 /**
  * This is the model class for table "cs_objects".
@@ -15,7 +16,6 @@ use Yii;
  * @property string $class
  * @property integer $favour
  * @property string $image_id
- * @property string $description
  *
  * @property CsObjects[] $csObjects
  * @property CsObjectIssues[] $csObjectIssues
@@ -29,6 +29,9 @@ use Yii;
  */
 class CsObjects extends \yii\db\ActiveRecord
 {
+
+    public $imageFile; 
+
     /**
      * @inheritdoc
      */
@@ -44,9 +47,11 @@ class CsObjects extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
+            [['name'], 'unique'],
             [['object_type_id', 'object_id', 'level', 'favour', 'image_id'], 'integer'],
             [['class', 'description'], 'string'],
             [['name'], 'string', 'max' => 50],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
         ];
     }
 
@@ -57,15 +62,52 @@ class CsObjects extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'Ime predmeta'),
             'object_type_id' => Yii::t('app', 'Object Type ID'),
             'level' => Yii::t('app', 'Level'), 
-            'object_id' => Yii::t('app', 'Object ID'),
-            'class' => Yii::t('app', 'Class'),
-            'favour' => Yii::t('app', 'Favour'),
+            'object_id' => Yii::t('app', 'Parent ID'),
+            'class' => Yii::t('app', 'Klasa'),
+            'favour' => Yii::t('app', 'Da li je moguće snimiti?'),
             'image_id' => Yii::t('app', 'Image ID'),
-            'description' => Yii::t('app', 'Description'),
         ];
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+
+            if($this->image and $this->image_id != 2){
+                unlink(Yii::getAlias('images/objects/thumbs/'.$this->image->ime));
+                unlink(Yii::getAlias('images/objects/'.$this->image->ime));
+            }
+           
+            $fileName = $this->id . '_' . $this->name;
+            $this->imageFile->saveAs('images/objects/' . $fileName . '1.' . $this->imageFile->extension);         
+            
+            $image = new \common\models\Images();
+            $image->ime = $fileName . '.' . $this->imageFile->extension;
+            $image->type = 'image';
+            $image->date = date('Y-m-d H:i:s');
+            
+            $thumb = 'images/objects/'.$fileName.'1.'.$this->imageFile->extension;
+            Image::thumbnail($thumb, 400, 300)->save(Yii::getAlias('images/objects/'.$fileName.'.'.$this->imageFile->extension), ['quality' => 80]);                
+            Image::thumbnail($thumb, 80, 64)->save(Yii::getAlias('images/objects/thumbs/'.$fileName.'.'.$this->imageFile->extension), ['quality' => 80]); 
+            
+            $image->save();
+
+            if($image->save()){
+                $this->image_id = $image->id;
+                $this->imageFile = null;
+                $this->save();
+            }
+
+            unlink(Yii::getAlias($thumb));
+            
+            return;
+        } else {
+
+            return false;
+        }
     }
 
      /**
@@ -143,6 +185,28 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getModels()
+    {
+        //return $this->hasMany(CsObjects::className(), ['object_id' => 'id']);
+        $models = [];
+        if ($objectProperties = $this->objectProperties){
+            foreach ($objectProperties as $key => $objectProperty) {
+                if($objectProperty->property_type=='model' and $objectPropertyValues = $objectProperty->objectPropertyValues){
+                    foreach ($objectPropertyValues as $objectPropertyValue){
+                        if($object = $objectPropertyValue->object){
+                            $models[] = $object;
+                        }                        
+                    }
+                }
+            }
+        }
+
+        return $models;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getObjectProperties()
     {
         return $this->hasMany(CsObjectProperties::className(), ['object_id' => 'id']);
@@ -201,7 +265,7 @@ class CsObjects extends \yii\db\ActiveRecord
      */
     public function getTranslation()
     {
-        $object_translation = \frontend\models\CsObjectsTranslation::find()->where('lang_code="SR" and object_id='.$this->id)->one();
+        $object_translation = \common\models\CsObjectsTranslation::find()->where('lang_code="SR" and object_id='.$this->id)->one();
         if($object_translation) {
             return $object_translation;
         }
@@ -305,12 +369,35 @@ class CsObjects extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return CsObjectsQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function isModel()
     {
-        return new CsObjectsQuery(get_called_class());
+        return $this->class=='model' ? true : false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function isPart()
+    {
+        return $this->class=='part' ? true : false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function isAbstract()
+    {
+        return $this->class=='abstract' ? true : false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function isObject()
+    {
+        return $this->class=='object' ? true : false;
     }
 
     /**
@@ -357,5 +444,15 @@ class CsObjects extends \yii\db\ActiveRecord
             }
         }
         return $properties;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameWithMedia()
+    {
+        $image = yii\helpers\Html::img('@web/images/objects/'.$this->image->ime, ['style'=>'width:100%; height:110px; margin: 5px 0 10px']);
+        
+        return c($this->tName) . $image;         
     }
 }

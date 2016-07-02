@@ -13,7 +13,6 @@ use Yii;
  * @property integer $wdth
  * @property integer $hght
  * @property string $type
- * @property string $opis
  *
  * @property Images $image
  * @property Banners $banner
@@ -34,9 +33,9 @@ class BannerMedia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['banner_id', 'wdth', 'hght', 'type', 'opis'], 'required'],
+            [['banner_id', 'wdth', 'hght', 'type'], 'required'],
             [['banner_id', 'image_id', 'wdth', 'hght'], 'integer'],
-            [['type', 'opis'], 'string']
+            [['type'], 'string']
         ];
     }
 
@@ -52,7 +51,6 @@ class BannerMedia extends \yii\db\ActiveRecord
             'wdth' => 'Širina media.',
             'hght' => 'Visina media.',
             'type' => 'Vrsta media.',
-            'opis' => 'Opis stavke.',
         ];
     }
 
@@ -70,14 +68,5 @@ class BannerMedia extends \yii\db\ActiveRecord
     public function getBanner()
     {
         return $this->hasOne(Banners::className(), ['id' => 'banner_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return BannerMediaQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new BannerMediaQuery(get_called_class());
     }
 }

@@ -4,7 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Notifications;
-use frontend\models\NotificationsSearch;
+use common\models\NotificationsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class NotificationsController extends Controller
     public function actionIndex($username=null)
     {
         if (isset($username)) {
-            $user = \frontend\models\User::find()->where(['username'=>$username])->one();
+            $user = \common\models\User::find()->where(['username'=>$username])->one();
         }
 
         if($user) {

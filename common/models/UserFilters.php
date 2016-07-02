@@ -56,23 +56,23 @@ class UserFilters extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => 'Korisnik.',
-            'kat' => 'Filter kategorije usluga.',
-            'del' => 'Filter uslužne delatnosti.',
-            'act' => 'Filter akcije usluge.',
-            'loc_country' => 'Filter države.',
-            'loc_state' => 'Filter regiona.',
-            'loc' => 'Filter grada.',
-            'status' => 'Filter statusa zahteva za uslugu.',
-            'time' => 'Filter vremena postavke zahteva za uslugu.',
-            'deadline' => 'Filter vremena do kada važi zahtev za uslugu.',
-            'ratingmin' => 'Filter minimalnog rejtinga pružaoca usluge.',
-            'ratingmax' => 'Filter maksimalnog rejtinga pružaoca usluge.',
-            'prate' => 'Filter ocene pružaoca usluge.',
-            'urate' => 'Filter ocene korisnika.',
-            'language' => 'Filter jezika.',
-            'lang' => 'Filter jezika.',
-            'update_time' => 'Datum i vreme izmene filtera.',
+            'user_id' => Yii::t('app', 'User ID'),
+            'kat' => Yii::t('app', 'Kat'),
+            'del' => Yii::t('app', 'Del'),
+            'act' => Yii::t('app', 'Act'),
+            'loc_country' => Yii::t('app', 'Loc Country'),
+            'loc_state' => Yii::t('app', 'Loc State'),
+            'loc' => Yii::t('app', 'Loc'),
+            'status' => Yii::t('app', 'Status'),
+            'time' => Yii::t('app', 'Time'),
+            'deadline' => Yii::t('app', 'Deadline'),
+            'ratingmin' => Yii::t('app', 'Ratingmin'),
+            'ratingmax' => Yii::t('app', 'Ratingmax'),
+            'prate' => Yii::t('app', 'Prate'),
+            'urate' => Yii::t('app', 'Urate'),
+            'language' => Yii::t('app', 'Language'),
+            'lang' => Yii::t('app', 'Lang'),
+            'update_time' => Yii::t('app', 'Update Time'),
         ];
     }
 
@@ -82,14 +82,5 @@ class UserFilters extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserFiltersQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserFiltersQuery(get_called_class());
     }
 }

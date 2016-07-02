@@ -55,12 +55,12 @@ class Images extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'ime' => 'Ime slike/dokumenta.',
-            'type' => 'Vrsta slike.',
-            'opis' => 'Opis slike.',
-            'base_encode' => 'Base Encode hash slike.',
-            'date' => 'Datum i vreme postavke slike.',
+            'id' => Yii::t('app', 'ID'),
+            'ime' => Yii::t('app', 'Ime'),
+            'type' => Yii::t('app', 'Type'),
+            'opis' => Yii::t('app', 'Opis'),
+            'base_encode' => Yii::t('app', 'Base Encode'),
+            'date' => Yii::t('app', 'Date'),
         ];
     }
 
@@ -153,11 +153,32 @@ class Images extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return ImagesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getImageByName($name=null)
     {
-        return new ImagesQuery(get_called_class());
+        if($name!=null){
+            $image = Images::find()->where('ime="'.$name.'"')->one();
+            if($image){
+                return $image;
+            }
+            return null;
+        }
+        return false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImageByBaseEncode($base_encode=null)
+    {
+        if($base_encode!=null){
+            $image = Images::find()->where('base_encode="'.$base_encode.'"')->one();
+            if($image){
+                return $image;
+            }
+            return null;
+        }
+        return false;
     }
 }

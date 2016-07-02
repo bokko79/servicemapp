@@ -43,10 +43,10 @@ class OrderServiceIssues extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'order_service_id' => 'Zahtevana usluga.',
-            'object_issue_id' => 'Problem vezan sa predmetom usluge.',
-            'description' => 'Korisnikov komentar na problem sa predmetom usluge.',
+            'id' => Yii::t('app', 'ID'),
+            'order_service_id' => Yii::t('app', 'Order Service ID'),
+            'object_issue_id' => Yii::t('app', 'Object Issue ID'),
+            'description' => Yii::t('app', 'Description'),
         ];
     }
 
@@ -64,14 +64,5 @@ class OrderServiceIssues extends \yii\db\ActiveRecord
     public function getObjectIssue()
     {
         return $this->hasOne(CsObjectIssues::className(), ['id' => 'object_issue_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return OrderServiceIssuesQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new OrderServiceIssuesQuery(get_called_class());
     }
 }

@@ -45,11 +45,11 @@ class Transactions extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'Korisnik.',
-            'booking_id' => 'Transakcija.',
-            'transaction_type' => 'Vrsta transakcije.',
-            'time' => 'Datum i vreme transakcije.',
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'booking_id' => Yii::t('app', 'Booking ID'),
+            'transaction_type' => Yii::t('app', 'Transaction Type'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -67,14 +67,5 @@ class Transactions extends \yii\db\ActiveRecord
     public function getBooking()
     {
         return $this->hasOne(Bookings::className(), ['id' => 'booking_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return TransactionsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new TransactionsQuery(get_called_class());
     }
 }

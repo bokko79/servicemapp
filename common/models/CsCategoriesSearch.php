@@ -19,7 +19,7 @@ class CsCategoriesSearch extends CsCategories
     {
         return [
             [['id', 'sector_id'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -63,8 +63,7 @@ class CsCategoriesSearch extends CsCategories
             'sector_id' => $this->sector_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

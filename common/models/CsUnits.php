@@ -14,13 +14,12 @@ use Yii;
  * @property string $oznaka_imp
  * @property string $ozn_htmlfree
  * @property string $ozn_htmlfree_imp
- * @property string $description
  *
  * @property Bids[] $bids
  * @property CsAttributes[] $csAttributes
  * @property CsServices[] $csServices
  * @property CsUnitsTranslation[] $csUnitsTranslations
- * @property ProviderServices[] $providerServices
+ * @property Presentations[] $presentations
  */
 class CsUnits extends \yii\db\ActiveRecord
 {
@@ -41,8 +40,8 @@ class CsUnits extends \yii\db\ActiveRecord
             [['type', 'name', 'oznaka', 'oznaka_imp'], 'required'],
             [['type'], 'string', 'max' => 30],
             [['name'], 'string', 'max' => 50],
-            [['oznaka', 'oznaka_imp', 'description'], 'string', 'max' => 25],
-            [['ozn_htmlfree', 'ozn_htmlfree_imp'], 'string', 'max' => 10]
+            [['oznaka', 'oznaka_imp'], 'string', 'max' => 25],
+            [['ozn_htmlfree', 'ozn_htmlfree_imp'], 'string', 'max' => 10],
         ];
     }
 
@@ -53,13 +52,13 @@ class CsUnits extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'type' => 'Vrsta jedinice mere.',
-            'name' => 'Ime jedinice mere u formi (metric/imperial).',
-            'oznaka' => 'Oznaka metričke jedinice mere.',
-            'oznaka_imp' => 'Oznaka imperialne jedinice mere.',
-            'ozn_htmlfree' => 'Oznaka metričke HTML jedinice mere.',
-            'ozn_htmlfree_imp' => 'Oznaka imperialne HTML jedinice mere.',
-            'description' => 'Opis jedinice mere.',
+            'type' => 'Type',
+            'name' => 'Name',
+            'oznaka' => 'Oznaka',
+            'oznaka_imp' => 'Oznaka Imp',
+            'ozn_htmlfree' => 'Ozn Htmlfree',
+            'ozn_htmlfree_imp' => 'Ozn Htmlfree Imp',
+            'description' => 'Description',
         ];
     }
 
@@ -90,6 +89,14 @@ class CsUnits extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getServiceUnits()
+    {
+        return $this->hasMany(CsServiceUnits::className(), ['unit_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getT()
     {
         return $this->hasMany(CsUnitsTranslation::className(), ['unit_id' => 'id']);
@@ -98,17 +105,50 @@ class CsUnits extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderServices()
+    public function getPresentations()
     {
-        return $this->hasMany(ProviderServices::className(), ['period_unit' => 'id']);
+        return $this->hasMany(Presentations::className(), ['duration_unit' => 'id']);
     }
 
     /**
-     * @inheritdoc
-     * @return CsUnitsQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getTranslation()
     {
-        return new CsUnitsQuery(get_called_class());
+        $unit_translation = CsUnitsTranslation::find()->where('lang_code="SR" and unit_id='.$this->id)->one();
+        if($unit_translation) {
+            return $unit_translation;
+        }
+        return false;        
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTName()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSCaseName()
+    {
+        return Yii::$app->operator->sentenceCase($this->tName); 
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameGen()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name_gen;
+        }       
+        return false;   
     }
 }

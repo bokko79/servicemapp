@@ -22,7 +22,6 @@ use Yii;
  * @property integer $fixed_price
  * @property integer $warranty
  * @property string $note
- * @property string $spec
  * @property string $reject_reason
  * @property string $report_reason
  * @property string $time
@@ -56,7 +55,7 @@ class Bids extends \yii\db\ActiveRecord
             [['activity_id', 'offer_id', 'order_id', 'loc_id', 'period', 'period_unit', 'currency_id', 'fixed_price', 'warranty', 'hit_counter'], 'integer'],
             [['delivery_starts', 'time'], 'safe'],
             [['price', 'price_per_unit'], 'number'],
-            [['price_per', 'note', 'spec'], 'string'],
+            [['price_per', 'note'], 'string'],
             [['reject_reason', 'report_reason'], 'string', 'max' => 25]
         ];
     }
@@ -82,7 +81,6 @@ class Bids extends \yii\db\ActiveRecord
             'fixed_price' => 'Cena je nepromenljiva. 0 - ne; 1 - da, fiksna cena.',
             'warranty' => 'Garancije ponuđača na izvršenje usluge.',
             'note' => 'Napomena ponuđača.',
-            'spec' => 'Pomoćna kolona.',
             'reject_reason' => 'Razglog odbacivanja ponude.',
             'report_reason' => 'Razlog prijavljivanja ponude.',
             'time' => 'Datum i vreme ponude.',
@@ -147,11 +145,41 @@ class Bids extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return BidsQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getUser()
     {
-        return new BidsQuery(get_called_class());
+        return $this->activity->user;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserType()
+    {
+        if(!Yii::$app->user->isGuest) {
+            if(Yii::$app->user->id == $this->user->id) {
+                return 'bidder';
+            } elseif(Yii::$app->user->id == $this->order->user->id) {
+                return 'sender';
+            } else {
+                return 'guest';
+            }
+        } else {
+            return 'guest';
+        }        
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        // user log
+        $userLog = new \common\models\UserLog();
+        $userLog->user_id = Yii::$app->user->id;
+        $userLog->action = $insert ? 'bid_created' : 'bid_updated';
+        $userLog->alias = $this->id;
+        $userLog->time = date('Y-m-d H:i:s');
+        $userLog->save();
+        
+        parent::afterSave($insert, $changedAttributes);     
     }
 }

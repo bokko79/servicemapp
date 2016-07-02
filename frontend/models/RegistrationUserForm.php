@@ -109,7 +109,7 @@ class RegistrationUserForm extends BaseForm
         }
 
         /** @var User $user */
-        $user = new \frontend\models\User();
+        $user = new \common\models\User();
         $user->setScenario('register');
         $this->loadAttributes($user);
 
@@ -157,7 +157,7 @@ class RegistrationUserForm extends BaseForm
     public function temporary()
     {
         /** @var User $user */
-        $user = new \frontend\models\User();
+        $user = new \common\models\User();
 
         $user->username = 'temp_'.substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 10)), 0, 10);
         $user->auth_key = Yii::$app->security->generateRandomString();

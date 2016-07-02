@@ -6,17 +6,15 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsProperties */
 
-$this->title = 'Create Cs Properties';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Properties', 'url' => ['index']];
+$this->title = 'Create a Property';
+$this->params['breadcrumbs'][] = ['label' => 'Properties', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-properties-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?> <small>Novo svojstvo</small></h2>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-        'model_trans' => $model_trans,
-    ]) ?>
+<?= $this->render('_form', [
+	'model' => $model,
+	'model_trans' => $model_trans,
+]) ?>
 
-</div>

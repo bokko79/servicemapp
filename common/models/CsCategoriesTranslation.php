@@ -72,13 +72,4 @@ class CsCategoriesTranslation extends \yii\db\ActiveRecord
     {
         return $this->hasOne(CsCategories::className(), ['id' => 'category_id']);
     }
-
-    /**
-     * @inheritdoc
-     * @return CsCategoriesTranslationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CsCategoriesTranslationQuery(get_called_class());
-    }
 }

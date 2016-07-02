@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\CsProducts;
-use frontend\models\CsProductsSearch;
+use common\models\CsProducts;
+use common\models\CsProductsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -96,7 +96,7 @@ class ProductsController extends Controller
      */
     protected function findModelByTitle($title)
     {
-        if (($model = \frontend\models\CsProducts::find()->where('name=:name', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
+        if (($model = CsProducts::find()->where('name=:name', [':name'=>str_replace('-', ' ', $title)])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

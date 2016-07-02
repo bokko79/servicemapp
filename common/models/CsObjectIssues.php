@@ -11,7 +11,6 @@ use Yii;
  * @property integer $object_id
  * @property string $issue
  * @property integer $type
- * @property string $description
  *
  * @property CsObjects $object
  * @property CsObjectIssuesTranslation[] $csObjectIssuesTranslations
@@ -35,7 +34,6 @@ class CsObjectIssues extends \yii\db\ActiveRecord
         return [
             [['object_id', 'issue'], 'required'],
             [['object_id', 'type'], 'integer'],
-            [['description'], 'string'],
             [['issue'], 'string', 'max' => 64]
         ];
     }
@@ -50,7 +48,6 @@ class CsObjectIssues extends \yii\db\ActiveRecord
             'object_id' => 'Usluga.',
             'issue' => 'Problem. (Problem koji ima korisnik, a koji se rešava ovom uslugom).',
             'type' => 'Pomoćna kolona.',
-            'description' => 'Opis stavke.',
         ];
     }
 
@@ -73,17 +70,31 @@ class CsObjectIssues extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderServiceIssues()
+    public function getTranslation()
     {
-        return $this->hasMany(OrderServiceIssues::className(), ['object_issue_id' => 'id']);
+        $object_translation = CsObjectIssuesTranslation::find()->where('lang_code="SR" and object_issue_id='.$this->id)->one();
+        if($object_translation) {
+            return $object_translation;
+        }
+        return false;        
     }
 
     /**
-     * @inheritdoc
-     * @return CsObjectIssuesQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getTName()
     {
-        return new CsObjectIssuesQuery(get_called_class());
+        if($this->getTranslation()) {
+            return $this->getTranslation()->name;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderServiceIssues()
+    {
+        return $this->hasMany(OrderServiceIssues::className(), ['object_issue_id' => 'id']);
     }
 }

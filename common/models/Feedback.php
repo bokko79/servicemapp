@@ -11,7 +11,6 @@ use Yii;
  * @property string $activity_id
  * @property string $offer_id
  * @property string $booking_id
- * @property string $description
  *
  * @property Activities $activity
  * @property Offers $offer
@@ -37,7 +36,6 @@ class Feedback extends \yii\db\ActiveRecord
         return [
             [['activity_id', 'offer_id', 'booking_id'], 'required'],
             [['activity_id', 'offer_id', 'booking_id'], 'integer'],
-            [['description'], 'string']
         ];
     }
 
@@ -47,11 +45,10 @@ class Feedback extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'activity_id' => 'Activity ID',
-            'offer_id' => 'Offer ID',
-            'booking_id' => 'Booking ID',
-            'description' => 'Description',
+            'id' => Yii::t('app', 'ID'),
+            'activity_id' => Yii::t('app', 'Activity ID'),
+            'offer_id' => Yii::t('app', 'Offer ID'),
+            'booking_id' => Yii::t('app', 'Booking ID'),
         ];
     }
 
@@ -93,14 +90,5 @@ class Feedback extends \yii\db\ActiveRecord
     public function getFeedbackOnUsers()
     {
         return $this->hasMany(FeedbackOnUser::className(), ['feedback_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return FeedbackQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new FeedbackQuery(get_called_class());
     }
 }

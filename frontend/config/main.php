@@ -14,11 +14,6 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-        /*'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'class' => 'frontend\components\User',
-        ],*/
         'formatter' => [
            'class' => 'yii\i18n\Formatter',
            'locale' => 'sr-RS',
@@ -30,7 +25,7 @@ return [
                 'httpOnly' => true,
             ],
             'identityClass' => 'common\models\User',
-            'class' => 'frontend\components\User',
+            'class' => 'common\components\User',
             'enableAutoLogin' => true,
             'loginUrl' => ['login'],
         ],
@@ -54,10 +49,10 @@ return [
             'errorAction' => 'site/error',
         ],
         'operator' => [
-            'class' => 'frontend\components\Operator',
+            'class' => 'common\components\Operator',
         ],
         'view' => [
-            'class' => 'frontend\components\View',
+            'class' => 'common\components\View',
         ],
         'authClientCollection' => [
             'class' => yii\authclient\Collection::className(),
@@ -83,7 +78,7 @@ return [
     ],
     'bootstrap' => [
         [
-            'class' => '\frontend\components\LanguageSelector',
+            'class' => '\common\components\LanguageSelector',
             'supportedLanguages' => ['en_US', 'sr_RS'],
         ]
     ],

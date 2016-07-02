@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Session;
 $session = Yii::$app->session;
 
-$new_presentation = new \frontend\models\ProviderServices;
+$new_presentation = new \common\models\ProviderServices;
 
 ?>
 <div class="container-fluid">

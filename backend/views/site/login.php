@@ -1,35 +1,70 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
-
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
+use kartik\widgets\ActiveForm;
+use dektrium\user\widgets\Connect;
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+//$model = Yii::createObject(LoginForm::className());
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
-
+<div class="container-fluid">   
     <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                <?= $form->field($model, 'username') ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
+        <div class="col-md-5 col-md-offset-1">
+            <h4><i class="fa fa-user"></i>&nbsp;&nbsp; Prijavite se ovde</h4>
+            <div class="margin-top-20">
+            <?php 
+                $form = ActiveForm::begin([
+                    'id' => 'login-form-vertical', 
+                    'type' => ActiveForm::TYPE_VERTICAL,
+                ]); 
+            ?>
+                <?= $form->field($model, 'login', [
+                    'feedbackIcon' => [
+                        'default' => 'user',
+                        'success' => 'ok',
+                        'error' => 'exclamation-sign',
+                        'defaultOptions' => ['class'=>'text-primary']
+                    ]]) ?>
+                <?= $form->field($model, 'password', [
+                    'feedbackIcon' => [
+                        'default' => 'lock',
+                        'success' => 'ok',
+                        'error' => 'exclamation-sign',
+                        'defaultOptions' => ['class'=>'text-primary']
+                    ]])->passwordInput() ?>
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
                 <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'style'=>'width:100%']) ?>
                 </div>
-
-            <?php ActiveForm::end(); ?>
+            <?php ActiveForm::end(); ?>    
+            </div>            
+        </div>
+        <?php /*<div class="col-md-3">
+            <h4><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Social</h4>
+            <div class="socials clearfix">
+                <a class="fa fa-facebook facebook"></a>
+                <a class="fa fa-twitter twitter"></a>
+                <a class="fa fa-google-plus google-plus"></a>
+                <a class="fa fa-pinterest pinterest"></a>
+                <a class="fa fa-linkedin linked-in"></a>
+                <a class="fa fa-github github"></a>
+            </div>
+        </div> */ ?>
+        <div class="col-md-5">
+            <h4><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Registracija</h4>
+            <div class="box">
+                Prijavite se klikom na ikonu jedne od sledećih popularnih socijalnih mreža, ukoliko imate postojeći nalog: 
+                <?= Connect::widget([
+                    'baseAuthUrl' => ['/user/security/auth'],
+                ]) ?>
+            </div>
+            <div class="box">
+                Nemate nalog?<br>
+                Kliknite ovde za <?= Html::a('besplatnu registraciju.', Url::to('/register'), []) ?>
+            </div>
+            <div class="box">
+                Imate nalog, ali ste zaboravili lozinku? <a href="#w21-tab3" data-toggle="tab">Kliknite ovde.</a>
+            </div>
         </div>
     </div>
 </div>

@@ -3,15 +3,15 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Provider;
-use frontend\models\ProviderSearch;
-use frontend\models\User;
-use frontend\models\Bids;
-use frontend\models\BidsSearch;
-use frontend\models\Presentations;
-use frontend\models\PresentationsSearch;
-use frontend\models\Promotions;
-use frontend\models\PromotionsSearch;
+use common\models\Provider;
+use common\models\ProviderSearch;
+use common\models\User;
+use common\models\Bids;
+use common\models\BidsSearch;
+use common\models\Presentations;
+use common\models\PresentationsSearch;
+use common\models\Promotions;
+use common\models\PromotionsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -204,13 +204,13 @@ class ProviderController extends Controller
                 $locationHQ = $model->location;
                 $provider = $model->provider;
                 $portfolio = $provider->portfolio;
-                $certification = new \frontend\models\ProviderPortfolioCertifications();
-                $education = new \frontend\models\ProviderPortfolioEducations();
-                $experience = new \frontend\models\ProviderPortfolioExperience();
-                $portfolio_images = new \frontend\models\ProviderPortfolioImages();
-                $publication = new \frontend\models\ProviderPortfolioPublications();
-                $licence = new \frontend\models\ProviderLicences();
-                $openingHours = new \frontend\models\ProviderOpeningHours();
+                $certification = new \common\models\ProviderPortfolioCertifications();
+                $education = new \common\models\ProviderPortfolioEducations();
+                $experience = new \common\models\ProviderPortfolioExperience();
+                $portfolio_images = new \common\models\ProviderPortfolioImages();
+                $publication = new \common\models\ProviderPortfolioPublications();
+                $licence = new \common\models\ProviderLicences();
+                $openingHours = new \common\models\ProviderOpeningHours();
 
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);

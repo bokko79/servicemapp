@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use \frontend\models\User;
+use \common\models\User;
 use yii\bootstrap\Modal;
 
 /* @var $this \yii\web\View */

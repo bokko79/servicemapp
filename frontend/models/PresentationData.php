@@ -5,10 +5,10 @@ namespace frontend\models;
 use Yii;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
-use frontend\models\Activities;
-use frontend\models\Offers;
+use common\models\Activities;
+use common\models\Offers;
 
-class PresentationData extends Presentations
+class PresentationData extends \common\models\Presentations
 {
     public function checkIfMethods()
     {
@@ -245,7 +245,7 @@ class PresentationData extends Presentations
     public function checkUserObjectsExist($service, $object_model)
     {
         if(!Yii::$app->user->isGuest && $object_model && count($object_model)==1){
-            $user = \frontend\models\User::findOne(Yii::$app->user->id);
+            $user = \common\models\User::findOne(Yii::$app->user->id);
             if($user->userObjects){
                 foreach ($user->userObjects as $userObject){
                     if($userObject->object_id==$service->object_id or $userObject->object_id==$object_model[0]->id){
@@ -306,7 +306,7 @@ class PresentationData extends Presentations
     {
         if($model_object_properties){
             foreach($model_object_properties as $key=>$model_object_property){
-                $property = \frontend\models\CsProperties::findOne($key);
+                $property = \common\models\CsProperties::findOne($key);
                 $model_object_property->theObjectProperty = $model_object_property->objectProperty;
                 $model_object_property->property = $property;
                 $model_object_property->service = $this->pService;
@@ -323,7 +323,7 @@ class PresentationData extends Presentations
             foreach($serviceActionProperties as $serviceActionProperty) {
                 if($actionProperty = $serviceActionProperty->actionProperty) {
                     if($property = $actionProperty->property) { 
-                        $model_action_properties[$property->id] = new \frontend\models\PresentationActionProperties();
+                        $model_action_properties[$property->id] = new \common\models\PresentationActionProperties();
                         $model_action_properties[$property->id]->theActionProperty = $actionProperty;
                         $model_action_properties[$property->id]->property = $property;
                         $model_action_properties[$property->id]->service = $service;

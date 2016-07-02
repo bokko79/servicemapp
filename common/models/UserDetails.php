@@ -15,10 +15,8 @@ use Yii;
  * @property integer $role_id
  * @property string $time_role_set
  * @property string $time_role_exp
- * @property string $Mcoin
  * @property integer $units
  * @property string $timezone
- * @property integer $ticker_status
  * @property string $DOB
  * @property string $gender
  * @property integer $score
@@ -50,10 +48,13 @@ class UserDetails extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'loc_id', 'time_role_set'], 'required'],
-            [['user_id', 'loc_id', 'image_id', 'currency_id', 'role_id', 'Mcoin', 'units', 'ticker_status', 'score', 'rate', 'rating'], 'integer'],
+            [['user_id', 'loc_id', 'image_id', 'currency_id', 'role_id', 'units', 'score', 'rate', 'rating'], 'integer'],
             [['time_role_set', 'time_role_exp', 'DOB', 'update_time'], 'safe'],
             [['timezone', 'gender'], 'string'],
-            [['lang_code'], 'string', 'max' => 2]
+            [['lang_code'], 'string', 'max' => 2],
+            [['update_time', 'time_role_set'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d H:i:s');
+            }],
         ];
     }
 
@@ -63,24 +64,23 @@ class UserDetails extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => 'Korisnik.',
-            'loc_id' => 'Primarna lokacija korisnika.',
-            'image_id' => 'Avatar korisnika.',
-            'lang_code' => 'Jezik korisnika.',
-            'currency_id' => 'Valuta korisnika.',
-            'role_id' => 'Članstvo korisnika.',
-            'time_role_set' => 'Datum i vreme kad je postavljeno trenutno članstvo korisnika (iz kolone role_id).',
-            'time_role_exp' => 'Datum i vreme do kada važi članstvo (iz kolone role_id).',
-            'Mcoin' => 'Trenutno stanje na MAccount-u korisnika. Iznos u MCoin-ima.',
-            'units' => 'Jedinice mere korisnika. 1 - metrics; 2 - imperial.',
-            'timezone' => 'Vremenska zona korisnika.',
-            'ticker_status' => 'Prikaz tickera u navbaru. 0 - isključen; 1 - uključen.',
-            'DOB' => 'Datum rođenja korisnika.',
-            'gender' => 'Pol korisnika.',
-            'score' => 'Score korisnika.',
-            'rate' => 'Ocena korisnika.',
-            'rating' => 'Rejting korisnika.',
-            'update_time' => 'Datum i vreme izmene profila ili naloga korisnika.',
+            'user_id' => Yii::t('app', 'User ID'),
+            'loc_id' => Yii::t('app', 'Loc ID'),
+            'image_id' => Yii::t('app', 'Image ID'),
+            'lang_code' => Yii::t('app', 'Lang Code'),
+            'currency_id' => Yii::t('app', 'Currency ID'),
+            'role_id' => Yii::t('app', 'Role ID'),
+            'time_role_set' => Yii::t('app', 'Time Role Set'),
+            'time_role_exp' => Yii::t('app', 'Time Role Exp'),
+            'units' => Yii::t('app', 'Units'),
+            'timezone' => Yii::t('app', 'Timezone'),
+            'ticker_status' => Yii::t('app', 'Ticker Status'),
+            'DOB' => Yii::t('app', 'Dob'),
+            'gender' => Yii::t('app', 'Gender'),
+            'score' => Yii::t('app', 'Score'),
+            'rate' => Yii::t('app', 'Rate'),
+            'rating' => Yii::t('app', 'Rating'),
+            'update_time' => Yii::t('app', 'Update Time'),
         ];
     }
 
@@ -130,14 +130,5 @@ class UserDetails extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserDetailsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserDetailsQuery(get_called_class());
     }
 }

@@ -209,10 +209,10 @@ $template_tag = '<div class="capitalize">{{name}} <i class="fa fa-caret-right"><
 				    	}",
 				]
 			])->label(false) ?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'id')?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'industry_id')?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'action_id')?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'object_id')?>
-    <?= Html::activeHiddenInput(new \frontend\models\CsServicesSearch, 'tag_id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'industry_id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'action_id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'object_id')?>
+    <?= Html::activeHiddenInput(new \common\models\CsServicesSearch, 'tag_id')?>
 	<?php ActiveForm::end(); ?>
 </div>

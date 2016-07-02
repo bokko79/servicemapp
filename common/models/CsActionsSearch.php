@@ -18,8 +18,8 @@ class CsActionsSearch extends CsActions
     public function rules()
     {
         return [
-            [['id', 'object_mode', 'added_by'], 'integer'],
-            [['name', 'status', 'added_time', 'description'], 'safe'],
+            [['id', 'object_mode'], 'integer'],
+            [['name', 'status'], 'safe'],
         ];
     }
 
@@ -61,13 +61,10 @@ class CsActionsSearch extends CsActions
         $query->andFilterWhere([
             'id' => $this->id,
             'object_mode' => $this->object_mode,
-            'added_by' => $this->added_by,
-            'added_time' => $this->added_time,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'status', $this->status])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;
     }

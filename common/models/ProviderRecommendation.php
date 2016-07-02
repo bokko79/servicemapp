@@ -43,10 +43,10 @@ class ProviderRecommendation extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'provider_id' => 'Pružalac usluge koji se preporučuje.',
-            'user_id' => 'Korisnik koji preporučuje pružaoca usluge.',
-            'time' => 'Datum i vreme preporuke.',
+            'id' => Yii::t('app', 'ID'),
+            'provider_id' => Yii::t('app', 'Provider ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'time' => Yii::t('app', 'Time'),
         ];
     }
 
@@ -64,14 +64,5 @@ class ProviderRecommendation extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return ProviderRecommendationQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ProviderRecommendationQuery(get_called_class());
     }
 }

@@ -100,10 +100,23 @@ body { background: #ECEFF1; color: #000000; font-family: 'Roboto', Arial, sans-s
 .grid-leftacross {width:875px;}
 .grid-rightacross {width:945px;}
 
-#left-sidebar-nav {position: fixed; background: #238263; padding: 20px; min-height: 100vh; overflow: auto;}
-#left-sidebar-nav a {color: #ccc;}
+#left-sidebar-nav {position: fixed; background: #238263; padding: 20px; height: 100vh; overflow: auto;}
+#left-sidebar-nav a {color: #ccc; font-weight: 900;}
+
+.side-nav li {color: #ccc;}
+.side-nav li a {color: #ccc;}
+.side-nav li ul {padding: 2px 12px;}
+.side-nav li ul li {color: #ccc;}
+.side-nav li ul li a {font-size: 90%; color: #bbb !important; font-weight: 500 !important;}
+.side-nav li ul li ul li {color: #ccc;}
+.side-nav li ul li ul li a {font-size: 80%; color: #999 !important;}
 
 form{margin: 40px 20px;}
+
+::-webkit-scrollbar {
+    width: 6px;
+    background: #000;
+}
 
 /* general */
 .first {margin-left:0;padding-left:0}

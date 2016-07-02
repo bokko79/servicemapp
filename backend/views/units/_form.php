@@ -1,30 +1,50 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\CsUnits */
-/* @var $form yii\widgets\ActiveForm */
+use yii\helpers\Url;
+use kartik\widgets\ActiveForm;
+use kartik\switchinput\SwitchInput;
+use kartik\widgets\DatePicker;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use kartik\widgets\FileInput;
 ?>
 
-<div class="cs-units-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = kartik\widgets\ActiveForm::begin([
+    'id' => 'form-horizontal',
+    'type' => ActiveForm::TYPE_HORIZONTAL,
+    'fullSpan' => 7,      
+    'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
+    'options' => ['enctype' => 'multipart/form-data'],
+]); ?>
 
     <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'oznaka')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model_trans, 'name')->input(['value' => $model->name]) ?>
 
-    <?= $form->field($model, 'oznaka_imp')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model_trans, 'name_gen')->input(['value' => $model->name]) ?>
+
+    <?= $form->field($model_trans, 'oznaka')->input(['value' => $model->name]) ?>    
+
+    <?= $form->field($model, 'oznaka')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ozn_htmlfree')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'ozn_htmlfree_imp')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model_trans, 'ozn_htmlfree')->input(['value' => $model->name]) ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'conversion_unit')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(\common\models\CsUnits::find()->all(), 'id', 'name'),
+            'options' => ['placeholder' => 'Izaberite...'],
+            'language' => 'sr-Latn',
+            'changeOnReset' => false,           
+        ]) ?>
+
+    <?= $form->field($model, 'conversion_value')->input('number', ['step' => 0.000000000001]) ?>    
+
+    <?= $form->field($model, 'measurement')->dropDownList(['metric' => 'metric', 'imperial' => 'imperial'], ['class'=>'']) ?>
 
     <div class="row" style="margin:20px;">
         <div class="col-md-offset-3">
@@ -33,5 +53,3 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
-
-</div>

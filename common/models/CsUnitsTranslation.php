@@ -12,11 +12,8 @@ use Yii;
  * @property string $lang_code
  * @property string $name
  * @property string $name_gen
- * @property string $name_imp
  * @property string $oznaka
- * @property string $oznaka_imp
  * @property string $ozn_htmlfree
- * @property string $ozn_htmlfree_imp
  * @property string $orig_name
  *
  * @property CsUnits $unit
@@ -38,11 +35,11 @@ class CsUnitsTranslation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['unit_id', 'lang_code', 'name', 'name_gen', 'name_imp'], 'required'],
+            [['unit_id', 'lang_code', 'name', 'name_gen'], 'required'],
             [['unit_id'], 'integer'],
             [['lang_code'], 'string', 'max' => 2],
-            [['name', 'name_gen', 'name_imp', 'oznaka', 'oznaka_imp', 'orig_name'], 'string', 'max' => 25],
-            [['ozn_htmlfree', 'ozn_htmlfree_imp'], 'string', 'max' => 10]
+            [['name', 'name_gen', 'oznaka', 'orig_name'], 'string', 'max' => 25],
+            [['ozn_htmlfree'], 'string', 'max' => 10]
         ];
     }
 
@@ -57,13 +54,9 @@ class CsUnitsTranslation extends \yii\db\ActiveRecord
             'lang_code' => Yii::t('app', 'Lang Code'),
             'name' => Yii::t('app', 'Name'),
             'name_gen' => Yii::t('app', 'Name Gen'),
-            'name_imp' => Yii::t('app', 'Name Imp'),
             'oznaka' => Yii::t('app', 'Oznaka'),
-            'oznaka_imp' => Yii::t('app', 'Oznaka Imp'),
             'ozn_htmlfree' => Yii::t('app', 'Ozn Htmlfree'),
-            'ozn_htmlfree_imp' => Yii::t('app', 'Ozn Htmlfree Imp'),
             'orig_name' => Yii::t('app', 'Orig Name'),
-            'description' => Yii::t('app', 'Description'),
         ];
     }
 

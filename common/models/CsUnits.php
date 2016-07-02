@@ -8,18 +8,17 @@ use Yii;
  * This is the model class for table "cs_units".
  *
  * @property integer $id
- * @property string $type
  * @property string $name
+ * @property string $type
  * @property string $oznaka
- * @property string $oznaka_imp
  * @property string $ozn_htmlfree
- * @property string $ozn_htmlfree_imp
+ * @property integer $conversion_unit
+ * @property string $conversion_value
+ * @property string $measurement
  *
- * @property Bids[] $bids
- * @property CsAttributes[] $csAttributes
- * @property CsServices[] $csServices
+ * @property CsUnits $conversionUnit
+ * @property CsUnits[] $csUnits
  * @property CsUnitsTranslation[] $csUnitsTranslations
- * @property Presentations[] $presentations
  */
 class CsUnits extends \yii\db\ActiveRecord
 {
@@ -37,11 +36,15 @@ class CsUnits extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'name', 'oznaka', 'oznaka_imp'], 'required'],
-            [['type'], 'string', 'max' => 30],
+            [['name', 'type', 'oznaka', 'ozn_htmlfree', 'conversion_unit'], 'required'],
+            [['conversion_unit'], 'integer'],
+            [['conversion_value'], 'number'],
+            [['measurement'], 'string'],
             [['name'], 'string', 'max' => 50],
-            [['oznaka', 'oznaka_imp'], 'string', 'max' => 25],
-            [['ozn_htmlfree', 'ozn_htmlfree_imp'], 'string', 'max' => 10],
+            [['type'], 'string', 'max' => 30],
+            [['oznaka'], 'string', 'max' => 25],
+            [['ozn_htmlfree'], 'string', 'max' => 10],
+            [['conversion_unit'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['conversion_unit' => 'id']],
         ];
     }
 
@@ -51,15 +54,23 @@ class CsUnits extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'type' => 'Type',
-            'name' => 'Name',
-            'oznaka' => 'Oznaka',
-            'oznaka_imp' => 'Oznaka Imp',
-            'ozn_htmlfree' => 'Ozn Htmlfree',
-            'ozn_htmlfree_imp' => 'Ozn Htmlfree Imp',
-            'description' => 'Description',
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'type' => Yii::t('app', 'Type'),
+            'oznaka' => Yii::t('app', 'Oznaka'),
+            'ozn_htmlfree' => Yii::t('app', 'Ozn Htmlfree'),
+            'conversion_unit' => Yii::t('app', 'Conversion Unit'),
+            'conversion_value' => Yii::t('app', 'Conversion Value'),
+            'measurement' => Yii::t('app', 'Measurement'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConversionUnit()
+    {
+        return $this->hasOne(CsUnits::className(), ['id' => 'conversion_unit']);
     }
 
     /**

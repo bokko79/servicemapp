@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\CsObjectIssues;
 use common\models\CsObjectIssuesSearch;
+use common\models\CsObjectIssuesTranslation;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -66,12 +67,21 @@ class ObjectIssuesController extends Controller
     public function actionCreate()
     {
         $model = new CsObjectIssues();
+        $model_trans = new CsObjectIssuesTranslation();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+            
+            if($model->save()){                
+                $model_trans->object_issue_id = $model->id;
+                $model_trans->orig_name = $model->name;
+                $model_trans->save();
+
+                return $this->redirect(['view', 'id' => $model->id]);
+            }            
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }
@@ -85,12 +95,19 @@ class ObjectIssuesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_trans = $model->translation;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+
+            $model->save();
+            $model_trans->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
+                
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }

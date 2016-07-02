@@ -23,13 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'oznaka') ?>
 
-    <?= $form->field($model, 'oznaka_imp') ?>
-
     <?php // echo $form->field($model, 'ozn_htmlfree') ?>
-
-    <?php // echo $form->field($model, 'ozn_htmlfree_imp') ?>
-
-    <?php // echo $form->field($model, 'description') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

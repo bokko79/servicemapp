@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\CsUnits;
 use common\models\CsUnitsSearch;
+use common\models\CsUnitsTranslation;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -66,12 +67,21 @@ class UnitsController extends Controller
     public function actionCreate()
     {
         $model = new CsUnits();
+        $model_trans = new CsUnitsTranslation();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+            
+            if($model->save()){                
+                $model_trans->unit_id = $model->id;
+                $model_trans->orig_name = $model->name;
+                $model_trans->save();
+                
+                return $this->redirect(['view', 'id' => $model->id]);
+            }            
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }
@@ -85,12 +95,19 @@ class UnitsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_trans = $model->translation;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
+
+            $model->save();
+            $model_trans->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
+                
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'model_trans' => $model_trans,
             ]);
         }
     }

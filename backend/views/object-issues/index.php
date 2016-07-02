@@ -7,30 +7,27 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsObjectIssuesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Object Issues';
+$this->title = 'Object Issues';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-object-issues-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?> <small>Problemi predmeta</small></h2>    
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Cs Object Issues', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create New Object Issue', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'object_id',
             'issue',
             'type',
-            'description',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

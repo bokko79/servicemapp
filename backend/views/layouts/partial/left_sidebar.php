@@ -103,18 +103,55 @@ $menuItems[] = [
 
         <li class=""><?= Html::a('Dashboard', Url::to('/'), []) ?></li>
         <li class=""><?= Html::a('Application Manager', Url::to('/'), []) ?></li>
-        <li class=""><?= Html::a('Users Manager', Url::to('/'), []) ?></li>
+        <li class=""><?= Html::a('Users Manager', Url::to('/users/index'), []) ?></li>
         <li class="">
             <?= Html::a('Core Database', Url::to('/'), []) ?>
             <ul class="dropdown-content">
-                <li class=""><?= Html::a('Usluge', Url::to('/services/index'), []) ?></li>
-                <li class=""><?= Html::a('Akcije', Url::to('/actions/index'), []) ?></li>
-                <li class=""><?= Html::a('Delatnosti', Url::to('/industries/index'), []) ?></li>
-                <li class=""><?= Html::a('Predmeti', Url::to('/objects/index'), []) ?></li>
-                <li class=""><?= Html::a('Svojstva', Url::to('/properties/index'), []) ?></li>
+                <li class="">
+                    <?= Html::a('Usluge', Url::to('/services/index'), []) ?>
+                    <ul>
+                        <li class=""><?= Html::a('Industry Properties', Url::to('/service-industry-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Action Properties', Url::to('/service-action-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Object Properties', Url::to('/service-object-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Regulations', Url::to('/service-regulations/index'), []) ?></li>
+                        <li class=""><?= Html::a('Processes', Url::to('/service-processes/index'), []) ?></li>
+                        <li class=""><?= Html::a('Units', Url::to('/service-units/index'), []) ?></li>
+                    </ul>
+                </li>
+                <li class="">
+                    <?= Html::a('Akcije', Url::to('/actions/index'), []) ?>
+                    <ul>
+                        <li class=""><?= Html::a('Action Properties', Url::to('/action-properties/index'), []) ?></li>
+                    </ul>
+                </li>
+                <li class="">
+                    <?= Html::a('Delatnosti', Url::to('/industries/index'), []) ?>
+                    <ul>
+                        <li class=""><?= Html::a('Industry Properties', Url::to('/industry-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Categories', Url::to('/categories/index'), []) ?></li>
+                        <li class=""><?= Html::a('Sectors', Url::to('/sectors/index'), []) ?></li>
+                    </ul>
+                </li>
+                <li class="">
+                    <?= Html::a('Predmeti', Url::to('/objects/index'), []) ?>
+                    <ul>
+                        <li class=""><?= Html::a('Object Properties', Url::to('/object-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Object Types', Url::to('/object-types/index'), []) ?></li>
+                        <li class=""><?= Html::a('Object Issues', Url::to('/object-issues/index'), []) ?></li>
+                    </ul>
+                </li>
+                <li class="">
+                    <?= Html::a('Svojstva', Url::to('/properties/index'), []) ?>
+                    <ul>
+                        <li class=""><?= Html::a('Values', Url::to('/property-values/index'), []) ?></li>
+                    </ul>
+                </li>
                 <li class=""><?= Html::a('Jezici', Url::to('/languages/index'), []) ?></li>
                 <li class=""><?= Html::a('Valute', Url::to('/currencies/index'), []) ?></li>
                 <li class=""><?= Html::a('Jedinice mere', Url::to('/units/index'), []) ?></li>
+                <li class=""><?= Html::a('Tagovi', Url::to('/tags/index'), []) ?></li>
+                <li class=""><?= Html::a('Procesi', Url::to('/processes/index'), []) ?></li>
+                <li class=""><?= Html::a('Regulativa', Url::to('/regulations/index'), []) ?></li>
             </ul>
         </li>
         <li class=""><?= Html::a('Post Manager', Url::to('/'), []) ?></li>

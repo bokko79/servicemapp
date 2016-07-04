@@ -173,7 +173,7 @@ class RegistrationProviderForm extends BaseForm
      *
      * @param User $user
      */
-    protected function loadAttributes(User $user)
+    protected function loadAttributes(\common\models\User $user)
     {
         $user->setAttributes($this->attributes);
         $user->generatePasswordResetToken();

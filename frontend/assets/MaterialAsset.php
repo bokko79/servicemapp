@@ -27,7 +27,7 @@ class MaterialAsset extends AssetBundle
         'css/style_view.css',
         'css/style_uac.css',
         'css/animate.css',
-        'css/materialize.css',
+        'css/materialize/materialize.css',
     ];
     public $js = [
         'js/masonry.pkgd.min.js',
@@ -35,7 +35,7 @@ class MaterialAsset extends AssetBundle
         'js/service_index.js',
         'js/cards.js',
         'js/easy-ticker.min.js',
-        'js/materialize.js',
+        'js/materialize/materialize.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

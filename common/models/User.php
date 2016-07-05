@@ -234,6 +234,7 @@ class User extends BaseUser
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
+        $auth = Yii::$app->authManager;
         if ($insert) {
             $location = new \common\models\Locations();
             //$location->scenario = \common\models\Locations::SCENARIO_REGISTER;
@@ -272,10 +273,7 @@ class User extends BaseUser
                     $userNotifications = new \common\models\UserNotifications();
                     $userNotifications->user_id = $this->id;
                     $userNotifications->update_time = date('Y-m-d H:i:s');
-                    $userNotifications->save(); 
-
-                    // the following three lines were added:
-                    $auth = Yii::$app->authManager;
+                    $userNotifications->save();                    
 
                     if($this->is_provider==1){
                         $model = new \common\models\RegistrationProviderForm();
@@ -294,52 +292,18 @@ class User extends BaseUser
 
                             $userRole = $auth->getRole('provider');
                             $auth->assign($userRole, $this->id);
-
-                            /*if($provider->save()){
-                                // PROVIDER CONTACT
-                                $providerContact = new \common\models\ProviderContact();
-                                $providerContact->provider_id = $provider->id;
-                                $providerContact->contact_type = 'e-mail';
-                                $providerContact->value = $this->email;
-                                $providerContact->save();
-                                // PROVIDER INDUSTRY
-                                $providerIndustry = new \common\models\ProviderIndustries();
-                                $providerIndustry->provider_id = $provider->id;
-                                $providerIndustry->industry_id = $model->industry;
-                                $providerIndustry->main = 1;
-                                $providerIndustry->save();
-                                // PROVIDER LANGUAGES
-                                $providerLanguage = new \common\models\ProviderLanguages();
-                                $providerLanguage->provider_id = $provider->id;
-                                $providerLanguage->lang_code = 'SR';
-                                $providerLanguage->save();                                
-                                // PROVIDER PORTFOLIO
-                                $providerPortfolio = new \common\models\ProviderPortfolio();
-                                $providerPortfolio->provider_id = $provider->id;
-                                $providerPortfolio->name = 'Moj portfolio';
-                                $providerPortfolio->save();
-                                // PROVIDER TERMS
-                                $providerTerms = new \common\models\ProviderTerms();
-                                $providerTerms->provider_id = $provider->id;
-                                $providerTerms->update_time = date('Y-m-d H:i:s');
-                                $providerTerms->save();
-                                // PROVIDER NOTIFICATIONS
-                                $providerNotifications = new \common\models\ProviderNotifications();
-                                $providerNotifications->provider_id = $provider->id;
-                                $providerNotifications->notification_type = 'matching';
-                                $providerNotifications->time = date('Y-m-d H:i:s');
-                                $providerNotifications->save();
-                            }*/
                         }
+                        
                     } else {
-
                         $userRole = $auth->getRole('user');
                         $auth->assign($userRole, $this->id);
                     }
                 }
             } 
+        } else {
+            $this->updated_at = time();
         }
-    }
+    }    
 
     /**
      * @return \yii\db\ActiveQuery

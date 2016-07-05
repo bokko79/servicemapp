@@ -119,4 +119,19 @@ class User extends \yii\web\User
 
         return \yii\helpers\Html::img($avatar, ['class' => 'img-responsive img-rounded']);
     }
+
+    /** @inheritdoc */
+    public function afterLogin($identity, $cookieBased, $duration)
+    {
+        $identity = $this->getIdentity();  
+        if($identity !== null) {
+            $user = \common\models\User::findOne($identity->getId());
+            $user->login_count++;
+            $user->logged_in_at = time();
+            $user->logged_in_from = \Yii::$app->request->userIP;
+            $user->update();
+        }        
+
+        return parent::afterLogin($identity, $cookieBased, $duration);
+    }
 }

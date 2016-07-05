@@ -1,3 +1,5 @@
+
+
 $.fn.followToProfile = function (pos) {
   var $this = this,
   $window = $(window);

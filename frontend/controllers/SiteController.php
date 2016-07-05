@@ -33,7 +33,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'register', 'register-provider', 'membership'],
+                'only' => ['login', 'register', 'register-provider', 'membership', 'activity'],
                 'rules' => [
                     [
                         'actions' => ['login', 'register', 'register-provider'],
@@ -41,7 +41,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['membership'],
+                        'actions' => ['membership', 'activity'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],                    
@@ -133,6 +133,19 @@ class SiteController extends Controller
             'model'  => $model,
             //'module' => $this->module,
         ]);
+    }
+
+    public function actionActivity()
+    {
+        if(!Yii::$app->user->isGuest){
+            if($user = \common\models\User::findOne(Yii::$app->user->getId())){
+                $user->last_activity = time();
+                $user->save();
+                return $user->last_activity; 
+            }            
+        }
+
+        return false;            
     }
 
     /**

@@ -145,6 +145,7 @@ return [
 
         // SITE
         'index' => 'site/index',
+        'activity' => 'site/activity',
         //'about-us' => 'site/about', // :page
         'alert' => 'site/alert', // :page
         'checkout' => 'site/checkout', // :page

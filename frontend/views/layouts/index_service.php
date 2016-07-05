@@ -4,7 +4,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<?php $this->beginContent('@app/views/layouts/html/html_service.php'); ?>
+<?php $this->beginContent('@app/views/layouts/html/html_servicemapp.php'); ?>
 
 <div class="screen <?= ($renderIndex = $this->params['renderIndex']) ? '' : 'mini' ?>">
     <?= $this->render('partial/screen.php', ['renderIndex'=>$renderIndex]) ?>

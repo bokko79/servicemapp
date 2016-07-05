@@ -10,6 +10,13 @@ use yii\helpers\Url;
 <script type="text/javascript">
 // MARKET
 $(document).ready(function(){
+  /*$('body').on('keydown mousemove scroll', function() {
+    var notifyTimer;
+    clearTimeout(notifyTimer);
+    notifyTimer = setTimeout(function() {
+      $.get( '<?= Url::to("/activity") ?>', function(data) {});
+    }, 1 * 1000);
+  });*/
   /*$("#category_filter_display").click(function(){
     $('header.main').removeClass('full');
     $('header.main').addClass('full');

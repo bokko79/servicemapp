@@ -4,11 +4,11 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use frontend\assets\MaterialAsset;
+use frontend\assets\AppAsset;
 use frontend\assets\GoogleAsset;
 
 GoogleAsset::register($this);
-MaterialAsset::register($this);
+AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

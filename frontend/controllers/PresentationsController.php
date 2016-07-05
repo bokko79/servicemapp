@@ -141,8 +141,19 @@ class PresentationsController extends Controller
                 if($this->savePresentation($model, $user, $service, /*$ps['object_models'], */$user->provider->initialService)){
                     // the following three lines were added:
                     $auth = Yii::$app->authManager;
-                    $authorRole = $auth->getRole('provider');
-                    $auth->assign($authorRole, $user->id);
+                    $user_roles = $auth->getRolesByUser(Yii::$app->user->id);
+                    $ch = true;
+                    foreach($user_roles as $user_role){
+                        if($user_role->name=='provider')
+                            $ch = false;
+                            break;
+                    }
+
+                    if($ch){
+                        $authorRole = $auth->getRole('provider');
+                        $auth->assign($authorRole, $user->id);
+                    }
+                        
                     return $this->redirect(['/presentation/'.$model->id.'/action']);
                 }
             }                  

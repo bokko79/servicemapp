@@ -2,6 +2,7 @@
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
 ?>
 <div class="col-md-12 landing__left-col">
 	<div class="va-middle">
@@ -9,7 +10,7 @@ use yii\helpers\Url;
 			<strong class="landing__step-number text-base text-branding text-light-gray">
 				<span data-reactid=".1vno1zrltkw.1.0.0.$=1$false.0.2:$step-1.0.0.0.0.0.0.0.0">Step 1</span>
 			</strong>
-			<div class="h3 landing__step-content-title landing__subtitle-width">Start with the basics</div>
+			<div class="h3 landing__step-content-title landing__subtitle-width">Start with the basics </div>
 			<div class="landing__step-content-subtitle">Beds, bathrooms, amenities, and more</div>
 			<span>
 				<span class="" style="transition-delay:0ms;display:inline-block;">

@@ -13,9 +13,7 @@ use yii\imagine\Image;
  * @property string $image_id
  * @property integer $industry_id
  * @property integer $action_id
- * @property string $action_name
  * @property integer $object_id
- * @property string $object_name
  * @property integer $object_model_relevance 
  * @property string $service_type
  * @property integer $unit_id
@@ -94,8 +92,6 @@ class CsServices extends \yii\db\ActiveRecord
             [['amount_range_step', 'consumer_range_step'], 'number'], 
             [['dat', 'status'], 'string'],
             [['name'], 'string', 'max' => 90],
-            [['action_name'], 'string', 'max' => 80],
-            [['object_name'], 'string', 'max' => 60],
             [['service_type', 'amount', 'consumer', 'consumer_children', 'service_object', 'pic', 'location', 'time', 'duration', 'frequency', 'support', 'turn_key', 'tools', 'labour_type', 'coverage', 'availability', 'ordering', 'pricing', 'terms'], 'string', 'max' => 1],
             [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => CsUnits::className(), 'targetAttribute' => ['unit_id' => 'id']],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
@@ -114,9 +110,7 @@ class CsServices extends \yii\db\ActiveRecord
             'image_id' => Yii::t('app', 'Image ID'), 
             'industry_id' => Yii::t('app', 'Industry ID'),
             'action_id' => Yii::t('app', 'Action ID'),
-            'action_name' => Yii::t('app', 'Action'),
             'object_id' => Yii::t('app', 'Object ID'),
-            'object_name' => Yii::t('app', 'Object Name'),
             'object_model_relevance' => Yii::t('app', 'Object Model Relevance'), 
             'service_type' => Yii::t('app', 'Service Type'), 
             'amount' => Yii::t('app', 'Amount'),

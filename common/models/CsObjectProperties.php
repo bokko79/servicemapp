@@ -9,9 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $object_id
- * @property string $object_name
  * @property integer $property_id
- * @property string $property_name
  * @property integer $property_unit_id
  * @property integer $property_unit_imperial_id
  * @property string $property_class
@@ -48,7 +46,6 @@ class CsObjectProperties extends \yii\db\ActiveRecord
             [['object_id', 'property_id', 'property_unit_id', 'property_unit_imperial_id', 'input_type', 'value_min', 'value_max', 'display_order', 'multiple_values', 'specific_values', 'read_only', 'required'], 'integer'],
             [['property_class', 'property_type'], 'string'],
             [['step'], 'number'],
-            [['object_name', 'property_name'], 'string', 'max' => 64],
             [['value_default'], 'string', 'max' => 128],
             [['pattern'], 'string', 'max' => 32],
         ];
@@ -62,9 +59,7 @@ class CsObjectProperties extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'object_id' => Yii::t('app', 'Object ID'),
-            'object_name' => Yii::t('app', 'Object Name'),
             'property_id' => Yii::t('app', 'Property ID'),
-            'property_name' => Yii::t('app', 'Property Name'),
             'property_unit_id' => Yii::t('app', 'Property Unit ID'),
             'property_unit_imperial_id' => Yii::t('app', 'Property Unit Imperial ID'),
             'property_class' => Yii::t('app', 'Property Class'),

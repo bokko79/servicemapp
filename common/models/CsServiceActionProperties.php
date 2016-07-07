@@ -44,8 +44,9 @@ class CsServiceActionProperties extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'service_id' => Yii::t('app', 'Service ID'),
-            'action_property_id' => Yii::t('app', 'Method ID'),
+            'action_property_id' => Yii::t('app', 'Action Property ID'),
             'requirement' => Yii::t('app', 'Requirement'),
+            'readOnly' => Yii::t('app', 'Read Only'),
         ];
     }
 
@@ -63,5 +64,13 @@ class CsServiceActionProperties extends \yii\db\ActiveRecord
     public function getActionProperty()
     {
         return $this->hasOne(CsActionProperties::className(), ['id' => 'action_property_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getServiceActionPropertyValues()
+    {
+        return $this->hasMany(CsServiceActionPropertyValues::className(), ['service_action_property_id' => 'id']);
     }
 }

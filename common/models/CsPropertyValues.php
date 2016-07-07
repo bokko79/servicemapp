@@ -10,7 +10,6 @@ use yii\imagine\Image;
  *
  * @property string $id
  * @property integer $property_id
- * @property string $property_name
  * @property string $value
  * @property integer $selected_value
  * @property string $hint
@@ -37,7 +36,7 @@ class CsPropertyValues extends \yii\db\ActiveRecord
         return [
             [['property_id', 'value'], 'required'],
             [['property_id', 'selected_value', 'image_id'], 'integer'],
-            [['property_name', 'value'], 'string', 'max' => 128],
+            [['value'], 'string', 'max' => 128],
             [['hint', 'video_link'], 'string', 'max' => 256],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
         ];
@@ -51,7 +50,6 @@ class CsPropertyValues extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'property_id' => Yii::t('app', 'Property ID'),
-            'property_name' => Yii::t('app', 'Property Name'),
             'value' => Yii::t('app', 'Value'),
             'selected_value' => Yii::t('app', 'Selected Value'),
             'hint' => Yii::t('app', 'Hint'),

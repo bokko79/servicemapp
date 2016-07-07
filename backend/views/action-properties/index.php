@@ -25,9 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'action_id',
-            'action_name',
             'property_id',
-            'property_name',
             // 'default_value',
             // 'range_min',
             // 'range_max',

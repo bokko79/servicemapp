@@ -76,9 +76,7 @@ class CsObjectPropertiesSearch extends CsObjectProperties
             'required' => $this->required,
         ]);
 
-        $query->andFilterWhere(['like', 'object_name', $this->object_name])
-            ->andFilterWhere(['like', 'property_name', $this->property_name])
-            ->andFilterWhere(['like', 'property_class', $this->property_class])
+        $query->andFilterWhere(['like', 'property_class', $this->property_class])
             ->andFilterWhere(['like', 'property_type', $this->property_type])
             ->andFilterWhere(['like', 'value_default', $this->value_default])
             ->andFilterWhere(['like', 'pattern', $this->pattern]);

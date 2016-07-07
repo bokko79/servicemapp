@@ -9,9 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $industry_id
- * @property string $industry_name
  * @property integer $property_id
- * @property string $property_name
  * @property string $value_default
  * @property integer $value_min
  * @property string $value_max
@@ -45,7 +43,6 @@ class CsIndustryProperties extends \yii\db\ActiveRecord
             [['industry_id', 'property_id'], 'required'],
             [['industry_id', 'property_id', 'value_min', 'value_max', 'display_order', 'multiple_values', 'read_only', 'required'], 'integer'],
             [['step'], 'number'],
-            [['industry_name', 'property_name'], 'string', 'max' => 64],
             [['value_default'], 'string', 'max' => 128],
             [['pattern'], 'string', 'max' => 32],
         ];
@@ -59,9 +56,7 @@ class CsIndustryProperties extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'industry_id' => Yii::t('app', 'Industry ID'),
-            'industry_name' => Yii::t('app', 'Industry Name'),
             'property_id' => Yii::t('app', 'Property ID'),
-            'property_name' => Yii::t('app', 'Property Name'),
             'value_default' => Yii::t('app', 'Value Default'),
             'value_min' => Yii::t('app', 'Value Min'),
             'value_max' => Yii::t('app', 'Value Max'),

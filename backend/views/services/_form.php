@@ -1,16 +1,23 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\CsServices */
-/* @var $form yii\widgets\ActiveForm */
+use yii\helpers\Url;
+use kartik\widgets\ActiveForm;
+use kartik\switchinput\SwitchInput;
+use kartik\widgets\DatePicker;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use kartik\widgets\FileInput;
 ?>
 
-<div class="cs-services-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = kartik\widgets\ActiveForm::begin([
+    'id' => 'form-horizontal',
+    'type' => ActiveForm::TYPE_HORIZONTAL,
+    'fullSpan' => 7,      
+    'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
+    'options' => ['enctype' => 'multipart/form-data'],
+]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -20,11 +27,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'action_id')->textInput() ?>
 
-    <?= $form->field($model, 'action_name')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'object_id')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'object_name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'service_type')->textInput(['maxlength' => true]) ?>
 
@@ -99,5 +102,3 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
-
-</div>

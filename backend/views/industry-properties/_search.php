@@ -19,11 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'industry_id') ?>
 
-    <?= $form->field($model, 'industry_name') ?>
-
     <?= $form->field($model, 'property_id') ?>
-
-    <?= $form->field($model, 'property_name') ?>
 
     <?php // echo $form->field($model, 'value_default') ?>
 

@@ -19,7 +19,7 @@ class CsProductsSearch extends CsProducts
     {
         return [
             [['id', 'object_id', 'object_property_id', 'product_id', 'base_product_id', 'predecessor_id', 'successor_id'], 'integer'],
-            [['property_name', 'name', 'level', 'class', 'description'], 'safe'],
+            [['name', 'level', 'class', 'description'], 'safe'],
         ];
     }
 
@@ -70,8 +70,7 @@ class CsProductsSearch extends CsProducts
             'successor_id' => $this->successor_id,
         ]);
 
-        $query->andFilterWhere(['like', 'cs_products.property_name', $this->property_name])
-            ->andFilterWhere(['like', 'cs_products.name', $this->name])
+        $query->andFilterWhere(['like', 'cs_products.name', $this->name])
             ->andFilterWhere(['like', 'cs_products.level', $this->level])
             ->andFilterWhere(['like', 'cs_products.class', $this->class])
             ->andFilterWhere(['like', 'cs_products.description', $this->description]);

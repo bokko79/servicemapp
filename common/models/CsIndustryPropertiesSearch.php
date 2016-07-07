@@ -19,7 +19,7 @@ class CsIndustryPropertiesSearch extends CsIndustryProperties
     {
         return [
             [['id', 'industry_id', 'property_id', 'value_min', 'value_max', 'display_order', 'multiple_values', 'read_only', 'required'], 'integer'],
-            [['industry_name', 'property_name', 'value_default', 'pattern'], 'safe'],
+            [['value_default', 'pattern'], 'safe'],
             [['step'], 'number'],
         ];
     }
@@ -72,9 +72,7 @@ class CsIndustryPropertiesSearch extends CsIndustryProperties
             'required' => $this->required,
         ]);
 
-        $query->andFilterWhere(['like', 'industry_name', $this->industry_name])
-            ->andFilterWhere(['like', 'property_name', $this->property_name])
-            ->andFilterWhere(['like', 'value_default', $this->value_default])
+        $query->andFilterWhere(['like', 'value_default', $this->value_default])
             ->andFilterWhere(['like', 'pattern', $this->pattern]);
 
         return $dataProvider;

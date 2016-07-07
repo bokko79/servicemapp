@@ -25,11 +25,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'action_id') ?>
 
-    <?php // echo $form->field($model, 'action_name') ?>
-
     <?php // echo $form->field($model, 'object_id') ?>
-
-    <?php // echo $form->field($model, 'object_name') ?>
 
     <?php // echo $form->field($model, 'object_model_relevance') ?>
 

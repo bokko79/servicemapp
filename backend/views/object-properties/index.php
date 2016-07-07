@@ -18,9 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'object_id',
-            'object_name',
             'property_id',
-            'property_name',
             // 'property_unit_id',
             // 'property_unit_imperial_id',
             // 'property_class',

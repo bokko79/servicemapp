@@ -11,87 +11,11 @@ use \common\models\User;
 $logo_url = Html::img(Yii::$app->homeUrl.'images/logo/logo46.png', ['alt'=>'Servicemapp Logo', 'class'=>'', 'style' => 'margin:15px 10px;', 'width'=>180]);
 
 $user = User::findOne(Yii::$app->user->id);
-
-$menuItems[] = [
-        ['label' => '<i class="fa fa-home"></i>&nbsp'.Yii::t('app', 'Početna'), 'url' => ['/'.$user->username.'/home']],
-        ['label' => '<i class="fa fa-cogs"></i>&nbsp'.Yii::t('app', 'Podešavanja'), 'url' => ['/'.$user->username.'/setup']],        
-        ['label' => '<i class="fa fa-sign-out"></i>&nbspLogout (' . $user->username . ')', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
-];
-$menuItems[] = [
-        ['label' => Yii::t('app', 'Usluge'), 'url' => ['/services/index']],
-        ['label' => Yii::t('app', 'Akcije'), 'url' => ['/actions/index']],  
-        ['label' => Yii::t('app', 'Delatnosti'), 'url' => ['/industries/index']],                                                      
-        ['label' => Yii::t('app', 'Predmeti'), 'url' => ['/objects/index']],
-        ['label' => Yii::t('app', 'Svojstva'), 'url' => ['/properties/index']],
-        //['label' => Yii::t('app', 'Modeli svojstava'), 'url' => ['/property-values/index']],
-        //['label' => Yii::t('app', 'Metode'), 'url' => ['/methods/index']],
-        //['label' => Yii::t('app', 'Specifikacije'), 'url' => ['/specs/index']],
-        //['label' => Yii::t('app', 'Skilovi'), 'url' => ['/skills/index']],
-        //['label' => Yii::t('app', 'Problemi'), 'url' => ['/object-issues/index']],
-        //['label' => Yii::t('app', 'Specifikacije usluge'), 'url' => ['/service-specs/index']],
-        //['label' => Yii::t('app', 'Metode usluge'), 'url' => ['/service-methods/index']],
-        //['label' => Yii::t('app', 'Procesi usluge'), 'url' => ['/service-processes/index']],
-        //['label' => Yii::t('app', 'Skilovi usluge'), 'url' => ['/service-skills/index']],
-        //['label' => Yii::t('app', 'Jedinice mere usluge'), 'url' => ['/service-units/index']],
-        //['label' => Yii::t('app', 'Vrste predmeta usluge'), 'url' => ['/service-object-models/index']],
-];   
-$menuItems[] = [
-        ['label' => Yii::t('app', 'Valute'), 'url' => ['/currencies/index']],
-        ['label' => Yii::t('app', 'Jezici'), 'url' => ['/languages/index']],
-        ['label' => Yii::t('app', 'Jedinice mere'), 'url' => ['/units/index']],
-        ['label' => Yii::t('app', 'Tagovi'), 'url' => ['/tags/index']],
-];
-$menuItems[] = [
-        //['label' => Yii::t('app', 'Sektori'), 'url' => ['/services/index']],
-        //['label' => Yii::t('app', 'Kategorije'), 'url' => ['/services/index']],
-        ['label' => Yii::t('app', 'Klase predmeta'), 'url' => ['/object-classes/index']],
-        ['label' => Yii::t('app', 'Vrste predmeta'), 'url' => ['/object-types/index']],
-        ['label' => Yii::t('app', 'Procesi'), 'url' => ['/processes/index']],
-        ['label' => Yii::t('app', 'Regulativa'), 'url' => ['/regulations/index']],
-];
 ?>
 
 <!-- START LEFT SIDEBAR NAV-->
 <aside id="left-sidebar-nav" class="col-md-2 bg-blue-gray-900 white">
-    <?php /* Menu::widget([
-        'options' => ['class' => 'side-nav fixed leftside-navigation', 'id' => 'slide-out'],
-        'encodeLabels' => false,
-        'items' => [
-            ['label' => '<i class="fa fa-home"></i>&nbsp'.Yii::t('app', 'Početna'), 'url' => ['/'.$user->username.'/home']],
-            ['label' => '<i class="fa fa-cogs"></i>&nbsp'.Yii::t('app', 'Podešavanja'), 'url' => ['/'.$user->username.'/setup']],        
-            ['label' => '<i class="fa fa-sign-out"></i>&nbspLogout (' . $user->username . ')', 'url' => ['/user/security/logout'], 'linkOptions' => ['data-method' => 'post']],
 
-            ['label' => Yii::t('app', 'Core'), 'url' => ['/services/index'], 'options' => ['class' => 'collapsible collapsible-accordion'], 'items' => [
-                ['label' => Yii::t('app', 'Usluge'), 'url' => ['/services/index']],
-                ['label' => Yii::t('app', 'Akcije'), 'url' => ['/actions/index']],  
-                ['label' => Yii::t('app', 'Delatnosti'), 'url' => ['/industries/index']],                                                      
-                ['label' => Yii::t('app', 'Predmeti'), 'url' => ['/objects/index']],
-                ['label' => Yii::t('app', 'Svojstva'), 'url' => ['/properties/index']],
-            ]],
-                
-            //['label' => Yii::t('app', 'Modeli svojstava'), 'url' => ['/property-values/index']],
-            //['label' => Yii::t('app', 'Metode'), 'url' => ['/methods/index']],
-            //['label' => Yii::t('app', 'Specifikacije'), 'url' => ['/specs/index']],
-            //['label' => Yii::t('app', 'Skilovi'), 'url' => ['/skills/index']],
-            //['label' => Yii::t('app', 'Problemi'), 'url' => ['/object-issues/index']],
-            //['label' => Yii::t('app', 'Specifikacije usluge'), 'url' => ['/service-specs/index']],
-            //['label' => Yii::t('app', 'Metode usluge'), 'url' => ['/service-methods/index']],
-            //['label' => Yii::t('app', 'Procesi usluge'), 'url' => ['/service-processes/index']],
-            //['label' => Yii::t('app', 'Skilovi usluge'), 'url' => ['/service-skills/index']],
-            //['label' => Yii::t('app', 'Jedinice mere usluge'), 'url' => ['/service-units/index']],
-            //['label' => Yii::t('app', 'Vrste predmeta usluge'), 'url' => ['/service-object-models/index']],
-
-            ['label' => Yii::t('app', 'Valute'), 'url' => ['/currencies/index']],
-            ['label' => Yii::t('app', 'Jezici'), 'url' => ['/languages/index']],
-            ['label' => Yii::t('app', 'Jedinice mere'), 'url' => ['/units/index']],
-            ['label' => Yii::t('app', 'Tagovi'), 'url' => ['/tags/index']],
-
-            ['label' => Yii::t('app', 'Klase predmeta'), 'url' => ['/object-classes/index']],
-            ['label' => Yii::t('app', 'Vrste predmeta'), 'url' => ['/object-types/index']],
-            ['label' => Yii::t('app', 'Procesi'), 'url' => ['/processes/index']],
-            ['label' => Yii::t('app', 'Regulativa'), 'url' => ['/regulations/index']],
-        ],
-    ]); */ ?>
     <ul id="slide-out" class="side-nav fixed leftside-navigation">
         <li class="">
             <?= Yii::$app->user->avatar ?>
@@ -112,7 +36,9 @@ $menuItems[] = [
                     <ul>
                         <li class=""><?= Html::a('Industry Properties', Url::to('/service-industry-properties/index'), []) ?></li>
                         <li class=""><?= Html::a('Action Properties', Url::to('/service-action-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Action Property Values', Url::to('/service-action-property-values/index'), []) ?></li>
                         <li class=""><?= Html::a('Object Properties', Url::to('/service-object-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Object Property Values', Url::to('/service-object-property-values/index'), []) ?></li>
                         <li class=""><?= Html::a('Regulations', Url::to('/service-regulations/index'), []) ?></li>
                         <li class=""><?= Html::a('Processes', Url::to('/service-processes/index'), []) ?></li>
                         <li class=""><?= Html::a('Units', Url::to('/service-units/index'), []) ?></li>
@@ -122,6 +48,7 @@ $menuItems[] = [
                     <?= Html::a('Akcije', Url::to('/actions/index'), []) ?>
                     <ul>
                         <li class=""><?= Html::a('Action Properties', Url::to('/action-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Action Property Values', Url::to('/action-property-values/index'), []) ?></li>
                     </ul>
                 </li>
                 <li class="">
@@ -136,8 +63,17 @@ $menuItems[] = [
                     <?= Html::a('Predmeti', Url::to('/objects/index'), []) ?>
                     <ul>
                         <li class=""><?= Html::a('Object Properties', Url::to('/object-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Object Property Values', Url::to('/object-property-values/index'), []) ?></li>
                         <li class=""><?= Html::a('Object Types', Url::to('/object-types/index'), []) ?></li>
                         <li class=""><?= Html::a('Object Issues', Url::to('/object-issues/index'), []) ?></li>
+                    </ul>
+                </li>
+                <li class="">
+                    <?= Html::a('Proizvodi', Url::to('/products/index'), []) ?>
+                    <ul>
+                        <li class=""><?= Html::a('Product Properties', Url::to('/product-properties/index'), []) ?></li>
+                        <li class=""><?= Html::a('Product Property Values', Url::to('/product-property-values/index'), []) ?></li>                        
+                        <li class=""><?= Html::a('Product Issues', Url::to('/product-issues/index'), []) ?></li>
                     </ul>
                 </li>
                 <li class="">

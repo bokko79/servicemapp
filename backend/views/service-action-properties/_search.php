@@ -19,9 +19,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'service_id') ?>
 
-    <?= $form->field($model, 'method_id') ?>
+    <?= $form->field($model, 'action_property_id') ?>
 
     <?= $form->field($model, 'requirement') ?>
+
+    <?= $form->field($model, 'readOnly') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

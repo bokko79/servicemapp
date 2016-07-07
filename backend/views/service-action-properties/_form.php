@@ -1,22 +1,35 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\CsServiceMethods */
-/* @var $form yii\widgets\ActiveForm */
+use yii\helpers\Url;
+use kartik\widgets\ActiveForm;
+use kartik\switchinput\SwitchInput;
+use kartik\widgets\DatePicker;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use kartik\widgets\FileInput;
 ?>
 
-<div class="cs-service-methods-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = kartik\widgets\ActiveForm::begin([
+    'id' => 'form-horizontal',
+    'type' => ActiveForm::TYPE_HORIZONTAL,
+    'fullSpan' => 7,      
+    'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
+    'options' => ['enctype' => 'multipart/form-data'],
+]); ?>
 
-    <?= $form->field($model, 'service_id')->textInput() ?>
+    <?= $form->field($model, 'service_id')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(\common\models\CsServices::find()->all(), 'id', 'name'),
+            'options' => ['placeholder' => 'Izaberite...'],
+            'language' => 'sr-Latn',
+            'changeOnReset' => false,           
+        ]) ?>
+    <?= $form->field($model, 'action_property_id')->textInput() ?>
 
-    <?= $form->field($model, 'method_id')->textInput() ?>
+    <?= $form->field($model, 'requirement')->checkbox() ?>
 
-    <?= $form->field($model, 'requirement')->textInput() ?>
+    <?= $form->field($model, 'readOnly')->checkbox() ?>
 
     <div class="row" style="margin:20px;">
         <div class="col-md-offset-3">
@@ -25,5 +38,3 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
-
-</div>

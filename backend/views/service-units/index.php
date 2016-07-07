@@ -7,23 +7,21 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsServiceUnitsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Service Units';
+$this->title = 'Service Units';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-service-units-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Cs Service Units', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create New Service Unit', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'service_id',
             'unit_id',
@@ -32,4 +30,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

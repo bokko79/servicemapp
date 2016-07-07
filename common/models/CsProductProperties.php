@@ -9,9 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $product_id
- * @property string $product_name
  * @property string $object_property_id
- * @property string $property_name
  * @property integer $property_unit_id
  * @property integer $property_unit_imperial_id
  * @property string $property_class
@@ -44,12 +42,11 @@ class CsProductProperties extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'product_name', 'object_property_id', 'property_name'], 'required'],
+            [['product_id', 'object_property_id', 'property_name'], 'required'],
             [['product_id', 'object_property_id', 'property_unit_id', 'property_unit_imperial_id', 'input_type', 'value_min', 'value_max', 'display_order', 'multiple_values', 'specific_values', 'read_only', 'required'], 'integer'],
             [['property_class', 'description'], 'string'],
             [['step'], 'number'],
-            [['product_name'], 'string', 'max' => 256],
-            [['property_name', 'value_default'], 'string', 'max' => 128],
+            [['value_default'], 'string', 'max' => 128],
             [['pattern'], 'string', 'max' => 64],
         ];
     }
@@ -62,9 +59,7 @@ class CsProductProperties extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'product_id' => Yii::t('app', 'Product ID'),
-            'product_name' => Yii::t('app', 'Product Name'),
             'object_property_id' => Yii::t('app', 'Object Property ID'),
-            'property_name' => Yii::t('app', 'Property Name'),
             'property_unit_id' => Yii::t('app', 'Property Unit ID'),
             'property_unit_imperial_id' => Yii::t('app', 'Property Unit Imperial ID'),
             'property_class' => Yii::t('app', 'Property Class'),

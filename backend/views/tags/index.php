@@ -7,23 +7,20 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsTagsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Tags';
+$this->title = 'Tags';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-tags-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Cs Tags', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create New Tag', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'entity',
             'entity_id',
@@ -35,4 +32,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

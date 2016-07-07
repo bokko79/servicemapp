@@ -41,8 +41,9 @@ class CsServiceIndustryProperties extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'service_id' => Yii::t('app', 'Service ID'),
-            'industry_property_id' => Yii::t('app', 'Skill ID'),
+            'industry_property_id' => Yii::t('app', 'Industry Property'),
             'requirement' => Yii::t('app', 'Requirement'),
+            'readOnly' => Yii::t('app', 'Read Only'),
         ];
     }
 

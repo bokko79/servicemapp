@@ -1,16 +1,23 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\CsTags */
-/* @var $form yii\widgets\ActiveForm */
+use yii\helpers\Url;
+use kartik\widgets\ActiveForm;
+use kartik\switchinput\SwitchInput;
+use kartik\widgets\DatePicker;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use kartik\widgets\FileInput;
 ?>
 
-<div class="cs-tags-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = kartik\widgets\ActiveForm::begin([
+    'id' => 'form-horizontal',
+    'type' => ActiveForm::TYPE_HORIZONTAL,
+    'fullSpan' => 7,      
+    'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
+    'options' => ['enctype' => 'multipart/form-data'],
+]); ?>
 
     <?= $form->field($model, 'entity')->dropDownList([ 'service' => 'Service', 'industry' => 'Industry', 'object' => 'Object', 'category' => 'Category', 'action' => 'Action', ], ['prompt' => '']) ?>
 
@@ -31,5 +38,3 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
-
-</div>

@@ -6,33 +6,33 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsServiceSkills */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Cs Service Skills', 'url' => ['index']];
+$this->title = $model->service->tName . ' - ' . $model->industryProperty->property->tName;
+$this->params['breadcrumbs'][] = ['label' => 'Service Industry Property', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-service-skills-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= c(Html::encode($this->title)) ?> <small>requirement: <?= $model->requirement ?></small></h2>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'service_id',
-            'skill_id',
-            'requirement',
+<p>
+    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => 'Are you sure you want to delete this item?',
+            'method' => 'post',
         ],
     ]) ?>
+</p>
 
-</div>
+<?= DetailView::widget([
+    'model' => $model,
+    'attributes' => [
+        'id',
+        'service_id',
+        'service.tName',
+        'industry_property_id',
+        'industryProperty.property.tName',
+        'requirement',
+        'readOnly',
+    ],
+]) ?>

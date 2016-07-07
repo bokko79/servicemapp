@@ -18,8 +18,9 @@ class CsActionPropertiesSearch extends CsActionProperties
     public function rules()
     {
         return [
-            [['id', 'action_id', 'property_id', 'range_min', 'range_max', 'range_step', 'display_order', 'required'], 'integer'],
-            [['action_name', 'property_name', 'default_value'], 'safe'],
+            [['id', 'action_id', 'property_id', 'value_min', 'value_max', 'display_order', 'multiple_values', 'read_only', 'required'], 'integer'],
+            [['value_default', 'pattern'], 'safe'],
+            [['step'], 'number'],
         ];
     }
 
@@ -62,16 +63,17 @@ class CsActionPropertiesSearch extends CsActionProperties
             'id' => $this->id,
             'action_id' => $this->action_id,
             'property_id' => $this->property_id,
-            'range_min' => $this->range_min,
-            'range_max' => $this->range_max,
-            'range_step' => $this->range_step,
+            'value_min' => $this->value_min,
+            'value_max' => $this->value_max,
+            'step' => $this->step,
             'display_order' => $this->display_order,
+            'multiple_values' => $this->multiple_values,
+            'read_only' => $this->read_only,
             'required' => $this->required,
         ]);
 
-        $query->andFilterWhere(['like', 'action_name', $this->action_name])
-            ->andFilterWhere(['like', 'property_name', $this->property_name])
-            ->andFilterWhere(['like', 'default_value', $this->default_value]);
+        $query->    andFilterWhere(['like', 'value_default', $this->value_default])
+            ->andFilterWhere(['like', 'pattern', $this->pattern]);
 
         return $dataProvider;
     }

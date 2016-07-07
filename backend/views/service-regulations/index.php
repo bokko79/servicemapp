@@ -7,23 +7,21 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsServiceRegulationsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Service Regulations';
+$this->title = 'Service Regulations';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-service-regulations-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<h2><?= Html::encode($this->title) ?></h2>
+<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Cs Service Regulations', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<p>
+    <?= Html::a('Create New Service Regulation', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
+<?php Pjax::begin(); ?>  
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'service_id',
             'regulation_id',
@@ -32,4 +30,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

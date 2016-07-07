@@ -6,16 +6,14 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsServiceMethods */
 
-$this->title = 'Create Cs Service Methods';
+$this->title = 'Create New Service Action Property';
 $this->params['breadcrumbs'][] = ['label' => 'Cs Service Methods', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-service-methods-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?></h2>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+<?= $this->render('_form', [
+    'model' => $model,
+]) ?>
 
-</div>

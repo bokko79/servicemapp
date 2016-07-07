@@ -7,29 +7,29 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsServiceMethodsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Service Methods';
+$this->title = 'Service Action Properties';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-service-methods-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+
+    <h2><?= Html::encode($this->title) ?> <small>Svojstva akcije usluge</small></h2>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Cs Service Methods', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create New Service Action Property', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'service_id',
-            'method_id',
+            'action_property_id',
             'requirement',
+            'readOnly',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

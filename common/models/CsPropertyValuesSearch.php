@@ -19,7 +19,7 @@ class CsPropertyValuesSearch extends CsPropertyValues
     {
         return [
             [['id', 'property_id', 'selected_value', 'image_id'], 'integer'],
-            [['value', 'property_name', 'hint'], 'safe'],
+            [['value', 'hint'], 'safe'],
         ];
     }
 
@@ -66,7 +66,6 @@ class CsPropertyValuesSearch extends CsPropertyValues
         ]);
 
         $query->andFilterWhere(['like', 'value', $this->value])
-            ->andFilterWhere(['like', 'property_name', $this->property_name])
             ->andFilterWhere(['like', 'hint', $this->hint]);
 
         return $dataProvider;

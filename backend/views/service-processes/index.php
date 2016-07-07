@@ -7,23 +7,21 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\CsServiceProcessesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cs Service Processes';
+$this->title = 'Service Processes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-service-processes-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<h2><?= Html::encode($this->title) ?></h2>
+<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Cs Service Processes', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<p>
+    <?= Html::a('Create New Service Processes', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'process_id',
             'service_id',
@@ -33,4 +31,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>

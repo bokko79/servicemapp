@@ -43,10 +43,11 @@ class CsActionProperties extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['action_id', 'property_id', 'type'], 'required'],
-            [['action_id', 'property_id', 'required'], 'integer'],
-            [['type'], 'string'],
-            [['action', 'property'], 'string', 'max' => 64],
+            [['action_id', 'property_id'], 'required'],
+            [['action_id', 'property_id', 'value_min', 'value_max', 'display_order', 'multiple_values', 'read_only', 'required'], 'integer'],
+            [['step'], 'number'],
+            [['value_default'], 'string', 'max' => 128],
+            [['pattern'], 'string', 'max' => 32],
         ];
     }
 
@@ -58,10 +59,15 @@ class CsActionProperties extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'action_id' => Yii::t('app', 'Action ID'),
-            'action' => Yii::t('app', 'Action'),
             'property_id' => Yii::t('app', 'Property ID'),
-            'property' => Yii::t('app', 'Property'),
-            'type' => Yii::t('app', 'Type'),
+            'value_default' => Yii::t('app', 'Value Default'),
+            'value_min' => Yii::t('app', 'Value Min'),
+            'value_max' => Yii::t('app', 'Value Max'),
+            'step' => Yii::t('app', 'Step'),
+            'pattern' => Yii::t('app', 'Pattern'),
+            'display_order' => Yii::t('app', 'Display Order'),
+            'multiple_values' => Yii::t('app', 'Multiple Values'),
+            'read_only' => Yii::t('app', 'Read Only'),
             'required' => Yii::t('app', 'Required'),
         ];
     }
@@ -87,7 +93,7 @@ class CsActionProperties extends \yii\db\ActiveRecord
      */
     public function getActionPropertyValues()
     {
-        return $this->hasMany(ActionPropertyValues::className(), ['action_property_id' => 'id']);
+        return $this->hasMany(CsActionPropertyValues::className(), ['action_property_id' => 'id']);
     }
 
     /**
@@ -119,6 +125,6 @@ class CsActionProperties extends \yii\db\ActiveRecord
      */
     public function serviceActionProperty($service_id)
     {
-        return \common\models\CsServiceActionProperties::find()->where('action_property_id='.$this->id.' AND service_id='.$service_id)->one();
+        return CsServiceActionProperties::find()->where('action_property_id='.$this->id.' AND service_id='.$service_id)->one();
     }
 }

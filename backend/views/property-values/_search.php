@@ -21,8 +21,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'property_id') ?>
 
-    <?= $form->field($model, 'property_name') ?>
-
     <?= $form->field($model, 'selected_value') ?>
 
     <?php // echo $form->field($model, 'hint') ?>

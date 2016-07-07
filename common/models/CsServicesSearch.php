@@ -22,7 +22,7 @@ class CsServicesSearch extends CsServices
     {
         return [
             [['id', 'industry_id', 'action_id', 'object_id', 'unit_id', 'process', 'geospecific', 'hit_counter'], 'integer'],
-            [['tag_id', 'product_id', 'name', 'action', 'object_name', 'service_type', 'amount', 'pic', 'object_ownership', 'consumer', 'support', 'location', 'time', 'duration', 'turn_key', 'tools', 'labour_type', 'frequency', 'coverage', 'dat', 'status'], 'safe'],
+            [['tag_id', 'product_id', 'name', 'action', 'service_type', 'amount', 'pic', 'object_ownership', 'consumer', 'support', 'location', 'time', 'duration', 'turn_key', 'tools', 'labour_type', 'frequency', 'coverage', 'dat', 'status'], 'safe'],
         ];
     }
 

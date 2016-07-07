@@ -6,16 +6,13 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CsServices */
 
-$this->title = 'Create Cs Services';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Services', 'url' => ['index']];
+$this->title = 'Create New Service';
+$this->params['breadcrumbs'][] = ['label' => 'Services', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cs-services-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?></h2>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+<?= $this->render('_form', [
+    'model' => $model,
+]) ?>

@@ -29,9 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'attributes' => [
         'id',
         'product_id',
-        'product_name',
         'object_property_id',
-        'property_name',
         'property_unit_id',
         'property_unit_imperial_id',
         'property_class',
@@ -46,6 +44,5 @@ $this->params['breadcrumbs'][] = $this->title;
         'specific_values',
         'read_only',
         'required',
-        'description',
     ],
 ]) ?>

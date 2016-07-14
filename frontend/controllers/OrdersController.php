@@ -16,17 +16,17 @@ use common\models\OrderServiceObjectModels;
 use common\models\OrderServiceObjectProperties;
 use common\models\OrderServiceObjectPropertyValues;
 use common\models\OrderServiceActionProperties;
-use common\models\OrderServiceImages;
+use common\models\OrderServiceObjectFiles;
 use common\models\OrderServiceIssues;
 use common\models\Log;
 use common\models\UserLog;
 use common\models\UserLocations;
 use common\models\UserObjects;
-use common\models\UserObjectImages;
+use common\models\UserObjectFiles;
 use common\models\UserObjectSpecs;
 use common\models\UserObjectSpecModels;
 use common\models\Locations;
-use common\models\Images;
+use common\models\Files;
 use common\models\Notifications;
 //use common\models\LoginForm;
 use common\models\PasswordResetRequestForm;
@@ -285,7 +285,7 @@ class OrdersController extends Controller
                 foreach($cart['industry'] as $ki=>$industry){                    
                     if(isset($industry[$ki]['data']['images']) && $industry[$ki]['data']['images']!=null){
                         foreach ($industry[$ki]['data']['images'] as $key_im => $image) {
-                            $imageInstance = \common\models\Images::getImageByBaseEncode($image->name);
+                            $imageInstance = Files::getImageByBaseEncode($image->name);
                             if($imageInstance){
                                 $thumb = '@webroot/images/orders/thumbs/'.$imageInstance->ime;
                                 $full = '@webroot/images/orders/full/'.$imageInstance->ime;
@@ -621,9 +621,9 @@ class OrdersController extends Controller
                                 $model_service_specs[$key_s]->save();
                             }
                         }
-                        if($userObject->userObjectImages){
+                        if($userObject->userObjectFiles){
                             foreach ($userObject->userObjectImages as $key_im => $userObjectImage) {
-                                $model_service_images[$key_im] = new OrderServiceImages();
+                                $model_service_images[$key_im] = new OrderServiceObjectFiles();
                                 $model_service_images[$key_im]->order_service_id = $model_services[$keyd]->id;
                                 $model_service_images[$key_im]->image_id = $userObjectImage->image_id;
                                 $model_service_images[$key_im]->save();
@@ -678,16 +678,16 @@ class OrdersController extends Controller
                     }
                     if(isset($data['images']) && $data['images']!=null){
                         foreach ($data['images'] as $key_im => $image) {
-                            $imageInstance = \common\models\Images::getImageByName($image->name);
+                            $imageInstance = Files::getImageByName($image->name);
                             if($imageInstance!=null){
-                                $model_service_images[$key_im] = new OrderServiceImages();
+                                $model_service_images[$key_im] = new OrderServiceObjectFiles();
                                 $model_service_images[$key_im]->order_service_id = $model_services[$keyd]->id;
-                                $model_service_images[$key_im]->image_id = $imageInstance->id;
+                                $model_service_images[$key_im]->file_id = $imageInstance->id;
                                 $model_service_images[$key_im]->save();
 
                                 $user_object_model_images[$key_im] = new UserObjectImages();
                                 $user_object_model_images[$key_im]->user_object_id = $user_object_model[$keyd]->id;
-                                $user_object_model_images[$key_im]->image_id = $imageInstance->id;
+                                $user_object_model_images[$key_im]->file_id = $imageInstance->id;
                                 $user_object_model_images[$key_im]->save();
                             }                                
                         }

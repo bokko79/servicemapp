@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\CsMethods */
 
 $this->title = 'Create New Action Property';
-$this->params['breadcrumbs'][] = ['label' => 'Cs Methods', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Action Properties', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

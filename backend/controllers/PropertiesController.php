@@ -59,25 +59,20 @@ class PropertiesController extends Controller
      */
     public function actionView($id)
     {
-        $dataProviderPropertyValues = new ActiveDataProvider([
-            'query' => CsPropertyValues::find()->filterWhere(['property_id' => $id]),
-        ]);
-        $dataProviderObjectProperties = new ActiveDataProvider([
-            'query' => CsObjectProperties::find()->filterWhere(['property_id' => $id]),
-        ]);
-        /*$dataProviderActionProperties = new ActiveDataProvider([
-            'query' => CsActionProperties::find()->filterWhere(['property_id' => $id]),
-        ]);
-        $dataProviderIndustryProperties = new ActiveDataProvider([
-            'query' => CsIndustryProperties::find()->filterWhere(['property_id' => $id]),
-        ]);*/
-
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'dataProviderPropertyValues' => $dataProviderPropertyValues,
-            'dataProviderObjectProperties' => $dataProviderObjectProperties,
-            //'dataProviderActionProperties' => $dataProviderActionProperties,
-            //'dataProviderIndustryProperties' => $dataProviderIndustryProperties,
+            'propertyValues' => new ActiveDataProvider([
+                'query' => CsPropertyValues::find()->filterWhere(['property_id' => $id]),
+            ]),
+            'industryProperties' => new ActiveDataProvider([
+                'query' => CsIndustryProperties::find()->filterWhere(['property_id' => $id]),
+            ]),
+            'actionProperties' => new ActiveDataProvider([
+                'query' => CsActionProperties::find()->filterWhere(['property_id' => $id]),
+            ]),
+            'objectProperties' => new ActiveDataProvider([
+                'query' => CsObjectProperties::find()->filterWhere(['property_id' => $id]),
+            ]),
         ]);
     }
 
@@ -117,11 +112,9 @@ class PropertiesController extends Controller
         $model = $this->findModel($id);
         $model_trans = $model->translation;
 
-        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post()) and $model->save()) {
+        if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post()) and $model->save() and $model_trans->save()) {
             
-            if($model_trans->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,

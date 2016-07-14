@@ -8,6 +8,7 @@ use common\models\CsObjectPropertiesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * ObjectPropertiesController implements the CRUD actions for CsObjectProperties model.
@@ -55,6 +56,9 @@ class ObjectPropertiesController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'propertyValues' => new ActiveDataProvider([
+                'query' => \common\models\CsObjectPropertyValues::find()->where(['object_property_id' => $id]),
+            ]),
         ]);
     }
 
@@ -66,6 +70,11 @@ class ObjectPropertiesController extends Controller
     public function actionCreate()
     {
         $model = new CsObjectProperties();
+        if($objectProperties = Yii::$app->request->get('CsObjectProperties')){
+            $model->object_id = !empty($objectProperties['object_id']) ? $objectProperties['object_id'] : null;
+            $model->property_id = !empty($objectProperties['property_id']) ? $objectProperties['property_id'] : null;
+            $model->property_unit_id = !empty($objectProperties['property_unit_id']) ? $objectProperties['property_unit_id'] : null;
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -122,5 +131,22 @@ class ObjectPropertiesController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * Lists all ProviderServices models.
+     * @return mixed
+     */
+    public function actionModal($id=null)
+    {
+        if($id){
+            if($objectProperty = $this->findModel($id)) {
+                return $this->renderAjax('//objects/_object_property_values', [
+                    'model' => $objectProperty,
+                    'object' => $objectProperty->object,
+                ]);
+            }
+        }
+        return;            
     }
 }

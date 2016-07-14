@@ -68,9 +68,9 @@ class UserObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserObjectImages()
+    public function getUserObjectFiles()
     {
-        return $this->hasMany(UserObjectImages::className(), ['user_object_id' => 'id']);
+        return $this->hasMany(UserObjectFiles::className(), ['user_object_id' => 'id']);
     }
 
     /**

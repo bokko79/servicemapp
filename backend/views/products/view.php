@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'object_id',
             'object_property_id',
-            'property_name',
             'name',
             'product_id',
             'level',

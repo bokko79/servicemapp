@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model common\models\CsActions */
 
 $this->title = 'Update an Action: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Action', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Actions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

@@ -5,23 +5,23 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "promotion_images".
+ * This is the model class for table "promotion_files".
  *
  * @property integer $id
  * @property string $promotion_id
- * @property string $image_id
+ * @property string $file_id
  *
  * @property Images $image
  * @property Promotions $promotion
  */
-class PromotionImages extends \yii\db\ActiveRecord
+class PromotionFiles extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'promotion_images';
+        return 'promotion_files';
     }
 
     /**
@@ -30,8 +30,8 @@ class PromotionImages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['promotion_id', 'image_id'], 'required'],
-            [['promotion_id', 'image_id'], 'integer'],
+            [['promotion_id', 'file_id'], 'required'],
+            [['promotion_id', 'file_id'], 'integer'],
         ];
     }
 
@@ -43,16 +43,16 @@ class PromotionImages extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'promotion_id' => Yii::t('app', 'Promotion ID'),
-            'image_id' => Yii::t('app', 'Image ID'),
+            'file_id' => Yii::t('app', 'File ID'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
 
     /**

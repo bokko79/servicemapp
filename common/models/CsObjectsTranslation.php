@@ -16,6 +16,7 @@ use Yii;
  * @property string $name_akk
  * @property string $name_inst
  * @property string $orig_name
+ * @property string $hint
  * @property string $description
  *
  * @property CsLanguages $langCode
@@ -39,7 +40,7 @@ class CsObjectsTranslation extends \yii\db\ActiveRecord
         return [
             [['object_id', 'lang_code', 'name', 'name_gen', 'name_dat', 'name_akk', 'name_inst', 'orig_name'], 'required'],
             [['object_id'], 'integer'],
-            [['description'], 'string'],
+            [['hint', 'description'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
             [['name', 'name_gen', 'name_dat', 'name_akk', 'name_inst'], 'string', 'max' => 100],
             [['orig_name'], 'string', 'max' => 50],
@@ -62,6 +63,7 @@ class CsObjectsTranslation extends \yii\db\ActiveRecord
             'name_akk' => 'Ime u akuzativu (koga?šta?).',
             'name_inst' => 'Ime u instrumentalu (s kim, čime).',
             'orig_name' => 'Originalno ime predmeta usluge (iz tabele objects).',
+            'hint' => 'Hint',
             'description' => 'Opis stavke.',
         ];
     }

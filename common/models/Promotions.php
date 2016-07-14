@@ -26,7 +26,7 @@ use Yii;
  * @property string $validity
  * @property string $time
  *
- * @property PromotionImages[] $promotionImages
+ * @property PromotionFiles[] $promotionFiles
  * @property PromotionServices[] $promotionServices
  * @property CsCurrencies $currency
  * @property Activities $activity
@@ -90,9 +90,9 @@ class Promotions extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPromotionImages()
+    public function getPromotionFiles()
     {
-        return $this->hasMany(PromotionImages::className(), ['promotion_id' => 'id']);
+        return $this->hasMany(PromotionFiles::className(), ['promotion_id' => 'id']);
     }
 
     /**

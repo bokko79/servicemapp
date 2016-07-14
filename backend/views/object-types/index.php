@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <p>
     <?= Html::a('Create New Object Type', ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Objects', ['/objects/index'], ['class' => 'btn btn-warning']) ?>
 </p>
 
 <?php Pjax::begin(); ?>    
@@ -22,7 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'id',
+            [
+                'attribute' => 'id',
+                'options' => ['style' =>'width:50px'],
+            ],
             'name',
 
             ['class' => 'yii\grid\ActionColumn'],

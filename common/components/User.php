@@ -112,8 +112,8 @@ class User extends \yii\web\User
 
         if($identity !== null) {
             $user = \common\models\User::findOne($identity->getId());
-            if($user->details and $user->details->image){
-                $avatar = '@frontend-images/users/thumbs/'.$user->details->image->ime;
+            if($user->details and $user->details->file){
+                $avatar = '@frontend-images/users/thumbs/'.$user->details->file->ime;
             }
         }
 

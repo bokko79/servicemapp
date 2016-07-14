@@ -22,26 +22,40 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'id',
-            'name',
-            'object_type_id',
-            'object_id',
+            [
+                'attribute' => 'id',
+                'options' => ['style' =>'width:50px'],
+            ],
+            [
+                'attribute' => 'name',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a($data->tName, ['objects/view', 'id' => $data->id]);
+                },
+            ],
+            [
+                'attribute' => 'object_type_id',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a($data->oType->tName, ['object-types/view', 'id' => $data->object_type_id]);
+                },
+            ],
+            [
+                'attribute' => 'object_id',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return $data->parent ? Html::a($data->parent->tName, ['objects/view', 'id' => $data->object_id]) : null;
+                },
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                /*'buttons' => [
-                    'view' => function ($url, $model, $key) {
-                        return Html::a('<i class="material-icons">remove_red_eye</i>', ['view', 'id' => $model->id], ['class' => '']);
-                    },
+                'template' => '{update}',
+                'buttons' => [
 
                     'update' => function ($url, $model, $key) {
-                        return \Yii::$app->user->can('manageCoreDatabase') ? Html::a('<i class="material-icons">edit</i>', ['update', 'id' => $model->id], ['class' => '']) : '';
+                        return \Yii::$app->user->can('manageCoreDatabase') ? Html::a('Update', ['update', 'id' => $model->id], ['class' => '']) : '';
                     },
-
-                    'delete' => function ($url, $model, $key) {
-                        return \Yii::$app->user->can('manageCoreDatabase') ? Html::a('<i class="material-icons">delete</i>', ['delete', 'id' => $model->id], ['class' => '', 'data' => [
-                                'confirm' => 'Are you sure you want to delete this item?','method' => 'post']]) : '';
-                    },
-                ],   */                     
+                ],                     
             ],
         ],
     ]); ?>

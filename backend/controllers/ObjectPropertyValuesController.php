@@ -66,6 +66,11 @@ class ObjectPropertyValuesController extends Controller
     public function actionCreate()
     {
         $model = new CsObjectPropertyValues();
+        if($objectPropertyValues = Yii::$app->request->get('CsObjectPropertyValues')){
+            $model->object_id = !empty($objectPropertyValues['object_id']) ? $objectPropertyValues['object_id'] : null;
+            $model->object_property_id = !empty($objectPropertyValues['object_property_id']) ? $objectPropertyValues['object_property_id'] : null;
+            $model->property_value_id = !empty($objectPropertyValues['property_value_id']) ? $objectPropertyValues['property_value_id'] : null;
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -122,5 +127,6 @@ class ObjectPropertyValuesController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
+    }    
+
 }

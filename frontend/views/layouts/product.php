@@ -11,7 +11,7 @@ use frontend\widgets\Stats;
 
 <?php /* PROFILE HEADING */ ?>
 <div class="product-head">
-	<?php if($imgs = $this->params['presentation']->images): ?>
+	<?php if($imgs = $this->params['presentation']->files): ?>
     <div class="media-area cover-product" style="background: url('../images/presentations/full/<?= $imgs[0]->ime ?>') no-repeat center fixed; background-size: cover;">
         <div class="backscreen"></div>
         <?php // $this->params['presentation']->coverPhotos() ?>        

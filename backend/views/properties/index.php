@@ -23,11 +23,31 @@ $this->params['breadcrumbs'][] = $this->title;
     'filterModel' => $searchModel,
     'columns' => [
         'id',
-        'name',
+        [
+            'attribute'=>'name',
+            'format' => 'raw',
+            'value'=>function ($data) {
+                return Html::a($data->tName, ['/properties/view', 'id' => $data->id]);
+            },
+        ],
         'type',
-        'multiple_values',
+        [
+            'attribute' => 'multiple_values',
+            'format' => 'raw',
+            'value'=>function ($data) {
+                return $data->multiple_values==1 ? 'Yes' : 'No';
+            },
+        ], 
 
-        ['class' => 'yii\grid\ActionColumn'],
+       [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        return \Yii::$app->user->can('manageCoreDatabase') ? Html::a('Update', ['/properties/update', 'id' => $model->id], ['class' => '']) : '';
+                    },
+                ],                        
+            ],
     ],
 ]); ?>
 <?php Pjax::end(); ?>

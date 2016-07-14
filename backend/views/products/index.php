@@ -16,6 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Create New Product'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php if($object = Yii::$app->request->get('CsProductsSearch')){
+            echo Html::a('Object', ['/objects/view', 'id' => $object['cs_products.object_id']], ['class' => 'btn btn-default']);
+        } ?>
     </p>
 <?php Pjax::begin(); ?>    
     <?= GridView::widget([
@@ -25,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'object_id',
             'object_property_id',
-            'property_name',
             'name',
             // 'product_id',
             // 'level',
@@ -33,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'base_product_id',
             // 'predecessor_id',
             // 'successor_id',
-            // 'description',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

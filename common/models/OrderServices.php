@@ -85,9 +85,9 @@ class OrderServices extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    /*public function getImages()
+    /*public function getFiles()
     {
-        return $this->hasMany(OrderServiceImages::className(), ['order_service_id' => 'id']);
+        return $this->hasMany(OrderServiceObjectFiles::className(), ['order_service_id' => 'id']);
     }*/
 
     /**
@@ -176,7 +176,7 @@ class OrderServices extends \yii\db\ActiveRecord
      */
     public function getDocuments()
     {
-        return $this->hasMany(OrderServiceImages::className(), ['order_service_id' => 'id']);
+        return $this->hasMany(OrderServiceObjectFiles::className(), ['order_service_id' => 'id']);
     }
 
     /**
@@ -188,8 +188,8 @@ class OrderServices extends \yii\db\ActiveRecord
         if($documents = $this->documents)
         {
             foreach($documents as $document){
-                if($document->image->type=='image'){
-                    $images[] = $document->image;
+                if($document->file->type=='image'){
+                    $images[] = $document->file;
                 }
             }
         }
@@ -205,8 +205,8 @@ class OrderServices extends \yii\db\ActiveRecord
         if($documents = $this->documents)
         {
             foreach($documents as $document){
-                if($document->image->type=='pdf'){
-                    $pdf[] = $document->image;
+                if($document->file->type=='pdf'){
+                    $pdf[] = $document->file;
                 }
             }
         }

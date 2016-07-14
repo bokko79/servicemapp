@@ -9,7 +9,7 @@ use Yii;
  *
  * @property string $user_id
  * @property string $loc_id
- * @property string $image_id
+ * @property string $file_id
  * @property string $lang_code
  * @property integer $currency_id
  * @property integer $role_id
@@ -48,7 +48,7 @@ class UserDetails extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'loc_id', 'time_role_set'], 'required'],
-            [['user_id', 'loc_id', 'image_id', 'currency_id', 'role_id', 'units', 'score', 'rate', 'rating'], 'integer'],
+            [['user_id', 'loc_id', 'file_id', 'currency_id', 'role_id', 'units', 'score', 'rate', 'rating'], 'integer'],
             [['time_role_set', 'time_role_exp', 'DOB', 'update_time'], 'safe'],
             [['timezone', 'gender'], 'string'],
             [['lang_code'], 'string', 'max' => 2],
@@ -66,7 +66,7 @@ class UserDetails extends \yii\db\ActiveRecord
         return [
             'user_id' => Yii::t('app', 'User ID'),
             'loc_id' => Yii::t('app', 'Loc ID'),
-            'image_id' => Yii::t('app', 'Image ID'),
+            'file_id' => Yii::t('app', 'File ID'),
             'lang_code' => Yii::t('app', 'Lang Code'),
             'currency_id' => Yii::t('app', 'Currency ID'),
             'role_id' => Yii::t('app', 'Role ID'),
@@ -103,9 +103,9 @@ class UserDetails extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
 
     /**

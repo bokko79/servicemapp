@@ -17,12 +17,12 @@ $valid = \russ666\widgets\Countdown::widget([
 /*
 ?>
 <div class="product-head" style="background:;">
-	<?php if($model->orderServices[0]->images): ?>
+	<?php if($model->orderServices[0]->files): ?>
     <div class="media-area">
-    	<?php foreach ($model->orderServices[0]->images as $media):
+    	<?php foreach ($model->orderServices[0]->diles as $media):
     		$items[] = [
-    			'img' => '../images/user_objects/'.$media->image->ime,
-    			//'full' => '../images/user_objects/'.$media->image->ime,
+    			'img' => '../images/user_objects/'.$media->file->ime,
+    			//'full' => '../images/user_objects/'.$media->file->ime,
     			'fit' => 'cover',
     		]; ?>
         <?php endforeach; ?>

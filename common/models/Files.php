@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "images".
+ * This is the model class for table "files".
  *
  * @property string $id
  * @property string $ime
@@ -26,14 +26,14 @@ use Yii;
  * @property UserImages[] $userImages
  * @property UserObjectImages[] $userObjectImages
  */
-class Images extends \yii\db\ActiveRecord
+class Files extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'images';
+        return 'files';
     }
 
     /**
@@ -69,7 +69,7 @@ class Images extends \yii\db\ActiveRecord
      */
     public function getBannerMedia()
     {
-        return $this->hasMany(BannerMedia::className(), ['image_id' => 'id']);
+        return $this->hasMany(BannerMedia::className(), ['file_id' => 'id']);
     }
 
     /**
@@ -77,7 +77,7 @@ class Images extends \yii\db\ActiveRecord
      */
     public function getBanners()
     {
-        return $this->hasMany(Banners::className(), ['image_id' => 'id']);
+        return $this->hasMany(Banners::className(), ['file_id' => 'id']);
     }
 
     /**
@@ -85,7 +85,7 @@ class Images extends \yii\db\ActiveRecord
      */
     public function getCsIndustries()
     {
-        return $this->hasMany(CsIndustries::className(), ['image_id' => 'id']);
+        return $this->hasMany(CsIndustries::className(), ['file_id' => 'id']);
     }
 
     /**
@@ -93,39 +93,31 @@ class Images extends \yii\db\ActiveRecord
      */
     public function getCsObjects()
     {
-        return $this->hasMany(CsObjects::className(), ['image_id' => 'id']);
+        return $this->hasMany(CsObjects::className(), ['file_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOrderServiceImages()
+    public function getOrderServiceObjectFiles()
     {
-        return $this->hasMany(OrderServiceImages::className(), ['image_id' => 'id']);
+        return $this->hasMany(OrderServiceObjectFiles::className(), ['file_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPromotionImages()
+    public function getPromotionFiles()
     {
-        return $this->hasMany(PromotionImages::className(), ['image_id' => 'id']);
+        return $this->hasMany(PromotionImages::className(), ['file_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderPortfolioImages()
+    public function getProviderPortfolioFiles()
     {
-        return $this->hasMany(ProviderPortfolioImages::className(), ['image_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProviderServiceImages()
-    {
-        return $this->hasMany(ProviderServiceImages::className(), ['image_id' => 'id']);
+        return $this->hasMany(ProviderPortfolioImages::className(), ['file_id' => 'id']);
     }
 
     /**
@@ -133,23 +125,23 @@ class Images extends \yii\db\ActiveRecord
      */
     public function getUserDetails()
     {
-        return $this->hasMany(UserDetails::className(), ['image_id' => 'id']);
+        return $this->hasMany(UserDetails::className(), ['file_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserImages()
+    public function getUserFiles()
     {
-        return $this->hasMany(UserImages::className(), ['image_id' => 'id']);
+        return $this->hasMany(UserFiles::className(), ['file_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserObjectImages()
+    public function getUserObjectFiles()
     {
-        return $this->hasMany(UserObjectImages::className(), ['image_id' => 'id']);
+        return $this->hasMany(UserObjectFiles::className(), ['file_id' => 'id']);
     }
 
     /**
@@ -158,7 +150,7 @@ class Images extends \yii\db\ActiveRecord
     public function getImageByName($name=null)
     {
         if($name!=null){
-            $image = Images::find()->where('ime="'.$name.'"')->one();
+            $image = Files::find()->where('ime="'.$name.'"')->one();
             if($image){
                 return $image;
             }
@@ -173,7 +165,7 @@ class Images extends \yii\db\ActiveRecord
     public function getImageByBaseEncode($base_encode=null)
     {
         if($base_encode!=null){
-            $image = Images::find()->where('base_encode="'.$base_encode.'"')->one();
+            $image = Files::find()->where('base_encode="'.$base_encode.'"')->one();
             if($image){
                 return $image;
             }

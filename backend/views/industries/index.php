@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'category_id',
-            'image_id',
+            'file_id',
             // 'status',
             // 'hit_counter',
 

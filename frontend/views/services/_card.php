@@ -15,7 +15,7 @@ $state = $session->get('state');
     </div>
     <div class="primary-context normal">
         <div class="head major"><?= Html::a(c($model->tName), Url::to('/s/'.slug($model->name)), ['class'=>'']) ?></div>
-        <div class="subhead"><?= c($model->object_name) ?>
+        <div class="subhead"><?= c($model->object->tName) ?>
             <?php if(!Yii::$app->user->isGuest): ?>
                 <a href="<?= Url::to() ?>"><div class="label label-default margin-left-10 regular"><i class="fa fa-bookmark"></i> Obeleži</div></a>
             <?php endif; ?>

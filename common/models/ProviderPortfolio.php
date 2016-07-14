@@ -81,9 +81,9 @@ class ProviderPortfolio extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProviderPortfolioImages()
+    public function getProviderPortfolioFiles()
     {
-        return $this->hasMany(ProviderPortfolioImages::className(), ['provider_portfolio_id' => 'provider_id']);
+        return $this->hasMany(ProviderPortfolioFiles::className(), ['provider_portfolio_id' => 'provider_id']);
     }
 
     /**

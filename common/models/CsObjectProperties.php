@@ -48,6 +48,7 @@ class CsObjectProperties extends \yii\db\ActiveRecord
             [['step'], 'number'],
             [['value_default'], 'string', 'max' => 128],
             [['pattern'], 'string', 'max' => 32],
+            //[['property_unit_id', 'property_unit_imperial_id', 'input_type', 'value_min', 'value_max', 'value_default', 'step', 'pattern'], 'default', 'setOnEmpty' => true, 'value' => null, 'on' => 'insert'],
         ];
     }
 
@@ -62,8 +63,8 @@ class CsObjectProperties extends \yii\db\ActiveRecord
             'property_id' => Yii::t('app', 'Property ID'),
             'property_unit_id' => Yii::t('app', 'Property Unit ID'),
             'property_unit_imperial_id' => Yii::t('app', 'Property Unit Imperial ID'),
-            'property_class' => Yii::t('app', 'Property Class'),
-            'property_type' => Yii::t('app', 'Property Type'),
+            'property_class' => Yii::t('app', 'Class'),
+            'property_type' => Yii::t('app', 'Type'),
             'input_type' => Yii::t('app', 'Input Type'),
             'value_default' => Yii::t('app', 'Value Default'),
             'value_min' => Yii::t('app', 'Value Min'),
@@ -156,5 +157,13 @@ class CsObjectProperties extends \yii\db\ActiveRecord
     public function serviceObjectProperty($service_id)
     {
         return CsServiceObjectProperties::find()->where('object_property_id='.$this->id.' AND service_id='.$service_id)->one();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getName()
+    {
+        return $this->property->tName . '  ' . (($this->object) ? $this->object->tNameGen : null);
     }
 }

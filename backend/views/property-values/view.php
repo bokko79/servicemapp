@@ -31,6 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'property.tName',
         'selected_value',
         'hint',
-        'image_id',
+        'file_id',
     ],
 ]) ?>

@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 $this->title = 'Create New Action';
-$this->params['breadcrumbs'][] = ['label' => 'Action', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Actions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

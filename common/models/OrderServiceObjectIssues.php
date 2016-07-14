@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "order_service_issues".
+ * This is the model class for table "order_service_object_issues".
  *
  * @property string $id
  * @property string $order_service_id
@@ -15,14 +15,14 @@ use Yii;
  * @property OrderServices $orderService
  * @property CsObjectIssues $objectIssue
  */
-class OrderServiceIssues extends \yii\db\ActiveRecord
+class OrderServiceObjectIssues extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'order_service_issues';
+        return 'order_service_object_issues';
     }
 
     /**

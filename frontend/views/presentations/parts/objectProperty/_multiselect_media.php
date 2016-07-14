@@ -8,13 +8,13 @@ use kartik\builder\Form;
 switch($objectProperty->property_type)
 {
     case 'part':
-        $model_list = ArrayHelper::map($property->propertyValues, 'id', 'tNameWithMedia');
+        $model_list = ArrayHelper::map($objectProperty->objectPropertyValues, 'id', 'nameWithMedia');
 
     default:
         //$model_list = ArrayHelper::map($objectProperty->objectParts, 'part_id', 'partDescription');
-        $model_list = ArrayHelper::map($property->propertyValues, 'id', 'tNameWithMedia');
+        $model_list = ArrayHelper::map($objectProperty->objectPropertyValues, 'id', 'nameWithMedia');
 
-        foreach($property->propertyValues as $propertyValue){
+        foreach($objectProperty->objectPropertyValues as $propertyValue){
             if($propertyValue->selected_value==1){
                 $model_object_property->objectPropertyValues[] = $propertyValue->id;
             }

@@ -88,7 +88,8 @@
 .media-area {position: relative;}
 .main-context .media-area {padding: 16px 16px 0 0;}
 .main-context .media-area .left, .main-context .media-area.left {padding: 16px 0 16px 16px;}
-.record-full .main-context .media-area .image, .record-full .main-context .media-area .image img {width:160px !important; height:90px !important;}
+.record-full .main-context .media-area .image, .record-full .main-context .media-area .image img {width:160px; height:90px;}
+.main-context .media-area.200 .image, .main-context .media-area.200 .image img {width:200px !important; height:200px !important;}
 .record-xl .main-context .media-area .image, .record-xl .main-context .media-area .image img {width:152px !important; height:152px;}
 .record-md .main-context .media-area .image, .record-md .main-context .media-area .image img {width:112px; height:112px;}
 .record-sm .main-context .media-area .image, .record-sm .main-context .media-area .image img {width:80px; height:80px;}

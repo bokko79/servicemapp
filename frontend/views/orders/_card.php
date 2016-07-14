@@ -149,7 +149,7 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
         <div class="secondary-context avatar-padded <?= ($orderServicesCount>1) ? 'hidden' : '' ?> hidden-content fadeIn animated">
             <?= ($orderService->note) ? '<p><b><i class="fa fa-sticky-note"></i> Note:</b> '.$orderService->note.'</p>' : null ?>                
         </div>
-        <?php if($orderService->images): ?>
+        <?php if($orderService->files): ?>
         <div class="media-area <?= ($orderServicesCount>1) ? 'hidden' : '' ?> hidden-content">
         <?php 
             $fotorama = \metalguardian\fotorama\Fotorama::begin(
@@ -177,8 +177,8 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
                 ]
             ); 
             ?>
-            <?php foreach ($orderService->images as $media): ?>
-                <?= Html::img('@web/images/user_objects/'.$media->image->ime) ?>
+            <?php foreach ($orderService->files as $media): ?>
+                <?= Html::img('@web/images/user_objects/'.$media->file->ime) ?>
             <?php endforeach; ?>
             <?php $fotorama->end(); ?>
         </div>

@@ -5,23 +5,23 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "provider_portfolio_images".
+ * This is the model class for table "provider_portfolio_files".
  *
  * @property string $id
  * @property string $provider_portfolio_id
- * @property string $image_id
+ * @property string $file_id
  *
  * @property Images $image
  * @property ProviderPortfolio $providerPortfolio
  */
-class ProviderPortfolioImages extends \yii\db\ActiveRecord
+class ProviderPortfolioFiles extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'provider_portfolio_images';
+        return 'provider_portfolio_files';
     }
 
     /**
@@ -30,8 +30,8 @@ class ProviderPortfolioImages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['provider_portfolio_id', 'image_id'], 'required'],
-            [['provider_portfolio_id', 'image_id'], 'integer'],
+            [['provider_portfolio_id', 'file_id'], 'required'],
+            [['provider_portfolio_id', 'file_id'], 'integer'],
         ];
     }
 
@@ -43,16 +43,16 @@ class ProviderPortfolioImages extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'provider_portfolio_id' => Yii::t('app', 'Provider Portfolio ID'),
-            'image_id' => Yii::t('app', 'Image ID'),
+            'file_id' => Yii::t('app', 'File ID'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
 
     /**

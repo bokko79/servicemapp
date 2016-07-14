@@ -31,6 +31,5 @@ $this->params['breadcrumbs'][] = $this->title;
             'product_property_id',
             'property_value_id',
             'selected_value',
-            'description',
         ],
     ]) ?>

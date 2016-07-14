@@ -123,7 +123,7 @@ class CartForm extends Model
                     $file->saveAs('images/orders/' . $fileName . '1.' . $file->extension);
                 }
                 
-                $image[$key_f] = new \common\models\Images();
+                $image[$key_f] = new \common\models\Files();
                 $image[$key_f]->ime = $fileName . '.' . $file->extension;
                 $image[$key_f]->type = $file->extension=='pdf' ? 'pdf' : 'image';
                 $image[$key_f]->base_encode = $file->baseName.'.'. $file->extension;
@@ -138,7 +138,7 @@ class CartForm extends Model
                 /*if($image[$key_f]->save()){
                     $presentation_image[$key_f] = new \common\models\PresentationImages();
                     $presentation_image[$key_f]->presentation_id = $this->id;
-                    $presentation_image[$key_f]->image_id = $image[$key_f]->id;
+                    $presentation_image[$key_f]->file_id = $image[$key_f]->id;
                     $presentation_image[$key_f]->type = $image[$key_f]->type;
                     $presentation_image[$key_f]->save();
                 }*/
@@ -157,7 +157,7 @@ class CartForm extends Model
         if ($this->validate()) { 
             foreach ($this->imageFiles as $key_f=>$file) {
                 $file->saveAs('images/user_objects/' . $file->baseName . '.' . $file->extension);
-                $image[$key_f] = new \common\models\Images();
+                $image[$key_f] = new \common\models\Files();
                 $image[$key_f]->ime = $file->baseName . '.' . $file->extension;
                 $image[$key_f]->type = 'image';
                 $image[$key_f]->date = date('Y-m-d H:i:s');

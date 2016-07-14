@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "presentation_issues".
+ * This is the model class for table "presentation_object_issues".
  *
  * @property string $id
  * @property string $presentation_id
@@ -13,14 +13,14 @@ use Yii;
  *
  * @property Presentations $presentation
  */
-class PresentationIssues extends \yii\db\ActiveRecord
+class PresentationObjectIssues extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'presentation_issues';
+        return 'presentation_object_issues';
     }
 
     /**

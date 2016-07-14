@@ -11,7 +11,7 @@ use Yii;
  * @property string $provider_id
  * @property string $type
  * @property string $media
- * @property string $image_id
+ * @property string $file_id
  * @property integer $industry_id
  * @property string $alt_image
  * @property integer $priority
@@ -42,7 +42,7 @@ class Banners extends \yii\db\ActiveRecord
     {
         return [
             [['provider_id', 'type', 'media', 'industry_id', 'priority', 'status', 'time'], 'required'],
-            [['provider_id', 'image_id', 'industry_id', 'priority'], 'integer'],
+            [['provider_id', 'file_id', 'industry_id', 'priority'], 'integer'],
             [['type', 'media', 'status'], 'string'],
             [['validity', 'time', 'update_time'], 'safe'],
             [['alt_image'], 'string', 'max' => 250]
@@ -59,7 +59,7 @@ class Banners extends \yii\db\ActiveRecord
             'provider_id' => 'Pružalac usluge.',
             'type' => 'Vrsta banera.',
             'media' => 'Vrsta media.',
-            'image_id' => 'Slika/dokument.',
+            'file_id' => 'Slika/dokument.',
             'industry_id' => 'Uslužna delatnost.',
             'alt_image' => 'Tekst banera.',
             'priority' => 'Prioritet pojavljivanja banera.',
@@ -89,9 +89,9 @@ class Banners extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
 
     /**

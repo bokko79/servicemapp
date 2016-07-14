@@ -10,7 +10,7 @@ use yii\imagine\Image;
  *
  * @property integer $id
  * @property string $name
- * @property string $image_id
+ * @property string $file_id
  * @property integer $industry_id
  * @property integer $action_id
  * @property integer $object_id
@@ -88,7 +88,7 @@ class CsServices extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'industry_id', 'action_id', 'action_name', 'object_id', 'object_name', 'unit_id', 'coverage'], 'required'],
-            [['image_id', 'industry_id', 'action_id', 'object_id', 'object_model_relevance', 'unit_id', 'amount_default', 'amount_range_min', 'amount_range_max', 'consumer_default', 'consumer_range_min', 'consumer_range_max', 'geospecific', 'process', 'added_by', 'hit_counter'], 'integer'],
+            [['file_id', 'industry_id', 'action_id', 'object_id', 'object_model_relevance', 'unit_id', 'amount_default', 'amount_range_min', 'amount_range_max', 'consumer_default', 'consumer_range_min', 'consumer_range_max', 'geospecific', 'process', 'added_by', 'hit_counter'], 'integer'],
             [['amount_range_step', 'consumer_range_step'], 'number'], 
             [['dat', 'status'], 'string'],
             [['name'], 'string', 'max' => 90],
@@ -107,7 +107,7 @@ class CsServices extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
-            'image_id' => Yii::t('app', 'Image ID'), 
+            'file_id' => Yii::t('app', 'Image ID'), 
             'industry_id' => Yii::t('app', 'Industry ID'),
             'action_id' => Yii::t('app', 'Action ID'),
             'object_id' => Yii::t('app', 'Object ID'),
@@ -151,9 +151,9 @@ class CsServices extends \yii\db\ActiveRecord
     {
         if ($this->validate()) {
 
-            if($this->image and $this->image_id != 2){
-                unlink(Yii::getAlias('images/services/thumbs/'.$this->image->ime));
-                unlink(Yii::getAlias('images/services/'.$this->image->ime));
+            if($this->file and $this->file_id != 2){
+                unlink(Yii::getAlias('images/services/thumbs/'.$this->file->ime));
+                unlink(Yii::getAlias('images/services/'.$this->file->ime));
             }
            
             $fileName = $this->id . '_' . $this->name;
@@ -171,7 +171,7 @@ class CsServices extends \yii\db\ActiveRecord
             $image->save();
 
             if($image->save()){
-                $this->image_id = $image->id;
+                $this->file_id = $image->id;
                 $this->imageFile = null;
                 $this->save();
             }
@@ -374,7 +374,7 @@ class CsServices extends \yii\db\ActiveRecord
      */
     public function getAvatar()
     {
-        return ($this->object->image) ? $this->object->image->ime : false;
+        return ($this->object->file) ? $this->object->file->ime : false;
     }
 
     /**

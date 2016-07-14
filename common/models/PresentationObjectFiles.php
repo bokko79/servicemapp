@@ -5,23 +5,23 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "presentation_images".
+ * This is the model class for table "presentation_object_files".
  *
  * @property string $id
  * @property string $presentation_id
- * @property string $image_id
+ * @property string $file_id
  *
  * @property Images $image
  * @property Presentations $presentation
  */
-class PresentationImages extends \yii\db\ActiveRecord
+class PresentationObjectFiles extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'presentation_images';
+        return 'presentation_object_files';
     }
 
     /**
@@ -30,10 +30,10 @@ class PresentationImages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['presentation_id', 'image_id'], 'required'],
-            [['presentation_id', 'image_id'], 'integer'],
+            [['presentation_id', 'file_id'], 'required'],
+            [['presentation_id', 'file_id'], 'integer'],
             [['type'], 'string'],
-            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],
+            [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => Files::className(), 'targetAttribute' => ['file_id' => 'id']],
             [['presentation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Presentations::className(), 'targetAttribute' => ['presentation_id' => 'id']],
         ];
     }
@@ -46,16 +46,16 @@ class PresentationImages extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'presentation_id' => 'Presentation ID',
-            'image_id' => 'Image ID',
+            'file_id' => 'File ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
 
     /**

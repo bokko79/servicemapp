@@ -17,7 +17,7 @@ use Yii;
  * @property string $department_name
  * @property string $department_type
  * @property string $legal_name
- * @property string $image_id
+ * @property string $file_id
  * @property integer $coverage
  * @property string $coverage_within
  * @property string $name
@@ -65,7 +65,7 @@ class Provider extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'legal_form', 'loc_id', 'registration_time'], 'required'],
-           [['user_id', 'industry_id', 'loc_id', 'parent', 'image_id', 'coverage', 'is_active', 'score', 'hit_counter'], 'integer'],
+           [['user_id', 'industry_id', 'loc_id', 'parent', 'file_id', 'coverage', 'is_active', 'score', 'hit_counter'], 'integer'],
            [['legal_form', 'type', 'department_type', 'status'], 'string'],
            [['coverage_within', 'rate', 'rating'], 'number'],
            [['registration_time', 'del_upd_time', 'service_upd_time'], 'safe'],
@@ -97,7 +97,7 @@ class Provider extends \yii\db\ActiveRecord
            'department_name' => Yii::t('app', 'Department Name'),
            'department_type' => Yii::t('app', 'Department Type'),
            'legal_name' => Yii::t('app', 'Legal Name'),
-           'image_id' => Yii::t('app', 'Image ID'),
+           'file_id' => Yii::t('app', 'File ID'),
            'coverage' => Yii::t('app', 'Coverage'),
            'coverage_within' => Yii::t('app', 'Coverage Within'),
            'name' => Yii::t('app', 'Name'),
@@ -209,7 +209,7 @@ class Provider extends \yii\db\ActiveRecord
      */
     public function getAvatar()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
 
     /**

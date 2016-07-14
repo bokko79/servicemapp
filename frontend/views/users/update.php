@@ -25,7 +25,7 @@ $this->pageTitle = [
         'model' => $model,
         'details' => $details,
         'locationHQ' => $locationHQ,
-        'images' => $images,
+        'files' => $files,
     ]) ?>
 
 </div>

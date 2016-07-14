@@ -8,7 +8,7 @@ $this->title = 'Actions';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h2><?= Html::encode($this->title) ?> <small>Akcije</h2>
+<h2><?= Html::encode($this->title) ?> <small>Akcije</small></h2>
 
 <p><?= Html::a('Create an Action', ['create'], ['class' => 'btn btn-success']) ?></p>
 

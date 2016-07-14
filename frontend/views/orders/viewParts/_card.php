@@ -85,7 +85,7 @@ $items = [ $industry, $action, $object, $issue, $additional ];
         <div class="secondary-context avatar-padded <?= ($orderServicesCount>1) ? 'hidden' : '' ?> hidden-content fadeIn animated">
             <?= $orderService->note ?>                
         </div>
-        <?php if($orderService->images): ?>
+        <?php if($orderService->files): ?>
         <div class="media-area <?= ($orderServicesCount>1) ? 'hidden' : '' ?> hidden-content">
         <?php 
             $fotorama = \metalguardian\fotorama\Fotorama::begin(
@@ -113,8 +113,8 @@ $items = [ $industry, $action, $object, $issue, $additional ];
                 ]
             ); 
             ?>
-            <?php foreach ($orderService->images as $media): ?>
-                <?= Html::img('@web/images/user_objects/'.$media->image->ime) ?>
+            <?php foreach ($orderService->files as $media): ?>
+                <?= Html::img('@web/images/user_objects/'.$media->file->ime) ?>
             <?php endforeach; ?>
             <?php $fotorama->end(); ?>
         </div>

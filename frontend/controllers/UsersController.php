@@ -241,7 +241,7 @@ class UsersController extends Controller
                 
                 $details = ($model->details) ? $model->details : new \common\models\UserDetails;
                 $filters = ($model->filters) ? $model->filters : new \common\models\UserFilters;
-                $images = ($model->images) ? $model->images : new \common\models\UserImages;
+                $files = ($model->files) ? $model->files : new \common\models\UserFiles;
                 $notifications = $model->userNotifications;
                 $locationHQ = $model->location;
 
@@ -252,7 +252,7 @@ class UsersController extends Controller
                         'model' => $model,
                         'details' => $details,
                         'filters' => $filters,
-                        'images' => $images,
+                        'files' => $files,
                         'locationHQ' => $locationHQ,
                     ]);
                 }
@@ -281,7 +281,7 @@ class UsersController extends Controller
                 
                 $details = $model->details;
                 $filters = ($model->filters) ? $model->filters : new \common\models\UserFilters;
-                $images = $model->images;
+                $files = $model->files;
                 $notifications = $model->userNotifications;
 
                 if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -291,7 +291,7 @@ class UsersController extends Controller
                         'model' => $model,
                         'details' => $details,
                         'filters' => $filters,
-                        'images' => $images,
+                        'files' => $files,
                     ]);
                 }
             } else {

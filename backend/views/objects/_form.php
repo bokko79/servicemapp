@@ -12,7 +12,7 @@ use kartik\widgets\FileInput;
 
 
 <?php $form = kartik\widgets\ActiveForm::begin([
-    'id' => 'form-horizontal',
+    'id' => 'create-update-object',
     'type' => ActiveForm::TYPE_HORIZONTAL,
     'fullSpan' => 7,      
     'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_MEDIUM],
@@ -41,14 +41,14 @@ use kartik\widgets\FileInput;
     <hr>
 
     <?= $form->field($model, 'object_id')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map(\common\models\CsObjects::find()->all(), 'id', 'name'),
+            'data' => ArrayHelper::map(\common\models\CsObjects::find()->all(), 'id', 'tName'),
             'options' => ['placeholder' => 'Izaberite...'],
             'language' => 'sr-Latn',
             'changeOnReset' => false,           
         ]) ?>
 
     <?= $form->field($model, 'object_type_id')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map(\common\models\CsObjectTypes::find()->all(), 'id', 'name'),
+            'data' => ArrayHelper::map(\common\models\CsObjectTypes::find()->all(), 'id', 'tName'),
             'options' => ['placeholder' => 'Izaberite...'],
             'language' => 'sr-Latn',
             'changeOnReset' => false,           
@@ -75,11 +75,11 @@ use kartik\widgets\FileInput;
                         ],
                     ]) ?>
 
-    <?php if($model->image){
+    <?php if($model->file){
         echo '<label class="control-label col-md-3" for="presentations-imagefiles">Slika predmeta</label>';
         echo '<div class="col-sm-9 margin-bottom-20">';
 
-                $image = Html::img('/images/objects/'.$model->image->ime);
+                $image = Html::img('/images/objects/'.$model->file->ime);
                 echo Html::a($image, Url::to(), [
                     'class' => 'margin-bottom-10 margin-right-10',
                     //'data-toggle'=>'modal', 'data-backdrop'=>false,  'data-target'=>'#file-delete'.$model->id
@@ -93,7 +93,8 @@ use kartik\widgets\FileInput;
 
     <div class="row" style="margin:20px;">
         <div class="col-md-offset-3">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= !$model->isNewRecord ? Html::a('Go Back', Url::to(['view', 'id'=>$model->id]), ['class' => 'btn btn-default']) : null ?>
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Save Updates', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>        
     </div>
 

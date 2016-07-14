@@ -22,9 +22,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'service_id') ?>
 
     <?= $form->field($model, 'service_order_no') ?>
-
-    <?= $form->field($model, 'description') ?>
-
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

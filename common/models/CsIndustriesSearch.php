@@ -18,7 +18,7 @@ class CsIndustriesSearch extends CsIndustries
     public function rules()
     {
         return [
-            [['id', 'category_id', 'image_id', 'hit_counter'], 'integer'],
+            [['id', 'category_id', 'file_id', 'hit_counter'], 'integer'],
             [['name', 'status'], 'safe'],
         ];
     }
@@ -61,7 +61,7 @@ class CsIndustriesSearch extends CsIndustries
         $query->andFilterWhere([
             'id' => $this->id,
             'category_id' => $this->category_id,
-            'image_id' => $this->image_id,
+            'file_id' => $this->file_id,
             'hit_counter' => $this->hit_counter,
         ]);
 

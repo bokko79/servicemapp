@@ -29,16 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
     'attributes' => [
         'id',
         'action_id',
-        'action_name',
         'property_id',
-        'property_name',
-        'default_value',
-        'range_min',
-        'range_max',
-        'range_step',
+        'value_default',
+        'value_min',
+        'value_max',
+        'step',
+        'pattern',
         'display_order',
+        'multiple_values',
+        'read_only',
         'required',
-        'description',
     ],
 ]) ?>
 

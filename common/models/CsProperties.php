@@ -94,6 +94,14 @@ class CsProperties extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getSiblings()
+    {
+        return $this->parent->children;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getObjectProperties()
     {
         return $this->hasMany(CsObjectProperties::className(), ['property_id' => 'id']);

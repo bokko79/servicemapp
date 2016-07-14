@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\imagine\Image;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "cs_objects".
@@ -15,7 +16,7 @@ use yii\imagine\Image;
  * @property integer $object_type_id
  * @property string $class
  * @property integer $favour
- * @property string $image_id
+ * @property string $file_id
  *
  * @property CsObjects[] $csObjects
  * @property CsObjectIssues[] $csObjectIssues
@@ -48,8 +49,8 @@ class CsObjects extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['name'], 'unique'],
-            [['object_type_id', 'object_id', 'level', 'favour', 'image_id'], 'integer'],
-            [['class', 'description'], 'string'],
+            [['object_type_id', 'object_id', 'level', 'favour', 'file_id'], 'integer'],
+            [['class'], 'string'],
             [['name'], 'string', 'max' => 50],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
         ];
@@ -68,7 +69,7 @@ class CsObjects extends \yii\db\ActiveRecord
             'object_id' => Yii::t('app', 'Parent ID'),
             'class' => Yii::t('app', 'Klasa'),
             'favour' => Yii::t('app', 'Da li je moguće snimiti?'),
-            'image_id' => Yii::t('app', 'Image ID'),
+            'file_id' => Yii::t('app', 'File ID'),
         ];
     }
 
@@ -76,15 +77,15 @@ class CsObjects extends \yii\db\ActiveRecord
     {
         if ($this->validate()) {
 
-            if($this->image and $this->image_id != 2){
-                unlink(Yii::getAlias('images/objects/thumbs/'.$this->image->ime));
-                unlink(Yii::getAlias('images/objects/'.$this->image->ime));
+            if($this->file and $this->file_id != 2 and file_exists(Yii::getAlias('images/objects/thumbs/'.$this->file->ime)) and file_exists(Yii::getAlias('images/objects/'.$this->file->ime))){
+                unlink(Yii::getAlias('images/objects/thumbs/'.$this->file->ime));
+                unlink(Yii::getAlias('images/objects/'.$this->file->ime));
             }
            
-            $fileName = $this->id . '_' . $this->name;
+            $fileName = $this->id . '_' . time();
             $this->imageFile->saveAs('images/objects/' . $fileName . '1.' . $this->imageFile->extension);         
             
-            $image = new \common\models\Images();
+            $image = new \common\models\Files();
             $image->ime = $fileName . '.' . $this->imageFile->extension;
             $image->type = 'image';
             $image->date = date('Y-m-d H:i:s');
@@ -96,16 +97,15 @@ class CsObjects extends \yii\db\ActiveRecord
             $image->save();
 
             if($image->save()){
-                $this->image_id = $image->id;
+                $this->file_id = $image->id;
                 $this->imageFile = null;
                 $this->save();
             }
 
             unlink(Yii::getAlias($thumb));
             
-            return;
+            return true;
         } else {
-
             return false;
         }
     }
@@ -129,10 +129,11 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
+    
 
     /**
      * @return \yii\db\ActiveQuery
@@ -153,10 +154,10 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-   /*public function getObjectModelServices()
+    public function getParent()
     {
-        return $this->hasMany(CsServiceObjectModels::className(), ['object_model_id' => 'id']);
-    }*/
+        return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -164,6 +165,14 @@ class CsObjects extends \yii\db\ActiveRecord
     public function getChildren()
     {
         return $this->hasMany(CsObjects::className(), ['object_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSiblings()
+    {
+        return $this->parent->children;
     }
 
     /**
@@ -177,10 +186,13 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getParent()
+    public function getTags()
     {
-        return $this->hasOne(CsObjects::className(), ['id' => 'object_id']);
+        $tags = CsTags::find()->where('lang_code="SR" and entity_id='.$this->id .' and entity="object"')->all();
+
+        return $tags ? $tags : false;        
     }
+    
 
     /**
      * @return \yii\db\ActiveQuery
@@ -243,22 +255,6 @@ class CsObjects extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PresentationObjectModels::className(), ['object_model_id' => 'id']);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    /*public function getObjectParts()
-    {
-        return $this->hasMany(CsObjectParts::className(), ['object_id' => 'id']);
-    }*/
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    /*public function getObjectModels()
-    {
-        return $this->hasMany(CsObjectModels::className(), ['object_id' => 'id']);
-    }*/
 
     /**
      * @return \yii\db\ActiveQuery
@@ -371,6 +367,28 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTHint()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->hint;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTDescription()
+    {
+        if($this->getTranslation()) {
+            return $this->getTranslation()->description;
+        }       
+        return false;   
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function isModel()
     {
         return $this->class=='model' ? true : false;
@@ -424,6 +442,7 @@ class CsObjects extends \yii\db\ActiveRecord
     public function getProperties($object)
     {
         $properties = [];
+
         if($objectProperties = $object->objectProperties){
             foreach($objectProperties as $objectProperty){
                 if(!in_array($objectProperty, $properties)){
@@ -449,10 +468,60 @@ class CsObjects extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTNameWithMedia()
+    public function getInheritedProperties($object)
     {
-        $image = yii\helpers\Html::img('@web/images/objects/'.$this->image->ime, ['style'=>'width:100%; height:110px; margin: 5px 0 10px']);
+        $properties = [];
+            
+        if($object->getPath($object)){
+            foreach ($this->getPath($this) as $key => $objectpp) {
+                if($objectPropertiespp = $objectpp->objectProperties){
+                    foreach($objectPropertiespp as $objectPropertypp){
+                        if($objectPropertypp->property_class!='private'){
+                            $properties[] = $objectPropertypp;
+                        }
+                    }
+                }                    
+            }
+        }
+        return $properties;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    /*public function getTNameWithMedia()
+    {
+        $image = yii\helpers\Html::img('@web/images/objects/'.$this->file->ime, ['style'=>'width:100%; height:110px; margin: 5px 0 10px']);
         
         return c($this->tName) . $image;         
+    }*/
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameWithHint()
+    {
+        if ($this->hint!=null) {
+            return $this->label . '<span data-container="body" data-toggle="popover" data-placement="top" data-content="'.$this->tHint.'">
+                 <i class="fa fa-question-circle gray-color"></i>
+                </span>'; 
+        } else {
+            return $this->label;
+        }               
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTNameWithMedia()
+    {
+        $image = yii\helpers\Html::img('@web/images/cards/info/info_docs'.rand(0, 9).'.jpg', ['style'=>'width:100%; height:110px; margin: 5px 0 10px']);
+        if ($this->hint!=null) {
+            return $this->label . '<span data-container="body" data-toggle="popover" data-placement="top" data-content="'.$this->tHint.'">
+                 <i class="fa fa-question-circle gray-color"></i>
+                </span>' . $image; 
+        } else {
+            return $this->label . $image;
+        } 
     }
 }

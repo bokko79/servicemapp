@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'name',
-            //'image_id',
+            //'file_id',
             'industry_id',
             //'action_id',
             't.name',

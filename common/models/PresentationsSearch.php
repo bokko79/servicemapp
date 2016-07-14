@@ -10,7 +10,7 @@ use common\models\Presentations;
 /**
  * PresentationsSearch represents the model behind the search form about `common\models\Presentations`.
  */
-class PresentationsSearch extends PresentationData
+class PresentationsSearch extends \frontend\models\PresentationData
 {
     public $quantity;
     public $quantity_operator;

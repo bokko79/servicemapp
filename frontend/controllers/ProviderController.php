@@ -207,7 +207,7 @@ class ProviderController extends Controller
                 $certification = new \common\models\ProviderPortfolioCertifications();
                 $education = new \common\models\ProviderPortfolioEducations();
                 $experience = new \common\models\ProviderPortfolioExperience();
-                $portfolio_images = new \common\models\ProviderPortfolioImages();
+                $portfolio_images = new \common\models\ProviderPortfolioFiles();
                 $publication = new \common\models\ProviderPortfolioPublications();
                 $licence = new \common\models\ProviderLicences();
                 $openingHours = new \common\models\ProviderOpeningHours();

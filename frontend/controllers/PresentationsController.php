@@ -17,7 +17,7 @@ use common\models\PresentationActionPropertyValues;
 use common\models\PresentationObjectModels;
 use common\models\PresentationLocations;
 use common\models\PresentationIssues;
-use common\models\PresentationImages;
+use common\models\PresentationFiles;
 use common\models\PresentationTimetables;
 use common\models\PresentationNotifications;
 use common\models\PresentationTerms;
@@ -90,8 +90,8 @@ class PresentationsController extends Controller
 
         $searchModel = new PresentationsSearch();
         $searchModel->service = $service;
-        $model_specs = $searchModel->loadPresentationSpecifications($service, null);
-        $model_methods = $searchModel->loadPresentationMethods($service);
+        $model_specs = $searchModel->loadPresentationObjectProperties($service, null);
+        $model_methods = $searchModel->loadPresentationActionProperties($service);
         $location = (Yii::$app->user->location) ? Yii::$app->user->location : new Locations();
         //print_r(Yii::$app->request->queryParams); die();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
@@ -753,9 +753,9 @@ class PresentationsController extends Controller
      * @return Presentations the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findPresentationImages($id)
+    protected function findPresentationFiles($id)
     {
-        if (($model = \common\models\PresentationImages::findOne($id)) !== null) {
+        if (($model = \common\models\PresentationFiles::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -931,14 +931,14 @@ class PresentationsController extends Controller
                         } 
                     } 
                 }                                
-                // Presentation Images             
+                // Presentation Files             
                 if($model->provider_presentation_pics && $model->provider_presentation_pics!=''){
                     $existPres = $this->findModel($model->provider_presentation_pics);
                     if($existPresImages = $existPres->images){
                         foreach($existPresImages as $existPresImage){
-                            $new_image = new PresentationImages();
+                            $new_image = new PresentationFiles();
                             $new_image->presentation_id = $model->id;
-                            $new_image->image_id = $existPresImage->image_id;
+                            $new_image->file_id = $existPresImage->file_id;
                             $new_image->save();
                         }
                     }
@@ -1190,9 +1190,9 @@ class PresentationsController extends Controller
                             $existPres = $this->findModel($model->provider_presentation_pics);
                             if($existPresImages = $existPres->images){
                                 foreach($existPresImages as $existPresImage){
-                                    $new_image = new PresentationImages();
+                                    $new_image = new PresentationFiles();
                                     $new_image->presentation_id = $model->id;
-                                    $new_image->image_id = $existPresImage->image_id;
+                                    $new_image->file_id = $existPresImage->file_id;
                                     $new_image->save();
                                 }
                             }
@@ -1371,7 +1371,7 @@ class PresentationsController extends Controller
                                 }                                 
                             }
                         }                                                
-                        // Presentation Images
+                        // Presentation Files
                         if ($model->imageFiles) {
                             $model->upload();
                         }                        
@@ -1484,7 +1484,7 @@ class PresentationsController extends Controller
             if($presentation = $this->findModel($id)) {
                 return $this->renderPartial('//presentations/_images', [
                     'model' => $presentation,
-                    'medias' => $presentation->images,
+                    'medias' => $presentation->files,
                 ]);
             }
         }
@@ -1516,19 +1516,19 @@ class PresentationsController extends Controller
      */
     public function actionDeleteFile($id)
     {
-        $pimage = $this->findPresentationImages($id);
+        $pimage = $this->findPresentationFiles($id);
         $red = $pimage->presentation->id;
         if($pimage){
-            $file = $pimage->image;
+            $file = $pimage->file;
             $pimage->delete();
             if($file->type=='pdf'){
                 $file->delete();
-                unlink(Yii::getAlias('@webroot/images/presentations/docs/'.$pimage->image->ime));
+                unlink(Yii::getAlias('@webroot/images/presentations/docs/'.$pimage->file->ime));
             } else { // slika
                 $file->delete();
-                unlink(Yii::getAlias('@webroot/images/presentations/thumbs/'.$pimage->image->ime));
-                unlink(Yii::getAlias('@webroot/images/presentations/full/'.$pimage->image->ime));
-                unlink(Yii::getAlias('@webroot/images/presentations/'.$pimage->image->ime));
+                unlink(Yii::getAlias('@webroot/images/presentations/thumbs/'.$pimage->file->ime));
+                unlink(Yii::getAlias('@webroot/images/presentations/full/'.$pimage->file->ime));
+                unlink(Yii::getAlias('@webroot/images/presentations/'.$pimage->file->ime));
             } 
 
             return $this->redirect('/presentation-setup/'.$red);

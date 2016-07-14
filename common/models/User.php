@@ -250,7 +250,7 @@ class User extends BaseUser
                     $userDetails = new \common\models\UserDetails();
                     $userDetails->user_id = $this->id;
                     $userDetails->loc_id = $location->id;
-                    $userDetails->image_id = 2;
+                    $userDetails->file_id = 2;
                     $userDetails->lang_code = 'SR';
                     $userDetails->currency_id = 1;
                     $userDetails->role_id = 1;
@@ -500,9 +500,9 @@ class User extends BaseUser
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImages()
+    public function getFiles()
     {
-        return $this->hasMany(UserImages::className(), ['user_id' => 'id']);
+        return $this->hasMany(UserFiles::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -631,7 +631,7 @@ class User extends BaseUser
      */
     public function getAvatar()
     {
-        return $this->details->image;
+        return $this->details->file;
     }
 
     /**

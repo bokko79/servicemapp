@@ -49,9 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'attributes' => [
         'id',
         'industry_id',
-        'industry_name',
         'property_id',
-        'property_name',
         'value_default',
         'value_min',
         'value_max',

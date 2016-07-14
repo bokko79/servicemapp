@@ -13,7 +13,7 @@ use yii\imagine\Image;
  * @property string $value
  * @property integer $selected_value
  * @property string $hint
- * @property string $image_id
+ * @property string $file_id
  * @property string $video_link
  */
 class CsPropertyValues extends \yii\db\ActiveRecord
@@ -35,7 +35,7 @@ class CsPropertyValues extends \yii\db\ActiveRecord
     {
         return [
             [['property_id', 'value'], 'required'],
-            [['property_id', 'selected_value', 'image_id'], 'integer'],
+            [['property_id', 'selected_value', 'file_id'], 'integer'],
             [['value'], 'string', 'max' => 128],
             [['hint', 'video_link'], 'string', 'max' => 256],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
@@ -53,7 +53,7 @@ class CsPropertyValues extends \yii\db\ActiveRecord
             'value' => Yii::t('app', 'Value'),
             'selected_value' => Yii::t('app', 'Selected Value'),
             'hint' => Yii::t('app', 'Hint'),
-            'image_id' => Yii::t('app', 'Image ID'),
+            'file_id' => Yii::t('app', 'Image ID'),
             'video_link' => Yii::t('app', 'Video Link'),
         ];
     }
@@ -62,9 +62,9 @@ class CsPropertyValues extends \yii\db\ActiveRecord
     {
         if ($this->validate()) {
 
-            if($this->image and $this->image_id != 2){
-                unlink(Yii::getAlias('images/property-values/thumbs/'.$this->image->ime));
-                unlink(Yii::getAlias('images/property-values/'.$this->image->ime));
+            if($this->file and $this->file_id != 2){
+                unlink(Yii::getAlias('images/property-values/thumbs/'.$this->file->ime));
+                unlink(Yii::getAlias('images/property-values/'.$this->file->ime));
             }
            
             $fileName = $this->id . '_' . $this->name;
@@ -82,7 +82,7 @@ class CsPropertyValues extends \yii\db\ActiveRecord
             $image->save();
 
             if($image->save()){
-                $this->image_id = $image->id;
+                $this->file_id = $image->id;
                 $this->imageFile = null;
                 $this->save();
             }
@@ -107,9 +107,9 @@ class CsPropertyValues extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
 
     /**

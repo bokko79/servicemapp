@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 //use yii\widgets\ActiveForm;
 use kartik\checkbox\CheckboxX;
 use kartik\widgets\ActiveForm;
@@ -86,6 +87,7 @@ use yii\helpers\ArrayHelper;
 
     <div class="row" style="margin:20px;">
         <div class="col-md-offset-3">
+            <?= !$model->isNewRecord ? Html::a('Go Back', Url::to(['view', 'id'=>$model->id]), ['class' => 'btn btn-default']) : null ?>
             <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>        
     </div>

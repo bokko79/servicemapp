@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'category_id') ?>
 
-    <?= $form->field($model, 'image_id') ?>
+    <?= $form->field($model, 'file_id') ?>
 
     <?php // echo $form->field($model, 'subtitle') ?>
 

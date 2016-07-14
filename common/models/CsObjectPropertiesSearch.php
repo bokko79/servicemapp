@@ -19,7 +19,7 @@ class CsObjectPropertiesSearch extends CsObjectProperties
     {
         return [
             [['id', 'object_id', 'property_id', 'property_unit_id', 'property_unit_imperial_id', 'input_type', 'value_min', 'value_max', 'display_order', 'multiple_values', 'specific_values', 'read_only', 'required'], 'integer'],
-            [['object_name', 'property_name', 'property_class', 'property_type', 'value_default', 'pattern'], 'safe'],
+            [['property_class', 'property_type', 'value_default', 'pattern'], 'safe'],
             [['step'], 'number'],
         ];
     }

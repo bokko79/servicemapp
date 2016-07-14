@@ -11,7 +11,7 @@ use yii\imagine\Image;
  * @property integer $id
  * @property string $name
  * @property integer $category_id
- * @property string $image_id
+ * @property string $file_id
  * @property string $status
  * @property string $hit_counter
  *
@@ -48,7 +48,7 @@ class CsIndustries extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['category_id', 'image_id', 'hit_counter'], 'integer'],
+            [['category_id', 'file_id', 'hit_counter'], 'integer'],
             [['status'], 'string'],
             [['name'], 'string', 'max' => 60],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif'],
@@ -64,7 +64,7 @@ class CsIndustries extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Ime delatnosti.',
             'category_id' => 'Kategorija uslužne delatnosti.',
-            'image_id' => 'Slika delatnosti.',
+            'file_id' => 'Slika delatnosti.',
             'status' => 'Status',
             'hit_counter' => 'Broj poseta delatnosti.',
         ];
@@ -74,15 +74,15 @@ class CsIndustries extends \yii\db\ActiveRecord
     {
         if ($this->validate()) {
 
-            if($this->image and $this->image_id != 2){
-                unlink(Yii::getAlias('images/industries/thumbs/'.$this->image->ime));
-                unlink(Yii::getAlias('images/industries/'.$this->image->ime));
+            if($this->file and $this->file_id != 2){
+                unlink(Yii::getAlias('images/industries/thumbs/'.$this->file->ime));
+                unlink(Yii::getAlias('images/industries/'.$this->file->ime));
             }
            
             $fileName = $this->id . '_' . $this->name;
             $this->imageFile->saveAs('images/industries/' . $fileName . '1.' . $this->imageFile->extension);         
             
-            $image = new \common\models\Images();
+            $image = new \common\models\Files();
             $image->ime = $fileName . '.' . $this->imageFile->extension;
             $image->type = 'image';
             $image->date = date('Y-m-d H:i:s');
@@ -94,7 +94,7 @@ class CsIndustries extends \yii\db\ActiveRecord
             $image->save();
 
             if($image->save()){
-                $this->image_id = $image->id;
+                $this->file_id = $image->id;
                 $this->imageFile = null;
                 $this->save();
             }
@@ -125,9 +125,9 @@ class CsIndustries extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
 
     /**

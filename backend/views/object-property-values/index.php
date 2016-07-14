@@ -22,14 +22,60 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'id',
-            'object_property_id',
-            'property_value_id',
-            'object_id',
-            'value_type',
-            // 'selected_value',
+            [
+                'attribute' => 'id',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a($data->id, ['object-properties/view', 'id' => $data->id]);
+                },
+                'options' => ['style' =>'width:50px'],
+            ],
+            [
+                'label' => 'Object',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a($data->objectProperty->object->tName, ['objects/view', 'id' => $data->objectProperty->object_id]);
+                },
+            ],
+            [
+                'attribute' => 'Property',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a($data->objectProperty->property->tName, ['properties/view', 'id' => $data->objectProperty->property_id]);
+                },
+            ],
+            [
+                'attribute' => 'property_value_id',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return $data->propertyValue ? Html::a($data->propertyValue->tName, ['property-values/view', 'id' => $data->property_value_id]) : null;
+                },
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'object_id',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return $data->object ? Html::a($data->object->tName, ['objects/view', 'id' => $data->object_id]) : null;
+                },
+            ],
+            'value_type',
+            [
+                'attribute' => 'selected_value',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return $data->selected_value==1 ? 'Yes' : 'No';
+                },
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        return \Yii::$app->user->can('manageCoreDatabase') ? Html::a('Update', ['/object-properties/update', 'id' => $model->id], ['class' => '']) : '';
+                    },
+                ],                        
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?>

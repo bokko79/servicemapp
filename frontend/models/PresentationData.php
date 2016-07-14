@@ -214,7 +214,7 @@ class PresentationData extends \common\models\Presentations
     {
         //$object_model = $this->objectModels;
         //$service = $this->pService;
-        if($object_model!=null or $service->serviceObjectProperties!=null) {
+        if($object_model!=null or ($service and $service->serviceObjectProperties!=null)) {
             if($serviceObjectProperties = $service->serviceObjectProperties){
                foreach($serviceObjectProperties as $serviceObjectProperty) {
                     if($objectProperty = $serviceObjectProperty->objectProperty) {
@@ -269,7 +269,7 @@ class PresentationData extends \common\models\Presentations
         if($objectProperties = $this->allObjectProperties($service, $object_model)){
             foreach($objectProperties as $objectProperty) {
                 if($property = $objectProperty->property) {
-                    $model_object_properties[$property->id] = new PresentationObjectProperties();
+                    $model_object_properties[$property->id] = new \common\models\PresentationObjectProperties();
                     $model_object_properties[$property->id]->theObjectProperty = $objectProperty;
                     $model_object_properties[$property->id]->property = $property;
                     $model_object_properties[$property->id]->service = $service;
@@ -319,7 +319,7 @@ class PresentationData extends \common\models\Presentations
 
     public function loadPresentationActionProperties($service)
     {
-        if($serviceActionProperties = $service->serviceActionProperties) {
+        if($service and $serviceActionProperties = $service->serviceActionProperties) {
             foreach($serviceActionProperties as $serviceActionProperty) {
                 if($actionProperty = $serviceActionProperty->actionProperty) {
                     if($property = $actionProperty->property) { 

@@ -35,7 +35,7 @@ $this->params['renderIndex'] = false;
             'level',
             'object_type_id',
             'favour',
-            'image_id',
+            'file_id',
             'class',
             'description',
         ],

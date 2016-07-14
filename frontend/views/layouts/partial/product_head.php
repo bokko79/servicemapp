@@ -89,7 +89,7 @@ $map->appendScript("google.maps.event.addDomListener(mapShowTrigger, 'click', fu
         $(this).closest('.hidden-content-container').find('div.hidden-content').toggleClass('hidden');
         initialize();
 	});");
-$text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
+$text_appear = ($imgs = $model->files) ? 'text-shadow white' : null;
 
 // title
 // subtitle, generated title, object model+ part, action method
@@ -238,7 +238,7 @@ $text_appear = ($imgs = $model->images) ? 'text-shadow white' : null;
   		<embed src="../images/presentations/docs/<?= $model->pdfs[0]->ime ?>" width="100%" height="420px">
   	</div>
 <?php endif; ?>
-<?php if($model->images): ?>
+<?php if($model->files): ?>
 	<div class="media">
 	<?= $model->photos() ?>	    	
     </div>

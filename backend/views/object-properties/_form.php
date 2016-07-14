@@ -90,7 +90,7 @@ use kartik\widgets\FileInput;
 
     <?= $form->field($model, 'pattern')->input('text') ?>
 
-    <?= $form->field($model, 'display_order')->input('number') ?>
+    <?= $form->field($model, 'display_order')->input('number', ['min'=>1]) ?>
 
     <?= $form->field($model, 'multiple_values')->checkbox()->label() ?>
 

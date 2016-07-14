@@ -18,7 +18,7 @@ class CsObjectsSearch extends CsObjects
     public function rules()
     {
         return [
-            [['object_type_id', 'object_id', 'favour', 'image_id', ], 'integer'],
+            [['id', 'object_type_id', 'object_id', 'favour', 'file_id', ], 'integer'],
             [['class', 'name'], 'string'],
         ];
     }
@@ -63,7 +63,7 @@ class CsObjectsSearch extends CsObjects
             'object_type_id' => $this->object_type_id,
             'object_id' => $this->object_id,
             'favour' => $this->favour,
-            'image_id' => $this->image_id,
+            'file_id' => $this->file_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

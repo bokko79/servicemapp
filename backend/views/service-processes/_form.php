@@ -25,8 +25,6 @@ use kartik\widgets\FileInput;
 
     <?= $form->field($model, 'service_order_no')->textInput() ?>
 
-    <?= $form->field($model, 'description')->textInput() ?>
-
     <div class="row" style="margin:20px;">
         <div class="col-md-offset-3">
             <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

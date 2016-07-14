@@ -9,7 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $banner_id
- * @property string $image_id
+ * @property string $file_id
  * @property integer $wdth
  * @property integer $hght
  * @property string $type
@@ -34,7 +34,7 @@ class BannerMedia extends \yii\db\ActiveRecord
     {
         return [
             [['banner_id', 'wdth', 'hght', 'type'], 'required'],
-            [['banner_id', 'image_id', 'wdth', 'hght'], 'integer'],
+            [['banner_id', 'file_id', 'wdth', 'hght'], 'integer'],
             [['type'], 'string']
         ];
     }
@@ -47,7 +47,7 @@ class BannerMedia extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'banner_id' => 'Baner.',
-            'image_id' => 'Slika/dokument.',
+            'file_id' => 'Slika/dokument.',
             'wdth' => 'Širina media.',
             'hght' => 'Visina media.',
             'type' => 'Vrsta media.',
@@ -57,9 +57,9 @@ class BannerMedia extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+        return $this->hasOne(Files::className(), ['id' => 'file_id']);
     }
 
     /**

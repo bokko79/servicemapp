@@ -108,7 +108,7 @@ class PropertyValuesController extends Controller
             $model->save();
 
             if ($model->imageFile and $image = $model->upload()) {
-                $model->image_id = $image->id;
+                $model->file_id = $image->id;
             }
 
             $model_trans->save();

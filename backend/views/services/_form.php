@@ -21,7 +21,7 @@ use kartik\widgets\FileInput;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'image_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'file_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'industry_id')->textInput() ?>
 

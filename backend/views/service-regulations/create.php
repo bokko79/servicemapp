@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Service Regulations', 'url' => ['i
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h1><?= Html::encode($this->title) ?></h1>
+<h2><?= Html::encode($this->title) ?></h2>
 
 <?= $this->render('_form', [
     'model' => $model,

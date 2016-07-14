@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\data\ActiveDataProvider;
 
 /**
  * ObjectsController implements the CRUD actions for CsObjects model.
@@ -57,8 +58,35 @@ class ObjectsController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $query = \common\models\CsObjectProperties::find()->where(['object_id' => $model->id]);
+            
+        if($model->getPath($model)){
+            foreach ($model->getPath($model) as $key => $objectpp) {
+                if($objectPropertiespp = $objectpp->objectProperties){
+                    foreach($objectPropertiespp as $objectPropertypp){
+                        if($objectPropertypp->property_class!='private'){
+                            $query->orWhere(['object_id' => $objectpp->id]);
+                        }
+                    }
+                }              
+            }
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'products' => new ActiveDataProvider([
+                'query' => \common\models\CsProducts::find()->where(['object_id' => $model->id]),
+            ]),
+            'issues' => new ActiveDataProvider([
+                'query' => \common\models\CsObjectIssues::find()->where(['object_id' => $model->id]),
+            ]),
+            'properties' => new ActiveDataProvider([
+                'query' => $query->orderBy('property_type')->groupBy('id'),
+            ]),
+            'methods' => new ActiveDataProvider([
+                'query' => \common\models\CsServices::find()->where(['object_id' => $model->id]),
+            ]),
         ]);
     }
 
@@ -71,6 +99,11 @@ class ObjectsController extends Controller
     {
         $model = new CsObjects();
         $model_trans = new CsObjectsTranslation();
+
+        if($objects = Yii::$app->request->get('CsObjects')){
+            $model->object_id = !empty($objects['object_id']) ? $objects['object_id'] : null;
+            $model->object_type_id = !empty($objects['object_type_id']) ? $objects['object_type_id'] : null;
+        }
 
         if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
             $parent = $this->findModel($model->object_id);
@@ -107,23 +140,18 @@ class ObjectsController extends Controller
 
         if ($model->load(Yii::$app->request->post()) and $model_trans->load(Yii::$app->request->post())) {
 
-            $parent = $this->findModel($model->object_id);
-            $model->level = $parent->level + 1;
+            //$parent = $this->findModel($model->object_id);
+            //$model->level = $parent->level + 1;
 
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
 
             $model->save();
 
             if ($model->imageFile and $image = $model->upload()) {
-                $model->image_id = $image->id;
-                //$model->save();
+                $model->file_id = $image->id;
             }
 
             $model_trans->save();
-
-            //echo '<pre>';
-            //print_r($model);
-            //echo '</pre>'; die();
 
             return $this->redirect(['view', 'id' => $model->id]);
                 
@@ -161,6 +189,38 @@ class ObjectsController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionAjaxCreate() 
+    {
+        $model = new CsObjects();
+        $model_trans = new CsObjectsTranslation();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+        {
+            return $this->redirect(['view', 'id' => $id]);
+        } 
+        //if (Yii::$app->request->isAjax) {
+            return $this->renderPartial('/objects/_form', [
+                'model' => $model,
+                'model_trans' => $model_trans,
+            ]);
+        //}
+    }
+
+    public function actionAjaxUpdate($id) 
+    {
+        $model = $this->findModel($id);
+        $model_trans = $model->translation;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) 
+        {
+            return $this->redirect(['view', 'id' => $id]);
+        } 
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('_form', [
+                'model' => $model,
+                'model_trans' => $model_trans,
+            ]);
         }
     }
 }

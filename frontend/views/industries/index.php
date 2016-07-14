@@ -29,7 +29,7 @@ $this->params['renderIndex'][] = false;
             'code',
             'name',
             'category_id',
-            'image_id',
+            'file_id',
             // 'subtitle',
             // 'status',
             // 'added_by',

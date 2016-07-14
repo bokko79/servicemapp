@@ -9,6 +9,7 @@ use common\models\CsObjectTypesTranslation;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * ObjectTypesController implements the CRUD actions for CsObjectTypes model.
@@ -56,6 +57,9 @@ class ObjectTypesController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'objects' => new ActiveDataProvider([
+                'query' => \common\models\CsObjects::find()->where(['object_type_id' => $id]),
+            ]),
         ]);
     }
 

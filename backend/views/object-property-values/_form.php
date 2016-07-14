@@ -19,11 +19,37 @@ use kartik\widgets\FileInput;
     'options' => ['enctype' => 'multipart/form-data'],
 ]); ?>
 
-    <?= $form->field($model, 'object_property_id')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'property_value_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'object_property_id')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(\common\models\CsObjectProperties::find()->all(), 'id', 'name'),
+            'options' => ['placeholder' => 'Izaberite...'],
+            'language' => 'sr-Latn',
+            'changeOnReset' => false,           
+        ]) ?>
 
-    <?= $form->field($model, 'selected_value')->textInput() ?>
+    <?= $form->field($model, 'property_value_id')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(\common\models\CsPropertyValues::find()->all(), 'id', 'value'),
+            'options' => ['placeholder' => 'Izaberite...'],
+            'language' => 'sr-Latn',
+            'changeOnReset' => false,
+            'pluginOptions' => [
+                'allowClear' => true
+            ],           
+        ]) ?>
+
+    <?= $form->field($model, 'object_id')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(\common\models\CsObjects::find()->all(), 'id', 'tName'),
+            'options' => ['placeholder' => 'Izaberite...'],
+            'language' => 'sr-Latn',
+            'changeOnReset' => false, 
+            'pluginOptions' => [
+                'allowClear' => true
+            ],          
+        ]) ?>
+
+        <?= $form->field($model, 'value_type')->dropDownList(['value' => 'value', 'model' => 'model', 'part' => 'part', 'other' => 'other'], ['style'=>'width:50%']) ?>
+
+    <?= $form->field($model, 'selected_value')->checkbox() ?>
 
     <div class="row" style="margin:20px;">
         <div class="col-md-offset-3">

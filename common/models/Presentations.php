@@ -67,7 +67,7 @@ use common\models\Offers;
  * @property string $status
  * @property string $update_time 
  *
- * @property PresentationImages[] $presentationImages
+ * @property PresentationFiles[] $presentationFiles
  * @property PresentationIssues[] $presentationIssues
  * @property PresentationMethods[] $presentationMethods
  * @property PresentationSpecs[] $presentationSpecs
@@ -260,7 +260,7 @@ class Presentations extends \yii\db\ActiveRecord
                     $file->saveAs('images/presentations/' . $fileName . '1.' . $file->extension);
                 }
                 
-                $image[$key_f] = new \common\models\Images();
+                $image[$key_f] = new \common\models\Files();
                 $image[$key_f]->ime = $fileName . '.' . $file->extension;
                 $image[$key_f]->type = $file->extension=='pdf' ? 'pdf' : 'image';
                 $image[$key_f]->date = date('Y-m-d H:i:s');
@@ -271,9 +271,9 @@ class Presentations extends \yii\db\ActiveRecord
                     Image::thumbnail($thumb, 80, 64)->save(Yii::getAlias('@webroot/images/presentations/thumbs/'.$fileName.'.'.$file->extension), ['quality' => 80]); 
                 }                    
                 if($image[$key_f]->save()){
-                    $presentation_image[$key_f] = new \common\models\PresentationImages();
+                    $presentation_image[$key_f] = new \common\models\PresentationFiles();
                     $presentation_image[$key_f]->presentation_id = $this->id;
-                    $presentation_image[$key_f]->image_id = $image[$key_f]->id;
+                    $presentation_image[$key_f]->file_id = $image[$key_f]->id;
                     $presentation_image[$key_f]->type = $image[$key_f]->type;
                     $presentation_image[$key_f]->save();
                 }
@@ -294,14 +294,14 @@ class Presentations extends \yii\db\ActiveRecord
                 $fileName = Yii::$app->security->generateRandomString();
                 //$this->save();
                 $file->saveAs('images/presentations/docs/' . $fileName . '.' . $file->extension);
-                $doc[$key_f] = new \common\models\Images();
+                $doc[$key_f] = new \common\models\Files();
                 $doc[$key_f]->ime = $fileName . '.' . $file->extension;
                 $doc[$key_f]->type = 'pdf';
                 $doc[$key_f]->date = date('Y-m-d H:i:s');              
                 if($doc[$key_f]->save()){
-                    $presentation_image[$key_f] = new \common\models\PresentationImages();
+                    $presentation_image[$key_f] = new \common\models\PresentationFiles();
                     $presentation_image[$key_f]->presentation_id = $this->id;
-                    $presentation_image[$key_f]->image_id = $doc[$key_f]->id;
+                    $presentation_image[$key_f]->file_id = $doc[$key_f]->id;
                     $presentation_image[$key_f]->save();
                 }                   
             }
@@ -373,7 +373,7 @@ class Presentations extends \yii\db\ActiveRecord
      */
     public function getDocuments()
     {
-        return $this->hasMany(PresentationImages::className(), ['presentation_id' => 'id']);
+        return $this->hasMany(PresentationFiles::className(), ['presentation_id' => 'id']);
     }
 
     /**
@@ -385,8 +385,8 @@ class Presentations extends \yii\db\ActiveRecord
         if($documents = $this->documents)
         {
             foreach($documents as $document){
-                if($document->image->type=='image'){
-                    $images[] = $document->image;
+                if($document->file->type=='image'){
+                    $images[] = $document->file;
                 }
             }
         }
@@ -402,8 +402,8 @@ class Presentations extends \yii\db\ActiveRecord
         if($documents = $this->documents)
         {
             foreach($documents as $document){
-                if($document->image->type=='pdf'){
-                    $pdf[] = $document->image;
+                if($document->file->type=='pdf'){
+                    $pdf[] = $document->file;
                 }
             }
         }
@@ -415,7 +415,7 @@ class Presentations extends \yii\db\ActiveRecord
      */
     public function getFiles()
     {
-        return $this->hasMany(PresentationImages::className(), ['presentation_id' => 'id']);
+        return $this->hasMany(PresentationObjectFiles::className(), ['presentation_id' => 'id']);
     }
 
     /**
@@ -423,7 +423,7 @@ class Presentations extends \yii\db\ActiveRecord
      */
     public function getIssues()
     {
-        return $this->hasMany(PresentationIssues::className(), ['presentation_id' => 'id']);
+        return $this->hasMany(PresentationObjectIssues::className(), ['presentation_id' => 'id']);
     }
 
     /**
@@ -583,8 +583,8 @@ class Presentations extends \yii\db\ActiveRecord
 
     public function fotorama($options, $full=null)
     {
-        if($this->images){
-            foreach ($this->images as $media){
+        if($this->files){
+            foreach ($this->files as $media){
                 $media_items[] = [
                     'img' => '../images/presentations/'.$full.$media->ime,
                     'thumb' => '../images/presentations/thumbs/'.$media->ime,
